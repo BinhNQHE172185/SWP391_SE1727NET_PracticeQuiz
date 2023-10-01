@@ -29,13 +29,10 @@ public class AccountDAO extends DBContext {
         Account account = null;
         int accountId;
         String email;
-        String status;
         String gender;
         String avatar;
         String fullname;
         Date dob;
-        String address;
-        String phonenumber;
         Date createDate;
         Date modifyDate;
         String passwordToken;
@@ -49,13 +46,10 @@ public class AccountDAO extends DBContext {
             while (rs.next()) {
                 accountId = rs.getInt("Account_id");
                 email = rs.getString("email");
-                status = rs.getString("status");
                 avatar = rs.getString("avatar");
                 gender = rs.getString("gender");
                 fullname = rs.getString("fullname");
                 dob = rs.getDate("DOB");
-                address = rs.getString("address");
-                phonenumber = rs.getString("phonenumber");
                 createDate = rs.getDate("createdDate");
                 modifyDate = rs.getDate("modifyDate");
                 passwordToken = rs.getString("passwordToken");
@@ -71,11 +65,42 @@ public class AccountDAO extends DBContext {
         return account;
     }
 
+    public void RegisterAcc(String username, String password, String email) {
+        Account account = null;
+        String sql = "INSERT INTO [dbo].[Account]\n"
+                + "           ([username]\n"
+                + "           ,[password]\n"
+                + "           ,[email]\n"
+                + "           ,[createdDate]\n"
+                + "           ,[role_id]\n"
+                + "           ,[status])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,2\n"
+                + "           ,'true')";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            LocalDateTime currentTime = LocalDateTime.now();
+            Date creDate = Date.valueOf(currentTime.toLocalDate());
+            ps.setDate(4, creDate);
+            ps.executeUpdate();
+            
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     // Create new Account which could be expert marketing sale, customer, membership
     public void createAnyAccount(String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
-        String query = "INSERT INTO [Account] ([username], [password], [email], [fullname], [DOB], [gender], [self-introduction], [avatar], [createdDate], [modifyDate], [passwordToken], [role_id], [status])\n" +
-"VALUES (?, ?, ?, ?, ?, ?, NULL, ?, ?, NULL, NULL, ?, 1);";
-        
+        String query = "INSERT INTO [Account] ([username], [password], [email], [fullname], [DOB], [gender], [self-introduction], [avatar], [createdDate], [modifyDate], [passwordToken], [role_id], [status])\n"
+                + "VALUES (?, ?, ?, ?, ?, ?, NULL, ?, ?, NULL, NULL, ?, 1);";
+
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -118,16 +143,16 @@ public class AccountDAO extends DBContext {
     //Get all account
     public List<Account> getAllAccount(int page) {
         List<Account> list = new ArrayList<>();
-        String query = "SELECT * FROM Account\n" +
-                        "ORDER BY Account_id\n" +
-                        "OFFSET ? ROWS FETCH NEXT 15 ROWS ONLY";
+        String query = "SELECT * FROM Account\n"
+                + "ORDER BY Account_id\n"
+                + "OFFSET ? ROWS FETCH NEXT 15 ROWS ONLY";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, (page - 1) * 15); // page 1 starts at index 0
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add( new Account(
+                list.add(new Account(
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
@@ -143,7 +168,7 @@ public class AccountDAO extends DBContext {
                         rs.getInt(13),
                         rs.getBoolean(14)
                 ));
-                
+
             }
         } catch (Exception e) {
             //e.printStackTrace();
@@ -230,9 +255,9 @@ public class AccountDAO extends DBContext {
 
         }
     }
-    
-    public void updatePassword(String password, String accountID){
-        String query ="update Account set password = ? where Account_id =?";
+
+    public void updatePassword(String password, String accountID) {
+        String query = "update Account set password = ? where Account_id =?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -240,7 +265,6 @@ public class AccountDAO extends DBContext {
             ps.setString(2, accountID);
             rs = ps.executeQuery();
         } catch (Exception e) {
-
 
         }
     }

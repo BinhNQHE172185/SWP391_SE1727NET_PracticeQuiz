@@ -68,7 +68,7 @@
                             <h2 class="title-head">Sign Up <span>Now</span></h2>
                             <p>Login Your Account <a href="Login.jsp">Click here</a></p>
                         </div>	
-                        <form class="contact-bx" action="" method="">
+                        <form class="contact-bx" action="RegisterUser" method="Post">
                             <div class="row placeani">
                                 <div class="col-lg-12">
                                     <div class="form-group">
