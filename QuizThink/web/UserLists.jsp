@@ -106,39 +106,36 @@
                         <tr>
                             <th>Account ID</th>
                             <th>Username</th>
-                            <th>Password</th>
                             <th>Email</th>
                             <th>Status</th>
                             <th>Gender</th>
                             <th>Avatar</th>
                             <th>Full name</th>
                             <th>Date of Birth</th>
-                            <th>Address</th>
-                            <th>Phone Number</th>
                             <th>Create Date</th>
                             <th>Modify Date</th>
                             <th>Role</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items = "${listAccount}" var="o" varStatus="status">
+                        <c:forEach items="${listAccount}" var="o" varStatus="status">
                             <tr>
-                                <td>${o.account_id}</td>
-                                <td>${o.username}</td>
+                                <td>${o.accountId}</td>
+                                <td><a href="edituser?accountId=${o.accountId}">${o.username}</a></td>
                                 <td>${o.email}</td>
                                 <td>${o.status}</td>
                                 <td>${o.gender}</td>
                                 <td>${o.avatar}</td>
                                 <td>${o.fullname}</td>
-                                <td>${o.DOB}</td>
-                                <td>${o.address}</td>
-                                <td>${o.phonenumber}</td>
-                                <td>${o.createDate}</td>
+                                <td>${o.dob}</td>
+                                <td>${o.createdDate}</td>
                                 <td>${o.modifyDate}</td>
-                                <td>${o.passwordToken}</td>
-                                <td>${o.role_id}</td>
+                                <td>${o.roleId}</td>
+                                
                             </tr>
                         </c:forEach>
+
                     </tbody>
                   </table>
                 </div>
