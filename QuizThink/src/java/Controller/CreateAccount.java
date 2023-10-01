@@ -6,6 +6,8 @@
 package Controller;
 
 import DAO.AccountDAO;
+import DAO.RoleDAO;
+import Model.Role;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,6 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.util.List;
 
 /**
  *
@@ -32,27 +35,13 @@ public class CreateAccount extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // get parameter to create new account
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String status = request.getParameter("status");
-        String gender = request.getParameter("gender");
-        String avatar = request.getParameter("avatar");
-        String fullname = request.getParameter("fullname");
-        String DOB = request.getParameter("DOB");
-        String address = request.getParameter("address");
-        String phonenumber = request.getParameter("phonenumber");
+        RoleDAO roleDAO = new RoleDAO();
         
-        String role = request.getParameter("role");
-        int role_id = Integer.parseInt(role);
+        List<Role> listRole = roleDAO.getAllRole();
         
-        AccountDAO DAO = new AccountDAO();
+        request.setAttribute("listRole", listRole);
+        request.getRequestDispatcher("CreateUser.jsp").forward(request, response);
         
-        DAO.createAnyAccount(username, password, email, status, gender, avatar, fullname, DOB, address, phonenumber, role_id);
-        
-        //response.sendRedirect("/Front%20End/Admin/Dashboard.jsp");
-        request.getRequestDispatcher("Dashboard.jsp").forward(request, response);
         
     } 
 
@@ -80,7 +69,27 @@ public class CreateAccount extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        // get parameter to create new account
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String status = request.getParameter("status");
+        String gender = request.getParameter("gender");
+        String avatar = request.getParameter("avatar");
+        String fullname = request.getParameter("fullname");
+        String DOB = request.getParameter("DOB");
+        String address = request.getParameter("address");
+        String phonenumber = request.getParameter("phonenumber");
+        
+        String role = request.getParameter("role");
+        int role_id = Integer.parseInt(role);
+        
+        AccountDAO DAO = new AccountDAO();
+        
+        DAO.createAnyAccount(username, password, email, status, gender, avatar, fullname, DOB, address, phonenumber, role_id);
+        
+        //response.sendRedirect("/Front%20End/Admin/Dashboard.jsp");
+        request.getRequestDispatcher("Dashboard.jsp").forward(request, response);
     }
 
     /** 

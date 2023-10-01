@@ -41,4 +41,16 @@ public class RoleDAO extends DBContext{
         }
         return list;
     }
+    
+    public static void main(String[] args) {
+        try {
+            RoleDAO dao = new RoleDAO();
+            List<Role> list = dao.getAllRole();
+            for (Role role : list) {
+                System.out.println(role);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
