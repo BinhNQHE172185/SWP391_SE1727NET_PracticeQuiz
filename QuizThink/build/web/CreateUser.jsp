@@ -100,17 +100,14 @@
                                                                         <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">Role</label>
                                                                             <div class="col-sm-7">
-                                                                                <input type="radio" id="customerRole" name="role" value="1">
-                                                                                <label class="col-sm-2 col-form-label" for="customerRole">Customer</label><br>
-
-                                                                                <input type="radio" id="expertRole" name="role" value="1">
-                                                                                <label class="col-sm-2 col-form-label" for="expertRole">Expert</label><br>
-
-                                                                                <input type="radio" id="saleRole" name="role" value="2">
-                                                                                <label class="col-sm-2 col-form-label" for="saleRole">Sale</label><br>
-
-                                                                                <input type="radio" id="membershipRole" name="role" value="1">
-                                                                                <label class="col-sm-2 col-form-label" for="membershipRole">Membership</label><br>
+                                                                                
+<!--                                                                                <input type="radio" id="customerRole" name="role" value="1">
+                                                                                <label class="col-sm-2 col-form-label" for="customerRole">Customer</label><br>-->
+                                                                                <select name="role">
+                                                                                    <c:forEach items = "${listRole}" var="o" varStatus="status">
+                                                                                        <option>${o.roleName}</option>
+                                                                                    </c:forEach>
+                                                                                </select>
                                                                             </div>
                                                                         </div>
 									<div class="form-group row">
@@ -146,12 +143,12 @@
                                                                                     <input class="form-control" type="text" name="phonenumber" placeholder="Phone Number">
 										</div>
 									</div>
-									<div class="form-group row">
+<!--									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Address</label>
 										<div class="col-sm-7">
                                                                                     <input class="form-control" type="text" name="address" placeholder="Address">
 										</div>
-									</div>
+									</div-->
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Avatar</label>
 										<div class="col-sm-7">
