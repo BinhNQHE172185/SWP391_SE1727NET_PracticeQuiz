@@ -27,17 +27,27 @@ public class RegisterUserServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
-        String status = "Password must be at least 8 characters long included letters and numbers";
-        
-        Account x;
+        String passStatus = "Password must be at least 8 characters long included letters and numbers";
+        String UserStatus = "Username must be 4-20 characters long and only contain letters, numbers, and underscores.";
+        int flag = 0;
+
         AccountDAO ad = new AccountDAO();
 
-        if (ad.checkPass(password)) {
+        if (!ad.checkUsername(username)) {
+            request.setAttribute("Ustatus", UserStatus);
+            flag++;
+        }
+
+        if (!ad.checkPass(password)) {
+            request.setAttribute("Pstatus", passStatus);
+            flag++;
+        }
+
+        if (flag > 0) {
+            request.getRequestDispatcher("Register.jsp").include(request, response);
+        } else {
             ad.RegisterAcc(username, password, email);
             request.getRequestDispatcher("Login.jsp").forward(request, response);
-        }else{
-            request.setAttribute("status", status);
-            request.getRequestDispatcher("Register.jsp").include(request, response);
         }
     }
 
