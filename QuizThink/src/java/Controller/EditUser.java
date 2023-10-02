@@ -71,7 +71,29 @@ public class EditUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        // get parameter to create new account
+        String accID = request.getParameter("accountID");
+        int accountID = Integer.parseInt(accID);
+        
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String status = request.getParameter("status");
+        String gender = request.getParameter("gender");
+        String avatar = request.getParameter("avatar");
+        String fullname = request.getParameter("fullname");
+        String DOB = request.getParameter("DOB");
+        String address = request.getParameter("address");
+        String phonenumber = request.getParameter("phonenumber");
+        
+        String role = request.getParameter("role");
+        int role_id = Integer.parseInt(role);
+        
+        AccountDAO DAO = new AccountDAO();
+        
+        DAO.editUser(accountID, username, password, email, status, gender, avatar, fullname, DOB, address, phonenumber, role_id);
+        //response.sendRedirect("/Front%20End/Admin/Dashboard.jsp");
+        request.getRequestDispatcher("userlists").forward(request, response);
     }
 
     /** 
