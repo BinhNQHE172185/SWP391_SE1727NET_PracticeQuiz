@@ -69,10 +69,10 @@
 				<div class="col-lg-12 m-b30">
 					<div class="widget-box">
 						<div class="wc-title">
-							<h4>Create User</h4>
+							<h4>Edit User</h4>
 						</div>
 						<div class="widget-inner">
-                                                    <form class="edit-profile m-b30" action="/QuizThink/createaccount" method="post">
+                                                    <form class="edit-profile m-b30" action="edituser" method="post">
 								<div class="">
                                                                         <div class="form-group row">
                                                                             <div class="col-sm-10  ml-auto">
@@ -82,19 +82,19 @@
                                                                         <div class="form-group row">
 										<label class="col-sm-2 col-form-label">UserName</label>
 										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="text" name="username" placeholder="Input Username">
+                                                                                    <input class="form-control" type="text" name="username" value="${account.username}">
 										</div>
 									</div>
                                                                         <div class="form-group row">
 										<label class="col-sm-2 col-form-label">Password</label>
 										<div class="col-sm-7">
-											<input class="form-control" type="password" name="password" placeholder="Input Password">
+                                                                                    <input class="form-control" type="password" name="password" value="${account.password}">
 										</div>
 									</div>
                                                                         <div class="form-group row">
 										<label class="col-sm-2 col-form-label">Email</label>
 										<div class="col-sm-7">
-											<input class="form-control" type="email" name="email" placeholder="Input Email">
+											<input class="form-control" type="email" name="email" placeholder="Input Email" value="${account.email}">
 										</div>
 									</div>
                                                                         <div class="form-group row">
@@ -110,6 +110,7 @@
                                                                                 </select>
                                                                             </div>
                                                                         </div>
+                                                                            
 									<div class="form-group row">
                                                                             <div class="col-sm-10  ml-auto">
                                                                                 <h3>2. Personal Details</h3>
@@ -118,23 +119,26 @@
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Full Name</label>
 										<div class="col-sm-7">
-											<input class="form-control" type="text" name="fullname" placeholder="Full Name">
+                                                                                    <input class="form-control" type="text" name="fullname" value="${account.fullname}">
 										</div>
 									</div>
+                                                                        <c:set var="male" value="Male"/>
+                                                                        <c:set var="female" value="Female"/>    
+                                                                            
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Gender</label>
 										<div class="col-sm-7">
-                                                                                    <input type="radio" id="saleRole" name="gender" value="Male">
+                                                                                    <input type="radio" id="saleRole" name="gender" value="Male" <c:if test="${account.gender eq male}"> checked="true" </c:if> >
                                                                                     <label class="col-sm-2 col-form-label" for="saleRole">Male</label><br>
 
-                                                                                    <input type="radio" id="membershipRole" name="gender" value="Female">
+                                                                                    <input type="radio" id="membershipRole" name="gender" value="Female" <c:if test="${account.gender eq female}"> checked="true" </c:if> >
                                                                                     <label class="col-sm-2 col-form-label" for="membershipRole">Female</label><br>
 										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">DOB</label>
 										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="date" name="DOB" placeholder="Date of birth">
+                                                                                    <input class="form-control" type="date" name="DOB" value="${account.dob}">
 										</div>
 									</div>
 									<div class="form-group row">
@@ -152,13 +156,13 @@
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Avatar</label>
 										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="text" name="avatar" placeholder="Image URL">
+                                                                                    <input class="form-control" type="text" name="avatar" value="${account.avatar}">
 										</div>
 									</div>  
                                                                         <div class="form-group row">
 										<label class="col-sm-2 col-form-label">Status</label>
 										<div class="col-sm-7">
-											<input class="form-control" type="text" name="status" placeholder="Status">
+											<input class="form-control" type="text" name="status" value="${account.status}" >
 										</div>
 									</div>
 								</div>
@@ -167,10 +171,11 @@
 										<div class="row">
 											<div class="col-sm-2">
 											</div>
-											<div class="col-sm-7">
+											<div class="col-sm-5">
 												<button type="submit" class="btn">Save changes</button>
 												<button type="reset" class="btn-secondry">Cancel</button>
 											</div>
+                                                                                        
 										</div>
 									</div>
 								</div>

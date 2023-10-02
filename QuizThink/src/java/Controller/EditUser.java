@@ -44,7 +44,7 @@ public class EditUser extends HttpServlet {
         
         request.setAttribute("account", account);
         request.setAttribute("listRole", listRole);
-        request.getRequestDispatcher("CreateUser.jsp").forward(request, response);
+        request.getRequestDispatcher("EditUser.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
