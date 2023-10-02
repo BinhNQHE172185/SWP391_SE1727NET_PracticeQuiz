@@ -30,7 +30,7 @@
 	
 	<!-- FAVICONS ICON ============================================= -->
 	<link rel="icon" href="../error-404.html" type="image/x-icon" />
-	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+	<link rel="shortcut icon" type="image/x-icon" href="admin/assets/images/favicon.png" />
 	
 	<!-- PAGE TITLE HERE ============================================= -->
 	<title>EduChamp : Education HTML Template </title>
@@ -44,19 +44,19 @@
 	<![endif]-->
 	
 	<!-- All PLUGINS CSS ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/assets.css">
-	<link rel="stylesheet" type="text/css" href="assets/vendors/calendar/fullcalendar.css">
+	<link rel="stylesheet" type="text/css" href="admin/assets/css/assets.css">
+	<link rel="stylesheet" type="text/css" href="admin/assets/vendors/calendar/fullcalendar.css">
 	
 	<!-- TYPOGRAPHY ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/typography.css">
+	<link rel="stylesheet" type="text/css" href="admin/assets/css/typography.css">
 	
 	<!-- SHORTCODES ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/shortcodes/shortcodes.css">
+	<link rel="stylesheet" type="text/css" href="admin/assets/css/shortcodes/shortcodes.css">
 	
 	<!-- STYLESHEETS ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/dashboard.css">
-	<link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+	<link rel="stylesheet" type="text/css" href="admin/assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
+	<link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
 	
 </head>
 <body class="ttr-opened-sidebar ttr-pinned-sidebar">
@@ -72,7 +72,7 @@
 							<h4>Edit User</h4>
 						</div>
 						<div class="widget-inner">
-                                                    <form class="edit-profile m-b30" action="/QuizThink/createaccount" method="post">
+                                                    <form class="edit-profile m-b30" action="edituser" method="post">
 								<div class="">
                                                                         <div class="form-group row">
                                                                             <div class="col-sm-10  ml-auto">
@@ -82,37 +82,35 @@
                                                                         <div class="form-group row">
 										<label class="col-sm-2 col-form-label">UserName</label>
 										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="text" name="username" placeholder="Input Username">
+                                                                                    <input class="form-control" type="text" name="username" value="${account.username}">
 										</div>
 									</div>
                                                                         <div class="form-group row">
 										<label class="col-sm-2 col-form-label">Password</label>
 										<div class="col-sm-7">
-											<input class="form-control" type="password" name="password" placeholder="Input Password">
+                                                                                    <input class="form-control" type="password" name="password" value="${account.password}">
 										</div>
 									</div>
                                                                         <div class="form-group row">
 										<label class="col-sm-2 col-form-label">Email</label>
 										<div class="col-sm-7">
-											<input class="form-control" type="email" name="email" placeholder="Input Email">
+											<input class="form-control" type="email" name="email" placeholder="Input Email" value="${account.email}">
 										</div>
 									</div>
                                                                         <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">Role</label>
                                                                             <div class="col-sm-7">
-                                                                                <input type="radio" id="customerRole" name="role" value="5">
-                                                                                <label class="col-sm-2 col-form-label" for="customerRole">Customer</label><br>
-
-                                                                                <input type="radio" id="expertRole" name="role" value="3">
-                                                                                <label class="col-sm-2 col-form-label" for="expertRole">Expert</label><br>
-
-                                                                                <input type="radio" id="saleRole" name="role" value="2">
-                                                                                <label class="col-sm-2 col-form-label" for="saleRole">Sale</label><br>
-
-                                                                                <input type="radio" id="membershipRole" name="role" value="6">
-                                                                                <label class="col-sm-2 col-form-label" for="membershipRole">Membership</label><br>
+                                                                                
+<!--                                                                                <input type="radio" id="customerRole" name="role" value="1">
+                                                                                <label class="col-sm-2 col-form-label" for="customerRole">Customer</label><br>-->
+                                                                                <select name="role">
+                                                                                    <c:forEach items = "${listRole}" var="o" varStatus="status">
+                                                                                        <option>${o.roleName}</option>
+                                                                                    </c:forEach>
+                                                                                </select>
                                                                             </div>
                                                                         </div>
+                                                                            
 									<div class="form-group row">
                                                                             <div class="col-sm-10  ml-auto">
                                                                                 <h3>2. Personal Details</h3>
@@ -121,23 +119,26 @@
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Full Name</label>
 										<div class="col-sm-7">
-											<input class="form-control" type="text" name="fullname" placeholder="Full Name">
+                                                                                    <input class="form-control" type="text" name="fullname" value="${account.fullname}">
 										</div>
 									</div>
+                                                                        <c:set var="male" value="Male"/>
+                                                                        <c:set var="female" value="Female"/>    
+                                                                            
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Gender</label>
 										<div class="col-sm-7">
-                                                                                    <input type="radio" id="saleRole" name="gender" value="Male">
+                                                                                    <input type="radio" id="saleRole" name="gender" value="Male" <c:if test="${account.gender eq male}"> checked="true" </c:if> >
                                                                                     <label class="col-sm-2 col-form-label" for="saleRole">Male</label><br>
 
-                                                                                    <input type="radio" id="membershipRole" name="gender" value="Female">
+                                                                                    <input type="radio" id="membershipRole" name="gender" value="Female" <c:if test="${account.gender eq female}"> checked="true" </c:if> >
                                                                                     <label class="col-sm-2 col-form-label" for="membershipRole">Female</label><br>
 										</div>
 									</div>
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">DOB</label>
 										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="date" name="DOB" placeholder="Date of birth">
+                                                                                    <input class="form-control" type="date" name="DOB" value="${account.dob}">
 										</div>
 									</div>
 									<div class="form-group row">
@@ -146,22 +147,22 @@
                                                                                     <input class="form-control" type="text" name="phonenumber" placeholder="Phone Number">
 										</div>
 									</div>
-									<div class="form-group row">
+<!--									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Address</label>
 										<div class="col-sm-7">
                                                                                     <input class="form-control" type="text" name="address" placeholder="Address">
 										</div>
-									</div>
+									</div-->
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Avatar</label>
 										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="text" name="avatar" placeholder="Image URL">
+                                                                                    <input class="form-control" type="text" name="avatar" value="${account.avatar}">
 										</div>
 									</div>  
                                                                         <div class="form-group row">
 										<label class="col-sm-2 col-form-label">Status</label>
 										<div class="col-sm-7">
-											<input class="form-control" type="text" name="status" placeholder="Status">
+											<input class="form-control" type="text" name="status" value="${account.status}" >
 										</div>
 									</div>
 								</div>
@@ -170,10 +171,11 @@
 										<div class="row">
 											<div class="col-sm-2">
 											</div>
-											<div class="col-sm-7">
+											<div class="col-sm-5">
 												<button type="submit" class="btn">Save changes</button>
 												<button type="reset" class="btn-secondry">Cancel</button>
 											</div>
+                                                                                        
 										</div>
 									</div>
 								</div>
@@ -186,24 +188,24 @@
 		</div>
 	</main>
 <!-- External JavaScripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/vendors/bootstrap/js/popper.min.js"></script>
-<script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-<script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-<script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
-<script src="assets/vendors/counter/waypoints-min.js"></script>
-<script src="assets/vendors/counter/counterup.min.js"></script>
-<script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
-<script src="assets/vendors/masonry/masonry.js"></script>
-<script src="assets/vendors/masonry/filter.js"></script>
-<script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
-<script src='assets/vendors/scroll/scrollbar.min.js'></script>
-<script src="assets/js/functions.js"></script>
-<script src="assets/vendors/chart/chart.min.js"></script>
-<script src="assets/js/admin.js"></script>
-<script src='assets/vendors/calendar/moment.min.js'></script>
-<script src='assets/vendors/calendar/fullcalendar.js'></script>
+<script src="admin/assets/js/jquery.min.js"></script>
+<script src="admin/assets/vendors/bootstrap/js/popper.min.js"></script>
+<script src="admin/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+<script src="admin/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="admin/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="admin/assets/vendors/magnific-popup/magnific-popup.js"></script>
+<script src="admin/assets/vendors/counter/waypoints-min.js"></script>
+<script src="admin/assets/vendors/counter/counterup.min.js"></script>
+<script src="admin/assets/vendors/imagesloaded/imagesloaded.js"></script>
+<script src="admin/assets/vendors/masonry/masonry.js"></script>
+<script src="admin/assets/vendors/masonry/filter.js"></script>
+<script src="admin/assets/vendors/owl-carousel/owl.carousel.js"></script>
+<script src='admin/assets/vendors/scroll/scrollbar.min.js'></script>
+<script src="admin/assets/js/functions.js"></script>
+<script src="admin/assets/vendors/chart/chart.min.js"></script>
+<script src="admin/assets/js/admin.js"></script>
+<script src='admin/assets/vendors/calendar/moment.min.js'></script>
+<script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
 
 <!-- <script src='assets/vendors/switcher/switcher.js'></script> -->
 <script>
