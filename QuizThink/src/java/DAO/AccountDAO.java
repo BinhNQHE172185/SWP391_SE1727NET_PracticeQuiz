@@ -66,6 +66,46 @@ public class AccountDAO extends DBContext {
         }
         return account;
     }
+    public Account getUsername(String username) {
+        Account account = null;
+        int accountId;
+        String email;
+        String password;
+        String gender;
+        String avatar;
+        String fullname;
+        Date dob;
+        Date createDate;
+        Date modifyDate;
+        String passwordToken;
+        int roleId;
+        String sql = "SELECT * FROM Account WHERE username = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                accountId = rs.getInt("Account_id");
+                email = rs.getString("email");
+                password = rs.getString("password");
+                avatar = rs.getString("avatar");
+                gender = rs.getString("gender");
+                fullname = rs.getString("fullname");
+                dob = rs.getDate("DOB");
+                createDate = rs.getDate("createdDate");
+                modifyDate = rs.getDate("modifyDate");
+                passwordToken = rs.getString("passwordToken");
+                roleId = rs.getInt("role_id");
+                boolean accountStatus = rs.getBoolean("status");
+                account = new Account(accountId, username, password, email, fullname, dob, gender, null, avatar, createDate, modifyDate, passwordToken, roleId, accountStatus);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return account;
+    }
 
     public void RegisterAcc(String username, String password, String email) {
         Account account = null;
@@ -121,6 +161,15 @@ public class AccountDAO extends DBContext {
         }
 
         return true;
+    }
+    
+    public boolean UsernameExist(String username){
+        Account ac;
+        ac = getUsername(username);
+        if(ac==null){
+            return true;
+        }
+        return false;
     }
 
 
