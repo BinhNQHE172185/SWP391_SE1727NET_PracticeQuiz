@@ -92,20 +92,37 @@ public class AccountDAO extends DBContext {
             Date creDate = Date.valueOf(currentTime.toLocalDate());
             ps.setDate(4, creDate);
             ps.executeUpdate();
-            
+
         } catch (Exception ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public boolean checkPass(String password){
-            if(password.length()<8){
-                return false;
-            }
-            Pattern pattern = Pattern.compile("^(?=.*[a-zA-Z])(?=.*[0-9]).*$");
-            Matcher matcher = pattern.matcher(password);
-            return matcher.matches();
+
+    public boolean checkPass(String password) {
+        if (password.length() < 8) {
+            return false;
         }
+        Pattern pattern = Pattern.compile("^(?=.*[a-zA-Z])(?=.*[0-9]).*$");
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+    
+    public boolean checkUsername(String username) {
+        // Check if the username is at least 4 characters long and at most 20 characters long
+        if (username.length() < 4 || username.length() > 20) {
+            return false;
+        }
+
+        // Check if the username contains only alphanumeric characters and underscores
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9_]+$");
+        Matcher matcher = pattern.matcher(username);
+        if (!matcher.matches()) {
+            return false;
+        }
+
+        return true;
+    }
+
 
     // Create new Account which could be expert marketing sale, customer, membership
     public void createAnyAccount(String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
