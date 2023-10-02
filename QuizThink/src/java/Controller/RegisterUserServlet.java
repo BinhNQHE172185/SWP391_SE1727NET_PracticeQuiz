@@ -24,16 +24,21 @@ public class RegisterUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String username = request.getParameter("username");
-       String password = request.getParameter("password");
-       String email = request.getParameter("email");
-       
-       Account x;
-       AccountDAO ad = new AccountDAO();
-       
-       ad.RegisterAcc(username, password, email);
-       request.getRequestDispatcher("Login.jsp").forward(request, response);
-       
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String status = "Password must be at least 8 characters long included letters and numbers";
+        
+        Account x;
+        AccountDAO ad = new AccountDAO();
+
+        if (ad.checkPass(password)) {
+            ad.RegisterAcc(username, password, email);
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }else{
+            request.setAttribute("status", status);
+            request.getRequestDispatcher("Register.jsp").include(request, response);
+        }
     }
 
 }

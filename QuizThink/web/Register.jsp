@@ -53,7 +53,9 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="FrontEnd/assets/css/color/color-1.css">
-
+        
+        <% String status = (String) request.getAttribute("status"); %>
+        
     </head>
     <body id="bg">
         <div class="page-wraper">
@@ -94,6 +96,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <% if(status !=null){ %>
+                                <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
+                                    <%=
+                                    status
+                                    %>
+                                </div>
+                                <%}%>
                                 <div class="col-lg-12 m-b30">
                                     <button name="submit" type="submit" value="Submit" class="btn button-md">Sign Up</button>
                                 </div>
