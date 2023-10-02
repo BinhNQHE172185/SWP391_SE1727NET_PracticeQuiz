@@ -27,7 +27,7 @@
                 </div>
                 <div class="topbar-right">
                     <ul>
-                        <%if(cookies!=null){%>
+                        <%if(!username.equals("")){%>
                         <li><a href="#"><%=username%></a></li>
                         <li><a href="#">Logout</a></li>
                             <%}else if(acc!=null){%>
