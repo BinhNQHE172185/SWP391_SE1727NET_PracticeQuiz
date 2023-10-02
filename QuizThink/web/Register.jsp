@@ -56,6 +56,7 @@
         
         <% String Pstatus = (String) request.getAttribute("Pstatus"); %>
         <% String Ustatus = (String) request.getAttribute("Ustatus"); %>
+        <% String UserExistStatus = (String) request.getAttribute("UserExistStatus"); %>
         
     </head>
     <body id="bg">
@@ -85,6 +86,13 @@
                                 <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
                                     <%=
                                     Ustatus
+                                    %>
+                                </div>
+                                <%}%>
+                                <% if(UserExistStatus !=null){ %>
+                                <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
+                                    <%=
+                                    UserExistStatus
                                     %>
                                 </div>
                                 <%}%>
