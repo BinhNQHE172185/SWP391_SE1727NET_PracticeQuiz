@@ -54,7 +54,8 @@
         <link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="FrontEnd/assets/css/color/color-1.css">
         
-        <% String status = (String) request.getAttribute("status"); %>
+        <% String Pstatus = (String) request.getAttribute("Pstatus"); %>
+        <% String Ustatus = (String) request.getAttribute("Ustatus"); %>
         
     </head>
     <body id="bg">
@@ -80,6 +81,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <% if(Ustatus !=null){ %>
+                                <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
+                                    <%=
+                                    Ustatus
+                                    %>
+                                </div>
+                                <%}%>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <div class="input-group">
@@ -96,10 +104,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <% if(status !=null){ %>
+                                <% if(Pstatus !=null){ %>
                                 <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
                                     <%=
-                                    status
+                                    Pstatus
                                     %>
                                 </div>
                                 <%}%>
