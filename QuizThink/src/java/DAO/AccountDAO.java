@@ -38,7 +38,7 @@ public class AccountDAO extends DBContext {
         Date createDate;
         Date modifyDate;
         String passwordToken;
-        int roleId;
+        String selfIntroduction;
         String sql = "SELECT * FROM Account WHERE username = ? AND password = ?";
         try {
             PreparedStatement ps = getConnection().prepareStatement(sql);
@@ -52,12 +52,12 @@ public class AccountDAO extends DBContext {
                 gender = rs.getString("gender");
                 fullname = rs.getString("fullname");
                 dob = rs.getDate("DOB");
+                selfIntroduction = rs.getString("self-introduction");
                 createDate = rs.getDate("createdDate");
                 modifyDate = rs.getDate("modifyDate");
                 passwordToken = rs.getString("passwordToken");
-                roleId = rs.getInt("role_id");
                 boolean accountStatus = rs.getBoolean("status");
-                account = new Account(accountId, username, password, email, fullname, dob, gender, null, avatar, createDate, modifyDate, passwordToken, roleId, accountStatus);
+                account = new Account(accountId, username, password, email, fullname, dob, gender, selfIntroduction, avatar, createDate, modifyDate, passwordToken, accountStatus);
             }
             rs.close();
             ps.close();
@@ -78,7 +78,7 @@ public class AccountDAO extends DBContext {
         Date createDate;
         Date modifyDate;
         String passwordToken;
-        int roleId;
+        String selfIntroduction;
         String sql = "SELECT * FROM Account WHERE username = ?";
         try {
             PreparedStatement ps = getConnection().prepareStatement(sql);
@@ -92,12 +92,12 @@ public class AccountDAO extends DBContext {
                 gender = rs.getString("gender");
                 fullname = rs.getString("fullname");
                 dob = rs.getDate("DOB");
+                selfIntroduction = rs.getString("self-introduction");
                 createDate = rs.getDate("createdDate");
                 modifyDate = rs.getDate("modifyDate");
                 passwordToken = rs.getString("passwordToken");
-                roleId = rs.getInt("role_id");
                 boolean accountStatus = rs.getBoolean("status");
-                account = new Account(accountId, username, password, email, fullname, dob, gender, null, avatar, createDate, modifyDate, passwordToken, roleId, accountStatus);
+                account = new Account(accountId, username, password, email, fullname, dob, gender, selfIntroduction, avatar, createDate, modifyDate, passwordToken, accountStatus);
             }
             rs.close();
             ps.close();
@@ -242,8 +242,7 @@ public class AccountDAO extends DBContext {
                         rs.getDate(10),
                         rs.getDate(11),
                         rs.getString(12),
-                        rs.getInt(13),
-                        rs.getBoolean(14)
+                        rs.getBoolean(13)
                 ));
 
             }
@@ -275,8 +274,7 @@ public class AccountDAO extends DBContext {
                         rs.getDate(10),
                         rs.getDate(11),
                         rs.getString(12),
-                        rs.getInt(13),
-                        rs.getBoolean(14)
+                        rs.getBoolean(13)
                 );
             }
         } catch (Exception e) {
