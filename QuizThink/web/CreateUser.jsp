@@ -104,6 +104,7 @@
 <!--                                                                                <input type="radio" id="customerRole" name="role" value="1">
                                                                                 <label class="col-sm-2 col-form-label" for="customerRole">Customer</label><br>-->
                                                                                 <select name="role">
+                                                                                    <option value="">None</option> 
                                                                                     <c:forEach items = "${listRole}" var="o" varStatus="status">
                                                                                         <option>${o.roleName}</option>
                                                                                     </c:forEach>
@@ -143,12 +144,25 @@
                                                                                     <input class="form-control" type="text" name="phonenumber" placeholder="Phone Number">
 										</div>
 									</div>
-<!--									<div class="form-group row">
-										<label class="col-sm-2 col-form-label">Address</label>
-										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="text" name="address" placeholder="Address">
-										</div>
-									</div-->
+									<div class="form-group row">
+                                                                            
+										<label class="col-sm-1 col-form-label">Province</label>
+                                                                                <div class="col-sm-2">
+                                                                                    <select name="role" id="selectProvince">
+                                                                                        <option value="">None</option>
+                                                                                        <c:forEach items = "${listRole}" var="o" varStatus="status">
+                                                                                            <option>${o.roleName}</option>
+                                                                                        </c:forEach>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="col-sm-1"></div>
+                                                                                <label class="col-sm-1 col-form-label">District</label>
+                                                                                <div class="col-sm-2">
+                                                                                    <select name="role" id="selectDistrict">
+                                                                                        <option value="">None</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                        </div>
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Avatar</label>
 										<div class="col-sm-7">
@@ -203,6 +217,44 @@
 <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
 
 <!-- <script src='assets/vendors/switcher/switcher.js'></script> -->
+<script>
+    var selectProvince = document.getElementById(selectProvince);
+    var selectDistrict = document.getElementById(selectDistrict);
+    
+    selectProvince.addEventListener("change",function() {
+    // Get the selected option from bảng 1
+    var selectedOption = selectProvince.value;
+    
+    if(selectedOption !== ''){
+        selectDistrict.disabled = "false";
+        
+        //AJAX
+        fetch('your-servlet-url?selectedOption=' + selectedOption)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                // Populate bảng 2 with options fetched from the servlet
+                data.forEach(function (option) {
+                    var optionElement = document.createElement("option");
+                    optionElement.value = option;
+                    optionElement.text = option;
+                    bang2Select.appendChild(optionElement);
+                });
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
+    }else {
+        // If no option is selected in bảng 1, disable bảng 2 and display a message
+        selectDistrict.disabled = true;
+        var defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.text = "None";
+        bang2Select.appendChild(defaultOption);
+    }
+});
+</script>
 <script>
   $(document).ready(function() {
 
