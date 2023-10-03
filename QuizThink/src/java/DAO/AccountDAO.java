@@ -55,8 +55,9 @@ public class AccountDAO extends DBContext {
                 createDate = rs.getDate("createdDate");
                 modifyDate = rs.getDate("modifyDate");
                 passwordToken = rs.getString("passwordToken");
+                roleId = rs.getInt("role_id");
                 boolean accountStatus = rs.getBoolean("status");
-                account = new Account(accountId, username, password, email, fullname, dob, gender, null, avatar, createDate, modifyDate, passwordToken, accountStatus);
+                account = new Account(accountId, username, password, email, fullname, dob, gender, null, avatar, createDate, modifyDate, passwordToken, roleId, accountStatus);
             }
             rs.close();
             ps.close();
@@ -65,7 +66,6 @@ public class AccountDAO extends DBContext {
         }
         return account;
     }
-
     public Account getUsername(String username) {
         Account account = null;
         int accountId;
@@ -97,7 +97,7 @@ public class AccountDAO extends DBContext {
                 passwordToken = rs.getString("passwordToken");
                 roleId = rs.getInt("role_id");
                 boolean accountStatus = rs.getBoolean("status");
-                account = new Account(accountId, username, password, email, fullname, dob, gender, null, avatar, createDate, modifyDate, passwordToken, accountStatus);
+                account = new Account(accountId, username, password, email, fullname, dob, gender, null, avatar, createDate, modifyDate, passwordToken, roleId, accountStatus);
             }
             rs.close();
             ps.close();
@@ -146,7 +146,7 @@ public class AccountDAO extends DBContext {
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
-
+    
     public boolean checkUsername(String username) {
         // Check if the username is at least 4 characters long and at most 20 characters long
         if (username.length() < 4 || username.length() > 20) {
@@ -162,15 +162,16 @@ public class AccountDAO extends DBContext {
 
         return true;
     }
-
-    public boolean UsernameExist(String username) {
+    
+    public boolean UsernameExist(String username){
         Account ac;
         ac = getUsername(username);
-        if (ac == null) {
+        if(ac==null){
             return true;
         }
         return false;
     }
+
 
     // Create new Account which could be expert marketing sale, customer, membership
     public void createAnyAccount(String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
@@ -219,18 +220,6 @@ public class AccountDAO extends DBContext {
     //Get all account
     public List<Account> getAllAccount(int page) {
         List<Account> list = new ArrayList<>();
-        Account account = null;
-        int accountId;
-        String username;
-        String email;
-        String gender;
-        String avatar;
-        String fullname;
-        Date dob;
-        Date createDate;
-        Date modifyDate;
-        String passwordToken;
-        boolean accountStatus;
         String query = "SELECT * FROM Account\n"
                 + "ORDER BY Account_id\n"
                 + "OFFSET ? ROWS FETCH NEXT 15 ROWS ONLY";
@@ -240,19 +229,23 @@ public class AccountDAO extends DBContext {
             ps.setInt(1, (page - 1) * 15); // page 1 starts at index 0
             rs = ps.executeQuery();
             while (rs.next()) {
-                accountId = rs.getInt("Account_id");
-                username = rs.getString("username");
-                email = rs.getString("email");
-                avatar = rs.getString("avatar");
-                gender = rs.getString("gender");
-                fullname = rs.getString("fullname");
-                dob = rs.getDate("DOB");
-                createDate = rs.getDate("createdDate");
-                modifyDate = rs.getDate("modifyDate");
-                passwordToken = rs.getString("passwordToken");
-                accountStatus = rs.getBoolean("status");
-                account = new Account(accountId, username, null, email, fullname, dob, gender, null, avatar, createDate, modifyDate, passwordToken, accountStatus);
-                list.add(account);
+                list.add(new Account(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getDate(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getDate(10),
+                        rs.getDate(11),
+                        rs.getString(12),
+                        rs.getInt(13),
+                        rs.getBoolean(14)
+                ));
+
             }
         } catch (Exception e) {
             //e.printStackTrace();
@@ -261,43 +254,106 @@ public class AccountDAO extends DBContext {
     }
     // Get  Account by ID
 
-    public Account getAccountByID(int accountId) {
-        Account account = null;
-        String username;
-        String email;
-        String gender;
-        String avatar;
-        String fullname;
-        Date dob;
-        Date createDate;
-        Date modifyDate;
-        String passwordToken;
-        boolean accountStatus;
-        String sql = "SELECT * FROM Account WHERE Account_id = ?";
+    public Account getAccountByID(int accountID) {
+        String query = "SELECT * FROM Account WHERE Account_id = ?";
         try {
-            PreparedStatement ps = getConnection().prepareStatement(sql);
-            ps.setInt(1, accountId);
-            ResultSet rs = ps.executeQuery();
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, accountID);
+            rs = ps.executeQuery();
             if (rs.next()) {
-                username = rs.getString("username");
-                email = rs.getString("email");
-                avatar = rs.getString("avatar");
-                gender = rs.getString("gender");
-                fullname = rs.getString("fullname");
-                dob = rs.getDate("DOB");
-                createDate = rs.getDate("createdDate");
-                modifyDate = rs.getDate("modifyDate");
-                passwordToken = rs.getString("passwordToken");
-                accountStatus = rs.getBoolean("status");
-                account = new Account(accountId, username, null, email, fullname, dob, gender, null, avatar, createDate, modifyDate, passwordToken, accountStatus);
+                return new Account(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getDate(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getDate(10),
+                        rs.getDate(11),
+                        rs.getString(12),
+                        rs.getInt(13),
+                        rs.getBoolean(14)
+                );
             }
-            rs.close();
-            ps.close();
-        } catch (Exception ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            //e.printStackTrace();
         }
-        return account;
+        return null;
     }
+    
+    // Edit User 
+    public void editUser(int accountID, String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
+        String query = "UPDATE [Account]\n" +
+                        "SET [username] = ?,\n" +
+                        "    [password] = ?,\n" +
+                        "    [email] = ?,\n" +
+                        "    [fullname] = ?,\n" +
+                        "    [DOB] = ?,\n" +
+                        "    [gender] = ?,\n" +
+                        "    [avatar] = ?,\n" +
+                        "    [modifyDate] = ?,\n" +
+                        "    [role_id] = ?,\n" +
+                        "WHERE [account_id] = ?;";
+        // Thiếu status và một vài thuộc tính khác
+        
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            ps.setString(4, fullname);
+            ps.setString(5, DOB);
+            ps.setString(6, gender);
+            ps.setString(7, avatar);
+            ps.setInt(9, roleId);
+            ps.setInt(10, accountID);
+            LocalDateTime currentTime = LocalDateTime.now();
+            Date modifyDate = Date.valueOf(currentTime.toLocalDate());
+            ps.setDate(8, modifyDate);
+            ps.executeUpdate(); // no result ==> no need result set
+        } catch (Exception e) {
+            // Handle exceptions here
+        } finally {
+            // Close database connections and resources in a real application
+            // For simplicity, it's omitted here.
+        }
+    }
+
+//    // Get  Account by ID
+//    public Account getAccountByID(String Account_ID) {
+//        String query = "select * from Account where account_id = ?";
+//        try {
+//            conn = new DBContext().getConnection();
+//            ps = conn.prepareStatement(query);
+//            ps.setString(1, Account_ID);
+//            rs = ps.executeQuery();
+//            while (rs.next()) {
+//                return new Account(
+//                        rs.getInt(1),
+//                        rs.getString(2),
+//                        rs.getString(3),
+//                        rs.getString(4),
+//                        rs.getString(5),
+//                        rs.getDate(6),
+//                        rs.getString(7),
+//                        rs.getString(8),
+//                        rs.getString(9),
+//                        rs.getDate(10),
+//                        rs.getDate(11),
+//                        rs.getString(12),
+//                        rs.getInt(13),
+//                        rs.getBoolean(14)
+//                );
+//            }
+//        } catch (Exception e) {
+//        }
+//        return null;
+//    }
 
     public void updateProfile(String fullname, String email, String dob, String gender, String introduction, String accountID) {
         String query = "update Account set fullname = ?, email = ?, DOB = ?, gender = ?, [self-introduction] = ? where Account_id =?";
@@ -326,6 +382,19 @@ public class AccountDAO extends DBContext {
             rs = ps.executeQuery();
         } catch (Exception e) {
 
+        }
+    }
+    
+    public static void main(String[] args) {
+        try {
+            AccountDAO dao = new AccountDAO();
+            List<Account> list = dao.getAllAccount(1);
+//            for (Account account : list) {
+//                System.out.println(account);
+//            }
+            Account a = dao.getAccountByID(12);
+            System.out.println(a);
+        } catch (Exception e) {
         }
     }
 }

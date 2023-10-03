@@ -21,7 +21,7 @@
             <div class="row d-flex justify-content-between">
                 <div class="topbar-left">
                     <ul>
-                        <li><a href="faq-1.html"><i class="fa fa-question-circle"></i>Ask a Question</a></li>
+
                         <li><a href="javascript:;"><i class="fa fa-envelope-o"></i>binhmebuncha978@gmail.com</a></li>
                     </ul>
                 </div>
