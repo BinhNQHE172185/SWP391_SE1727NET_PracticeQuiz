@@ -24,10 +24,9 @@ public class Account {
     private Date createdDate;
     private Date modifyDate;
     private String passwordToken;
-    private int roleId;
     private boolean status;
 
-    public Account(int accountId, String username, String password, String email, String fullname, Date dob, String gender, String selfIntroduction, String avatar, Date createdDate, Date modifyDate, String passwordToken, int roleId, boolean status) {
+    public Account(int accountId, String username, String password, String email, String fullname, Date dob, String gender, String selfIntroduction, String avatar, Date createdDate, Date modifyDate, String passwordToken, boolean status) {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
@@ -40,7 +39,6 @@ public class Account {
         this.createdDate = createdDate;
         this.modifyDate = modifyDate;
         this.passwordToken = passwordToken;
-        this.roleId = roleId;
         this.status = status;
     }
 
@@ -142,14 +140,6 @@ public class Account {
     public void setPasswordToken(String passwordToken) {
         this.passwordToken = passwordToken;
     }
-
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
-    }
     
     public boolean isStatus() {
         return status;
@@ -161,7 +151,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", email=" + email + ", fullname=" + fullname + ", dob=" + dob + ", gender=" + gender + ", selfIntroduction=" + selfIntroduction + ", avatar=" + avatar + ", createdDate=" + createdDate + ", modifyDate=" + modifyDate + ", passwordToken=" + passwordToken + ", roleId=" + roleId + ", status=" + status + '}';
+        return "Account{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", email=" + email + ", fullname=" + fullname + ", dob=" + dob + ", gender=" + gender + ", status=" + status + '}';
     }
       
 }

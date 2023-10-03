@@ -29,10 +29,10 @@
                     <ul>
                         <%if(!username.equals("")){%>
                         <li><a href="#"><%=username%></a></li>
-                        <li><a href="#">Logout</a></li>
+                        <li><a href="Logout">Logout</a></li>
                             <%}else if(acc!=null){%>
                         <li><a href="#"><%=acc.getUsername()%></a></li>
-                        <li><a href="#">Logout</a></li>
+                        <li><a href="Logout">Logout</a></li>
                             <%}else{%>
                         <li><a href="Login.jsp">Login</a></li>
                         <li><a href="Register.jsp">Register</a></li>
