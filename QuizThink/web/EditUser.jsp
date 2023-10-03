@@ -147,12 +147,25 @@
                                                                                     <input class="form-control" type="text" name="phonenumber" placeholder="Phone Number">
 										</div>
 									</div>
-<!--									<div class="form-group row">
-										<label class="col-sm-2 col-form-label">Address</label>
+                                                                        
+									<div class="form-group row">
+										<label class="col-sm-2 col-form-label">Province</label>
 										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="text" name="address" placeholder="Address">
+                                                                                    <select name="role">
+                                                                                        <c:forEach items = "${listRole}" var="o" varStatus="status">
+                                                                                            <option>${o.roleName}</option>
+                                                                                        </c:forEach>
+                                                                                    </select>
 										</div>
-									</div-->
+                                                                                <label class="col-sm-2 col-form-label">District</label>
+										<div class="col-sm-7">
+                                                                                    <select name="role">
+                                                                                        <c:forEach items = "${listRole}" var="o" varStatus="status">
+                                                                                            <option>${o.roleName}</option>
+                                                                                        </c:forEach>
+                                                                                    </select>
+										</div>
+									</div
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Avatar</label>
 										<div class="col-sm-7">
