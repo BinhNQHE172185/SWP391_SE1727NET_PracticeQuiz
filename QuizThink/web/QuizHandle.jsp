@@ -111,14 +111,15 @@
                                         <h4>Quiz completed:</h4>
                                         <h4 id="quiz-counter">0</h4>
                                         <%
-                                        Question question = (Question) request.getAttribute("question");
-                                        LocalDateTime endTime = (LocalDateTime) request.getAttribute("endTime");
+                                        Question question = (Question) session.getAttribute("question");
+                                        LocalDateTime endTime = (LocalDateTime) session.getAttribute("endTime");
                                         if (question != null) {
                                         %>
-                                        <h4>/<%= question.getQuizCount() %><%= endTime %> </h4>
+                                        <h4>/<%= question.getQuizCount() %></h4>
                                         <%
                                             }
                                         %>
+                                        <input type="hidden" id="endTimeElement" data-endTime="<%= endTime %>" />
                                         <div id="submitQuestion" data-submitQuestion="<%= question %>"></div>
                                     </div>
                                     <div class="question-timer-container">

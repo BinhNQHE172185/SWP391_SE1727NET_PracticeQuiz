@@ -16,6 +16,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,6 +40,7 @@ public class QuizHandleServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
+            HttpSession session = request.getSession();
             int questionId = Integer.parseInt(request.getParameter("questionId"));
             QuestionDAO questionDAO = new QuestionDAO();
             QuizDAO quizDAO = new QuizDAO();
@@ -51,15 +53,18 @@ public class QuizHandleServlet extends HttpServlet {
                 request.setAttribute("answers" + quizz.getQuizId(), answers);
 
             }
-            LocalDateTime currentTime = LocalDateTime.now();
+            LocalDateTime startTime = (LocalDateTime) session.getAttribute("startTime");
+            if (startTime == null) {
+                startTime = LocalDateTime.now();
+            }
             Duration duration = Duration.ofHours(question.getDuration().getHours())
                     .plusMinutes(question.getDuration().getMinutes())
                     .plusSeconds(question.getDuration().getSeconds());
-            LocalDateTime endTime = currentTime.plus(duration);
-            request.setAttribute("endTime", endTime);
+            LocalDateTime endTime = startTime.plus(duration);
             request.setAttribute("question", question);
             request.setAttribute("quizzes", quizzes);
-            request.setAttribute("endTime", endTime);
+            session.setAttribute("startTime", startTime);
+            session.setAttribute("endTime", endTime);
             request.getRequestDispatcher("QuizHandle.jsp").forward(request, response);
         }
     }

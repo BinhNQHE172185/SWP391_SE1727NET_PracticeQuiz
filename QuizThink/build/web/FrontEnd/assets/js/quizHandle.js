@@ -79,7 +79,7 @@ function submitQuiz() {
 }
 // Set the date we're counting down to
 var endTimeElement = document.getElementById("endTimeElement");
-var endTime = new Time(endTimeElement.getAttribute("data-endTime")).getTime();
+var endTime = new Date(endTimeElement.getAttribute("data-endTime")).getTime();
 
 // Update the count down every 1 second
 var x = setInterval(function () {
