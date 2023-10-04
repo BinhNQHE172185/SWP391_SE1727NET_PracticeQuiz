@@ -53,14 +53,18 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="FrontEnd/assets/css/color/color-1.css">
-
+        
+        <% String Pstatus = (String) request.getAttribute("Pstatus"); %>
+        <% String Ustatus = (String) request.getAttribute("Ustatus"); %>
+        <% String UserExistStatus = (String) request.getAttribute("UserExistStatus"); %>
+        
     </head>
     <body id="bg">
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <div class="account-form">
                 <div class="account-head" style="background-image:url(FrontEnd/assets/images/background/bg2.jpg);">
-                    <a href="index.html"><img src="FrontEnd/assets/images/Logo2.png" alt=""></a>
+                    <a href="home.jsp"><img src="FrontEnd/assets/images/Logo2.png" alt=""></a>
                 </div>
                 <div class="account-form-inner">
                     <div class="account-container">
@@ -68,21 +72,35 @@
                             <h2 class="title-head">Sign Up <span>Now</span></h2>
                             <p>Login Your Account <a href="Login.jsp">Click here</a></p>
                         </div>	
-                        <form class="contact-bx">
+                        <form class="contact-bx" action="RegisterUser" method="Post">
                             <div class="row placeani">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <label>Your Name</label>
-                                            <input name="dzName" type="text" required="" class="form-control">
+                                            <label>Username</label>
+                                            <input name="username" type="text" required="" class="form-control">
                                         </div>
                                     </div>
                                 </div>
+                                <% if(Ustatus !=null){ %>
+                                <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
+                                    <%=
+                                    Ustatus
+                                    %>
+                                </div>
+                                <%}%>
+                                <% if(UserExistStatus !=null){ %>
+                                <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
+                                    <%=
+                                    UserExistStatus
+                                    %>
+                                </div>
+                                <%}%>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <div class="input-group">
                                             <label>Your Email Address</label>
-                                            <input name="dzName" type="email" required="" class="form-control">
+                                            <input name="email" type="email" required="" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -90,10 +108,17 @@
                                     <div class="form-group">
                                         <div class="input-group"> 
                                             <label>Your Password</label>
-                                            <input name="dzEmail" type="password" class="form-control" required="">
+                                            <input name="password" type="password" class="form-control" required="">
                                         </div>
                                     </div>
                                 </div>
+                                <% if(Pstatus !=null){ %>
+                                <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
+                                    <%=
+                                    Pstatus
+                                    %>
+                                </div>
+                                <%}%>
                                 <div class="col-lg-12 m-b30">
                                     <button name="submit" type="submit" value="Submit" class="btn button-md">Sign Up</button>
                                 </div>

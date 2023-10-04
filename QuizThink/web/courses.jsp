@@ -138,11 +138,11 @@
                                         <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
 						<div class="cours-bx">
 							<div class="action-box">
-								<img src="FrontEnd/assets/images/courses/${o.getImageURL()}" alt="">
+								<img src="FrontEnd/assets/images/courses/${o.imageURL}" alt="">
 								<a href="#" class="btn">Read More</a>
 							</div>
 							<div class="info-bx text-center">
-								<h5><a href="#">${o.getTitle()}</a></h5>
+								<h5><a href="#">${o.title()}</a></h5>
 								<span>Programming</span>
 							</div>
 							

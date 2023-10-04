@@ -28,7 +28,12 @@
                 <div class="topbar-right">
                     <ul>
                         <%if(!username.equals("")){%>
-                        <li><a href="#"><%=username%></a></li>
+                        <li><a href="#"><%=username%> <i class="fa fa-chevron-down"></i></a>
+                            <ul class="sub-menu">
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="#">Courses</a></li>
+                            </ul>
+                        </li>
                         <li><a href="Logout">Logout</a></li>
                             <%}else if(acc!=null){%>
                         <li><a href="#"><%=acc.getUsername()%></a></li>
@@ -39,6 +44,12 @@
                             <%}%>
                     </ul>
                 </div>
+                <!--                    <li class="active"><a href="javascript:;">Home <i class="fa fa-chevron-down"></i></a>
+                                                                                <ul class="sub-menu">
+                                                                                        <li><a href="index.html">Home 1</a></li>
+                                                                                        <li><a href="index-2.html">Home 2</a></li>
+                                                                                </ul>
+                                                                        </li>-->
             </div>
         </div>
     </div>
@@ -85,7 +96,7 @@
 
                         </li>
 
-                        <li class="add-mega-menu"><a href="courses.jsp">Our Courses</a>
+                        <li class="add-mega-menu"><a href="SubjectList">Our Courses</a>
 
                         </li>
                         <li><a href="about.jsp">About us </a>
