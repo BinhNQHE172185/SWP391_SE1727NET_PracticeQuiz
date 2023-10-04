@@ -61,7 +61,7 @@ function submitQuiz() {
     };
 
     // Send a POST request to the servlet endpoint
-    fetch('/servlet-url', {
+    fetch('/SubmitExamServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
