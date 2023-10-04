@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import Model.Subject;
+import Model.SubjectStatus;
 
 /**
  *
@@ -35,7 +36,7 @@ public class RegistedListServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         SubjectDAO dao = new SubjectDAO();
-        List<Subject> listSubject = dao.getRegistedSubject(1);
+        List<SubjectStatus> listSubject = dao.getRegistedSubject(1);
         request.setAttribute("listSubject", listSubject);
         request.getRequestDispatcher("course.jsp").forward(request, response);
     }

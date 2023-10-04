@@ -6,6 +6,7 @@ package DAO;
 
 import DAL.DBContext;
 import Model.Subject;
+import Model.SubjectStatus;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,21 +22,22 @@ public class SubjectDAO extends DBContext {
     private PreparedStatement ps;
     private ResultSet rs;
     private List<Subject> list;
-
-    public List<Subject> getAllSubjects() {
-        try {
+    private List<SubjectStatus> listss;
+    
+    public List<Subject> getAllSubjects(){
+        try{
             String query = "SELECT * FROM Subject";
             ps = getConnection().prepareStatement(query);
             rs = ps.executeQuery();
-            while (rs.next()) {
-                Subject subject = new Subject(rs.getInt("Subject_id"),
-                        rs.getInt("Expert_id"),
-                        rs.getInt("SubjectDimension_id"),
+            while(rs.next()){
+                Subject subject= new Subject(rs.getInt("subjectId"),
+                        rs.getInt("expertId"),
+                        rs.getInt("subjectDimensionId"),
                         rs.getString("title"),
                         rs.getString("imageURL"),
-                        rs.getInt("question_count"),
-                        rs.getInt("Rate"),
-                        rs.getInt("Rate_count"),
+                        rs.getInt("questionCount"),
+                        rs.getInt("rate"),
+                        rs.getInt("rateCount"),
                         rs.getInt("level"),
                         rs.getFloat("requirement"),
                         rs.getString("description"),
@@ -45,13 +47,12 @@ public class SubjectDAO extends DBContext {
                         rs.getTime("duration"));
                 list.add(subject);
             }
-        } catch (Exception ex) {
-            System.err.println("An error occurred while executing the query: " + ex.getMessage());
-            ex.printStackTrace();
+        }catch(Exception e){
+            
         }
         return list;
     }
-
+    
     public Subject getSubjectById(int subjectId) {
         String sql = "SELECT * FROM Subject WHERE subject_Id = ?";
         Subject subject = null;
@@ -86,42 +87,27 @@ public class SubjectDAO extends DBContext {
 
         return subject;
     }
-
-    public List<Subject> getRegistedSubject(int accountID) {
+    
+    public List<SubjectStatus> getRegistedSubject(int accountID) {
         try {
-            String query = "Select * from Subject where account_id = ?";
+            String query = "Select * from SubjectStatus where account_id = ?";
             ps = getConnection().prepareStatement(query);
             ps.setInt(1, accountID);
             rs = ps.executeQuery();
-            while (rs.next()) {
-                Subject subject = new Subject(rs.getInt("Subject_id"),
-                        rs.getInt("Expert_id"),
-                        rs.getInt("SubjectDimension_id"),
-                        rs.getString("title"),
-                        rs.getString("imageURL"),
-                        rs.getInt("question_count"),
-                        rs.getInt("Rate"),
-                        rs.getInt("Rate_count"),
-                        rs.getInt("level"),
-                        rs.getFloat("requirement"),
-                        rs.getString("description"),
+            while(rs.next()){
+                SubjectStatus subjectStatus= new SubjectStatus
+                        (rs.getInt("subjectStatusID"),
+                        rs.getInt("subjectId"),
+                        rs.getInt("accountId"),
+                        rs.getBoolean("status"),
                         rs.getDate("createdDate"),
                         rs.getDate("modifyDate"),
-                        rs.getBoolean("status"),
-                        rs.getTime("duration"));
-                list.add(subject);
+                        rs.getDate("passDate"));
+                listss.add(subjectStatus);
             }
         } catch (Exception e) {
 
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        SubjectDAO dao = new SubjectDAO();
-        List<Subject> list = dao.getAllSubjects();
-        for (Subject s : list) {
-            System.out.println(s.getTitle());
-        }
     }
 }
