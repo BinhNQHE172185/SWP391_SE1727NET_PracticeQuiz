@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import = "Model.Account" %>
+<%@page import = "java.util.*" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,6 +55,7 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="FrontEnd/assets/css/color/color-1.css">
+        <% Account acc = (Account) request.getAttribute("Account"); %>
         <% String status = (String) request.getAttribute("status"); %>
     </head>
     <body id="bg">
@@ -65,16 +68,23 @@
                 <div class="account-form-inner">
                     <div class="account-container">
                         <div class="heading-bx left">
-                            <h2 class="title-head">Forget <span>Password</span></h2>
-                            <p>Login Your Account <a href="Login.jsp">Click here</a></p>
+                            <h2 class="title-head">Change <span>Password</span></h2>
                         </div>	
-                        <form class="contact-bx" action="ForgotPassword" method="POST">
+                        <form class="contact-bx" action="UpdatePassword" method="POST">
                             <div class="row placeani">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <label>Your Email Address</label>
-                                            <input name="email" type="email" required="" class="form-control">
+                                            <label>Enter your new password</label>
+                                            <input name="password" type="password" required="" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label>Re-enter your new password</label>
+                                            <input name="reEnter" type="password" required="" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -85,6 +95,10 @@
                                     %>
                                 </div>
                                 <%}%>
+                                <div>
+                                    <input name="accountID" type="hidden" value="<%=acc.getAccountId()%>">
+                                    <input name="email" type="hidden" value="<%=acc.getEmail()%>">
+                                </div>
                                 <div class="col-lg-12 m-b30">
                                     <button name="submit" type="submit" value="Submit" class="btn button-md">Submit</button>
                                 </div>
