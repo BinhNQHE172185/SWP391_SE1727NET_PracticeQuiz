@@ -214,7 +214,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="courses.html" class="ttr-material-button">
+                            <a href="admin/courses.html" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
                                 <span class="ttr-label">Courses</span>
                             </a>
