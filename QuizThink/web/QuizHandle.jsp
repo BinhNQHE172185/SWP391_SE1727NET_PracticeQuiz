@@ -12,7 +12,8 @@
 <%@ page import="Model.Subject" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.sql.Time" %>
+<%@ page import="java.time.LocalDateTime" %>
+
 
 
 <!DOCTYPE html>
@@ -111,10 +112,10 @@
                                         <h4 id="quiz-counter">0</h4>
                                         <%
                                         Question question = (Question) request.getAttribute("question");
-                                        Time time = (Time) request.getAttribute("endTime");
+                                        LocalDateTime endTime = (LocalDateTime) request.getAttribute("endTime");
                                         if (question != null) {
                                         %>
-                                        <h4>/<%= question.getQuizCount() %></h4>
+                                        <h4>/<%= question.getQuizCount() %><%= endTime %> </h4>
                                         <%
                                             }
                                         %>
@@ -241,7 +242,6 @@
                     </div>
                 </div>
             </div>
-                                        <div class="d-none data-endTime"><%= time %></div>
             <!-- Quiz END-->
             <div class="submit-container">
                 <button class="submit-btn" onclick="submitQuiz()">
