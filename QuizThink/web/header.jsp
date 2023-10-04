@@ -1,6 +1,50 @@
 <%@page import = "Model.Account" %>
 <%@page import = "java.util.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<style>
+    /* Style for the dropdown container */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Style for the button to toggle the dropdown */
+    .dropdown-button {
+        background-color: transparent;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    /* Style for the dropdown content */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    /* Style for individual dropdown items */
+    .dropdown-content a {
+        color: #333;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Change color on hover */
+    .dropdown-content a:hover {
+        background-color: #ddd;
+    }
+
+    /* Show the dropdown when hovering over the container */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
 <header class="header rs-nav header-transparent">
     <%
         Account acc = (Account) session.getAttribute("currUser");
@@ -28,11 +72,8 @@
                 <div class="topbar-right">
                     <ul>
                         <%if(!username.equals("")){%>
-                        <li><a href="#"><%=username%> <i class="fa fa-chevron-down"></i></a>
-                            <ul class="sub-menu">
-                                <li><a href="#">Profile</a></li>
-                                <li><a href="#">Courses</a></li>
-                            </ul>
+                        <li>Welcome <%=username%></a>
+
                         </li>
                         <li><a href="Logout">Logout</a></li>
                             <%}else if(acc!=null){%>
@@ -44,11 +85,11 @@
                             <%}%>
                     </ul>
                 </div>
-                <!--                    <li class="active"><a href="javascript:;">Home <i class="fa fa-chevron-down"></i></a>
-                                                                                <ul class="sub-menu">
-                                                                                        <li><a href="index.html">Home 1</a></li>
-                                                                                        <li><a href="index-2.html">Home 2</a></li>
-                                                                                </ul>
+                <!--                <li>
+                                                                                <select class="header-lang-bx">
+                                                                                        <option data-icon="flag flag-uk">English UK</option>
+                                                                                        <option data-icon="flag flag-us">English US</option>
+                                                                                </select>
                                                                         </li>-->
             </div>
         </div>
@@ -69,6 +110,16 @@
                 <!-- Author Nav ==== -->
                 <div class="secondary-menu">
                     <div class="secondary-inner">
+                        <%if(!username.equals("")){%>
+                        <div class="dropdown">
+                            <button class="dropdown-button">Select an option</button>
+                            <div class="dropdown-content">
+                                <a href="#">My profile</a>
+                                <a href="RegistedCourse.jsp">My courses</a>
+                                
+                            </div>
+                        </div>
+                        <%}else{%><%}%>
                         <ul>
                             <li><a href="https://www.facebook.com/DaihocFPTHaNoi" class="btn-link"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="https://daihoc.fpt.edu.vn/" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
