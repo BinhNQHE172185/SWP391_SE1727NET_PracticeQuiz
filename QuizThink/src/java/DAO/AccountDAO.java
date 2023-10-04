@@ -387,12 +387,13 @@ public class AccountDAO extends DBContext {
         try {
             AccountDAO dao = new AccountDAO();
             List<Account> list = dao.getAllAccount(1);
-//            for (Account account : list) {
-//                System.out.println(account);
-//            }
-            Account a = dao.getAccountByID(12);
+            for (Account account : list) {
+                System.out.println(account);
+            }
+            Account a = dao.getAccountByID(2);
             System.out.println(a);
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
