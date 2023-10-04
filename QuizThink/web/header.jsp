@@ -85,12 +85,7 @@
                             <%}%>
                     </ul>
                 </div>
-                <!--                <li>
-                                                                                <select class="header-lang-bx">
-                                                                                        <option data-icon="flag flag-uk">English UK</option>
-                                                                                        <option data-icon="flag flag-us">English US</option>
-                                                                                </select>
-                                                                        </li>-->
+
             </div>
         </div>
     </div>
@@ -112,11 +107,11 @@
                     <div class="secondary-inner">
                         <%if(!username.equals("")){%>
                         <div class="dropdown">
-                            <button class="dropdown-button">Select an option</button>
+                            <button class="dropdown-button"><%=username%></button>
                             <div class="dropdown-content">
                                 <a href="#">My profile</a>
                                 <a href="RegistedCourse.jsp">My courses</a>
-                                
+
                             </div>
                         </div>
                         <%}else{%><%}%>
