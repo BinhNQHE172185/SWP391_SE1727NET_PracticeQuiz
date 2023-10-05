@@ -4,28 +4,22 @@
  */
 package Controller;
 
-import DAO.AnswerDAO;
-import DAO.QuestionDAO;
-import DAO.QuizDAO;
-import Model.Answer;
-import Model.Question;
-import Model.Quiz;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.time.Duration;
-import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  *
  * @author kimdi
  */
-public class QuizHandleServlet extends HttpServlet {
+@WebServlet(name = "SubmitExamServlet", urlPatterns = {"/SubmitExamServlet"})
+public class SubmitExamServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,36 +34,31 @@ public class QuizHandleServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            int questionId = Integer.parseInt(request.getParameter("questionId"));
-            QuestionDAO questionDAO = new QuestionDAO();
-            QuizDAO quizDAO = new QuizDAO();
-            AnswerDAO answerDAO = new AnswerDAO();
+            /* TODO output your page here. You may use following sample code. */
+            // Retrieve the selectedChoices parameter from the request
+            String[] selectedChoicesArray = request.getParameterValues("selectedChoices");
 
-            Question question = questionDAO.getQuestionById(questionId);
-            List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
-            for (Quiz quizz : quizzes) {
-                List<Answer> answers = answerDAO.getAnswersByQuizId(quizz.getQuizId());
-                request.setAttribute("answers" + quizz.getQuizId(), answers);
+            // Convert the array to a list for easier manipulation
+            List<String> selectedChoices = Arrays.asList(selectedChoicesArray);
+            // Generate the HTML response
+            out.println("<html>");
+            out.println("<head><title>Selected Choices</title></head>");
+            out.println("<body>");
+            out.println("<h1>Selected Choices:</h1>");
+            out.println("<ul>");
 
+            // Display each selected choice in a list item
+            for (String choice : selectedChoices) {
+                out.println("<li>" + choice + "</li>");
             }
-            LocalDateTime startTime = (LocalDateTime) session.getAttribute("startTime");
-            if (startTime == null) {
-                startTime = LocalDateTime.now();
-            }
-            Duration duration = Duration.ofHours(question.getDuration().getHours())
-                    .plusMinutes(question.getDuration().getMinutes())
-                    .plusSeconds(question.getDuration().getSeconds());
-            LocalDateTime endTime = startTime.plus(duration);
-            request.setAttribute("question", question);
-            request.setAttribute("quizzes", quizzes);
-            session.setAttribute("startTime", startTime);
-            session.setAttribute("endTime", endTime);
-            request.getRequestDispatcher("QuizHandle.jsp").forward(request, response);
+
+            out.println("</ul>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

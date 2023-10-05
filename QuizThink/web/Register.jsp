@@ -57,6 +57,7 @@
         <% String Pstatus = (String) request.getAttribute("Pstatus"); %>
         <% String Ustatus = (String) request.getAttribute("Ustatus"); %>
         <% String UserExistStatus = (String) request.getAttribute("UserExistStatus"); %>
+        <% String emailExistStatus = (String) request.getAttribute("emailExistStatus"); %>
         
     </head>
     <body id="bg">
@@ -104,6 +105,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <% if(emailExistStatus !=null){ %>
+                                <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
+                                    <%=
+                                    emailExistStatus
+                                    %>
+                                </div>
+                                <%}%>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <div class="input-group"> 

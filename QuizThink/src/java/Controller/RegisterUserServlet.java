@@ -30,10 +30,12 @@ public class RegisterUserServlet extends HttpServlet {
         String passStatus = "Password must be at least 8 characters long included letters and numbers";
         String UserStatus = "Username must be 4-20 characters long and only contain letters, numbers, and underscores.";
         String UserExistStatus = "Username exists.";
+        String emailExistStatus = "Email exists.";
         int flag = 0;
 
         AccountDAO ad = new AccountDAO();
-
+        Account acc;
+        
         if(!ad.UsernameExist(username)){
             request.setAttribute("UserExistStatus", UserExistStatus);
             flag++;
@@ -43,7 +45,12 @@ public class RegisterUserServlet extends HttpServlet {
             request.setAttribute("Ustatus", UserStatus);
             flag++;
         }
-
+        
+        if((acc=ad.checkEmail(email))!=null){
+            request.setAttribute("emailExistStatus", emailExistStatus);
+            flag++;
+        }
+        
         if (!ad.checkPass(password)) {
             request.setAttribute("Pstatus", passStatus);
             flag++;
