@@ -12,7 +12,8 @@
 <%@ page import="Model.Subject" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.sql.Time" %>
+<%@ page import="java.time.LocalDateTime" %>
+
 
 
 <!DOCTYPE html>
@@ -110,14 +111,15 @@
                                         <h4>Quiz completed:</h4>
                                         <h4 id="quiz-counter">0</h4>
                                         <%
-                                        Question question = (Question) request.getAttribute("question");
-                                        Time time = (Time) request.getAttribute("endTime");
+                                        Question question = (Question) session.getAttribute("question");
+                                        LocalDateTime endTime = (LocalDateTime) session.getAttribute("endTime");
                                         if (question != null) {
                                         %>
                                         <h4>/<%= question.getQuizCount() %></h4>
                                         <%
                                             }
                                         %>
+                                        <input type="hidden" id="endTimeElement" data-endTime="<%= endTime %>" />
                                         <div id="submitQuestion" data-submitQuestion="<%= question %>"></div>
                                     </div>
                                     <div class="question-timer-container">
@@ -223,17 +225,6 @@
                                         }
                                         %>
                                         <!-- Quiz list display END-->
-                                        <div class="col-lg-12 m-b20">
-                                            <div class="pagination-bx rounded-sm gray clearfix">
-                                                <ul class="pagination">
-                                                    <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
-                                                    <li class="active"><a href="#">1</a></li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
-                                                    <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -241,7 +232,6 @@
                     </div>
                 </div>
             </div>
-                                        <div class="d-none data-endTime"><%= time %></div>
             <!-- Quiz END-->
             <div class="submit-container">
                 <button class="submit-btn" onclick="submitQuiz()">
