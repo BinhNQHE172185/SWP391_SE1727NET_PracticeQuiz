@@ -1,6 +1,50 @@
 <%@page import = "Model.Account" %>
 <%@page import = "java.util.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<style>
+    /* Style for the dropdown container */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Style for the button to toggle the dropdown */
+    .dropdown-button {
+        background-color: transparent;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    /* Style for the dropdown content */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    /* Style for individual dropdown items */
+    .dropdown-content a {
+        color: #333;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Change color on hover */
+    .dropdown-content a:hover {
+        background-color: #ddd;
+    }
+
+    /* Show the dropdown when hovering over the container */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
 <header class="header rs-nav header-transparent">
     <%
         Account acc = (Account) session.getAttribute("currUser");
@@ -28,7 +72,9 @@
                 <div class="topbar-right">
                     <ul>
                         <%if(!username.equals("")){%>
-                        <li><a href="#"><%=username%></a></li>
+                        <li>Welcome <%=username%></a>
+
+                        </li>
                         <li><a href="Logout">Logout</a></li>
                             <%}else if(acc!=null){%>
                         <li><a href="#"><%=acc.getUsername()%></a></li>
@@ -39,6 +85,7 @@
                             <%}%>
                     </ul>
                 </div>
+
             </div>
         </div>
     </div>
@@ -58,6 +105,16 @@
                 <!-- Author Nav ==== -->
                 <div class="secondary-menu">
                     <div class="secondary-inner">
+                        <%if(!username.equals("")){%>
+                        <div class="dropdown">
+                            <button class="dropdown-button"><%=username%></button>
+                            <div class="dropdown-content">
+                                <a href="#">My profile</a>
+                                <a href="RegistedCourse.jsp">My courses</a>
+
+                            </div>
+                        </div>
+                        <%}else{%><%}%>
                         <ul>
                             <li><a href="https://www.facebook.com/DaihocFPTHaNoi" class="btn-link"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="https://daihoc.fpt.edu.vn/" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
@@ -85,7 +142,7 @@
 
                         </li>
 
-                        <li class="add-mega-menu"><a href="courses.jsp">Our Courses</a>
+                        <li class="add-mega-menu"><a href="SubjectList">Our Courses</a>
 
                         </li>
                         <li><a href="about.jsp">About us </a>

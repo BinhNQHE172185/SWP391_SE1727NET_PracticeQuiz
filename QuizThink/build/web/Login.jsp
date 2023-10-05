@@ -64,7 +64,7 @@
             <div id="loading-icon-bx"></div>
             <div class="account-form">
                 <div class="account-head" style="background-image:url(Frontend/assets/images/background/bg2.jpg);">
-                    <a href="index.html"><img src="FrontEnd/assets/images/Logo2.png" alt=""></a>
+                    <a href="home.jsp"><img src="FrontEnd/assets/images/Logo2.png" alt=""></a>
                 </div>
                 <div class="account-form-inner">
                     <div class="account-container">
@@ -102,7 +102,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group form-forget">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing" name="remember">
                                             <label class="custom-control-label" for="customControlAutosizing">Remember me</label>
                                         </div>
                                         <a href="ForgotPassword.jsp" class="ml-auto">Forgot Password?</a>
