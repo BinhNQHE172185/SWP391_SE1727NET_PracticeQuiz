@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import Model.Subject;
 import Model.SubjectStatus;
+import jakarta.servlet.http.Cookie;
 
 /**
  *
@@ -35,10 +36,13 @@ public class RegistedListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        Cookie[] cookies = request.getCookies();
+        String accountID = cookies.toString();
+        int accID = Integer.parseInt(accountID);
         SubjectDAO dao = new SubjectDAO();
-        List<SubjectStatus> listSubject = dao.getRegistedSubject(1);
+        List<Subject> listSubject = dao.getRegistedSubject(2);
         request.setAttribute("listSubject", listSubject);
-        request.getRequestDispatcher("course.jsp").forward(request, response);
+        request.getRequestDispatcher("RegistedCourse.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
