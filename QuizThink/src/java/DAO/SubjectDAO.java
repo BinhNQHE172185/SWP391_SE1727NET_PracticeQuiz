@@ -21,11 +21,10 @@ public class SubjectDAO extends DBContext {
 
     private PreparedStatement ps;
     private ResultSet rs;
-<<<<<<< Updated upstream
+
     private List<Subject> list;
     private List<SubjectStatus> listss;
-=======
->>>>>>> Stashed changes
+
 
     public List<Subject> getAllSubjects() {
         List<Subject> listSubject = new ArrayList<>();
