@@ -22,7 +22,7 @@ public class SubjectDAO extends DBContext {
     private PreparedStatement ps;
     private ResultSet rs;
     private List<Subject> list;
-    private List<SubjectStatus> lists;
+    private List<SubjectStatus> listss;
 
     public List<Subject> getAllSubjects() {
         List<Subject> listSubject = new ArrayList<>();
