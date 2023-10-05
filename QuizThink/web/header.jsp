@@ -12,9 +12,14 @@
     .dropdown-button {
         background-color: transparent;
         color: #fff;
-        border: none;
+        border: 2px solid #fff; /* Đặt viền màu trắng với độ rộng 2px */
         padding: 10px;
         cursor: pointer;
+        transition: background-color 0.3s; /* Thêm hiệu ứng chuyển đổi cho background-color */
+    }
+
+    .dropdown-button:hover {
+        background-color: rgb(255, 191, 0); /* Màu nền khi di chuột vào */
     }
 
     /* Style for the dropdown content */
