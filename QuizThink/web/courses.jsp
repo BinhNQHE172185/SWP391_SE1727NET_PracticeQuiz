@@ -134,6 +134,9 @@
 			</div>
 			<div class="col-lg-9 col-md-8 col-sm-12">
 				<div class="row">
+                                    <c:if test="${listSubjects == null}">
+                                        <div> no subject</div>
+                                    </c:if>
                                     <<c:forEach items="${listSubjects}" var="o">
                                         <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
 						<div class="cours-bx">
@@ -142,7 +145,7 @@
 								<a href="#" class="btn">Read More</a>
 							</div>
 							<div class="info-bx text-center">
-								<h5><a href="#">${o.title()}</a></h5>
+								<h5><a href="#">${o.title}</a></h5>
 								<span>Programming</span>
 							</div>
 							
