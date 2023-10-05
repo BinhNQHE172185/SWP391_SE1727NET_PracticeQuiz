@@ -22,37 +22,40 @@ public class SubjectDAO extends DBContext {
     private PreparedStatement ps;
     private ResultSet rs;
     private List<Subject> list;
-    private List<SubjectStatus> listss;
-    
-    public List<Subject> getAllSubjects(){
-        try{
+    private List<SubjectStatus> lists;
+
+    public List<Subject> getAllSubjects() {
+        List<Subject> listSubject = new ArrayList<>();
+        try {
             String query = "SELECT * FROM Subject";
             ps = getConnection().prepareStatement(query);
             rs = ps.executeQuery();
-            while(rs.next()){
-                Subject subject= new Subject(rs.getInt("subjectId"),
-                        rs.getInt("expertId"),
-                        rs.getInt("subjectDimensionId"),
-                        rs.getString("title"),
-                        rs.getString("imageURL"),
-                        rs.getInt("questionCount"),
-                        rs.getInt("rate"),
-                        rs.getInt("rateCount"),
-                        rs.getInt("level"),
-                        rs.getFloat("requirement"),
-                        rs.getString("description"),
-                        rs.getDate("createdDate"),
-                        rs.getDate("modifyDate"),
-                        rs.getBoolean("status"),
-                        rs.getTime("duration"));
-                list.add(subject);
+            while (rs.next()) {
+                int subjectId = rs.getInt("Subject_id");
+                int expertId = rs.getInt("Expert_id");
+                int subjectDimensionId = rs.getInt("SubjectDimension_id");
+                String title = rs.getString("title");
+                String imageURL = rs.getString("imageURL");
+                int questionCount = rs.getInt("question_count");
+                int rate = rs.getInt("Rate");
+                int rateCount = rs.getInt("Rate_count");
+                int level = rs.getInt("level");
+                float requirement = rs.getFloat("requirement");
+                String description = rs.getString("description");
+                Date createdDate = rs.getDate("createdDate");
+                Date modifyDate = rs.getDate("modifyDate");
+                boolean status = rs.getBoolean("status");
+                Time duration = rs.getTime("duration");
+
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
             }
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
         }
-        return list;
+        return listSubject;
     }
-    
+
     public Subject getSubjectById(int subjectId) {
         String sql = "SELECT * FROM Subject WHERE subject_Id = ?";
         Subject subject = null;
@@ -87,16 +90,15 @@ public class SubjectDAO extends DBContext {
 
         return subject;
     }
-    
+
     public List<SubjectStatus> getRegistedSubject(int accountID) {
         try {
             String query = "Select * from SubjectStatus where account_id = ?";
             ps = getConnection().prepareStatement(query);
             ps.setInt(1, accountID);
             rs = ps.executeQuery();
-            while(rs.next()){
-                SubjectStatus subjectStatus= new SubjectStatus
-                        (rs.getInt("subjectStatusID"),
+            while (rs.next()) {
+                SubjectStatus subjectStatus = new SubjectStatus(rs.getInt("subjectStatusID"),
                         rs.getInt("subjectId"),
                         rs.getInt("accountId"),
                         rs.getBoolean("status"),
