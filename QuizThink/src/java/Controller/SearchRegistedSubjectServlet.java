@@ -34,7 +34,7 @@ public class SearchRegistedSubjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String searchContent = request.getParameter("qq");
+        String searchContent = request.getParameter("search");
         SubjectDAO dao = new SubjectDAO();
         List<Subject> listSubject = dao.getRegistedSubjectByName(2, searchContent);
         request.setAttribute("listSubjects", listSubject);

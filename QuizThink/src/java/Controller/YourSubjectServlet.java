@@ -19,8 +19,8 @@ import java.util.List;
  *
  * @author admin
  */
-@WebServlet(name = "RegistedSubjectServlet", urlPatterns = {"/RegistedSubjects"})
-public class RegistedSubjectServlet extends HttpServlet {
+@WebServlet(name = "YourSubjectServlet", urlPatterns = {"/YourSubject"})
+public class YourSubjectServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,6 +38,7 @@ public class RegistedSubjectServlet extends HttpServlet {
         List<Subject> listSubject = dao.getRegistedSubject(2);
         request.setAttribute("listSubjects", listSubject);
         request.getRequestDispatcher("RegistedSubject.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
