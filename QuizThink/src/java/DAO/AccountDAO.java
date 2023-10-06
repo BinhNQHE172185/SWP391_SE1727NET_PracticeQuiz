@@ -420,35 +420,35 @@ public class AccountDAO extends DBContext {
         }
     }
 
-    public void Expert getExpertByID(int id){
-        String query = "SELECT * FROM Expert WHERE Account_id = ?";
-        try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, accountID);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                return new Account(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getDate(6),
-                        rs.getString(7),
-                        rs.getString(8),
-                        rs.getString(9),
-                        rs.getDate(10),
-                        rs.getDate(11),
-                        rs.getString(12),
-                        rs.getBoolean(13)
-                );
-            }
-        } catch (Exception e) {
-            //e.printStackTrace();
-        }
-        return null;
-    }
+//    public void Expert getExpertByID(){
+//        String query = "SELECT * FROM Expert WHERE Account_id = ?";
+//        try {
+//            conn = new DBContext().getConnection();
+//            ps = conn.prepareStatement(query);
+//            ps.setInt(1, accountID);
+//            rs = ps.executeQuery();
+//            if (rs.next()) {
+//                return new Account(
+//                        rs.getInt(1),
+//                        rs.getString(2),
+//                        rs.getString(3),
+//                        rs.getString(4),
+//                        rs.getString(5),
+//                        rs.getDate(6),
+//                        rs.getString(7),
+//                        rs.getString(8),
+//                        rs.getString(9),
+//                        rs.getDate(10),
+//                        rs.getDate(11),
+//                        rs.getString(12),
+//                        rs.getBoolean(13)
+//                );
+//            }
+//        } catch (Exception e) {
+//            //e.printStackTrace();
+//        }
+//        return null;
+//    }
     
     public static void main(String[] args) {
         try {

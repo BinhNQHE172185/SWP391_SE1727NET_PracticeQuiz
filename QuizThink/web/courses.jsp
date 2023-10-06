@@ -145,7 +145,7 @@
 								<a href="#" class="btn">Read More</a>
 							</div>
 							<div class="info-bx text-center">
-								<h5><a href="#">${o.title}</a></h5>
+								<h5><a href="#">${o.title }</a></h5>
 								<span>Programming</span>
 							</div>
 							
