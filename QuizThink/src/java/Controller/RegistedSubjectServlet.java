@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author admin
  */
-@WebServlet(name = "RegistedSubjectServlet", urlPatterns = {"/RegistedSubjects"})
+@WebServlet(name = "RegistedSubjectServlet", urlPatterns = {"/RegistedSubject"})
 public class RegistedSubjectServlet extends HttpServlet {
 
     /**
@@ -36,7 +36,7 @@ public class RegistedSubjectServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         SubjectDAO dao = new SubjectDAO();
         List<Subject> listSubject = dao.getRegistedSubject(2);
-        request.setAttribute("listSubject", listSubject);
+        request.setAttribute("listSubjects", listSubject);
         request.getRequestDispatcher("RegistedSubject.jsp").forward(request, response);
     }
 

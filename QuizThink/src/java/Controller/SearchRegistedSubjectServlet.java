@@ -34,10 +34,10 @@ public class SearchRegistedSubjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String searchContent = request.getParameter("qqq");
+        String searchContent = request.getParameter("qq");
         SubjectDAO dao = new SubjectDAO();
         List<Subject> listSubject = dao.getRegistedSubjectByName(2, searchContent);
-        request.setAttribute("listSubject", listSubject);
+        request.setAttribute("listSubjects", listSubject);
         request.getRequestDispatcher("RegistedSubject.jsp").forward(request, response);
     }
 
@@ -68,6 +68,7 @@ public class SearchRegistedSubjectServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+
     }
 
     /**

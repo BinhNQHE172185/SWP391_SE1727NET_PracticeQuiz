@@ -225,8 +225,8 @@
                 <div class="ttr-search-bar">
                     <form class="ttr-search-form">
                         <div class="ttr-search-input-wrapper" action="SearchRegistedSubject" method="post">
-                            <input type="text" name="qqq" placeholder="search something..." class="ttr-search-input">
-                            <button type="submit" name="search" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
+                            <input type="text" name="search" placeholder="search your course..." class="ttr-search-input">
+                            <button type="submit" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
                         </div>
                         <span class="ttr-search-close ttr-search-toggle">
                             <i class="ti-close"></i>
@@ -359,7 +359,7 @@
                             <div class="wc-title">
                                 <h4>Your Courses</h4>
                             </div>
-                            <c:forEach items = "${listSubject}" var = "o">
+                            <c:forEach items = "${listSubjects}" var = "o">
                                 <div class="widget-inner">
                                     <div class="card-courses-list admin-courses">
                                         <div class="card-courses-media">
