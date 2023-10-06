@@ -66,6 +66,7 @@ public class AccountDAO extends DBContext {
         }
         return account;
     }
+
     public Account getUsername(String username) {
         Account account = null;
         int accountId;
@@ -108,21 +109,18 @@ public class AccountDAO extends DBContext {
     }
 
     public void RegisterAcc(String username, String password, String email) {
-        Account account = null;
         String sql = "INSERT INTO [dbo].[Account]\n"
                 + "           ([username]\n"
                 + "           ,[password]\n"
                 + "           ,[email]\n"
                 + "           ,[createdDate]\n"
-                + "           ,[role_id]\n"
                 + "           ,[status])\n"
                 + "     VALUES\n"
                 + "           (?\n"
                 + "           ,?\n"
                 + "           ,?\n"
                 + "           ,?\n"
-                + "           ,2\n"
-                + "           ,'true')";
+                + "           ,'True')";
         try {
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setString(1, username);
@@ -138,6 +136,47 @@ public class AccountDAO extends DBContext {
         }
     }
 
+    public Account checkEmail(String email) {
+        Account acc = null;
+        int accountId;
+        String username;
+        String password;
+        String gender;
+        String avatar;
+        String fullname;
+        Date dob;
+        Date createDate;
+        Date modifyDate;
+        String passwordToken;
+        String selfIntroduction;
+        String sql = "select * \n"
+                + "from Account\n"
+                + "where email='"+email+"'";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                accountId = rs.getInt("Account_id");
+                username = rs.getString("username");
+                password = rs.getString("password");
+                avatar = rs.getString("avatar");
+                gender = rs.getString("gender");
+                fullname = rs.getString("fullname");
+                dob = rs.getDate("DOB");
+                selfIntroduction = rs.getString("self-introduction");
+                createDate = rs.getDate("createdDate");
+                modifyDate = rs.getDate("modifyDate");
+                passwordToken = rs.getString("passwordToken");
+                boolean accountStatus = rs.getBoolean("status");
+                acc = new Account(accountId, username, password, email, fullname, dob, gender, selfIntroduction, avatar, createDate, modifyDate, passwordToken, accountStatus);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }return acc;
+    }
+
     public boolean checkPass(String password) {
         if (password.length() < 8) {
             return false;
@@ -146,7 +185,7 @@ public class AccountDAO extends DBContext {
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
-    
+
     public boolean checkUsername(String username) {
         // Check if the username is at least 4 characters long and at most 20 characters long
         if (username.length() < 4 || username.length() > 20) {
@@ -162,16 +201,15 @@ public class AccountDAO extends DBContext {
 
         return true;
     }
-    
-    public boolean UsernameExist(String username){
+
+    public boolean UsernameExist(String username) {
         Account ac;
         ac = getUsername(username);
-        if(ac==null){
+        if (ac == null) {
             return true;
         }
         return false;
     }
-
 
     // Create new Account which could be expert marketing sale, customer, membership
     public void createAnyAccount(String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
@@ -281,6 +319,7 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
+
     //Add AccountRole data for new account
     public void insertAccountRole(String role_id) {
         String query = "INSERT INTO [AccountRole] ([account_id], [role_id])\n"
@@ -312,7 +351,7 @@ public class AccountDAO extends DBContext {
                         "    [modifyDate] = ?,\n" +
                         "WHERE [account_id] = ?;";
         // Thiếu status và một vài thuộc tính khác
-        
+
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -366,7 +405,6 @@ public class AccountDAO extends DBContext {
 //        }
 //        return null;
 //    }
-
     public void updateProfile(String fullname, String email, String dob, String gender, String introduction, String accountID) {
         String query = "update Account set fullname = ?, email = ?, DOB = ?, gender = ?, [self-introduction] = ? where Account_id =?";
         try {
@@ -396,6 +434,36 @@ public class AccountDAO extends DBContext {
 
         }
     }
+
+//    public void Expert getExpertByID(){
+//        String query = "SELECT * FROM Expert WHERE Account_id = ?";
+//        try {
+//            conn = new DBContext().getConnection();
+//            ps = conn.prepareStatement(query);
+//            ps.setInt(1, accountID);
+//            rs = ps.executeQuery();
+//            if (rs.next()) {
+//                return new Account(
+//                        rs.getInt(1),
+//                        rs.getString(2),
+//                        rs.getString(3),
+//                        rs.getString(4),
+//                        rs.getString(5),
+//                        rs.getDate(6),
+//                        rs.getString(7),
+//                        rs.getString(8),
+//                        rs.getString(9),
+//                        rs.getDate(10),
+//                        rs.getDate(11),
+//                        rs.getString(12),
+//                        rs.getBoolean(13)
+//                );
+//            }
+//        } catch (Exception e) {
+//            //e.printStackTrace();
+//        }
+//        return null;
+//    }
     
     public static void main(String[] args) {
         try {

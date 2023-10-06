@@ -4,7 +4,6 @@
  */
 package Controller;
 
-import DAO.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,15 +11,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import Model.Account;
-import jakarta.servlet.http.Cookie;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
- * @author admin
+ * @author kimdi
  */
-@WebServlet(name = "ProfileServlet", urlPatterns = {"/Profile"})
-public class ProfileServlet extends HttpServlet {
+@WebServlet(name = "SubmitExamServlet", urlPatterns = {"/SubmitExamServlet"})
+public class SubmitExamServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,18 +33,32 @@ public class ProfileServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Cookie[] cookies = request.getCookies();
-        String accountID = cookies.toString();
-        int accID = Integer.parseInt(accountID);
-        AccountDAO dao = new AccountDAO();
-        Account account = dao.getAccountByID(accID);
-        String mess = (String) request.getAttribute("mess");
-        request.setAttribute("account", account);
-        request.setAttribute("mess", mess);
-        request.getRequestDispatcher("user-profile.jsp").forward(request, response);
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            // Retrieve the selectedChoices parameter from the request
+            String[] selectedChoicesArray = request.getParameterValues("selectedChoices");
+
+            // Convert the array to a list for easier manipulation
+            List<String> selectedChoices = Arrays.asList(selectedChoicesArray);
+            // Generate the HTML response
+            out.println("<html>");
+            out.println("<head><title>Selected Choices</title></head>");
+            out.println("<body>");
+            out.println("<h1>Selected Choices:</h1>");
+            out.println("<ul>");
+
+            // Display each selected choice in a list item
+            for (String choice : selectedChoices) {
+                out.println("<li>" + choice + "</li>");
+            }
+
+            out.println("</ul>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

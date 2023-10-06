@@ -5,6 +5,7 @@
 package Controller;
 
 import DAO.SubjectDAO;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,15 +14,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import Model.Subject;
-import Model.SubjectStatus;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "RegistedListServlet", urlPatterns = {"/RegistedList"})
-public class RegistedListServlet extends HttpServlet {
+@WebServlet(name = "RegistedSubjectServlet", urlPatterns = {"/RegistedSubject"})
+public class RegistedSubjectServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,9 +35,9 @@ public class RegistedListServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         SubjectDAO dao = new SubjectDAO();
-        List<SubjectStatus> listSubject = dao.getRegistedSubject(1);
+        List<Subject> listSubject = dao.getRegistedSubject(2);
         request.setAttribute("listSubject", listSubject);
-        request.getRequestDispatcher("course.jsp").forward(request, response);
+        request.getRequestDispatcher("RegistedSubject.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -53,14 +53,14 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="FrontEnd/assets/css/color/color-1.css">
-
+        <% String status = (String) request.getAttribute("status"); %>
     </head>
     <body id="bg">
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <div class="account-form">
                 <div class="account-head" style="background-image:url(FrontEnd/assets/images/background/bg2.jpg);">
-                    <a href="index.html"><img src="FrontEnd/assets/images/logo-white-2.png" alt=""></a>
+                    <a href="home.jsp"><img src="FrontEnd/assets/images/Logo2.png" alt=""></a>
                 </div>
                 <div class="account-form-inner">
                     <div class="account-container">
@@ -68,16 +68,23 @@
                             <h2 class="title-head">Forget <span>Password</span></h2>
                             <p>Login Your Account <a href="Login.jsp">Click here</a></p>
                         </div>	
-                        <form class="contact-bx">
+                        <form class="contact-bx" action="ForgotPassword" method="POST">
                             <div class="row placeani">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <div class="input-group">
                                             <label>Your Email Address</label>
-                                            <input name="dzName" type="email" required="" class="form-control">
+                                            <input name="email" type="email" required="" class="form-control">
                                         </div>
                                     </div>
                                 </div>
+                                <% if(status !=null){ %>
+                                <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
+                                    <%=
+                                    status
+                                    %>
+                                </div>
+                                <%}%>
                                 <div class="col-lg-12 m-b30">
                                     <button name="submit" type="submit" value="Submit" class="btn button-md">Submit</button>
                                 </div>
