@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author admin
  */
-@WebServlet(name = "RegistedSubjectServlet", urlPatterns = {"/RegistedSubject"})
+@WebServlet(name = "RegistedSubjectServlet", urlPatterns = {"/RegistedSubjects"})
 public class RegistedSubjectServlet extends HttpServlet {
 
     /**
