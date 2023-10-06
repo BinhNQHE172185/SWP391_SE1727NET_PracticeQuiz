@@ -106,7 +106,7 @@
                                                                                 <select name="role">
                                                                                     <option value="">None</option> 
                                                                                     <c:forEach items = "${listRole}" var="o" varStatus="status">
-                                                                                        <option>${o.roleName}</option>
+                                                                                        <option value="${o.roleID}">${o.roleName}</option>
                                                                                     </c:forEach>
                                                                                 </select>
                                                                             </div>

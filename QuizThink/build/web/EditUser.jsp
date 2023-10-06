@@ -83,6 +83,7 @@
 										<label class="col-sm-2 col-form-label">UserName</label>
 										<div class="col-sm-7">
                                                                                     <input class="form-control" type="text" name="username" value="${account.username}">
+                                                                                <!-- comment --><input class="form-control" type="hidden" name="accountID" value="${account.accountId}">
 										</div>
 									</div>
                                                                         <div class="form-group row">
@@ -105,7 +106,7 @@
                                                                                 <label class="col-sm-2 col-form-label" for="customerRole">Customer</label><br>-->
                                                                                 <select name="role">
                                                                                     <c:forEach items = "${listRole}" var="o" varStatus="status">
-                                                                                        <option>${o.roleName}</option>
+                                                                                        <option value=">${o.roleID}">${o.roleName}</option>
                                                                                     </c:forEach>
                                                                                 </select>
                                                                             </div>
@@ -141,31 +142,6 @@
                                                                                     <input class="form-control" type="date" name="DOB" value="${account.dob}">
 										</div>
 									</div>
-									<div class="form-group row">
-										<label class="col-sm-2 col-form-label">Phone Number</label>
-										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="text" name="phonenumber" placeholder="Phone Number">
-										</div>
-									</div>
-                                                                        
-									<div class="form-group row">
-										<label class="col-sm-2 col-form-label">Province</label>
-										<div class="col-sm-7">
-                                                                                    <select name="role">
-                                                                                        <c:forEach items = "${listRole}" var="o" varStatus="status">
-                                                                                            <option>${o.roleName}</option>
-                                                                                        </c:forEach>
-                                                                                    </select>
-										</div>
-                                                                                <label class="col-sm-2 col-form-label">District</label>
-										<div class="col-sm-7">
-                                                                                    <select name="role">
-                                                                                        <c:forEach items = "${listRole}" var="o" varStatus="status">
-                                                                                            <option>${o.roleName}</option>
-                                                                                        </c:forEach>
-                                                                                    </select>
-										</div>
-									</div
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Avatar</label>
 										<div class="col-sm-7">

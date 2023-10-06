@@ -126,7 +126,7 @@
 		                </a>
 		            </li>
 					<li>
-						<a href="UserLists.jsp" class="ttr-material-button">
+						<a href="userlists" class="ttr-material-button">
 							<span class="ttr-icon"><i class="ti-book"></i></span>
 		                	<span class="ttr-label">User List</span>
 		                </a>

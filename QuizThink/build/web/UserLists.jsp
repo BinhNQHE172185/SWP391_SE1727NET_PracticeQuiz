@@ -114,7 +114,6 @@
                             <th>Date of Birth</th>
                             <th>Create Date</th>
                             <th>Modify Date</th>
-                            <th>Role</th>
                             
                         </tr>
                     </thead>
@@ -131,7 +130,6 @@
                                 <td>${o.dob}</td>
                                 <td>${o.createdDate}</td>
                                 <td>${o.modifyDate}</td>
-                                <td>${o.roleId}</td>
                                 
                             </tr>
                         </c:forEach>

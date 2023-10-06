@@ -213,8 +213,8 @@ public class AccountDAO extends DBContext {
 
     // Create new Account which could be expert marketing sale, customer, membership
     public void createAnyAccount(String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
-        String query = "INSERT INTO [Account] ([username], [password], [email], [fullname], [DOB], [gender], [self-introduction], [avatar], [createdDate], [modifyDate], [passwordToken], [role_id], [status])\n"
-                + "VALUES (?, ?, ?, ?, ?, ?, NULL, ?, ?, NULL, NULL, ?, 1);";
+        String query = "INSERT INTO [Account] ([username], [password], [email], [fullname], [DOB], [gender], [self-introduction], [avatar], [createdDate], [modifyDate], [passwordToken], [status])\n"
+                + "VALUES (?, ?, ?, ?, ?, ?, NULL, ?, ?, NULL, NULL, 1);";
 
         try {
             conn = new DBContext().getConnection();
@@ -226,7 +226,6 @@ public class AccountDAO extends DBContext {
             ps.setString(5, DOB);
             ps.setString(6, gender);
             ps.setString(7, avatar);
-            ps.setInt(9, roleId);
 
             LocalDateTime currentTime = LocalDateTime.now();
             Date createdDate = Date.valueOf(currentTime.toLocalDate());
@@ -321,6 +320,24 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
+    //Add AccountRole data for new account
+    public void insertAccountRole(String role_id) {
+        String query = "INSERT INTO [AccountRole] ([account_id], [role_id])\n"
+                + "VALUES (?, ?);";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, role_id);
+            ps.executeUpdate(); // no result ==> no need result set
+        } catch (Exception e) {
+            // Handle exceptions here
+        } finally {
+            // Close database connections and resources in a real application
+            // For simplicity, it's omitted here.
+        }
+    }
+    
     // Edit User 
     public void editUser(int accountID, String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
         String query = "UPDATE [Account]\n" +
@@ -332,7 +349,6 @@ public class AccountDAO extends DBContext {
                         "    [gender] = ?,\n" +
                         "    [avatar] = ?,\n" +
                         "    [modifyDate] = ?,\n" +
-                        "    [role_id] = ?,\n" +
                         "WHERE [account_id] = ?;";
         // Thiếu status và một vài thuộc tính khác
 
@@ -346,8 +362,7 @@ public class AccountDAO extends DBContext {
             ps.setString(5, DOB);
             ps.setString(6, gender);
             ps.setString(7, avatar);
-            ps.setInt(9, roleId);
-            ps.setInt(10, accountID);
+            ps.setInt(9, accountID);
             LocalDateTime currentTime = LocalDateTime.now();
             Date modifyDate = Date.valueOf(currentTime.toLocalDate());
             ps.setDate(8, modifyDate);
@@ -454,12 +469,13 @@ public class AccountDAO extends DBContext {
         try {
             AccountDAO dao = new AccountDAO();
             List<Account> list = dao.getAllAccount(1);
-//            for (Account account : list) {
-//                System.out.println(account);
-//            }
-            Account a = dao.getAccountByID(12);
+            for (Account account : list) {
+                System.out.println(account);
+            }
+            Account a = dao.getAccountByID(2);
             System.out.println(a);
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
