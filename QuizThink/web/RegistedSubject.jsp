@@ -223,8 +223,8 @@
                 </div>
                 <!--header search panel start -->
                 <div class="ttr-search-bar">
-                    <form class="ttr-search-form">
-                        <div class="ttr-search-input-wrapper" action="SearchRegistedSubject" method="post">
+                    <form class="ttr-search-form" action="SearchRegistedSubject" method="post">
+                        <div class="ttr-search-input-wrapper">
                             <input type="text" name="search" placeholder="search your course..." class="ttr-search-input">
                             <button type="submit" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
                         </div>
