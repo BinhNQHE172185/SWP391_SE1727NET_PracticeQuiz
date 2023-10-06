@@ -141,44 +141,19 @@
                                         <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
 						<div class="cours-bx">
 							<div class="action-box">
-								<img src="FrontEnd/assets/images/courses/${o.imageURL}" alt="">
+								<img src="${o.imageURL}" alt="">
 								<a href="#" class="btn">Read More</a>
 							</div>
 							<div class="info-bx text-center">
-								<h5><a href="#">${o.title}</a></h5>
+								<h5><a href="#">${o.title }</a></h5>
 								<span>Programming</span>
 							</div>
 							
 						</div>
 					</div>
                                     </c:forEach>
-					<div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-						<div class="cours-bx">
-							<div class="action-box">
-								<img src="FrontEnd/assets/images/courses/pic3.jpg" alt="">
-								<a href="#" class="btn">Read More</a>
-							</div>
-							<div class="info-bx text-center">
-								<h5><a href="#">Programming Fundementals</a></h5>
-								<span>Programming</span>
-							</div>
-							
-						</div>
-					</div>
-					<div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-						<div class="cours-bx">
-							<div class="action-box">
-								<img src="FrontEnd/assets/images/courses/pic4.jpg" alt="">
-								<a href="#" class="btn">Read More</a>
-							</div>
-							<div class="info-bx text-center">
-								<h5><a href="#">Mathematics</a></h5>
-								<span>Mathematics</span>
-							</div>
-							
-						</div>
-					</div>
 					
+								
 					<div class="col-lg-12 m-b20">
 						<div class="pagination-bx rounded-sm gray clearfix">
 							<ul class="pagination">

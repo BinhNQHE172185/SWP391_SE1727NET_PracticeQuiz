@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import Model.Account;
+import jakarta.servlet.http.Cookie;
 
 /**
  *
@@ -33,8 +34,11 @@ public class ProfileServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        Cookie[] cookies = request.getCookies();
+        String accountID = cookies.toString();
+        int accID = Integer.parseInt(accountID);
         AccountDAO dao = new AccountDAO();
-        Account account = dao.getAccountByID(1);
+        Account account = dao.getAccountByID(accID);
         String mess = (String) request.getAttribute("mess");
         request.setAttribute("account", account);
         request.setAttribute("mess", mess);

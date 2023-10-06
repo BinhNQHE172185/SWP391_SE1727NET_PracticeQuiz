@@ -86,14 +86,14 @@ public class EditUser extends HttpServlet {
         String address = request.getParameter("address");
         String phonenumber = request.getParameter("phonenumber");
         
-        String role = request.getParameter("role");
-        int role_id = Integer.parseInt(role);
+        // pending
+        int role_id = 3;
         
         AccountDAO DAO = new AccountDAO();
         
         DAO.editUser(accountID, username, password, email, status, gender, avatar, fullname, DOB, address, phonenumber, role_id);
         //response.sendRedirect("/Front%20End/Admin/Dashboard.jsp");
-        request.getRequestDispatcher("userlists").forward(request, response);
+        response.sendRedirect("userlists");
     }
 
     /** 

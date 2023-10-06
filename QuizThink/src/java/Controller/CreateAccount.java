@@ -83,13 +83,14 @@ public class CreateAccount extends HttpServlet {
         
         String role = request.getParameter("role");
         int role_id = Integer.parseInt(role);
-        
+        //String accountId = request.getParameter("accountId");
         AccountDAO DAO = new AccountDAO();
         
         DAO.createAnyAccount(username, password, email, status, gender, avatar, fullname, DOB, address, phonenumber, role_id);
-        
+        DAO.insertAccountRole(role);
+        //DAO.insertAccountRole(accountId, role);
         //response.sendRedirect("/Front%20End/Admin/Dashboard.jsp");
-        request.getRequestDispatcher("Dashboard.jsp").forward(request, response);
+        response.sendRedirect("Dashboard.jsp");
     }
 
     /** 

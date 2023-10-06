@@ -21,8 +21,10 @@ public class SubjectDAO extends DBContext {
 
     private PreparedStatement ps;
     private ResultSet rs;
+
     private List<Subject> list;
-    private List<SubjectStatus> lists;
+    private List<SubjectStatus> listss;
+
 
     public List<Subject> getAllSubjects() {
         List<Subject> listSubject = new ArrayList<>();
@@ -91,25 +93,44 @@ public class SubjectDAO extends DBContext {
         return subject;
     }
 
-    public List<SubjectStatus> getRegistedSubject(int accountID) {
+    public List<Subject> getRegistedSubject(int accountID) {
+        List<Subject> listSubject = new ArrayList<>();
         try {
-            String query = "Select * from SubjectStatus where account_id = ?";
+            String query = "  select * from Subject, SubjectStatus where (Subject.Subject_id = SubjectStatus.Subject_id) and Account_id = ?";
             ps = getConnection().prepareStatement(query);
             ps.setInt(1, accountID);
             rs = ps.executeQuery();
             while (rs.next()) {
-                SubjectStatus subjectStatus = new SubjectStatus(rs.getInt("subjectStatusID"),
-                        rs.getInt("subjectId"),
-                        rs.getInt("accountId"),
-                        rs.getBoolean("status"),
-                        rs.getDate("createdDate"),
-                        rs.getDate("modifyDate"),
-                        rs.getDate("passDate"));
-                listss.add(subjectStatus);
+                int subjectId = rs.getInt("Subject_id");
+                int expertId = rs.getInt("Expert_id");
+                int subjectDimensionId = rs.getInt("SubjectDimension_id");
+                String title = rs.getString("title");
+                String imageURL = rs.getString("imageURL");
+                int questionCount = rs.getInt("question_count");
+                int rate = rs.getInt("Rate");
+                int rateCount = rs.getInt("Rate_count");
+                int level = rs.getInt("level");
+                float requirement = rs.getFloat("requirement");
+                String description = rs.getString("description");
+                Date createdDate = rs.getDate("createdDate");
+                Date modifyDate = rs.getDate("modifyDate");
+                boolean status = rs.getBoolean("status");
+                Time duration = rs.getTime("duration");
+
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
             }
         } catch (Exception e) {
-
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
         }
-        return null;
+        return listSubject;
+    }
+    
+    public static void main(String[] args) {
+        SubjectDAO dao= new SubjectDAO();
+        List<Subject> list = dao.getRegistedSubject(2);
+        for(Subject s : list){
+            System.out.println(s.getTitle());
+        }
     }
 }
