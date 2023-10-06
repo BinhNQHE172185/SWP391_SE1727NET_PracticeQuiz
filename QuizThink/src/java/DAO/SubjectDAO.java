@@ -127,7 +127,7 @@ public class SubjectDAO extends DBContext {
     }
     
     public static void main(String[] args) {
-        SubjectDAO dao= new SubjectDAO();
+        SubjectDAO dao = new SubjectDAO();
         List<Subject> list = dao.getRegistedSubject(2);
         for(Subject s : list){
             System.out.println(s.getTitle());
