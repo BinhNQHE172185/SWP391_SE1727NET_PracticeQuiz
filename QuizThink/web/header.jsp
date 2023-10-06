@@ -119,7 +119,16 @@
 
                             </div>
                         </div>
-                        <%}else{%><%}%>
+                        <%}else if(acc!=null){%>
+                        <div class="dropdown">
+                            <button class="dropdown-button"><%=acc.getUsername()%></button>
+                            <div class="dropdown-content">
+                                <a href="#">My profile</a>
+                                <a href="RegistedCourse.jsp">My courses</a>
+
+                            </div>
+                        </div>
+                        <%}%>
                         <ul>
                             <li><a href="https://www.facebook.com/DaihocFPTHaNoi" class="btn-link"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="https://daihoc.fpt.edu.vn/" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
