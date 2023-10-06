@@ -19,8 +19,8 @@ import java.util.List;
  *
  * @author admin
  */
-@WebServlet(name = "RegistedSubjectServlet", urlPatterns = {"/RegistedSubjects"})
-public class RegistedSubjectServlet extends HttpServlet {
+@WebServlet(name = "SearchRegistedSubjectServlet", urlPatterns = {"/SearchRegistedSubject"})
+public class SearchRegistedSubjectServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,8 +34,9 @@ public class RegistedSubjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String searchContent = request.getParameter("qqq");
         SubjectDAO dao = new SubjectDAO();
-        List<Subject> listSubject = dao.getRegistedSubject(2);
+        List<Subject> listSubject = dao.getRegistedSubjectByName(2, searchContent);
         request.setAttribute("listSubject", listSubject);
         request.getRequestDispatcher("RegistedSubject.jsp").forward(request, response);
     }

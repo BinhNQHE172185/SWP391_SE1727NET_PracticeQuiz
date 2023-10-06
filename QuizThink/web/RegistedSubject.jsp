@@ -224,8 +224,8 @@
                 <!--header search panel start -->
                 <div class="ttr-search-bar">
                     <form class="ttr-search-form">
-                        <div class="ttr-search-input-wrapper">
-                            <input type="text" name="qq" placeholder="search something..." class="ttr-search-input">
+                        <div class="ttr-search-input-wrapper" action="SearchRegistedSubject" method="post">
+                            <input type="text" name="qqq" placeholder="search something..." class="ttr-search-input">
                             <button type="submit" name="search" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
                         </div>
                         <span class="ttr-search-close ttr-search-toggle">
@@ -395,7 +395,7 @@
                                                         </ul>
                                                     </li>
                                                     <li class="card-courses-stats">
-                                                        <a href="#" class="btn button-sm green radius-xl">${o.questionCount}</a>
+                                                        <a href="#" class="btn button-sm green radius-xl">${o.questionCount} questions</a>
                                                     </li>
 <!--                                                <li class="card-courses-price">
                                                         <del>$190</del>
