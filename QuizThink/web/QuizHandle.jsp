@@ -196,7 +196,7 @@
                                                                 <li>
                                                                     <input type="checkbox" name="quiz<%= quiz.getQuizId() %>" id="<%= answer.getAnswerId() %>"
                                                                            onclick="toggleEffect(this,<%= quiz.getType() %>)">
-                                                                    <label class = "answer-containser" for="<%= answer.getAnswerId() %>">
+                                                                    <label class = "answer-container" for="<%= answer.getAnswerId() %>">
                                                                         <h5><%= answer.getContent() %></h5>
                                                                     </label>
                                                                 </li>
