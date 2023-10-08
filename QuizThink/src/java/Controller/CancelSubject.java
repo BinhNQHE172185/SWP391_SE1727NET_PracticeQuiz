@@ -5,7 +5,6 @@
 package Controller;
 
 import DAO.SubjectDAO;
-import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,14 +13,13 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "YourSubjectServlet", urlPatterns = {"/YourSubject"})
-public class YourSubjectServlet extends HttpServlet {
+@WebServlet(name = "CancelSubject", urlPatterns = {"/cancel"})
+public class CancelSubject extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,6 +34,7 @@ public class YourSubjectServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         int id = 0;
+        int idSubject = Integer.valueOf(request.getParameter("id"));
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -47,10 +46,8 @@ public class YourSubjectServlet extends HttpServlet {
             }
         }
         SubjectDAO dao = new SubjectDAO();
-        List<Subject> listSubject = dao.getRegistedSubject(id);
-        request.setAttribute("listSubjects", listSubject);
-        request.getRequestDispatcher("RegistedSubject.jsp").forward(request, response);
-        
+        dao.cancelRegistedSubject(id, idSubject);
+        response.sendRedirect("YourSubject");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

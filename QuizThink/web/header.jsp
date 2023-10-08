@@ -115,7 +115,7 @@
                             <button class="dropdown-button"><%=username%></button>
                             <div class="dropdown-content">
                                 <a href="#">My profile</a>
-                                <a href="RegistedCourse.jsp">My courses</a>
+                                <a href="YourSubject">My courses</a>
 
                             </div>
                         </div>

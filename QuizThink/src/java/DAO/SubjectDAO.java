@@ -25,7 +25,6 @@ public class SubjectDAO extends DBContext {
     private List<Subject> list;
     private List<SubjectStatus> listss;
 
-
     public List<Subject> getAllSubjects() {
         List<Subject> listSubject = new ArrayList<>();
         try {
@@ -125,7 +124,7 @@ public class SubjectDAO extends DBContext {
         }
         return listSubject;
     }
-    
+
     public List<Subject> getSubjectByName(String titl) {
         List<Subject> listSubject = new ArrayList<>();
         try {
@@ -158,7 +157,7 @@ public class SubjectDAO extends DBContext {
         }
         return listSubject;
     }
-    
+
     public List<Subject> getRegistedSubjectByName(int id, String titl) {
         List<Subject> listSubject = new ArrayList<>();
         try {
@@ -192,11 +191,25 @@ public class SubjectDAO extends DBContext {
         }
         return listSubject;
     }
-    
+
+    public void cancelRegistedSubject(int accID, int subjectID) {
+
+        String query = "  delete from SubjectStatus where Account_id = ? and Subject_id = ? ";
+        try {
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, accID);
+            ps.setInt(2, subjectID);
+            rs = ps.executeQuery();
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         SubjectDAO dao = new SubjectDAO();
-        List<Subject> list = dao.getRegistedSubjectByName(2,"a");
-        for(Subject s : list){
+        List<Subject> list = dao.getRegistedSubjectByName(2, "a");
+        for (Subject s : list) {
             System.out.println(s.getTitle());
         }
     }
