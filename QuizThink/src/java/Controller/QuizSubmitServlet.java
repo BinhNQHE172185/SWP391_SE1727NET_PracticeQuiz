@@ -7,6 +7,7 @@ package Controller;
 import DAO.AnswerDAO;
 import DAO.QuestionDAO;
 import DAO.QuizDAO;
+import Model.Account;
 import Model.Answer;
 import Model.Question;
 import Model.Quiz;
@@ -16,6 +17,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -37,13 +39,16 @@ public class QuizSubmitServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession();
+            Account currUser = (Account) session.getAttribute("currUser");
             int questionId = Integer.parseInt(request.getParameter("questionId"));
+            int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
+            int quizzId = Integer.parseInt(request.getParameter("quizzId"));
+            int selectedChoices = Integer.parseInt(request.getParameter("selectedChoices"));
+
             QuestionDAO questionDAO = new QuestionDAO();
             QuizDAO quizDAO = new QuizDAO();
             AnswerDAO answerDAO = new AnswerDAO();
-
-            Question question = questionDAO.getQuestionById(questionId);
             List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
             for (Quiz quizz : quizzes) {
                 List<Answer> answers = answerDAO.getAnswersByQuizId(quizz.getQuizId());

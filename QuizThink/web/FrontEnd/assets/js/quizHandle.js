@@ -52,25 +52,23 @@ function toggleEffect(checkbox, limitCheck) {
     counterElement.textContent = quizCounter;
 }
 function submitQuiz() {
-    var submitQuestion = document.getElementById("submitQuestion").getAttribute("data-submitQuestion");
+    var submitQuestionId = document.getElementById("submitQuestionId").getAttribute("data-submitQuestionId");//get question id present in the test
+    var submitQuizId = document.getElementById("submitQuizId").getAttribute("data-submitQuizId");//get all quizzes id present in the test
     // Create a data object to send in the POST request
     var data = {
-        selectedChoices: selectedChoices,
+        questionId: submitQuestionId,
         timeLeft: timeLeft,
-        question: submitQuestion
+        quizzId: submitQuizId,
+        selectedChoices: selectedChoices
     };
 
     // Send a POST request to the servlet endpoint
-    fetch('/servlet-url', {
+    fetch('/QuizSubmitServlet', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-    })
-    .then(response => {
-        // Handle the response from the servlet
-        // Add your code to handle the response here
     })
     .catch(error => {
         // Handle any errors that occur during the request
@@ -103,7 +101,8 @@ var x = setInterval(function () {
     // If the count down is finished, write some text
     if (timeLeft < 0) {
         clearInterval(x);
-        document.getElementById("question-timer").innerHTML = "EXPIRED";
+        document.getElementById("question-timer").innerHTML = "Time-up";
+        submitQuiz();
     }
 }, 1000);
 

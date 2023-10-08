@@ -111,14 +111,22 @@
                                         <h4 id="quiz-counter">0</h4>
                                         <%
                                         Question question = (Question) request.getAttribute("question");
+                                        List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
                                         Time time = (Time) request.getAttribute("endTime");
+                                        List<Integer> quizIds = new ArrayList<>();
+                                        if ( quizzes != null){
+                                            for (Quiz quiz : quizzes) {
+                                                quizIds.add(quiz.quizId());
+                                            }
+                                        }
                                         if (question != null) {
                                         %>
                                         <h4>/<%= question.getQuizCount() %></h4>
                                         <%
                                             }
                                         %>
-                                        <div id="submitQuestion" data-submitQuestion="<%= question %>"></div>
+                                        <div id="submitQuestionId" data-submitQuestionId="<%= question.getQuestionId %>"></div>
+                                        <div id="submitQuizId" data-submitQuizId="<%= quizIds %>"></div>
                                     </div>
                                     <div class="question-timer-container">
                                         <h4>Timer:</h4>
@@ -141,7 +149,6 @@
             <!-- Quiz nav -->
             <div id="quiz-nav">
                 <%
-                    List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
                     if (quizzes != null && !quizzes.isEmpty()) {
                         for (int i = 1; i <= quizzes.size(); i++) {
                             Quiz quiz = quizzes.get(i-1);
@@ -189,7 +196,6 @@
                                                             <ul class="option">
                                                                 <%
                                                                 List<Answer> answers = (List<Answer>) request.getAttribute("answers" + quiz.getQuizId());
-                                                                
                                                                 if (answers != null && !answers.isEmpty()) {
                                                                     for (Answer answer : answers) {
                                                                 %>
@@ -241,7 +247,7 @@
                     </div>
                 </div>
             </div>
-                                        <div class="d-none data-endTime"><%= time %></div>
+            <div class="d-none data-endTime"><%= time %></div>
             <!-- Quiz END-->
             <div class="submit-container">
                 <button class="submit-btn" onclick="submitQuiz()">
