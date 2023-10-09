@@ -223,10 +223,10 @@
                 </div>
                 <!--header search panel start -->
                 <div class="ttr-search-bar">
-                    <form class="ttr-search-form">
+                    <form class="ttr-search-form" action="SearchRegistedSubject" method="post">
                         <div class="ttr-search-input-wrapper">
-                            <input type="text" name="qq" placeholder="search something..." class="ttr-search-input">
-                            <button type="submit" name="search" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
+                            <input type="text" name="search" placeholder="search your course..." class="ttr-search-input">
+                            <button type="submit" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
                         </div>
                         <span class="ttr-search-close ttr-search-toggle">
                             <i class="ti-close"></i>
@@ -359,7 +359,7 @@
                             <div class="wc-title">
                                 <h4>Your Courses</h4>
                             </div>
-                            <c:forEach items = "${listSubject}" var = "o">
+                            <c:forEach items = "${listSubjects}" var = "o">
                                 <div class="widget-inner">
                                     <div class="card-courses-list admin-courses">
                                         <div class="card-courses-media">
@@ -395,7 +395,7 @@
                                                         </ul>
                                                     </li>
                                                     <li class="card-courses-stats">
-                                                        <a href="#" class="btn button-sm green radius-xl">${o.questionCount}</a>
+                                                        <a href="#" class="btn button-sm green radius-xl">${o.questionCount} questions</a>
                                                     </li>
 <!--                                                <li class="card-courses-price">
                                                         <del>$190</del>
