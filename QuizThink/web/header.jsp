@@ -114,8 +114,8 @@
                         <div class="dropdown">
                             <button class="dropdown-button"><%=username%></button>
                             <div class="dropdown-content">
-                                <a href="#">My profile</a>
-                                <a href="RegistedCourse.jsp">My courses</a>
+                                <a href="Profile">My profile</a>
+                                <a href="YourSubject">My courses</a>
 
                             </div>
                         </div>
@@ -123,8 +123,8 @@
                         <div class="dropdown">
                             <button class="dropdown-button"><%=acc.getUsername()%></button>
                             <div class="dropdown-content">
-                                <a href="#">My profile</a>
-                                <a href="RegistedCourse.jsp">My courses</a>
+                                <a href="">My profile</a>
+                                <a href="">My courses</a>
 
                             </div>
                         </div>

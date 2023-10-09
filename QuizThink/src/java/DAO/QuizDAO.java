@@ -44,4 +44,19 @@ public class QuizDAO extends DBContext {
         }
         return quizzes;
     }
+    
+    public int getNumOfQuiz() {
+        String query = "select COUNT(*) from Quiz";
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
