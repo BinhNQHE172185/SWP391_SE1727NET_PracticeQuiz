@@ -120,8 +120,12 @@
                                                                                         <p>${o.description}</p>
                                                                                 </div>
 										<div class="col-md-12">
-											<a href="#" class="btn green radius-xl outline">Approve</a>
-											<a href="#" class="btn red outline radius-xl ">Cancel</a>
+                                                                                    <form action="approve" method="POST">
+                                                                                        <input type="hidden" name="SubjectID" value="${o.subjectId}">
+                                                                                        <button type="submit" class="btn green radius-xl outline" >Approve</button>
+                                                                                    </form>
+											
+<!--											<a href="#" class="btn red outline radius-xl ">Cancel</a>-->
 										</div>
 									</div>
 									

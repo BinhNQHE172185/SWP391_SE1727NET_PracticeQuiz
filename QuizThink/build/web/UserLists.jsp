@@ -78,18 +78,14 @@
                     <td><button type="button" class="btn btn-block btn-success">Search</button></td>
                     <td>
                         <form>
-                            <label for="category">Choose a Category:</label>
+                            <label for="category">Choose a Role</label>
                             <select id="category" name="category">
-                                <option value="electronics">Electronics</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="electronics">Electronics</option>
+                                
                             </select>
                        </form>
                         <button type="button" class="btn btn-block btn-success">Sort</button>
                     </td>
-                    <td><button type="button" class="btn btn-block btn-success">Add</button></td>
+                    <td><a href="CreateUser.jsp" class="btn btn-block btn-success">Add</a></td>
                 </tr>
             </table>
                 

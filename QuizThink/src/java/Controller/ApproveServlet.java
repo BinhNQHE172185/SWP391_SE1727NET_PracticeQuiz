@@ -5,10 +5,7 @@
 
 package Controller;
 
-import DAO.AccountDAO;
-import DAO.RoleDAO;
-import Model.Account;
-import Model.Role;
+import DAO.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,14 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author Dell
  */
-@WebServlet(name="UserLists", urlPatterns={"/userlists"})
-public class UserLists extends HttpServlet {
+@WebServlet(name="ApproveServlet", urlPatterns={"/approve"})
+public class ApproveServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,26 +31,18 @@ public class UserLists extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        AccountDAO dao = new AccountDAO();
-        RoleDAO RDAO = new RoleDAO();
-        int numOfAccount = dao.getNumOfAccount();
-        int lastPage = numOfAccount/15;
-        if(numOfAccount %15 != 0){
-            lastPage ++;
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ApproveServlet</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ApproveServlet at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        String index = request.getParameter("page");
-        if(index == null){
-            index = "1";
-        }
-        int page = Integer.parseInt(index);
-        List<Account> listAccount = dao.getAllAccount(page);
-        List<Role> listRole = RDAO.getAllRole();
-        
-        request.setAttribute("listRole", listRole);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("lastPage", lastPage); 
-        request.setAttribute("listAccount", listAccount);
-        request.getRequestDispatcher("UserLists.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,7 +69,10 @@ public class UserLists extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        SubjectDAO dao = new SubjectDAO();
+        String subjectId = request.getParameter("SubjectID");
+        dao.ApproveSubject(subjectId);
+        response.sendRedirect("approvesubject");
     }
 
     /** 
