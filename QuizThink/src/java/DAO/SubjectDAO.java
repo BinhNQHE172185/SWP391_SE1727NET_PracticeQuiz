@@ -205,6 +205,21 @@ public class SubjectDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    
+    public int getNumOfSubject() {
+        String query = "select COUNT(*) from Subject";
+        try {
+            ps = ps = getConnection().prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public static void main(String[] args) {
         SubjectDAO dao = new SubjectDAO();

@@ -34,11 +34,19 @@ public class ProfileServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        int id = 0;
         Cookie[] cookies = request.getCookies();
-        String accountID = cookies.toString();
-        int accID = Integer.parseInt(accountID);
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("ID".equals(cookie.getName())) {
+                    // Found the "accID" cookie
+                    String accID = cookie.getValue();
+                    id = Integer.parseInt(accID);
+                }
+            }
+        }
         AccountDAO dao = new AccountDAO();
-        Account account = dao.getAccountByID(accID);
+        Account account = dao.getAccountByID(id);
         String mess = (String) request.getAttribute("mess");
         request.setAttribute("account", account);
         request.setAttribute("mess", mess);

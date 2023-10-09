@@ -41,11 +41,6 @@ public class LoginServlet extends HttpServlet {
             Cookie usernameCookie = new Cookie("username", username);
             usernameCookie.setMaxAge(60 * 60);
             response.addCookie(usernameCookie);
-            int Id = x.getAccountId();
-            String accID = Integer.toString(Id);
-            Cookie userIDCookie = new Cookie("accID", accID); 
-            userIDCookie.setMaxAge(60 * 60);
-            response.addCookie(userIDCookie);
             Cookie IdCookie = new Cookie("ID", String.valueOf(x.getAccountId()));
             IdCookie.setMaxAge(60 * 60);
             response.addCookie(IdCookie);

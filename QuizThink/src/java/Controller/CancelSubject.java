@@ -38,7 +38,7 @@ public class CancelSubject extends HttpServlet {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if ("accID".equals(cookie.getName())) {
+                if ("ID".equals(cookie.getName())) {
                     // Found the "accID" cookie
                     String accID = cookie.getValue();
                     id = Integer.parseInt(accID);

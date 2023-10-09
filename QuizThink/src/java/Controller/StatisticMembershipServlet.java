@@ -4,24 +4,24 @@
  */
 package Controller;
 
+import DAO.AccountDAO;
+import DAO.ExpertDAO;
+import DAO.QuizDAO;
 import DAO.SubjectDAO;
-import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "YourSubjectServlet", urlPatterns = {"/YourSubject"})
-public class YourSubjectServlet extends HttpServlet {
+@WebServlet(name = "StatisticMembershipServlet", urlPatterns = {"/Membership"})
+public class StatisticMembershipServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,21 +35,19 @@ public class YourSubjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int id = 0;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("ID".equals(cookie.getName())) {
-                    // Found the "accID" cookie
-                    String accID = cookie.getValue();
-                    id = Integer.parseInt(accID);
-                }
-            }
-        }
-        SubjectDAO dao = new SubjectDAO();
-        List<Subject> listSubject = dao.getRegistedSubject(id);
-        request.setAttribute("listSubjects", listSubject);
-        request.getRequestDispatcher("RegistedSubject.jsp").forward(request, response);
+        AccountDAO accDao = new AccountDAO();
+        SubjectDAO subDao = new SubjectDAO();
+        ExpertDAO exDao = new ExpertDAO();
+        QuizDAO quizDao = new QuizDAO();
+        int accNumber = accDao.getNumOfAccount();
+        int subNumber = subDao.getNumOfSubject();
+        int expertNumber = exDao.getNumOfExpert();
+        int quizNumber = quizDao.getNumOfQuiz();
+        request.setAttribute("accNumber", accNumber);
+        request.setAttribute("subNumber", subNumber);
+        request.setAttribute("expertNumber", expertNumber);
+        request.setAttribute("quizNumber", quizNumber);
+        request.getRequestDispatcher("MemberShip.jsp").forward(request, response);
         
     }
 
