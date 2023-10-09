@@ -132,7 +132,7 @@
 		                </a>
 		            </li>
                             <li>
-						<a href="CreateUser.jsp" class="ttr-material-button">
+						<a href="createaccount" class="ttr-material-button">
 							<span class="ttr-icon"><i class="ti-book"></i></span>
 		                	<span class="ttr-label">Create User</span>
 		                </a>
@@ -141,6 +141,12 @@
 						<a href="EditUser.jsp" class="ttr-material-button">
 							<span class="ttr-icon"><i class="ti-book"></i></span>
 		                	<span class="ttr-label">Edit User</span>
+		                </a>
+		            </li>
+                            <li>
+						<a href="approvesubject" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-book"></i></span>
+		                	<span class="ttr-label">Subject Approve</span>
 		                </a>
 		            </li>
 					

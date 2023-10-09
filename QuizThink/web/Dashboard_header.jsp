@@ -143,6 +143,12 @@
 		                	<span class="ttr-label">Edit User</span>
 		                </a>
 		            </li>
+                            <li>
+						<a href="approvesubject" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-book"></i></span>
+		                	<span class="ttr-label">Subject Approve</span>
+		                </a>
+		            </li>
 					
 		            <li class="ttr-seperate"></li>
 				</ul>
