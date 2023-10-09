@@ -74,16 +74,18 @@
         <div class="container-fluid">
             <table>
                 <tr>
-                    <td><input type="text" class="form-control" placeholder="Search user by name"></td>
-                    <td><button type="button" class="btn btn-block btn-success">Search</button></td>
                     <td>
-                        <form>
+                        <label for="category">Search</label>
+                        <input type="text" class="form-control" placeholder="Search user by name">
+                        <button type="button" class="btn btn-block btn-success">Search</button>
+                    </td>
+                    <td>
                             <label for="category">Choose a Role</label>
-                            <select id="category" name="category">
-                                
+                            <select id="category" name="role" onchange="">
+                                <c:forEach items="${listRole}" var="o">
+                                    <option>${o.roleName}</option>
+                                </c:forEach>
                             </select>
-                       </form>
-                        <button type="button" class="btn btn-block btn-success">Sort</button>
                     </td>
                     <td><a href="CreateUser.jsp" class="btn btn-block btn-success">Add</a></td>
                 </tr>
@@ -126,7 +128,6 @@
                                 <td>${o.dob}</td>
                                 <td>${o.createdDate}</td>
                                 <td>${o.modifyDate}</td>
-                                
                             </tr>
                         </c:forEach>
 
@@ -168,7 +169,33 @@
     <script src="admin/assets/js/admin.js"></script>
     <script src='admin/assets/vendors/calendar/moment.min.js'></script>
     <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
+    <script>
+        function callServlet(selectElement) {
+            var selectedOption = selectElement.options[selectElement.selectedIndex].text;
 
+            // Tạo đối tượng XMLHttpRequest
+            var xhr = new XMLHttpRequest();
+
+            // Xác định phương thức và URL của servlet bạn muốn gọi
+            var method = "GET"; // hoặc "POST" tùy theo cấu hình của bạn
+            var url = "/your-servlet-url"; // Thay thế bằng URL của servlet thực tế
+
+            // Mở kết nối XMLHttpRequest
+            xhr.open(method, url, true);
+
+            // Định nghĩa hàm xử lý khi kết quả trả về từ servlet
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Xử lý dữ liệu từ servlet ở đây (ví dụ: cập nhật giao diện người dùng)
+                    var responseText = xhr.responseText;
+                    // Do something with the responseText
+                }
+            };
+
+            // Gửi yêu cầu đến servlet
+            xhr.send();
+        }
+    </script>
     <!-- <script src='assets/vendors/switcher/switcher.js'></script> -->
     <script>
       $(document).ready(function() {

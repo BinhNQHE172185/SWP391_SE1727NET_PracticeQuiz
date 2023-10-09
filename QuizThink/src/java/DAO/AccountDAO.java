@@ -214,7 +214,21 @@ public class AccountDAO extends DBContext {
     // Create new Account which could be expert marketing sale, customer, membership
     public void createAnyAccount(String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
         String query = "INSERT INTO [Account] ([username], [password], [email], [fullname], [DOB], [gender], [self-introduction], [avatar], [createdDate], [modifyDate], [passwordToken], [status])\n"
-                + "VALUES (?, ?, ?, ?, ?, ?, NULL, ?, ?, NULL, NULL, 1);";
+                + "VALUES (?, ?, ?, ?, ?, ?, NULL, ?, ?, NULL, NULL, 1);"
+                + "DECLARE @NewAccountId INT;\n" +
+                    "SET @NewAccountId = SCOPE_IDENTITY();\n" +
+                    "DECLARE @RoleId INT;\n" +
+                    "SET @RoleId = ?;\n" +
+                    "\n" +
+                    "INSERT INTO [AccountRole] (\n" +
+                    "    [Account_id],\n" +
+                    "    [role_id]\n" +
+                    ") VALUES (\n" +
+                    "    @NewAccountId, -- Sử dụng Account_id của tài khoản mới\n" +
+                    "    @RoleId -- Sử dụng role_id của vai trò bạn muốn gán\n" +
+                    ");\n" +
+                    "\n" +
+                    "select * from AccountRole";
 
         try {
             conn = new DBContext().getConnection();
@@ -230,6 +244,7 @@ public class AccountDAO extends DBContext {
             LocalDateTime currentTime = LocalDateTime.now();
             Date createdDate = Date.valueOf(currentTime.toLocalDate());
             ps.setDate(8, createdDate);
+            ps.setInt(9, roleId);
             ps.executeUpdate(); // no result ==> no need result set
         } catch (Exception e) {
             // Handle exceptions here
@@ -348,7 +363,7 @@ public class AccountDAO extends DBContext {
                         "    [DOB] = ?,\n" +
                         "    [gender] = ?,\n" +
                         "    [avatar] = ?,\n" +
-                        "    [modifyDate] = ?,\n" +
+                        "    [modifyDate] = ?\n" +
                         "WHERE [account_id] = ?;";
         // Thiếu status và một vài thuộc tính khác
 
@@ -362,16 +377,14 @@ public class AccountDAO extends DBContext {
             ps.setString(5, DOB);
             ps.setString(6, gender);
             ps.setString(7, avatar);
-            ps.setInt(9, accountID);
             LocalDateTime currentTime = LocalDateTime.now();
             Date modifyDate = Date.valueOf(currentTime.toLocalDate());
             ps.setDate(8, modifyDate);
+            ps.setInt(9, accountID);
             ps.executeUpdate(); // no result ==> no need result set
-        } catch (Exception e) {
-            // Handle exceptions here
-        } finally {
-            // Close database connections and resources in a real application
-            // For simplicity, it's omitted here.
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 

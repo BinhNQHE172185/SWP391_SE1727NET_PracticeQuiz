@@ -145,25 +145,6 @@
 										</div>
 									</div>
 									<div class="form-group row">
-                                                                            
-										<label class="col-sm-1 col-form-label">Province</label>
-                                                                                <div class="col-sm-2">
-                                                                                    <select name="role" id="selectProvince">
-                                                                                        <option value="">None</option>
-                                                                                        <c:forEach items = "${listRole}" var="o" varStatus="status">
-                                                                                            <option>${o.roleName}</option>
-                                                                                        </c:forEach>
-                                                                                    </select>
-                                                                                </div>
-                                                                                <div class="col-sm-1"></div>
-                                                                                <label class="col-sm-1 col-form-label">District</label>
-                                                                                <div class="col-sm-2">
-                                                                                    <select name="role" id="selectDistrict">
-                                                                                        <option value="">None</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                        </div>
-									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Avatar</label>
 										<div class="col-sm-7">
                                                                                     <input class="form-control" type="text" name="avatar" placeholder="Image URL">
