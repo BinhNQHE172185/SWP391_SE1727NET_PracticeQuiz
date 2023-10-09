@@ -193,6 +193,38 @@ public class SubjectDAO extends DBContext {
         return listSubject;
     }
     
+    public List<Subject> getNotApproveSubjects() {
+        List<Subject> list = new ArrayList<>();
+        try {
+            String query = "select * from Subject where status = 0";
+            ps = getConnection().prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Subject(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8),
+                        rs.getInt(9),
+                        rs.getFloat(10),
+                        rs.getString(11),
+                        rs.getDate(12),
+                        rs.getDate(13),
+                        rs.getBoolean(14),
+                        rs.getTime(15)    
+                ));
+
+            }
+            }catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+            }
+        return list;
+        }
     public static void main(String[] args) {
         SubjectDAO dao = new SubjectDAO();
         List<Subject> list = dao.getRegistedSubjectByName(2,"a");
