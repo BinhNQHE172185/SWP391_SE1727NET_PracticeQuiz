@@ -16,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,8 +48,16 @@ public class UserLists extends HttpServlet {
             index = "1";
         }
         int page = Integer.parseInt(index);
-        List<Account> listAccount = dao.getAllAccount(page);
+        List<Account> listAccount = new ArrayList<>();
         List<Role> listRole = RDAO.getAllRole();
+        
+        
+        String roleId = request.getParameter("roleId");
+        if(roleId != null){
+            listAccount = dao.getAllAccountByRole(page,roleId);
+        }else{
+            listAccount = dao.getAllAccount(page);
+        }
         
         request.setAttribute("listRole", listRole);
         request.setAttribute("currentPage", page);

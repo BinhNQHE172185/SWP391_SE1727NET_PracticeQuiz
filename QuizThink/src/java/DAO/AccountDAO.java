@@ -268,6 +268,23 @@ public class AccountDAO extends DBContext {
         }
         return 0;
     }
+    
+    // Get number of account
+    public int getNumOfAccountByRole(String roleID) {
+        String query = "select COUNT(*) from Account where Account_id in (select Account_id from AccountRole where role_id = ?)";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1,roleID);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
 
     //Get all account
     public List<Account> getAllAccount(int page) {
@@ -279,6 +296,41 @@ public class AccountDAO extends DBContext {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, (page - 1) * 15); // page 1 starts at index 0
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Account(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getDate(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getDate(10),
+                        rs.getDate(11),
+                        rs.getString(12),
+                        rs.getBoolean(13)
+                ));
+
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return list;
+    }
+    //Get all account by role
+    public List<Account> getAllAccountByRole(int page, String roleId) {
+        List<Account> list = new ArrayList<>();
+        String query = "select * from Account where Account_id in (select Account_id from AccountRole where role_id = ?)\n" +
+                        "ORDER BY Account_id\n" +
+                        "OFFSET ? ROWS FETCH NEXT 15 ROWS ONLY";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(2, (page - 1) * 15); // page 1 starts at index 0
+            ps.setString(1,roleId);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Account(
@@ -392,6 +444,7 @@ public class AccountDAO extends DBContext {
             ex.printStackTrace();
         }
     }
+    
 
 //    // Get  Account by ID
 //    public Account getAccountByID(String Account_ID) {
