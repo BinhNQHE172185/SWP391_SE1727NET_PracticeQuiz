@@ -17,6 +17,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.List;
 
@@ -52,12 +55,12 @@ public class QuizHandleServlet extends HttpServlet {
                 request.setAttribute("answers" + quizz.getQuizId(), answers);
 
             }
-            Calendar calendar = Calendar.getInstance();
-            Time duration = question.getDuration();
-            calendar.add(Calendar.HOUR_OF_DAY, duration.getHours());
-            calendar.add(Calendar.MINUTE, duration.getMinutes());
-            calendar.add(Calendar.SECOND, duration.getSeconds());
-            Time endTime = new Time(calendar.getTimeInMillis());
+            LocalDateTime currentTime = LocalDateTime.now();
+            LocalTime durationTime = question.getDuration().toLocalTime();
+            Duration duration = Duration.ofHours(durationTime.getHour())
+                    .plusMinutes(durationTime.getMinute())
+                    .plusSeconds(durationTime.getSecond());
+            LocalDateTime endTime = currentTime.plus(duration);
             request.setAttribute("question", question);
             request.setAttribute("quizzes", quizzes);
             request.setAttribute("endTime", endTime);

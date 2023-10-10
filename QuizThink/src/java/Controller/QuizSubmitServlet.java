@@ -18,7 +18,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -43,21 +46,31 @@ public class QuizSubmitServlet extends HttpServlet {
             Account currUser = (Account) session.getAttribute("currUser");
             int questionId = Integer.parseInt(request.getParameter("questionId"));
             int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
-            int quizzId = Integer.parseInt(request.getParameter("quizzId"));
-            int selectedChoices = Integer.parseInt(request.getParameter("selectedChoices"));
-
+            String[] selectedChoices = request.getParameterValues("selectedChoices");
+            Set<Integer> selectedChoicesSet = new HashSet<>();
+            for (String selectedChoice : selectedChoices) {
+                selectedChoicesSet.add(Integer.parseInt(selectedChoice));
+            }
             QuestionDAO questionDAO = new QuestionDAO();
             QuizDAO quizDAO = new QuizDAO();
             AnswerDAO answerDAO = new AnswerDAO();
+            Question question = questionDAO.getQuestionById(questionId);
             List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
+            float totalQuizCount = question.getQuizCount();
+            int quizCount = 0;
             for (Quiz quizz : quizzes) {
-                List<Answer> answers = answerDAO.getAnswersByQuizId(quizz.getQuizId());
-                request.setAttribute("answers" + quizz.getQuizId(), answers);
-
+                int correctChoiceCount = 0;
+                List<Answer> answers = answerDAO.getCorrectAnswersByQuizId(quizz.getQuizId());
+                for (Answer answer : answers) {
+                    if (selectedChoicesSet.contains(answer.getAnswerId())) {
+                        correctChoiceCount++;
+                    }
+                }
+                quizCount += (correctChoiceCount/answers.size());
             }
-            request.setAttribute("question", question);
-            request.setAttribute("quizzes", quizzes);
-            request.getRequestDispatcher("QuizHandle.jsp").forward(request, response);
+            float mark = (quizCount/totalQuizCount)*10;
+            request.setAttribute("mark", mark);
+            request.getRequestDispatcher("QuizHandleResult.jsp").forward(request, response);
         }
     }
 
