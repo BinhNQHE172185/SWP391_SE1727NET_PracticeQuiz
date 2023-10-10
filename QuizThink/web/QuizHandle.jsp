@@ -116,7 +116,7 @@
                                         List<Integer> quizIds = new ArrayList<>();
                                         if ( quizzes != null){
                                             for (Quiz quiz : quizzes) {
-                                                quizIds.add(quiz.quizId());
+                                                quizIds.add(quiz.getQuizId());
                                             }
                                         }
                                         if (question != null) {
@@ -125,8 +125,8 @@
                                         <%
                                             }
                                         %>
-                                        <div id="submitQuestionId" data-submitQuestionId="<%= question.getQuestionId %>"></div>
-                                        <div id="submitQuizId" data-submitQuizId="<%= quizIds %>"></div>
+                                        <div id="submitQuestionId" data-submitQuestionId="<%= question.getQuestionId() %>"></div>
+                                        <div id="endTimeElement" data-endTime="<%= time %>"></div>
                                     </div>
                                     <div class="question-timer-container">
                                         <h4>Timer:</h4>
@@ -247,7 +247,6 @@
                     </div>
                 </div>
             </div>
-            <div class="d-none data-endTime"><%= time %></div>
             <!-- Quiz END-->
             <div class="submit-container">
                 <button class="submit-btn" onclick="submitQuiz()">
