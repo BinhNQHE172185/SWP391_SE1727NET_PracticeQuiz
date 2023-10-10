@@ -53,12 +53,10 @@ function toggleEffect(checkbox, limitCheck) {
 }
 function submitQuiz() {
     var submitQuestionId = document.getElementById("submitQuestionId").getAttribute("data-submitQuestionId");//get question id present in the test
-    var submitQuizId = document.getElementById("submitQuizId").getAttribute("data-submitQuizId");//get all quizzes id present in the test
     // Create a data object to send in the POST request
     var data = {
         questionId: submitQuestionId,
         timeLeft: timeLeft,
-        quizzId: submitQuizId,
         selectedChoices: selectedChoices
     };
 
@@ -77,7 +75,7 @@ function submitQuiz() {
 }
 // Set the date we're counting down to
 var endTimeElement = document.getElementById("endTimeElement");
-var endTime = new Time(endTimeElement.getAttribute("data-endTime")).getTime();
+var endTime = new Date(endTimeElement.getAttribute("endTime")).getTime();
 
 // Update the count down every 1 second
 var x = setInterval(function () {
