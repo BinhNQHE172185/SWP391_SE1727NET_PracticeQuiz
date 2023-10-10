@@ -364,7 +364,10 @@ public class AccountDAO extends DBContext {
                         "    [gender] = ?,\n" +
                         "    [avatar] = ?,\n" +
                         "    [modifyDate] = ?\n" +
-                        "WHERE [account_id] = ?;";
+                        "WHERE [account_id] = ?;"
+                        + "Update [AccountRole]\n" +
+                        "Set role_id = ?\n" +
+                        "Where Account_id = ?";
         // Thiếu status và một vài thuộc tính khác
 
         try {
@@ -381,6 +384,8 @@ public class AccountDAO extends DBContext {
             Date modifyDate = Date.valueOf(currentTime.toLocalDate());
             ps.setDate(8, modifyDate);
             ps.setInt(9, accountID);
+            ps.setInt(10, roleId);
+            ps.setInt(11, accountID);
             ps.executeUpdate(); // no result ==> no need result set
         } catch (Exception ex) {
             System.err.println("An error occurred while executing the query: " + ex.getMessage());
