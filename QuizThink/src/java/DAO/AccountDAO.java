@@ -214,7 +214,21 @@ public class AccountDAO extends DBContext {
     // Create new Account which could be expert marketing sale, customer, membership
     public void createAnyAccount(String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
         String query = "INSERT INTO [Account] ([username], [password], [email], [fullname], [DOB], [gender], [self-introduction], [avatar], [createdDate], [modifyDate], [passwordToken], [status])\n"
-                + "VALUES (?, ?, ?, ?, ?, ?, NULL, ?, ?, NULL, NULL, 1);";
+                + "VALUES (?, ?, ?, ?, ?, ?, NULL, ?, ?, NULL, NULL, 1);"
+                + "DECLARE @NewAccountId INT;\n" +
+                    "SET @NewAccountId = SCOPE_IDENTITY();\n" +
+                    "DECLARE @RoleId INT;\n" +
+                    "SET @RoleId = ?;\n" +
+                    "\n" +
+                    "INSERT INTO [AccountRole] (\n" +
+                    "    [Account_id],\n" +
+                    "    [role_id]\n" +
+                    ") VALUES (\n" +
+                    "    @NewAccountId, -- Sử dụng Account_id của tài khoản mới\n" +
+                    "    @RoleId -- Sử dụng role_id của vai trò bạn muốn gán\n" +
+                    ");\n" +
+                    "\n" +
+                    "select * from AccountRole";
 
         try {
             conn = new DBContext().getConnection();
@@ -230,6 +244,7 @@ public class AccountDAO extends DBContext {
             LocalDateTime currentTime = LocalDateTime.now();
             Date createdDate = Date.valueOf(currentTime.toLocalDate());
             ps.setDate(8, createdDate);
+            ps.setInt(9, roleId);
             ps.executeUpdate(); // no result ==> no need result set
         } catch (Exception e) {
             // Handle exceptions here
@@ -253,6 +268,23 @@ public class AccountDAO extends DBContext {
         }
         return 0;
     }
+    
+    // Get number of account
+    public int getNumOfAccountByRole(String roleID) {
+        String query = "select COUNT(*) from Account where Account_id in (select Account_id from AccountRole where role_id = ?)";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1,roleID);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
 
     //Get all account
     public List<Account> getAllAccount(int page) {
@@ -264,6 +296,41 @@ public class AccountDAO extends DBContext {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, (page - 1) * 15); // page 1 starts at index 0
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Account(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getDate(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getDate(10),
+                        rs.getDate(11),
+                        rs.getString(12),
+                        rs.getBoolean(13)
+                ));
+
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return list;
+    }
+    //Get all account by role
+    public List<Account> getAllAccountByRole(int page, String roleId) {
+        List<Account> list = new ArrayList<>();
+        String query = "select * from Account where Account_id in (select Account_id from AccountRole where role_id = ?)\n" +
+                        "ORDER BY Account_id\n" +
+                        "OFFSET ? ROWS FETCH NEXT 15 ROWS ONLY";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(2, (page - 1) * 15); // page 1 starts at index 0
+            ps.setString(1,roleId);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Account(
@@ -348,8 +415,11 @@ public class AccountDAO extends DBContext {
                         "    [DOB] = ?,\n" +
                         "    [gender] = ?,\n" +
                         "    [avatar] = ?,\n" +
-                        "    [modifyDate] = ?,\n" +
-                        "WHERE [account_id] = ?;";
+                        "    [modifyDate] = ?\n" +
+                        "WHERE [account_id] = ?;"
+                        + "Update [AccountRole]\n" +
+                        "Set role_id = ?\n" +
+                        "Where Account_id = ?";
         // Thiếu status và một vài thuộc tính khác
 
         try {
@@ -362,18 +432,19 @@ public class AccountDAO extends DBContext {
             ps.setString(5, DOB);
             ps.setString(6, gender);
             ps.setString(7, avatar);
-            ps.setInt(9, accountID);
             LocalDateTime currentTime = LocalDateTime.now();
             Date modifyDate = Date.valueOf(currentTime.toLocalDate());
             ps.setDate(8, modifyDate);
+            ps.setInt(9, accountID);
+            ps.setInt(10, roleId);
+            ps.setInt(11, accountID);
             ps.executeUpdate(); // no result ==> no need result set
-        } catch (Exception e) {
-            // Handle exceptions here
-        } finally {
-            // Close database connections and resources in a real application
-            // For simplicity, it's omitted here.
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
+    
 
 //    // Get  Account by ID
 //    public Account getAccountByID(String Account_ID) {

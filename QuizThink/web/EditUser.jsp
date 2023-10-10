@@ -72,7 +72,7 @@
 							<h4>Edit User</h4>
 						</div>
 						<div class="widget-inner">
-                                                    <form class="edit-profile m-b30" action="edituser" method="post">
+                                                    <form class="edit-profile m-b30" action="edituser" method="POST">
 								<div class="">
                                                                         <div class="form-group row">
                                                                             <div class="col-sm-10  ml-auto">
@@ -106,7 +106,7 @@
                                                                                 <label class="col-sm-2 col-form-label" for="customerRole">Customer</label><br>-->
                                                                                 <select name="role">
                                                                                     <c:forEach items = "${listRole}" var="o" varStatus="status">
-                                                                                        <option value=">${o.roleID}">${o.roleName}</option>
+                                                                                        <option value="${o.roleID}">${o.roleName}</option>
                                                                                     </c:forEach>
                                                                                 </select>
                                                                             </div>

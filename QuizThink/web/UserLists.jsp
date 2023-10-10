@@ -74,22 +74,30 @@
         <div class="container-fluid">
             <table>
                 <tr>
-                    <td><input type="text" class="form-control" placeholder="Search user by name"></td>
-                    <td><button type="button" class="btn btn-block btn-success">Search</button></td>
-                    <td>
-                        <form>
-                            <label for="category">Choose a Category:</label>
-                            <select id="category" name="category">
-                                <option value="electronics">Electronics</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="electronics">Electronics</option>
-                            </select>
-                       </form>
-                        <button type="button" class="btn btn-block btn-success">Sort</button>
+                    <td >
+                        <label for="category">Search</label>
+                        <form action="action" class="form">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search user by name">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-success">Search</button>
+                                </div>
+                            </div>
+                        </form>
                     </td>
-                    <td><button type="button" class="btn btn-block btn-success">Add</button></td>
+                    <td>
+                            <label for="category">Choose a Role</label>
+                            <select id="category" name="role" onchange="redirectToURL(this)">
+                                <option value="">All</option>
+                                <c:forEach items="${listRole}" var="o">
+                                    <option value="${o.roleID}" <c:if test="${selectedRole == o.roleID}">selected="selected" </c:if> >${o.roleName}</option>
+                                </c:forEach>
+                            </select>
+                    </td>
+                    <td>
+                        <label for="category"></label>
+                        <a href="createaccount" class="btn btn-block btn-success">Add</a>
+                    </td>
                 </tr>
             </table>
                 
@@ -117,7 +125,7 @@
                             
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="userdata">
                         <c:forEach items="${listAccount}" var="o" varStatus="status">
                             <tr>
                                 <td>${o.accountId}</td>
@@ -130,7 +138,6 @@
                                 <td>${o.dob}</td>
                                 <td>${o.createdDate}</td>
                                 <td>${o.modifyDate}</td>
-                                
                             </tr>
                         </c:forEach>
 
@@ -144,9 +151,9 @@
           </div>
           <!-- /.row -->
             <div >
-                <ul>	
+                <ul class="pagination">	
                     <c:forEach begin="1" end="${lastPage}" var="i">
-                        <li <c:if test="${i == currentPage}">class="active"</c:if>><a href="userlists?page=${i}">${i}</a></li>
+                        <li <c:if test="${i == currentPage}">class="active"</c:if>><a data-param="page" data-value="${i}" onclick="handleLinkClick(event, this)">${i}</a></li>
                     </c:forEach>
                 </ul>
             </div>
@@ -172,7 +179,40 @@
     <script src="admin/assets/js/admin.js"></script>
     <script src='admin/assets/vendors/calendar/moment.min.js'></script>
     <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
+    
+    <script>
+        function handleLinkClick(event, link) {
+            event.preventDefault();
 
+            let currentURL = window.location.href;
+            let url = new URL(currentURL);
+            let param = link.getAttribute('data-param');
+            let value = link.getAttribute('data-value');
+            let newHref;
+            if (currentURL.indexOf('role') !== -1 && currentURL.indexOf('page') === -1) {
+                newHref = currentURL + '&' + param + '=' + value;
+            }else if(currentURL.indexOf('role') === -1 && currentURL.indexOf('page') === -1){
+                newHref = '/QuizThink/userlists?' + param + '=' + value;  
+            }else if(currentURL.indexOf('page') !== -1){
+                url.searchParams.set('page', value); 
+                newHref = url.toString();
+            }
+            window.location.href = newHref;
+          }
+    </script>
+    <script>
+        function redirectToURL(selectElement) {
+            var selectedOption = selectElement.value; // Lấy giá trị của option đã chọn
+            var url;
+            if(selectedOption === ''){
+                url = 'userlists';
+            }else{
+                url = 'userlists?roleId=' + selectedOption; // Thay đổi thành URL của servlet hoặc trang bạn muốn chuyển hướng đến
+            }
+           // Chuyển hướng người dùng đến URL
+            window.location.href = url;
+        }
+    </script>
     <!-- <script src='assets/vendors/switcher/switcher.js'></script> -->
     <script>
       $(document).ready(function() {

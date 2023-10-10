@@ -87,7 +87,8 @@ public class EditUser extends HttpServlet {
         String phonenumber = request.getParameter("phonenumber");
         
         // pending
-        int role_id = 3;
+        String role = request.getParameter("role");
+        int role_id = Integer.parseInt(role);
         
         AccountDAO DAO = new AccountDAO();
         

@@ -64,10 +64,8 @@ public class ApproveSubject extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String subjectId = request.getParameter("SubjectID"); 
-        if(subjectId != null){
-            
-        }
+        processRequest(request, response);
+
     }
 
     /** 

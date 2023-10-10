@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -206,6 +207,18 @@ public class SubjectDAO extends DBContext {
         }
     }
     
+    public void ApproveSubject(String subjectId){
+        String query = "UPDATE [Subject]\n" +
+                        "SET [status] = 1\n" +
+                        "WHERE [Subject_id] = ?;";
+        try {
+            ps = getConnection().prepareStatement(query);
+            ps.setString(1, subjectId);
+            ps.executeUpdate(); // no result ==> no need result set
+        } catch (Exception e) {
+            // Handle exceptions here
+        }
+    }
 
     public List<Subject> getNotApproveSubjects() {
         List<Subject> list = new ArrayList<>();
@@ -239,7 +252,7 @@ public class SubjectDAO extends DBContext {
             }
         return list;
         }
-
+    
     public int getNumOfSubject() {
         String query = "select COUNT(*) from Subject";
         try {
