@@ -38,7 +38,17 @@ public class UserLists extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         AccountDAO dao = new AccountDAO();
         RoleDAO RDAO = new RoleDAO();
-        int numOfAccount = dao.getNumOfAccount();
+        
+        List<Account> listAccount = new ArrayList<>();
+        List<Role> listRole = RDAO.getAllRole();
+        String roleId = request.getParameter("roleId");
+        int numOfAccount; 
+        if(roleId != null){
+            numOfAccount = dao.getNumOfAccountByRole(roleId);
+        }else{
+            numOfAccount = dao.getNumOfAccount();
+        }
+        
         int lastPage = numOfAccount/15;
         if(numOfAccount %15 != 0){
             lastPage ++;
@@ -48,17 +58,14 @@ public class UserLists extends HttpServlet {
             index = "1";
         }
         int page = Integer.parseInt(index);
-        List<Account> listAccount = new ArrayList<>();
-        List<Role> listRole = RDAO.getAllRole();
         
         
-        String roleId = request.getParameter("roleId");
         if(roleId != null){
             listAccount = dao.getAllAccountByRole(page,roleId);
         }else{
             listAccount = dao.getAllAccount(page);
         }
-        
+      
         request.setAttribute("listRole", listRole);
         request.setAttribute("currentPage", page);
         request.setAttribute("lastPage", lastPage); 

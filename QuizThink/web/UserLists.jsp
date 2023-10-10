@@ -81,6 +81,7 @@
                     <td>
                             <label for="category">Choose a Role</label>
                             <select id="category" name="role" onchange="redirectToURL(this)">
+                                <option value="">All</option>
                                 <c:forEach items="${listRole}" var="o">
                                     <option value="${o.roleID}">${o.roleName}</option>
                                 </c:forEach>
@@ -143,9 +144,9 @@
           </div>
           <!-- /.row -->
             <div >
-                <ul>	
+                <ul class="pagination">	
                     <c:forEach begin="1" end="${lastPage}" var="i">
-                        <li <c:if test="${i == currentPage}">class="active"</c:if>><a href="userlists?page=${i}">${i}</a></li>
+                        <li <c:if test="${i == currentPage}">class="active"</c:if>><a data-param="page" data-value="${i}" onclick="handleLinkClick(event, this)">${i}</a></li>
                     </c:forEach>
                 </ul>
             </div>
@@ -171,14 +172,35 @@
     <script src="admin/assets/js/admin.js"></script>
     <script src='admin/assets/vendors/calendar/moment.min.js'></script>
     <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
+    
     <script>
-    function redirectToURL(selectElement) {
-        var selectedOption = selectElement.value; // Lấy giá trị của option đã chọn
-        var url = 'userlists?roleId=' + selectedOption; // Thay đổi thành URL của servlet hoặc trang bạn muốn chuyển hướng đến
+        function handleLinkClick(event, link) {
+            event.preventDefault();
 
-        // Chuyển hướng người dùng đến URL
-        window.location.href = url;
-    }
+            let currentURL = window.location.href;
+            let url = new URL(currentURL);
+            let param = link.getAttribute('data-param');
+            let value = link.getAttribute('data-value');
+            let newHref;
+            if (currentURL.indexOf('role') !== -1 && currentURL.indexOf('page') === -1) {
+                newHref = currentURL + '&' + param + '=' + value;
+            }else if(currentURL.indexOf('role') === -1 && currentURL.indexOf('page') === -1){
+                newHref = '/QuizThink/userlists?' + param + '=' + value;  
+            }else if(currentURL.indexOf('page') !== -1){
+                url.searchParams.set('page', value); 
+                newHref = url.toString();
+            }
+            window.location.href = newHref;
+          }
+    </script>
+    <script>
+        function redirectToURL(selectElement) {
+            var selectedOption = selectElement.value; // Lấy giá trị của option đã chọn
+            var url = 'userlists?roleId=' + selectedOption; // Thay đổi thành URL của servlet hoặc trang bạn muốn chuyển hướng đến
+
+            // Chuyển hướng người dùng đến URL
+            window.location.href = url;
+        }
     </script>
     <!-- <script src='assets/vendors/switcher/switcher.js'></script> -->
     <script>
