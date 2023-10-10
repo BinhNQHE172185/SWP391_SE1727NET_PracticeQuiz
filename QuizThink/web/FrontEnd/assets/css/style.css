@@ -3136,6 +3136,9 @@ input[type="checkbox"] {
 .option label.selected {
     background-color: #7777776b;
 }
+.option .true label{
+    background-color: lightgreen;
+}
 
 .cours-bx.detail{
     display: flex;
