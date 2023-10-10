@@ -74,9 +74,16 @@
         <div class="container-fluid">
             <table>
                 <tr>
-                    <td>
+                    <td >
                         <label for="category">Search</label>
-                        <input type="text" class="form-control" placeholder="Search user by name">
+                        <form action="action" class="form">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search user by name">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-success">Search</button>
+                                </div>
+                            </div>
+                        </form>
                     </td>
                     <td>
                             <label for="category">Choose a Role</label>
