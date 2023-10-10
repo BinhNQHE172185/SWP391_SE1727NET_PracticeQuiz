@@ -83,7 +83,7 @@
                             <select id="category" name="role" onchange="redirectToURL(this)">
                                 <option value="">All</option>
                                 <c:forEach items="${listRole}" var="o">
-                                    <option value="${o.roleID}">${o.roleName}</option>
+                                    <option value="${o.roleID}" <c:if test="${selectedRole == o.roleID}">selected="selected" </c:if> >${o.roleName}</option>
                                 </c:forEach>
                             </select>
                     </td>
@@ -196,9 +196,13 @@
     <script>
         function redirectToURL(selectElement) {
             var selectedOption = selectElement.value; // Lấy giá trị của option đã chọn
-            var url = 'userlists?roleId=' + selectedOption; // Thay đổi thành URL của servlet hoặc trang bạn muốn chuyển hướng đến
-
-            // Chuyển hướng người dùng đến URL
+            var url;
+            if(selectedOption === ''){
+                url = 'userlists';
+            }else{
+                url = 'userlists?roleId=' + selectedOption; // Thay đổi thành URL của servlet hoặc trang bạn muốn chuyển hướng đến
+            }
+           // Chuyển hướng người dùng đến URL
             window.location.href = url;
         }
     </script>

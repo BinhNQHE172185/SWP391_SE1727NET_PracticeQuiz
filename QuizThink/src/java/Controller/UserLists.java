@@ -65,7 +65,8 @@ public class UserLists extends HttpServlet {
         }else{
             listAccount = dao.getAllAccount(page);
         }
-      
+        
+        request.setAttribute("selectedRole", roleId);
         request.setAttribute("listRole", listRole);
         request.setAttribute("currentPage", page);
         request.setAttribute("lastPage", lastPage); 
