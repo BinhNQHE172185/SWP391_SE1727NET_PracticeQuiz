@@ -76,7 +76,7 @@
                 <tr>
                     <td >
                         <label for="category">Search</label>
-                        <form action="userlist" class="form">
+                        <form action="userlists" class="form" onsubmit="countRows()">
                             <div class="input-group">
                                 <input type="text" name="search" class="form-control" placeholder="Search user by name">
                                 <div class="input-group-append">
@@ -103,6 +103,7 @@
                 
         </div>
             <!-- Main content -->
+        <p id="rowCount"></p>
         <section class="content">
           <div class="row">
             <div class="col-lg-12 m-b30">
@@ -179,6 +180,24 @@
     <script src="admin/assets/js/admin.js"></script>
     <script src='admin/assets/vendors/calendar/moment.min.js'></script>
     <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
+    
+    <script>
+    // Tạo một hàm để đếm số hàng
+    function countRows() {
+        var rowCount = table.getElementsByTagName("tr").length - 2;
+
+        // Hiển thị kết quả trong phần tử có ID "rowCount"
+        document.getElementById("rowCount").textContent = "Số hàng: " + rowCount;
+
+        // Ngăn form tiếp tục submit (nếu cần)
+        return false;
+    }
+
+    // Gọi hàm countRows() khi trang tải lại
+    window.onload = function() {
+        countRows();
+    }
+</script>
     
     <script>
         function handleLinkClick(event, link) {
