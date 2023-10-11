@@ -76,9 +76,9 @@
                 <tr>
                     <td >
                         <label for="category">Search</label>
-                        <form action="action" class="form">
+                        <form action="userlist" class="form">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search user by name">
+                                <input type="text" name="search" class="form-control" placeholder="Search user by name">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-success">Search</button>
                                 </div>

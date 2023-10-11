@@ -42,6 +42,7 @@ public class UserLists extends HttpServlet {
         List<Account> listAccount = new ArrayList<>();
         List<Role> listRole = RDAO.getAllRole();
         String roleId = request.getParameter("roleId");
+        String textSearch = request.getParameter("search");
         int numOfAccount; 
         if(roleId != null){
             numOfAccount = dao.getNumOfAccountByRole(roleId);
