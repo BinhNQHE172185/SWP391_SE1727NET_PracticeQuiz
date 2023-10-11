@@ -505,7 +505,40 @@ public class AccountDAO extends DBContext {
 
         }
     }
+    
+    // Search account by fullname
+    public List<Account> searchAccountByName(String txtSearch){
+        List<Account> list = new ArrayList<>();
+        String query = "select * from Account where fullname like ?";
+        
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1,"%" + txtSearch + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Account(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getDate(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getDate(10),
+                        rs.getDate(11),
+                        rs.getString(12),
+                        rs.getBoolean(13)
+                ));
 
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return list;
+    }
 //    public void Expert getExpertByID(){
 //        String query = "SELECT * FROM Expert WHERE Account_id = ?";
 //        try {
