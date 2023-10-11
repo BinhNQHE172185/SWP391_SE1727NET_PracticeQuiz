@@ -113,10 +113,11 @@
                                         Question question = (Question) request.getAttribute("question");
                                         List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
                                         Time time = (Time) request.getAttribute("endTime");
+                                        Float mark = (Float) request.getAttribute("mark");
                                         List<Integer> quizIds = new ArrayList<>();
                                         if ( quizzes != null){
                                             for (Quiz quiz : quizzes) {
-                                                quizIds.add(quiz.getQuizId());
+                                                quizIds.add(quiz.quizId());
                                             }
                                         }
                                         if (question != null) {
@@ -125,8 +126,9 @@
                                         <%
                                             }
                                         %>
+                                        <h4>Mark: <%= mark %></h4>
                                         <div id="submitQuestionId" data-submitQuestionId="<%= question.getQuestionId() %>"></div>
-                                        <div id="endTimeElement" data-endTime="<%= time %>"></div>
+                                        <div id="submitQuizId" data-submitQuizId="<%= quizIds %>"></div>
                                     </div>
                                     <div class="question-timer-container">
                                         <h4>Timer:</h4>
@@ -247,6 +249,7 @@
                     </div>
                 </div>
             </div>
+            <div class="d-none data-endTime"><%= time %></div>
             <!-- Quiz END-->
             <div class="submit-container">
                 <button class="submit-btn" onclick="submitQuiz()">
@@ -270,7 +273,9 @@
         <script src="FrontEnd/assets/vendors/owl-carousel/owl.carousel.js"></script>
         <script src="FrontEnd/assets/js/functions.js"></script>
         <script src="FrontEnd/assets/js/contact.js"></script>
+        <%--
         <script src="FrontEnd/assets/js/quizHandle.js"></script>
+        --%>
         <script src='FrontEnd/assets/vendors/switcher/switcher.js'></script>
     </body>
 

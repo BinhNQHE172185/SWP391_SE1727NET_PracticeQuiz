@@ -16,9 +16,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -40,7 +42,7 @@ public class QuizHandleServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+            /* TODO output your page here. You may use following sample code. */
             int questionId = Integer.parseInt(request.getParameter("questionId"));
             QuestionDAO questionDAO = new QuestionDAO();
             QuizDAO quizDAO = new QuizDAO();
@@ -53,18 +55,15 @@ public class QuizHandleServlet extends HttpServlet {
                 request.setAttribute("answers" + quizz.getQuizId(), answers);
 
             }
-            LocalDateTime startTime = (LocalDateTime) session.getAttribute("startTime");
-            if (startTime == null) {
-                startTime = LocalDateTime.now();
-            }
-            Duration duration = Duration.ofHours(question.getDuration().getHours())
-                    .plusMinutes(question.getDuration().getMinutes())
-                    .plusSeconds(question.getDuration().getSeconds());
-            LocalDateTime endTime = startTime.plus(duration);
+            LocalDateTime currentTime = LocalDateTime.now();
+            LocalTime durationTime = question.getDuration().toLocalTime();
+            Duration duration = Duration.ofHours(durationTime.getHour())
+                    .plusMinutes(durationTime.getMinute())
+                    .plusSeconds(durationTime.getSecond());
+            LocalDateTime endTime = currentTime.plus(duration);
             request.setAttribute("question", question);
             request.setAttribute("quizzes", quizzes);
-            session.setAttribute("startTime", startTime);
-            session.setAttribute("endTime", endTime);
+            request.setAttribute("endTime", endTime);
             request.getRequestDispatcher("QuizHandle.jsp").forward(request, response);
         }
     }

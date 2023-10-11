@@ -3121,20 +3121,23 @@ input[type="checkbox"] {
 .option {
     display: flex;
     flex-direction: column;
-    li {
-        display: inline-block;
-    }
-    label {
-        background-color: #ffffff00;
-        border-radius: 10px;
-        padding: 10px 10px 5px 10px;
-        width: 100%;
-        margin: 10px 0px;
-        border: 1px solid #000;
-    }
-    label.selected {
-        background-color: #7777776b;
-    }
+}
+.option li {
+    display: inline-block;
+}
+.option label {
+    background-color: #ffffff00;
+    border-radius: 10px;
+    padding: 10px 10px 5px 10px;
+    width: 100%;
+    margin: 10px 0px;
+    border: 1px solid #000;
+}
+.option label.selected {
+    background-color: #7777776b;
+}
+.option .true label{
+    background-color: lightgreen;
 }
 
 .cours-bx.detail{
@@ -3242,7 +3245,7 @@ input[type="checkbox"] {
     margin: 0px;
     color: white;
 }
-li.true label.answer-containser {
+li.true label.answer-container {
     background-color: lightgreen;
 }
 @media screen and (max-width: 575px) {

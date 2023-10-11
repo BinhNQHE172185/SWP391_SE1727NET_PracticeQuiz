@@ -63,7 +63,7 @@
     <body id="bg">
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
-
+            <jsp:include page = "header.jsp"/>
             <!-- Content -->
             <%
                 Subject subject = (Subject) request.getAttribute("subject");
