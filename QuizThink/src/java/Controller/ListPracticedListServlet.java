@@ -4,7 +4,8 @@
  */
 package Controller;
 
-import DAO.AccountDAO;
+import DAO.ResultDAO;
+import Model.Result;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,13 +14,14 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "UpdateUserProfileServlet", urlPatterns = {"/UpdateUserProfile"})
-public class UpdateUserProfileServlet extends HttpServlet {
+@WebServlet(name = "ListPracticedListServlet", urlPatterns = {"/ListPracticedList"})
+public class ListPracticedListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,27 +35,23 @@ public class UpdateUserProfileServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int id = 0;
+        String accID = "";
+        String questionID;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("ID".equals(cookie.getName())) {
                     // Found the "accID" cookie
-                    String accID = cookie.getValue();
-                    id = Integer.parseInt(accID);
+                    accID = cookie.getValue();
                 }
             }
         }
-        String fullname = request.getParameter("fullname");
-        String email = request.getParameter("email");
-        String gender = request.getParameter("gender");
-        String dob = request.getParameter("dob");
-        String introduction = request.getParameter("introduction");
-        AccountDAO dao = new AccountDAO();
-        dao.updateProfile(fullname, email, dob, gender, introduction, id);
-        response.sendRedirect("Profile");
-        }
-    
+        ResultDAO dao = new ResultDAO();
+        List<Result> listResult = dao.getResultByAccountID(accID, "2");
+        request.setAttribute("listResult", listResult);
+        request.getRequestDispatcher("HistoryList.jsp").forward(request, response);
+        
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -95,4 +93,3 @@ public class UpdateUserProfileServlet extends HttpServlet {
     }// </editor-fold>
 
 }
-
