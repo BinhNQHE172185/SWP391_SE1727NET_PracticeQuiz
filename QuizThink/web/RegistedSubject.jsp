@@ -179,13 +179,13 @@
                             </div>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="admin/assets/images/testimonials/pic3.jpg" width="32" height="32"></span></a>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="${account.avatar}" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
                                     <li><a href="user-profile.html">My profile</a></li>
                                     <li><a href="list-view-calendar.html">Activity</a></li>
                                     <li><a href="mailbox.html">Messages</a></li>
-                                    <li><a href="../login.html">Logout</a></li>
+                                    <li><a href="Logout">Logout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -409,7 +409,7 @@
                                                     <p>${o.description} </p>	
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <a href="#" class="btn green radius-xl outline">View</a>
+                                                    <a href="QuestionListServlet?subjectId=${o.subjectId}" class="btn green radius-xl outline">View</a>
                                                     <a href="cancel?id=${o.subjectId}" class="btn red outline radius-xl ">Cancel</a>
                                                 </div>
                                             </div>

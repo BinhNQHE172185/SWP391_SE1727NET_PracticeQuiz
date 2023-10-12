@@ -4,7 +4,9 @@
  */
 package Controller;
 
+import DAO.AccountDAO;
 import DAO.SubjectDAO;
+import Model.Account;
 import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,8 +49,11 @@ public class YourSubjectServlet extends HttpServlet {
             }
         }
         SubjectDAO dao = new SubjectDAO();
+        AccountDAO DAO = new AccountDAO();
+        Account account = DAO.getAccountByID(id);
         List<Subject> listSubject = dao.getRegistedSubject(id);
         request.setAttribute("listSubjects", listSubject);
+        request.setAttribute("account", account);
         request.getRequestDispatcher("RegistedSubject.jsp").forward(request, response);
         
     }
