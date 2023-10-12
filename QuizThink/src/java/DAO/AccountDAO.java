@@ -476,7 +476,7 @@ public class AccountDAO extends DBContext {
 //        }
 //        return null;
 //    }
-    public void updateProfile(String fullname, String email, String dob, String gender, String introduction, String accountID) {
+    public void updateProfile(String fullname, String email, String dob, String gender, String introduction, int accountID) {
         String query = "update Account set fullname = ?, email = ?, DOB = ?, gender = ?, [self-introduction] = ? where Account_id =?";
         try {
             conn = new DBContext().getConnection();
@@ -486,7 +486,7 @@ public class AccountDAO extends DBContext {
             ps.setString(3, dob);
             ps.setString(4, gender);
             ps.setString(5, introduction);
-            ps.setString(6, accountID);
+            ps.setInt(6, accountID);
             rs = ps.executeQuery();
         } catch (Exception e) {
 
