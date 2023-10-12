@@ -42,6 +42,9 @@ public class UserLists extends HttpServlet {
         List<Account> listAccount = new ArrayList<>();
         List<Role> listRole = RDAO.getAllRole();
         String roleId = request.getParameter("roleId");
+        String textSearch = request.getParameter("search");
+        
+        
         int numOfAccount; 
         if(roleId != null){
             numOfAccount = dao.getNumOfAccountByRole(roleId);
@@ -60,10 +63,12 @@ public class UserLists extends HttpServlet {
         int page = Integer.parseInt(index);
         
         
-        if(roleId != null){
+        if(roleId != null && textSearch == null){
             listAccount = dao.getAllAccountByRole(page,roleId);
-        }else{
+        }else if(roleId == null && textSearch == null){
             listAccount = dao.getAllAccount(page);
+        }else if(roleId == null && textSearch != null){
+            listAccount = dao.searchAccountByName(textSearch);
         }
         
         request.setAttribute("selectedRole", roleId);

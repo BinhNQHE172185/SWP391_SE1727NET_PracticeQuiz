@@ -273,7 +273,6 @@ Are you ready to take your learning to the next level? Register today and embark
 <script src="FrontEnd/assets/vendors/owl-carousel/owl.carousel.js"></script>
 <script src="FrontEnd/assets/js/functions.js"></script>
 <script src="FrontEnd/assets/js/contact.js"></script>
-<script src='FrontEnd/assets/vendors/switcher/switcher.js'></script>
 </body>
 
 

@@ -21,7 +21,6 @@ import jakarta.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -70,7 +69,7 @@ public class QuizSubmitServlet extends HttpServlet {
             }
             float mark = (quizCount/totalQuizCount)*10;
             request.setAttribute("mark", mark);
-            request.getRequestDispatcher("QuizHandleResult.jsp").forward(request, response);
+            response.getWriter().write("QuizHandleResult.jsp");
         }
     }
 
