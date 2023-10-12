@@ -16,6 +16,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -42,7 +43,7 @@ public class QuizHandleServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession();
             int questionId = Integer.parseInt(request.getParameter("questionId"));
             QuestionDAO questionDAO = new QuestionDAO();
             QuizDAO quizDAO = new QuizDAO();
@@ -55,20 +56,28 @@ public class QuizHandleServlet extends HttpServlet {
                 request.setAttribute("answers" + quizz.getQuizId(), answers);
 
             }
-            LocalDateTime currentTime = LocalDateTime.now();
-            LocalTime durationTime = question.getDuration().toLocalTime();
-            Duration duration = Duration.ofHours(durationTime.getHour())
-                    .plusMinutes(durationTime.getMinute())
-                    .plusSeconds(durationTime.getSecond());
-            LocalDateTime endTime = currentTime.plus(duration);
+            Time time;
+            if (session.getAttribute("endTime") != null) {
+                time = (Time) session.getAttribute("endTime");
+            } else {
+                LocalDateTime currentTime = LocalDateTime.now();
+                LocalTime durationTime = question.getDuration().toLocalTime();
+                Duration duration = Duration.ofHours(durationTime.getHour())
+                        .plusMinutes(durationTime.getMinute())
+                        .plusSeconds(durationTime.getSecond());
+                LocalDateTime endTime = currentTime.plus(duration);
+
+                time = Time.valueOf(endTime.toLocalTime());
+                session.setAttribute("endTime", time);
+            }
             request.setAttribute("question", question);
             request.setAttribute("quizzes", quizzes);
-            request.setAttribute("endTime", endTime);
+            request.setAttribute("endTime", time);
             request.getRequestDispatcher("QuizHandle.jsp").forward(request, response);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
