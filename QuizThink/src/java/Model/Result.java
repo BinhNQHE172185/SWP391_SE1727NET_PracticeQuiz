@@ -98,5 +98,8 @@ public class Result {
     public void setMark(float mark) {
         this.mark = mark;
     }
+<<<<<<< Updated upstream
     
+=======
+>>>>>>> Stashed changes
 }

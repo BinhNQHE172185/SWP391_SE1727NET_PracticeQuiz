@@ -6,7 +6,10 @@ package DAO;
 
 import DAL.DBContext;
 import Model.Result;
+<<<<<<< Updated upstream
 import Model.Subject;
+=======
+>>>>>>> Stashed changes
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
