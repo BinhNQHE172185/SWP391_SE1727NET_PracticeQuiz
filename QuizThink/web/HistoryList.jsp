@@ -388,7 +388,7 @@
                                     </div>
                                 </div>
                                 <div class="widget-inner">
-                                    <div class="row card-courses-list admin-courses  justify-content-center">
+                                    <div class="row card-courses-list admin-courses">
                                         <div class="col-lg-1">
                                             <p>STT</p>
                                         </div>
