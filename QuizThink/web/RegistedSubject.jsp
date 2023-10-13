@@ -409,7 +409,7 @@
                                                     <p>${o.description} </p>	
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <a href="QuestionListServlet?subjectId=${o.subjectId}" class="btn green radius-xl outline">View</a>
+                                                    <a href="#" class="btn green radius-xl outline">View</a>
                                                     <a href="cancel?id=${o.subjectId}" class="btn red outline radius-xl ">Cancel</a>
                                                 </div>
                                             </div>
