@@ -1,5 +1,9 @@
+<%@page import = "Model.Answer" %>
+<%@page import = "DAO.AnswerDAO" %>
+<%@page import = "java.util.*" %>
+<%@page import = "java.util.List" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,6 +66,7 @@
             .question {
                 border-bottom: 1px solid #ccc;
                 padding-bottom: 10px;
+                font-weight: bold;
             }
 
             h2.question-title {
@@ -110,6 +115,7 @@
         </style>
     </head>
     <body id="bg">
+
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
 
@@ -142,54 +148,49 @@
                     <table class="table">
                         <tr>
                             <td style="font-weight: bold;">Taken Date:</td>
-                            <td>Row 1 Col 2</td>
+                            <td>${rs.getTakenDate()}</td>
                         </tr>
                         <tr>
                             <td style="font-weight: bold;">Taken Time:</td>
-                            <td>Row 2 Col 2</td>
+                            <td>${rs.getTakenDuration()}</td>
                         </tr>
                         <tr>
                             <td style="font-weight: bold;">Right Answer:</td> 
-                            <td>Row 3 Col 2</td>
+                            <td>20/${listQuiz.size()}</td>
                         </tr>
                         <tr>
                             <td style="font-weight: bold;">Mark:</td>
-                            <td>Row 4 Col 2</td> 
+                            <td>${rs.getMark()}/10</td> 
                         </tr>
                     </table>
 
                     <div class="question-box">
+                        <c:forEach items = "${listQuiz}" var = "o">
+                            <div class="question">
+                                ${o.content}
+                            </div>
 
-                        <div class="question">
-                            Question text here?
-                        </div>
+                            <div class="answers">
 
-                        <div class="answers">
-                            <input type="radio" name="q1"> Answer A<br>
-                            <input type="radio" name="q1"> Answer B<br>
-                            <input type="radio" name="q1"> Answer C<br>
-                            <input type="radio" name="q1"> Answer D
-                        </div>
+                                <c:set var="quizId" value="${o.quizId}" />
+                                <c:set var="list">
 
-                        <div class="explanation">
-                            <p>Explanation text goes here...</p>
-                        </div>
+                                    <%
+                                         AnswerDAO dao = new AnswerDAO();
+                                         List<Answer> list = dao.getAnswersByQuizId(quizId);
+                                         for(Answer answer: list){
+                                    %><input type="radio" name="q1"><%answer.getContent();%><br> 
+                                    <%}
+                                    %>
 
-                        <div class="question">
-                            Question text here? 
-                        </div>
+                                </c:set>                                
 
-                        <div class="answers">
-                            <input type="radio" name="q2"> Answer A<br>
-                            <input type="radio" name="q2"> Answer B<br>
-                            <input type="radio" name="q2"> Answer C<br>
-                            <input type="radio" name="q2"> Answer D  
-                        </div>
+                            </div>
 
-                        <div class="explanation">
-                            <p>Explanation text goes here...</p>
-                        </div>
-
+                            <div class="explanation">
+                                <p>Explain: ${o.description}</p>
+                            </div>
+                        </c:forEach>
                     </div>
 
                     <a class="submit-btn" href="">Back to practiced list</a>

@@ -48,11 +48,39 @@ public class ResultDAO extends DBContext {
         return list;
     }
     
+    public Result getResultByID(String id){
+        try {
+            String query = " select * from Result where Result_id = ?";
+             ps = getConnection().prepareStatement(query);
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                return new Result(
+                        rs.getInt("Result_id"),
+                        rs.getInt("Question_id"),
+                        rs.getInt("Account_id"),
+                        rs.getString("selectedChoice"),
+                        rs.getDate("takenDate"),
+                        rs.getTime("takenDuration"),
+                        rs.getTime("duration"),
+                        rs.getFloat("mark"));
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
     public static void main(String[] args) {
         ResultDAO dao = new ResultDAO();
-        List<Result> list = dao.getResultByAccountID("2", "2");
-        for(Result rs: list){
-            System.out.println(rs.getMark());
-        }
+//        List<Result> list = dao.getResultByAccountID("2", "2");
+//        for(Result rs: list){
+//            System.out.println(rs.getMark());
+//        }
+        Result rs = dao.getResultByID("5");
+        System.out.println(rs.getMark());
+        
     }
 }

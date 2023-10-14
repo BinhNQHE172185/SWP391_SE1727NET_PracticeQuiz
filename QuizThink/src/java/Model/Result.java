@@ -19,13 +19,13 @@ public class Result {
     private Date takenDate;
     private Time takenDuration;
     private Time duration;
-    private double mark;
+    private float mark;
 
     public Result() {
         // Default constructor
     }
 
-    public Result(int resultId, int questionId, int accountId, String selectedChoice, Date takenDate, Time takenDuration, Time duration, double mark) {
+    public Result(int resultId, int questionId, int accountId, String selectedChoice, Date takenDate, Time takenDuration, Time duration, float mark) {
         this.resultId = resultId;
         this.questionId = questionId;
         this.accountId = accountId;
@@ -92,11 +92,11 @@ public class Result {
         this.duration = duration;
     }
 
-    public double getMark() {
+    public float getMark() {
         return mark;
     }
 
-    public void setMark(double mark) {
+    public void setMark(float mark) {
         this.mark = mark;
     }
 }
