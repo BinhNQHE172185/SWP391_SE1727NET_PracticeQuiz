@@ -177,7 +177,6 @@
         <main class="ttr-wrapper">
             <div class="container-fluid">
                 <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Dashboard</h4>
                     <ul class="db-breadcrumb-list">
                         <li><a href="home.jsp"><i class="fa fa-home"></i>Home</a></li>
                         <li>Student List</li>
@@ -189,7 +188,7 @@
                     <div class="container-fluid">
                         <table>
                             <tr>
-                                <td >
+                                <td>
                                     <label style="text-align: left;">Search</label>
                                     <form action="" class="form" onsubmit="countRows()">
                                         <div class="input-group">
@@ -202,10 +201,22 @@
                                 </td>
                             </tr>
                         </table>
-
-
                     </div>
+                    
 
+                </div>
+                <div class="row">
+                    <div style="text-align: left;" class="col-lg-6 m-b10">
+                        <h3>Student List</h3>
+                    </div>
+                    <div id="Ebtn" class="col-lg-6 m-b10">
+                        <div style="display: flex;justify-content: flex-end;">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add new student</button>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-sort"></i> Sort By</button>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-filter"></i> Filter</button>
+                        </div>
+                        
+                    </div>
                 </div>
                 <section>
                     <div>
