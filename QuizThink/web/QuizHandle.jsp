@@ -172,13 +172,14 @@
                                         <!-- Quiz list display-->
                                         <%
                                         if (quizzes != null && !quizzes.isEmpty()) {
-                                            for (Quiz quiz : quizzes) {
+                                            for (int i = 1; i <= quizzes.size(); i++) {
+                                                Quiz quiz = quizzes.get(i-1);
                                         %>
                                         <div class="col-md-12 col-lg-12 col-sm-12 m-b20">
                                             <div class="cours-bx">
                                                 <div id="quiz<%= quiz.getQuizId() %>">
                                                     <div class="col-md-12 col-lg-12 col-sm-12 text-left border-bottom m-t20">
-                                                        <h5>Question <%= quiz.getQuizId() %>: <%= quiz.getContent() %></h5>
+                                                        <h5>Question <%= i %>: <%= quiz.getContent() %></h5>
                                                         <%
                                                         if (quiz.getType() == 0) {
                                                         %>

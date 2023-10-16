@@ -11,6 +11,7 @@ import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +21,8 @@ import java.util.List;
  *
  * @author kimdi
  */
-public class QuestionListServlet extends HttpServlet {
+@WebServlet(name = "QuestionSearchServlet", urlPatterns = {"/QuestionSearchServlet"})
+public class QuestionSearchServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,25 +42,29 @@ public class QuestionListServlet extends HttpServlet {
             int page = 1;//target page
             int noOfPages = 1;//default no of page
             int recordsPerPage = 6;
+            String searchQuery = "";
             SubjectDAO subjectDAO = new SubjectDAO();
             QuestionDAO questionDAO = new QuestionDAO();
-
-            int subjectId = 9;
-            //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+            
+            int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 
             Subject subject = subjectDAO.getSubjectById(subjectId);
             if (request.getParameter("page") != null) {//restive current page if possible
                 page = Integer.parseInt(request.getParameter("page"));
             }
-            int noOfRecords = questionDAO.getNumberOfRecordsBySubjectId(subjectId);
+            if ((request.getParameter("searchQuery") != null) && (request.getParameter("searchQuery") != "")) {//restive current page if possible
+                searchQuery = request.getParameter("searchQuery");
+            }
+            int noOfRecords = questionDAO.getNumberOfRecordsBySubjectIdAndSearch(subjectId, searchQuery);
             noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
 
-            List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId, (page - 1) * recordsPerPage, recordsPerPage);
+            List<Question> questions = questionDAO.searchQuestionsBySubjectId(subjectId, searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
             request.setAttribute("subject", subject);
             request.setAttribute("questions", questions);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
-            request.getRequestDispatcher("QuestionList.jsp").forward(request, response);
+            request.setAttribute("searchQuery",searchQuery);
+            request.getRequestDispatcher("QuestionSearch.jsp").forward(request, response);
         }
     }
 
