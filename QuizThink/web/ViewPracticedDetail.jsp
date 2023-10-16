@@ -111,7 +111,11 @@
                 border: 1px solid #ccc;
             }
 
-
+            .underline {
+                text-decoration: underline;
+                padding-bottom: 5px;
+                margin-bottom: 5px;
+            }
         </style>
     </head>
     <body id="bg">
@@ -171,23 +175,18 @@
                             </div>
 
                             <div class="answers">
-
-                                <c:set var="quizId" value="${o.quizId}" />
-                                <c:set var="list">
-
-                                    <%
-                                         AnswerDAO dao = new AnswerDAO();
-                                         List<Answer> list = dao.getAnswersByQuizId(quizId);
-                                         for(Answer answer: list){
-                                    %><input type="radio" name="q1"><%answer.getContent();%><br> 
-                                    <%}
-                                    %>
-
-                                </c:set>                                
+                                <c:set var="answerList" value="${answerMap[o.quizId]}"/>
+                                <c:forEach var="answer" items="${answerList}">  
+                                    <input type="radio"> ${answer.content} <br>
+                                    <c:if test="${answer.isCorrect() == true}">
+                                        <c:set var="correctAnswer" value="${answer}"/>
+                                    </c:if>
+                                </c:forEach>                              
 
                             </div>
 
                             <div class="explanation">
+                                <p style="margin-bottom: 1px;">Correct Answer:<span class="underline"> ${correctAnswer.content}</span> </p>
                                 <p>Explain: ${o.description}</p>
                             </div>
                         </c:forEach>

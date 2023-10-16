@@ -17,7 +17,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -38,14 +40,26 @@ public class ViewPracticedDetailServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        Map<Integer, List<Answer>> answerMap = new HashMap<>();
         QuizDAO quizDao = new QuizDAO();
-        ResultDAO resultDao = new ResultDAO();    
+        ResultDAO resultDao = new ResultDAO();
+        AnswerDAO answerDao = new AnswerDAO();
         Result rs = resultDao.getResultByID("5");
         List<Quiz> listQuiz = quizDao.getQuizzesByQuestionId(2);
+        for (Quiz quiz : listQuiz) {
+
+            // Lấy list câu trả lời cho mỗi câu hỏi
+            List<Answer> answerList = answerDao.getAnswersByQuizId(quiz.getQuizId());
+
+            // Lưu vào attribute của quiz
+            answerMap.put(quiz.getQuizId(), answerList);
+
+        }
         request.setAttribute("listQuiz", listQuiz);
         request.setAttribute("rs", rs);
+        request.setAttribute("answerMap", answerMap);
         request.getRequestDispatcher("ViewPracticedDetail.jsp").forward(request, response);
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
