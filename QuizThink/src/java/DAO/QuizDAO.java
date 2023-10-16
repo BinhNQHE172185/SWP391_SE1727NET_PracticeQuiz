@@ -6,8 +6,11 @@ package DAO;
 
 import DAL.DBContext;
 import Model.Quiz;
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,9 @@ import java.util.List;
  * @author kimdi
  */
 public class QuizDAO extends DBContext {
-
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
     public List<Quiz> getQuizzesByQuestionId(int questionId) {
         String sql = "SELECT * FROM Quiz WHERE Question_id = ?";
         List<Quiz> quizzes = new ArrayList<>();
@@ -58,5 +63,28 @@ public class QuizDAO extends DBContext {
             e.printStackTrace();
         }
         return 0;
+    }
+    
+    
+    // Add quiz temp
+    public void addQuiz(String question_id, String type, String content, String description){ 
+        String query = "INSERT INTO Quiz (Question_id, type, content, description)\n" +
+                        "VALUES\n" +
+                        "    (?, ?, ?, ?)";
+         try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            
+            ps.setString(1, question_id);
+            ps.setString(2, type);
+            ps.setString(3, content);
+            ps.setString(4, description);
+            ps.executeUpdate(); // no result ==> no need result set
+        } catch (Exception e) {
+            // Handle exceptions here
+        } finally {
+            // Close database connections and resources in a real application
+            // For simplicity, it's omitted here.
+        }
     }
 }
