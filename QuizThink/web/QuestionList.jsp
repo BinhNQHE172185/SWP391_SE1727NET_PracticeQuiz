@@ -153,7 +153,7 @@
                                         <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
                                             <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>">
                                                 <div class="cours-bx">
-                                                    <div class="info-bx text-center">
+                                                    <div class="info-bx text-center question-image">
                                                         <img src="<%= question.getImageURL() %>" alt="" />
                                                     </div>
                                                     <div class="info-bx text-center">
@@ -182,17 +182,56 @@
                                             }
                                         %>
                                         <!-- Question list display END-->
+                                        <!-- Pagination list display-->
+                                        <%
+                                            int currentPage = 1; // Set the current page value
+                                            int noOfPages = 5; // Set the total number of pages
+                                            if (request.getAttribute("currentPage") != null ){
+                                                 currentPage = (int) request.getAttribute("currentPage");
+                                            }
+                                            if (request.getAttribute("noOfPages") != null ){
+                                                 noOfPages = (int) request.getAttribute("noOfPages");
+                                            }
+                                            if (noOfPages > 1) {
+                                        %>
                                         <div class="col-lg-12 m-b20">
                                             <div class="pagination-bx rounded-sm gray clearfix">
                                                 <ul class="pagination">
-                                                    <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
-                                                    <li class="active"><a href="#">1</a></li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
-                                                    <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
+                                                    <%-- For displaying Previous link except for the 1st page --%>
+                                                    <% if (currentPage != 1) { %>
+                                                    <li class="previous">
+                                                        <a href="QuestionListServlet?page=<%= currentPage - 1 %>&noOfPages=<%= noOfPages %>&subjectId=<%= subject.getSubjectId() %>">
+                                                            <i class="ti-arrow-left"></i> Prev
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
+
+                                                    <%-- For displaying pages --%>
+                                                    <% for (int i = 1; i <= noOfPages; i++) { %>
+                                                    <% if (currentPage == i) { %>
+                                                    <li class="active"><a><%= i %></a></li>
+                                                            <% } else { %>
+                                                    <li>
+                                                        <a href="QuestionListServlet?page=<%= i %>&noOfPages=<%= noOfPages %>&subjectId=<%= subject.getSubjectId() %>">
+                                                            <%= i %>
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
+                                                    <% } %>
+
+                                                    <%-- For displaying Next link --%>
+                                                    <% if (currentPage < noOfPages) { %>
+                                                    <li class="next">
+                                                        <a href="QuestionListServlet?page=<%= currentPage + 1 %>&noOfPages=<%= noOfPages %>&subjectId=<%= subject.getSubjectId() %>">
+                                                            Next <i class="ti-arrow-right"></i>
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
                                                 </ul>
                                             </div>
                                         </div>
+                                        <% } %>
+                                        <!-- Pagination list end-->
                                     </div>
                                 </div>
                             </div>
