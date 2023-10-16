@@ -12,11 +12,10 @@ import Model.Answer;
 import Model.Question;
 import Model.Quiz;
 import Model.Subject;
-import DAO.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,44 +25,39 @@ import java.util.List;
  *
  * @author kimdi
  */
-public class QuestionDetailServlet extends HttpServlet {
+@WebServlet(name = "QuizSearchServlet", urlPatterns = {"/QuizSearchServlet"})
+public class QuizSearchServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            int questionId = Integer.parseInt(request.getParameter("questionId"));
+
+            int page = 1; // Target page
+            int noOfPages = 1; // Default number of pages
+            int recordsPerPage = 6;
+            String searchQuery = "";
+            QuizDAO quizDAO = new QuizDAO();
             QuestionDAO questionDAO = new QuestionDAO();
             SubjectDAO subjectDAO = new SubjectDAO();
-            QuizDAO quizDAO = new QuizDAO();
             AnswerDAO answerDAO = new AnswerDAO();
 
+            int questionId = Integer.parseInt(request.getParameter("questionId"));
             Question question = questionDAO.getQuestionById(questionId);
             Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
-
-            int page = 1; // target page
-            int noOfPages = 1; // default no of page
-            int recordsPerPage = 5; // number of quizzes per page
 
             if (request.getParameter("page") != null) {
                 page = Integer.parseInt(request.getParameter("page"));
             }
-
-            int noOfRecords = quizDAO.getNumberOfRecordsByQuestionId(questionId);
+            if (request.getParameter("searchQuery") != null && !request.getParameter("searchQuery").isEmpty()) {
+                searchQuery = request.getParameter("searchQuery");
+            }
+            int noOfRecords = quizDAO.getNumberOfRecordsByQuestionIdAndSearch(questionId, searchQuery);
             noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
 
-            List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId, (page - 1) * recordsPerPage, recordsPerPage);
-
+            List<Quiz> quizzes = quizDAO.searchQuizzesByQuestionId(questionId, searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
+            
             for (Quiz quiz : quizzes) {
                 List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
                 request.setAttribute("answers" + quiz.getQuizId(), answers);
@@ -74,7 +68,8 @@ public class QuestionDetailServlet extends HttpServlet {
             request.setAttribute("quizzes", quizzes);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
-            request.getRequestDispatcher("QuestionDetail.jsp").forward(request, response);
+            request.setAttribute("searchQuery", searchQuery);
+            request.getRequestDispatcher("QuizSearch.jsp").forward(request, response);
         }
     }
 

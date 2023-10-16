@@ -162,72 +162,15 @@
                                         </div>
                                     </div>
                                     <!-- Breadcrumb row END -->
-                                    <div class="row">
-                                        <!-- Question detail display-->
-                                        <%
-                                        if (question != null) {
-                                        %>
-                                        <div class="col-md-12 col-lg-12 col-sm-12 m-b30">
-                                            <div class="cours-bx detail">
-                                                <div class="col-md-6 col-lg-6 col-sm-12 info-bx text-left">
-                                                    <img src="<%= question.getImageURL() %>" alt="" />
-                                                </div>
-                                                <div class="col-md-6 col-lg-6 col-sm-12 info-bx text-left d-flex align-items-center flex-column question-navigation">
-                                                    <button class="submit-btn detail"><h4>Learn quiz</h4></button>
-                                                    <button class="submit-btn detail" onclick="showExamPopup()"><h4>New exam</h4></button>
-                                                    <button class="submit-btn detail"><h4>View history</h4></button>
-                                                </div>
-                                                <!-- The Exam Popup -->
-                                                <div id="examPopup" class="exam-popup">
-                                                    <div class="exam-popup-content">
-                                                        <button class="submit-btn quit" onclick="closeExamPopup()">X</button>
-                                                        <h3>Exam Information</h3>
-                                                        <h5><%= question.getQuizCount() %> quiz</h5>
-                                                        <h5>Duration: <%= question.getDuration() %></h5>
-                                                        <h5>Higher than <%= question.getRequirement() %>% to pass</h5>
+                                    <%
+                                        String searchQuery = (String) request.getAttribute("searchQuery");
 
-                                                        <!-- Add exam information here -->
-                                                        <form class = "text-center m-t20" action="QuizHandleServlet" method="POST">
-                                                            <input type="hidden" name="questionId" value="<%= question.getQuestionId() %>">
-                                                            <button type="submit" class="submit-btn detail">Start Exam</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                                <!-- The Exam Popup END-->
-                                                <div class="info-bx text-left detail">
-                                                    <h5><%= question.getTitle() %><%= question.getQuestionId() %></h5>
-                                                    <br>
-                                                    <span><%= question.getQuizCount() %> quiz</span>
-                                                    <br>
-                                                    <span>Duration: <%= question.getDuration() %></span>
-                                                    <br>
-                                                    <span>Requirement: <%= question.getRequirement() %>%</span>
-                                                    <br>
-                                                    <span>Created Date: <%= question.getCreatedDate() %></span>
-                                                    <br>
-                                                    <p>Description: <%= question.getDescription() %></p>
-                                                </div>
-                                                <div class="col-md-12 col-lg-12 col-sm-12 cours-more-info">
-                                                    <div class="review"><!-- show current progress, show passed + icon if completed-->
-                                                        <h5>Passed</h5>
-                                                        <i class="fa fa-check"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <%
-                                            } else {
-                                        %>
-                                        <p>No info</p>
-                                        <%
-                                            }
-                                        %>
-                                    </div>
-                                    <!-- Question detail display END-->
-
-                                    <div class="row"><h4>Quizzes list:</h4></div>
+                                        if (searchQuery != null && !searchQuery.isEmpty()) {
+                                    %>
+                                    <div class="row"><h4>Result for "<%= searchQuery %>":</h4></div>
+                                    <% } %>
                                     <div class="row">
-                                        <!-- Question list display-->
+                                        <!-- Quiz list display-->
                                         <%
                                         List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
 
@@ -294,7 +237,7 @@
                                         <%
                                         }
                                         %>
-                                        <!-- Question list display END-->
+                                        <!-- Quiz list display END-->
                                         <!-- Pagination list display-->
                                         <%
                                             int currentPage = 1; // Set the current page value
@@ -313,7 +256,7 @@
                                                     <%-- For displaying Previous link except for the 1st page --%>
                                                     <% if (currentPage != 1) { %>
                                                     <li class="previous">
-                                                        <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>&page=<%= currentPage - 1 %>">
+                                                        <a href="QuizSearchServlet?questionId=<%= question.getQuestionId() %>&searchQuery=<%= searchQuery %>&page=<%= currentPage - 1 %>">
                                                             <i class="ti-arrow-left"></i> Prev
                                                         </a>
                                                     </li>
@@ -325,7 +268,7 @@
                                                     <li class="active"><a><%= i %></a></li>
                                                             <% } else { %>
                                                     <li>
-                                                        <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>&page=<%= i %>">
+                                                        <a href="QuizSearchServlet?questionId=<%= question.getQuestionId() %>&searchQuery=<%= searchQuery %>&page=<%= i %>">
                                                             <%= i %>
                                                         </a>
                                                     </li>
@@ -335,7 +278,7 @@
                                                     <%-- For displaying Next link --%>
                                                     <% if (currentPage < noOfPages) { %>
                                                     <li class="next">
-                                                        <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>&page=<%= currentPage + 1 %>">
+                                                        <a href="QuizSearchServlet?questionId=<%= question.getQuestionId() %>&searchQuery=<%= searchQuery %>&page=<%= currentPage + 1 %>">
                                                             Next <i class="ti-arrow-right"></i>
                                                         </a>
                                                     </li>
