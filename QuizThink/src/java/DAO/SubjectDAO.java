@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -24,7 +25,6 @@ public class SubjectDAO extends DBContext {
 
     private List<Subject> list;
     private List<SubjectStatus> listss;
-
 
     public List<Subject> getAllSubjects() {
         List<Subject> listSubject = new ArrayList<>();
@@ -125,11 +125,154 @@ public class SubjectDAO extends DBContext {
         }
         return listSubject;
     }
+
+    public List<Subject> getSubjectByName(String titl) {
+        List<Subject> listSubject = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM Subject WHERE title like ?";
+            ps = getConnection().prepareStatement(query);
+            ps.setString(1, titl);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int subjectId = rs.getInt("Subject_id");
+                int expertId = rs.getInt("Expert_id");
+                int subjectDimensionId = rs.getInt("SubjectDimension_id");
+                String title = rs.getString("title");
+                String imageURL = rs.getString("imageURL");
+                int questionCount = rs.getInt("question_count");
+                int rate = rs.getInt("Rate");
+                int rateCount = rs.getInt("Rate_count");
+                int level = rs.getInt("level");
+                float requirement = rs.getFloat("requirement");
+                String description = rs.getString("description");
+                Date createdDate = rs.getDate("createdDate");
+                Date modifyDate = rs.getDate("modifyDate");
+                boolean status = rs.getBoolean("status");
+                Time duration = rs.getTime("duration");
+
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return listSubject;
+    }
+
+    public List<Subject> getRegistedSubjectByName(int id, String titl) {
+        List<Subject> listSubject = new ArrayList<>();
+        try {
+            String query = "select * from Subject, SubjectStatus where (Subject.Subject_id = SubjectStatus.Subject_id) and Account_id = ? and title like ?";
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, id);
+            ps.setString(2, "%" + titl + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int subjectId = rs.getInt("Subject_id");
+                int expertId = rs.getInt("Expert_id");
+                int subjectDimensionId = rs.getInt("SubjectDimension_id");
+                String title = rs.getString("title");
+                String imageURL = rs.getString("imageURL");
+                int questionCount = rs.getInt("question_count");
+                int rate = rs.getInt("Rate");
+                int rateCount = rs.getInt("Rate_count");
+                int level = rs.getInt("level");
+                float requirement = rs.getFloat("requirement");
+                String description = rs.getString("description");
+                Date createdDate = rs.getDate("createdDate");
+                Date modifyDate = rs.getDate("modifyDate");
+                boolean status = rs.getBoolean("status");
+                Time duration = rs.getTime("duration");
+
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return listSubject;
+    }
+
+    public void cancelRegistedSubject(int accID, int subjectID) {
+
+        String query = "  delete from SubjectStatus where Account_id = ? and Subject_id = ? ";
+        try {
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, accID);
+            ps.setInt(2, subjectID);
+            rs = ps.executeQuery();
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
     
+    public void ApproveSubject(String subjectId){
+        String query = "UPDATE [Subject]\n" +
+                        "SET [status] = 1\n" +
+                        "WHERE [Subject_id] = ?;";
+        try {
+            ps = getConnection().prepareStatement(query);
+            ps.setString(1, subjectId);
+            ps.executeUpdate(); // no result ==> no need result set
+        } catch (Exception e) {
+            // Handle exceptions here
+        }
+    }
+
+    public List<Subject> getNotApproveSubjects() {
+        List<Subject> list = new ArrayList<>();
+        try {
+            String query = "select * from Subject where status = 0";
+            ps = getConnection().prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Subject(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8),
+                        rs.getInt(9),
+                        rs.getFloat(10),
+                        rs.getString(11),
+                        rs.getDate(12),
+                        rs.getDate(13),
+                        rs.getBoolean(14),
+                        rs.getTime(15)    
+                ));
+
+            }
+            }catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+            }
+        return list;
+        }
+    
+    public int getNumOfSubject() {
+        String query = "select COUNT(*) from Subject";
+        try {
+            ps = ps = getConnection().prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
     public static void main(String[] args) {
-        SubjectDAO dao= new SubjectDAO();
-        List<Subject> list = dao.getRegistedSubject(2);
-        for(Subject s : list){
+        SubjectDAO dao = new SubjectDAO();
+        List<Subject> list = dao.getRegistedSubjectByName(2, "a");
+        for (Subject s : list) {
             System.out.println(s.getTitle());
         }
     }

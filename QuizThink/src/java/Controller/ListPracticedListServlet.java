@@ -2,86 +2,61 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller;
 
-import DAO.AccountDAO;
-import DAO.RoleDAO;
-import Model.Account;
-import Model.Role;
+import DAO.ResultDAO;
+import Model.Result;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author Dell
+ * @author admin
  */
-@WebServlet(name="UserLists", urlPatterns={"/userlists"})
-public class UserLists extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+@WebServlet(name = "ListPracticedListServlet", urlPatterns = {"/ListPracticedList"})
+public class ListPracticedListServlet extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        AccountDAO dao = new AccountDAO();
-        RoleDAO RDAO = new RoleDAO();
-        
-        List<Account> listAccount = new ArrayList<>();
-        List<Role> listRole = RDAO.getAllRole();
-        String roleId = request.getParameter("roleId");
-        String textSearch = request.getParameter("search");
-        
-        
-        int numOfAccount; 
-        if(roleId != null){
-            numOfAccount = dao.getNumOfAccountByRole(roleId);
-        }else{
-            numOfAccount = dao.getNumOfAccount();
+        String accID = "";
+        String questionID;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("ID".equals(cookie.getName())) {
+                    // Found the "accID" cookie
+                    accID = cookie.getValue();
+                }
+            }
         }
+        ResultDAO dao = new ResultDAO();
+        List<Result> listResult = dao.getResultByAccountID(accID, "2");
+        request.setAttribute("listResult", listResult);
+        request.getRequestDispatcher("HistoryList.jsp").forward(request, response);
         
-        int lastPage = numOfAccount/15;
-        if(numOfAccount %15 != 0){
-            lastPage ++;
-        }
-        String index = request.getParameter("page");
-        if(index == null){
-            index = "1";
-        }
-        int page = Integer.parseInt(index);
-        
-        
-        if(roleId != null && textSearch == null){
-            listAccount = dao.getAllAccountByRole(page,roleId);
-        }else if(roleId == null && textSearch == null){
-            listAccount = dao.getAllAccount(page);
-        }else if(roleId == null && textSearch != null){
-            listAccount = dao.searchAccountByName(textSearch);
-        }
-        
-        request.setAttribute("selectedRole", roleId);
-        request.setAttribute("listRole", listRole);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("lastPage", lastPage); 
-        request.setAttribute("listAccount", listAccount);
-        request.getRequestDispatcher("UserLists.jsp").forward(request, response);
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -89,12 +64,13 @@ public class UserLists extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -102,12 +78,13 @@ public class UserLists extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

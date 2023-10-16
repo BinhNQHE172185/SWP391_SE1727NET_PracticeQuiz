@@ -5,10 +5,8 @@
 
 package Controller;
 
-import DAO.AccountDAO;
-import DAO.RoleDAO;
-import Model.Account;
-import Model.Role;
+import DAO.SubjectDAO;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,15 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Dell
  */
-@WebServlet(name="UserLists", urlPatterns={"/userlists"})
-public class UserLists extends HttpServlet {
+@WebServlet(name="ApproveSubject", urlPatterns={"/approvesubject"})
+public class ApproveSubject extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,47 +33,11 @@ public class UserLists extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        AccountDAO dao = new AccountDAO();
-        RoleDAO RDAO = new RoleDAO();
+        SubjectDAO dao = new SubjectDAO();
+        List<Subject> listSubject = dao.getNotApproveSubjects();
         
-        List<Account> listAccount = new ArrayList<>();
-        List<Role> listRole = RDAO.getAllRole();
-        String roleId = request.getParameter("roleId");
-        String textSearch = request.getParameter("search");
-        
-        
-        int numOfAccount; 
-        if(roleId != null){
-            numOfAccount = dao.getNumOfAccountByRole(roleId);
-        }else{
-            numOfAccount = dao.getNumOfAccount();
-        }
-        
-        int lastPage = numOfAccount/15;
-        if(numOfAccount %15 != 0){
-            lastPage ++;
-        }
-        String index = request.getParameter("page");
-        if(index == null){
-            index = "1";
-        }
-        int page = Integer.parseInt(index);
-        
-        
-        if(roleId != null && textSearch == null){
-            listAccount = dao.getAllAccountByRole(page,roleId);
-        }else if(roleId == null && textSearch == null){
-            listAccount = dao.getAllAccount(page);
-        }else if(roleId == null && textSearch != null){
-            listAccount = dao.searchAccountByName(textSearch);
-        }
-        
-        request.setAttribute("selectedRole", roleId);
-        request.setAttribute("listRole", listRole);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("lastPage", lastPage); 
-        request.setAttribute("listAccount", listAccount);
-        request.getRequestDispatcher("UserLists.jsp").forward(request, response);
+        request.setAttribute("listSubject", listSubject);
+        request.getRequestDispatcher("SubjectApproval.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -104,6 +65,7 @@ public class UserLists extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
+
     }
 
     /** 

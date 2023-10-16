@@ -110,7 +110,7 @@
 				</div>
 				<div class="widget recent-posts-entry widget-courses">
                     <h5 class="widget-title style-1">Recent Courses</h5>
-                    <div class="widget-post-bx">
+<!--                    <div class="widget-post-bx">
                         <div class="widget-post clearfix">
                             <div class="ttr-post-media"> <img src="FrontEnd/assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
                             <div class="ttr-post-info">
@@ -129,7 +129,7 @@
                                 
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
 			</div>
 			<div class="col-lg-9 col-md-8 col-sm-12">
@@ -141,7 +141,7 @@
                                         <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
 						<div class="cours-bx">
 							<div class="action-box">
-								<img src="FrontEnd/assets/images/courses/${o.imageURL}" alt="">
+								<img src="${o.imageURL}" alt="">
 								<a href="#" class="btn">Read More</a>
 							</div>
 							<div class="info-bx text-center">

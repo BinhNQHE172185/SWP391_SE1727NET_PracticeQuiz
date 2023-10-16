@@ -4,6 +4,9 @@
  */
 package Controller;
 
+import DAO.AccountDAO;
+import DAO.ExpertDAO;
+import DAO.QuizDAO;
 import DAO.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,17 +15,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import Model.Subject;
-import Model.SubjectStatus;
-import jakarta.servlet.http.Cookie;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "RegistedListServlet", urlPatterns = {"/RegistedList"})
-public class RegistedListServlet extends HttpServlet {
+@WebServlet(name = "StatisticMembershipServlet", urlPatterns = {"/Membership"})
+public class StatisticMembershipServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,13 +35,20 @@ public class RegistedListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Cookie[] cookies = request.getCookies();
-        String accountID = cookies.toString();
-        int accID = Integer.parseInt(accountID);
-        SubjectDAO dao = new SubjectDAO();
-        List<Subject> listSubject = dao.getRegistedSubject(2);
-        request.setAttribute("listSubject", listSubject);
-        request.getRequestDispatcher("RegistedCourse.jsp").forward(request, response);
+        AccountDAO accDao = new AccountDAO();
+        SubjectDAO subDao = new SubjectDAO();
+        ExpertDAO exDao = new ExpertDAO();
+        QuizDAO quizDao = new QuizDAO();
+        int accNumber = accDao.getNumOfAccount();
+        int subNumber = subDao.getNumOfSubject();
+        int expertNumber = exDao.getNumOfExpert();
+        int quizNumber = quizDao.getNumOfQuiz();
+        request.setAttribute("accNumber", accNumber);
+        request.setAttribute("subNumber", subNumber);
+        request.setAttribute("expertNumber", expertNumber);
+        request.setAttribute("quizNumber", quizNumber);
+        request.getRequestDispatcher("MemberShip.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

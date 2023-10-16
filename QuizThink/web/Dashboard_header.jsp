@@ -126,13 +126,13 @@
 		                </a>
 		            </li>
 					<li>
-						<a href="UserLists.jsp" class="ttr-material-button">
+						<a href="userlists" class="ttr-material-button">
 							<span class="ttr-icon"><i class="ti-book"></i></span>
 		                	<span class="ttr-label">User List</span>
 		                </a>
 		            </li>
                             <li>
-						<a href="CreateUser.jsp" class="ttr-material-button">
+						<a href="createaccount" class="ttr-material-button">
 							<span class="ttr-icon"><i class="ti-book"></i></span>
 		                	<span class="ttr-label">Create User</span>
 		                </a>
@@ -141,6 +141,31 @@
 						<a href="EditUser.jsp" class="ttr-material-button">
 							<span class="ttr-icon"><i class="ti-book"></i></span>
 		                	<span class="ttr-label">Edit User</span>
+		                </a>
+		            </li>
+                            <li>
+						<a href="approvesubject" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-book"></i></span>
+		                	<span class="ttr-label">Subject Approve</span>
+		                </a>
+		            </li>
+                            <li>
+						<a href="CreateQuiz.jsp" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-book"></i></span>
+		                	<span class="ttr-label">Add Quiz</span>
+		                </a>
+		            </li>
+                            <!-- HREF SERVLET -->
+                            <li>
+						<a href="addquiz" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-book"></i></span>
+		                	<span class="ttr-label">User Detail</span>
+		                </a>
+		            </li>
+                            <li>
+						<a href="addquiz" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-book"></i></span>
+		                	<span class="ttr-label">Subject Details</span>
 		                </a>
 		            </li>
 					

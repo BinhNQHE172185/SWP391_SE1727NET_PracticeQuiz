@@ -33,15 +33,17 @@ public class LoginServlet extends HttpServlet {
         AccountDAO ad = new AccountDAO();
 
         x = ad.getAccount(username, password);
-        
         if(x==null){
             request.setAttribute("status", status);
             request.getRequestDispatcher("Login.jsp").include(request, response);
         } else if (remember != null && remember.equals("on")) {
             //Cookie luu tru username
-            Cookie cookie = new Cookie("username", username);
-            cookie.setMaxAge(60 * 60);
-            response.addCookie(cookie);
+            Cookie usernameCookie = new Cookie("username", username);
+            usernameCookie.setMaxAge(60 * 60);
+            response.addCookie(usernameCookie);
+            Cookie IdCookie = new Cookie("ID", String.valueOf(x.getAccountId()));
+            IdCookie.setMaxAge(60 * 60);
+            response.addCookie(IdCookie);
             response.sendRedirect("home.jsp");
         } else {
             request.getSession().setAttribute("currUser", x);

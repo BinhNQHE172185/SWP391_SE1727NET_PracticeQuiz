@@ -6,8 +6,11 @@ package DAO;
 
 import DAL.DBContext;
 import Model.Quiz;
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,9 @@ import java.util.List;
  * @author kimdi
  */
 public class QuizDAO extends DBContext {
-
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
     public List<Quiz> getQuizzesByQuestionId(int questionId) {
         String sql = "SELECT * FROM Quiz WHERE Question_id = ?";
         List<Quiz> quizzes = new ArrayList<>();
@@ -152,19 +157,42 @@ public class QuizDAO extends DBContext {
 
         return count;
     }
-    public static void main(String[] args) {
-        // Assuming you have an instance of your DAO class
-        QuizDAO yourDAO = new QuizDAO();
-
-        // Assuming you have a subjectId to test
-        int questionId = 1;
-
-        // Call the method to get the number of records for the subject
-        List<Quiz> quizs = yourDAO.searchQuizzesByQuestionId(questionId,"quo", 0, 5);
-
-        // Print the result
-        for (Quiz quiz : quizs) {
-            System.out.println(quiz.getContent());
+ 
+    public int getNumOfQuiz() {
+        String query = "select COUNT(*) from Quiz";
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    
+    
+    // Add quiz temp
+    public void addQuiz(String question_id, String type, String content, String description){ 
+        String query = "INSERT INTO Quiz (Question_id, type, content, description)\n" +
+                        "VALUES\n" +
+                        "    (?, ?, ?, ?)";
+         try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            
+            ps.setString(1, question_id);
+            ps.setString(2, type);
+            ps.setString(3, content);
+            ps.setString(4, description);
+            ps.executeUpdate(); // no result ==> no need result set
+        } catch (Exception e) {
+            // Handle exceptions here
+        } finally {
+            // Close database connections and resources in a real application
+            // For simplicity, it's omitted here.
         }
     }
 }

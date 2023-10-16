@@ -5,7 +5,6 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -180,13 +179,13 @@
                             </div>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="admin/assets/images/testimonials/pic3.jpg" width="32" height="32"></span></a>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="${account.avatar}" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
                                     <li><a href="user-profile.html">My profile</a></li>
                                     <li><a href="list-view-calendar.html">Activity</a></li>
                                     <li><a href="mailbox.html">Messages</a></li>
-                                    <li><a href="../login.html">Logout</a></li>
+                                    <li><a href="Logout">Logout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -224,10 +223,10 @@
                 </div>
                 <!--header search panel start -->
                 <div class="ttr-search-bar">
-                    <form class="ttr-search-form">
+                    <form class="ttr-search-form" action="SearchRegistedSubject" method="post">
                         <div class="ttr-search-input-wrapper">
-                            <input type="text" name="qq" placeholder="search something..." class="ttr-search-input">
-                            <button type="submit" name="search" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
+                            <input type="text" name="search" placeholder="search your course..." class="ttr-search-input">
+                            <button type="submit" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
                         </div>
                         <span class="ttr-search-close ttr-search-toggle">
                             <i class="ti-close"></i>
@@ -360,7 +359,7 @@
                             <div class="wc-title">
                                 <h4>Your Courses</h4>
                             </div>
-                            <c:forEach items = "${listSubject}" var = "o">
+                            <c:forEach items = "${listSubjects}" var = "o">
                                 <div class="widget-inner">
                                     <div class="card-courses-list admin-courses">
                                         <div class="card-courses-media">
@@ -396,7 +395,7 @@
                                                         </ul>
                                                     </li>
                                                     <li class="card-courses-stats">
-                                                        <a href="#" class="btn button-sm green radius-xl">${o.questionCount}</a>
+                                                        <a href="#" class="btn button-sm green radius-xl">${o.questionCount} questions</a>
                                                     </li>
 <!--                                                <li class="card-courses-price">
                                                         <del>$190</del>
@@ -411,7 +410,7 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <a href="#" class="btn green radius-xl outline">View</a>
-                                                    <a href="#" class="btn red outline radius-xl ">Cancel</a>
+                                                    <a href="cancel?id=${o.subjectId}" class="btn red outline radius-xl ">Cancel</a>
                                                 </div>
                                             </div>
 
