@@ -50,6 +50,7 @@ function toggleEffect(checkbox, limitCheck) {
     // Update the counter display
     var counterElement = document.getElementById("quiz-counter");
     counterElement.textContent = quizCounter;
+    console.log(selectedChoices);
 }
 function submitQuiz() {
     var submitQuestionId = document.getElementById("submitQuestionId").getAttribute("data-submitQuestionId");
