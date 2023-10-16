@@ -4,6 +4,7 @@
     Author     : admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -121,8 +122,10 @@
                                                     <li>Select</li>
                                                 </ul>
                                                 <div class="pricingtable-footer"> 
-                                                    <a href="#" class="btn radius-xl" id="get-it-now-button">Get It Now</a>
-                                                    <span class="tooltip" id="tooltip-text">Membership already included</span>
+                                                    <c:if test="${rollid == 4}">
+                                                        <a href="#" class="btn radius-xl" id="get-it-now-button">Membership already included</a>
+                                                    </c:if>
+                                                    <a href="#" class="btn radius-xl" id="get-it-now-button">Get It Now</a>                                                 
                                                 </div>
                                             </div>
                                         </div>
@@ -152,8 +155,10 @@
                                                     <li>Select</li>
                                                 </ul>
                                                 <div class="pricingtable-footer"> 
-                                                    <a href="#" class="btn radius-xl" id="get-it-now-button">Get It Now</a>
-                                                    <span class="tooltip" id="tooltip-text">Membership already included</span>
+                                                    <c:if test="${rollid == 5}">
+                                                        <a href="#" class="btn radius-xl" id="get-it-now-button">Membership already included</a>
+                                                    </c:if>
+                                                    <a href="#" class="btn radius-xl" id="get-it-now-button">Get It Now</a>                                                  
                                                 </div>
                                             </div>
                                         </div>

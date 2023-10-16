@@ -90,7 +90,7 @@ public class CreateAccount extends HttpServlet {
         DAO.insertAccountRole(role);
         //DAO.insertAccountRole(accountId, role);
         //response.sendRedirect("/Front%20End/Admin/Dashboard.jsp");
-        response.sendRedirect("Dashboard.jsp");
+        response.sendRedirect("userlists");
     }
 
     /** 

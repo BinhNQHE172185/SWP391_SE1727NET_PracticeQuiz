@@ -4,13 +4,13 @@
  */
 package Controller;
 
-import DAO.QuestionDAO;
-import DAO.SubjectDAO;
-import Model.Question;
-import Model.Subject;
+import DAO.ResultDAO;
+import Model.Result;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,9 +18,10 @@ import java.util.List;
 
 /**
  *
- * @author kimdi
+ * @author admin
  */
-public class QuestionListServlet extends HttpServlet {
+@WebServlet(name = "ListPracticedListServlet", urlPatterns = {"/ListPracticedList"})
+public class ListPracticedListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,36 +35,22 @@ public class QuestionListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
-            int page = 1;//target page
-            int noOfPages = 1;//default no of page
-            int recordsPerPage = 4;
-            SubjectDAO subjectDAO = new SubjectDAO();
-            QuestionDAO questionDAO = new QuestionDAO();
-
-            int subjectId = 5;
-            //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
-
-            Subject subject = subjectDAO.getSubjectById(subjectId);
-            if (request.getParameter("page") != null) {//restive current page if possible
-                page = Integer.parseInt(request.getParameter("page"));
+        String accID = "";
+        String questionID;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("ID".equals(cookie.getName())) {
+                    // Found the "accID" cookie
+                    accID = cookie.getValue();
+                }
             }
-            if (request.getParameter("noOfPages") != null) {//restive noOfPages if possible
-                noOfPages = Integer.parseInt(request.getParameter("noOfPages"));
-            } else {//if no noOfPages caculate new no of page
-                int noOfRecords = questionDAO.getNumberOfRecordsBySubjectId(subjectId);
-                noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
-            }
-
-            List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId, (page - 1) * recordsPerPage, recordsPerPage);
-            request.setAttribute("subject", subject);
-            request.setAttribute("questions", questions);
-            request.setAttribute("noOfPages", noOfPages);
-            request.setAttribute("currentPage", page);
-            request.getRequestDispatcher("QuestionList.jsp").forward(request, response);
         }
+        ResultDAO dao = new ResultDAO();
+        List<Result> listResult = dao.getResultByAccountID(accID, "2");
+        request.setAttribute("listResult", listResult);
+        request.getRequestDispatcher("HistoryList.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

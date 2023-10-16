@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,13 +33,24 @@ public class UpdateUserProfileServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        int id = 0;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("ID".equals(cookie.getName())) {
+                    // Found the "accID" cookie
+                    String accID = cookie.getValue();
+                    id = Integer.parseInt(accID);
+                }
+            }
+        }
         String fullname = request.getParameter("fullname");
         String email = request.getParameter("email");
         String gender = request.getParameter("gender");
         String dob = request.getParameter("dob");
         String introduction = request.getParameter("introduction");
         AccountDAO dao = new AccountDAO();
-        dao.updateProfile(fullname, email, dob, gender, introduction, "1");
+        dao.updateProfile(fullname, email, dob, gender, introduction, id);
         response.sendRedirect("Profile");
         }
     
