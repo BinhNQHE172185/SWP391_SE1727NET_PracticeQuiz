@@ -99,10 +99,13 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="widget courses-search-bx placeani">
                                         <div class="form-group">
-                                            <div class="input-group">
-                                                <label>Search Question</label>
-                                                <input name="dzName" type="text" required class="form-control">
-                                            </div>
+                                            <form action="QuestionSearchServlet" method="GET"> <!-- Replace "/search" with the appropriate form submission URL -->
+                                                <div class="input-group">
+                                                    <label for="dzName">Search Question</label>
+                                                    <input id="dzName" name="searchQuery" type="text" required class="form-control">
+                                                    <input type="hidden" name="subjectId" value="<%= subject.getSubjectId() %>">
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="widget">
@@ -200,7 +203,7 @@
                                                     <%-- For displaying Previous link except for the 1st page --%>
                                                     <% if (currentPage != 1) { %>
                                                     <li class="previous">
-                                                        <a href="QuestionListServlet?page=<%= currentPage - 1 %>&noOfPages=<%= noOfPages %>&subjectId=<%= subject.getSubjectId() %>">
+                                                        <a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
                                                             <i class="ti-arrow-left"></i> Prev
                                                         </a>
                                                     </li>
@@ -212,7 +215,7 @@
                                                     <li class="active"><a><%= i %></a></li>
                                                             <% } else { %>
                                                     <li>
-                                                        <a href="QuestionListServlet?page=<%= i %>&noOfPages=<%= noOfPages %>&subjectId=<%= subject.getSubjectId() %>">
+                                                        <a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
                                                             <%= i %>
                                                         </a>
                                                     </li>
@@ -222,7 +225,7 @@
                                                     <%-- For displaying Next link --%>
                                                     <% if (currentPage < noOfPages) { %>
                                                     <li class="next">
-                                                        <a href="QuestionListServlet?page=<%= currentPage + 1 %>&noOfPages=<%= noOfPages %>&subjectId=<%= subject.getSubjectId() %>">
+                                                        <a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
                                                             Next <i class="ti-arrow-right"></i>
                                                         </a>
                                                     </li>
