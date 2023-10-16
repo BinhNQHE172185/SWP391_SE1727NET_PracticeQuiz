@@ -150,7 +150,7 @@
 		                </a>
 		            </li>
                             <li>
-						<a href="addquiz" class="ttr-material-button">
+						<a href="CreateQuiz.jsp" class="ttr-material-button">
 							<span class="ttr-icon"><i class="ti-book"></i></span>
 		                	<span class="ttr-label">Add Quiz</span>
 		                </a>
