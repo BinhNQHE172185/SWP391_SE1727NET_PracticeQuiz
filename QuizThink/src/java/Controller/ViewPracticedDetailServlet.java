@@ -18,8 +18,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -47,17 +49,23 @@ public class ViewPracticedDetailServlet extends HttpServlet {
         Result rs = resultDao.getResultByID("5");
         List<Quiz> listQuiz = quizDao.getQuizzesByQuestionId(2);
         for (Quiz quiz : listQuiz) {
-
             // Lấy list câu trả lời cho mỗi câu hỏi
             List<Answer> answerList = answerDao.getAnswersByQuizId(quiz.getQuizId());
-
             // Lưu vào attribute của quiz
             answerMap.put(quiz.getQuizId(), answerList);
-
         }
+        
+        String selected = rs.getSelectedChoice();
+        String[] selectedChoices = selected.replaceAll("[\\[\\]\"]", "").split(", ");
+        Set<String> selectedChoicesSet = new HashSet<>();
+        for (String selectedChoice : selectedChoices) {
+            selectedChoicesSet.add((selectedChoice));
+        }
+
         request.setAttribute("listQuiz", listQuiz);
         request.setAttribute("rs", rs);
         request.setAttribute("answerMap", answerMap);
+        request.setAttribute("selectedChoices", selectedChoices);
         request.getRequestDispatcher("ViewPracticedDetail.jsp").forward(request, response);
 
     }

@@ -4,6 +4,7 @@
 <%@page import = "java.util.List" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -169,15 +170,22 @@
                     </table>
 
                     <div class="question-box">
+                        <% int i = 0; %>
                         <c:forEach items = "${listQuiz}" var = "o">
                             <div class="question">
                                 ${o.content}
                             </div>
 
                             <div class="answers">
+                                
                                 <c:set var="answerList" value="${answerMap[o.quizId]}"/>
-                                <c:forEach var="answer" items="${answerList}">  
-                                    <input type="radio"> ${answer.content} <br>
+                                <c:set var="selectedChoices" value="${selectedChoices[i]}"/>
+                                
+                                <% i++; %>
+                                <c:forEach var="answer" items="${answerList}">     
+                                    <c:set var="checked" value="${fn:contains(selectedChoices, answer.answerId)}"/>
+                                    <input type="radio" name="question_${o.quizId}" ${checked ? 'checked' : ''}> ${answer.content} <br>
+                                    
                                     <c:if test="${answer.isCorrect() == true}">
                                         <c:set var="correctAnswer" value="${answer}"/>
                                     </c:if>
