@@ -208,7 +208,7 @@
                                                     <%-- For displaying Previous link except for the 1st page --%>
                                                     <% if (currentPage != 1) { %>
                                                     <li class="previous">
-                                                        <a href="QuestionSearchServlet?subjectId=<%= subject.getSubjectId() %>&searchQuery=<%= searchQuery %>&&page=<%= currentPage - 1 %>">
+                                                        <a href="QuestionSearchServlet?subjectId=<%= subject.getSubjectId() %>&searchQuery=<%= searchQuery %>&page=<%= currentPage - 1 %>">
                                                             <i class="ti-arrow-left"></i> Prev
                                                         </a>
                                                     </li>
@@ -230,7 +230,7 @@
                                                     <%-- For displaying Next link --%>
                                                     <% if (currentPage < noOfPages) { %>
                                                     <li class="next">
-                                                        <a href="QuestionSearchServlet?subjectId=<%= subject.getSubjectId() %>&searchQuery=<%= searchQuery %>&&page=<%= currentPage + 1 %>">
+                                                        <a href="QuestionSearchServlet?subjectId=<%= subject.getSubjectId() %>&searchQuery=<%= searchQuery %>&page=<%= currentPage + 1 %>">
                                                             Next <i class="ti-arrow-right"></i>
                                                         </a>
                                                     </li>
