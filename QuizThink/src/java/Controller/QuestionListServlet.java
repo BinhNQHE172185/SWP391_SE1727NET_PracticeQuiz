@@ -39,23 +39,19 @@ public class QuestionListServlet extends HttpServlet {
 
             int page = 1;//target page
             int noOfPages = 1;//default no of page
-            int recordsPerPage = 4;
+            int recordsPerPage = 6;
             SubjectDAO subjectDAO = new SubjectDAO();
             QuestionDAO questionDAO = new QuestionDAO();
 
-            int subjectId = 5;
+            int subjectId = 9;
             //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 
             Subject subject = subjectDAO.getSubjectById(subjectId);
             if (request.getParameter("page") != null) {//restive current page if possible
                 page = Integer.parseInt(request.getParameter("page"));
             }
-            if (request.getParameter("noOfPages") != null) {//restive noOfPages if possible
-                noOfPages = Integer.parseInt(request.getParameter("noOfPages"));
-            } else {//if no noOfPages caculate new no of page
-                int noOfRecords = questionDAO.getNumberOfRecordsBySubjectId(subjectId);
-                noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
-            }
+            int noOfRecords = questionDAO.getNumberOfRecordsBySubjectId(subjectId);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
 
             List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId, (page - 1) * recordsPerPage, recordsPerPage);
             request.setAttribute("subject", subject);
