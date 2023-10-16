@@ -50,15 +50,30 @@ public class QuestionDetailServlet extends HttpServlet {
 
             Question question = questionDAO.getQuestionById(questionId);
             Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
-            List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
-            for (Quiz quizz : quizzes) {
-                List<Answer> answers = answerDAO.getAnswersByQuizId(quizz.getQuizId());
-                request.setAttribute("answers" + quizz.getQuizId(), answers);
 
+            int page = 1; // target page
+            int noOfPages = 1; // default no of page
+            int recordsPerPage = 5; // number of quizzes per page
+
+            if (request.getParameter("page") != null) {
+                page = Integer.parseInt(request.getParameter("page"));
             }
-            request.setAttribute("question", question);
+
+            int noOfRecords = quizDAO.getNumberOfRecordsByQuestionId(questionId);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+
+            List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId, (page - 1) * recordsPerPage, recordsPerPage);
+
+            for (Quiz quiz : quizzes) {
+                List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
+                request.setAttribute("answers" + quiz.getQuizId(), answers);
+            }
+            
             request.setAttribute("subject", subject);
+            request.setAttribute("question", question);
             request.setAttribute("quizzes", quizzes);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
             request.getRequestDispatcher("QuestionDetail.jsp").forward(request, response);
         }
     }
