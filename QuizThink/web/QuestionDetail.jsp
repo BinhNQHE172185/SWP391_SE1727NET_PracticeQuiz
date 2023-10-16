@@ -71,6 +71,7 @@
             <!-- Content -->
             <%
                 Subject subject = (Subject) request.getAttribute("subject");
+                Question question = (Question)request.getAttribute("question");
             %>
             <div class="page-content bg-white">
                 <!-- inner page banner -->
@@ -103,10 +104,13 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="widget courses-search-bx placeani">
                                         <div class="form-group">
-                                            <div class="input-group">
-                                                <label>Search Question</label>
-                                                <input name="dzName" type="text" required class="form-control">
-                                            </div>
+                                            <form action="QuizSearchServlet" method="GET"> <!-- Replace "/search" with the appropriate form submission URL -->
+                                                <div class="input-group">
+                                                    <label for="dzName">Search Quiz</label>
+                                                    <input id="dzName" name="searchQuery" type="text" required class="form-control">
+                                                    <input type="hidden" name="questionId" value="<%= question.getQuestionId() %>">
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="widget">
@@ -161,8 +165,6 @@
                                     <div class="row">
                                         <!-- Question detail display-->
                                         <%
-                                        Question question = (Question)request.getAttribute("question");
-
                                         if (question != null) {
                                         %>
                                         <div class="col-md-12 col-lg-12 col-sm-12 m-b30">
@@ -237,7 +239,7 @@
                                                 <div class="d-flex" id="quiz<%= quiz.getQuizId() %>">
                                                     <div class="info-bx col-md-6 col-lg-6 col-sm-6 text-left border-right">
                                                         <div class="col-md-12 col-lg-12 col-sm-12 text-left border-bottom">
-                                                            <h5>Question <%= quiz.getQuizId() %>: <%= quiz.getContent() %></h5>
+                                                            <h5><%= quiz.getContent() %></h5>
                                                             <%
                                                             if (quiz.getType() == 0) {
                                                             %>
@@ -293,17 +295,56 @@
                                         }
                                         %>
                                         <!-- Question list display END-->
+                                        <!-- Pagination list display-->
+                                        <%
+                                            int currentPage = 1; // Set the current page value
+                                            int noOfPages = 5; // Set the total number of pages
+                                            if (request.getAttribute("currentPage") != null ){
+                                                 currentPage = (int) request.getAttribute("currentPage");
+                                            }
+                                            if (request.getAttribute("noOfPages") != null ){
+                                                 noOfPages = (int) request.getAttribute("noOfPages");
+                                            }
+                                            if (noOfPages > 1) {
+                                        %>
                                         <div class="col-lg-12 m-b20">
                                             <div class="pagination-bx rounded-sm gray clearfix">
                                                 <ul class="pagination">
-                                                    <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
-                                                    <li class="active"><a href="#">1</a></li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
-                                                    <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
+                                                    <%-- For displaying Previous link except for the 1st page --%>
+                                                    <% if (currentPage != 1) { %>
+                                                    <li class="previous">
+                                                        <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>&page=<%= currentPage - 1 %>">
+                                                            <i class="ti-arrow-left"></i> Prev
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
+
+                                                    <%-- For displaying pages --%>
+                                                    <% for (int i = 1; i <= noOfPages; i++) { %>
+                                                    <% if (currentPage == i) { %>
+                                                    <li class="active"><a><%= i %></a></li>
+                                                            <% } else { %>
+                                                    <li>
+                                                        <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>&page=<%= i %>">
+                                                            <%= i %>
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
+                                                    <% } %>
+
+                                                    <%-- For displaying Next link --%>
+                                                    <% if (currentPage < noOfPages) { %>
+                                                    <li class="next">
+                                                        <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>&page=<%= currentPage + 1 %>">
+                                                            Next <i class="ti-arrow-right"></i>
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
                                                 </ul>
                                             </div>
                                         </div>
+                                        <% } %>
+                                        <!-- Pagination list end-->
                                     </div>
                                 </div>
                             </div>
