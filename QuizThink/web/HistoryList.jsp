@@ -371,17 +371,20 @@
                                     <div class="col-lg-1">
                                         <h4>STT</h4>
                                     </div>
-                                    <div class="col-lg-5">
-                                        <h4>Tiêu đề 4</h4>
+                                    <div class="col-lg-3">
+                                        <h4>Taken Date</h4>
                                     </div>
                                     <div class="col-lg-2">
-                                        <h4>Tiêu đề 4</h4>
+                                        <h4>Answered/Questions</h4>
                                     </div>
                                     <div class="col-lg-2">
-                                        <h4>Tiêu đề 4</h4>
+                                        <h4>Mark/10</h4>
                                     </div>
                                     <div class="col-lg-2">
-                                        <h4>Tiêu đề 4</h4>
+                                        <h4>Taken Time/Duration</h4>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <h4>Detail</h4>
                                     </div>
                                 </div>
                                 <div class="widget-inner">
@@ -389,7 +392,10 @@
                                         <div class="col-lg-1">
                                             <p>STT</p>
                                         </div>
-                                        <div class="col-lg-5">
+                                        <div class="col-lg-3">
+                                            <p>Tiêu đề 4</p>
+                                        </div>
+                                        <div class="col-lg-2">
                                             <p>Tiêu đề 4</p>
                                         </div>
                                         <div class="col-lg-2">

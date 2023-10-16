@@ -139,10 +139,9 @@
 							<a href="#" class="btn">Read More</a>
 						</div>
 						<div class="col-lg-7 col-md-12 heading-bx p-lr">
-							<div class="video-bx">
-								<img src="FrontEnd/assets/images/about/pic1.jpg" alt=""/>
-								<a href="https://www.youtube.com/watch?v=x_sJzVe9P_8" class="popup-youtube video"><i class="fa fa-play"></i></a>
-							</div>
+							<div class="account-head" style="background-image:url(Frontend/assets/images/background/bg2.jpg);">
+                    <a href="home.jsp"><img src="FrontEnd/assets/images/Logo2.png" alt=""></a>
+                </div>
 						</div>
 					</div>
 				</div>
@@ -273,7 +272,6 @@ Are you ready to take your learning to the next level? Register today and embark
 <script src="FrontEnd/assets/vendors/owl-carousel/owl.carousel.js"></script>
 <script src="FrontEnd/assets/js/functions.js"></script>
 <script src="FrontEnd/assets/js/contact.js"></script>
-<script src='FrontEnd/assets/vendors/switcher/switcher.js'></script>
 </body>
 
 

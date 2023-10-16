@@ -52,31 +52,42 @@ function toggleEffect(checkbox, limitCheck) {
     counterElement.textContent = quizCounter;
 }
 function submitQuiz() {
-    var submitQuestionId = document.getElementById("submitQuestionId").getAttribute("data-submitQuestionId");//get question id present in the test
-    // Create a data object to send in the POST request
+    var submitQuestionId = document.getElementById("submitQuestionId").getAttribute("data-submitQuestionId");
     var data = {
         questionId: submitQuestionId,
         timeLeft: timeLeft,
         selectedChoices: selectedChoices
     };
 
-    // Send a POST request to the servlet endpoint
-    fetch('/QuizSubmitServlet', {
-        method: 'POST',
+    $.ajax({
+        url: "QuizSubmitServlet",
+        method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
-    })
-    .catch(error => {
-        // Handle any errors that occur during the request
-        console.error('Error:', error);
+        data: JSON.stringify(data),
+        success: function (data) {
+            window.location = data;
+        },
+        error: function (error) {
+            // Handle any errors that occur during the request
+            console.error('Error:', error);
+        }
     });
 }
-// Set the date we're counting down to
+// get endtime 
 var endTimeElement = document.getElementById("endTimeElement");
-var endTime = new Date(endTimeElement.getAttribute("endTime")).getTime();
+var endTimeString = endTimeElement.getAttribute("data-endTime");
+var timeParts = endTimeString.split(":");
+var hours = parseInt(timeParts[0], 10);
+var minutes = parseInt(timeParts[1], 10);
+var seconds = parseInt(timeParts[2], 10);
 
+var endTime = new Date();
+endTime.setHours(hours);
+endTime.setMinutes(minutes);
+endTime.setSeconds(seconds);
+console.log(endTime);
 // Update the count down every 1 second
 var x = setInterval(function () {
 
@@ -85,22 +96,33 @@ var x = setInterval(function () {
 
     // Find the timeLeft between now and the count down date
     timeLeft = endTime - now;
-
+    console.log("endTime:", endTime);
+    console.log("timeLeft:", timeLeft);
     // Time calculations for days, hours, minutes and seconds
     var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
     var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-    // Display the result in the element with id="demo"
-    document.getElementById("question-timer").innerHTML = days + "d " + hours + "h "
-            + minutes + "m " + seconds + "s ";
+    // Display timer
+    var timerDisplay = "";
 
+    if (days > 0) {
+        timerDisplay += days + "d ";
+    }
+    if (hours > 0) {
+        timerDisplay += hours + "h ";
+    }
+    if (minutes > 0) {
+        timerDisplay += minutes + "m ";
+    }
+    timerDisplay += seconds + "s";
+    document.getElementById("question-timer").innerHTML = timerDisplay;
     // If the count down is finished, write some text
     if (timeLeft < 0) {
         clearInterval(x);
         document.getElementById("question-timer").innerHTML = "Time-up";
-        submitQuiz();
+        //submitQuiz();
     }
 }, 1000);
 

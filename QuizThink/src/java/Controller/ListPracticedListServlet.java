@@ -4,29 +4,24 @@
  */
 package Controller;
 
-import DAO.AnswerDAO;
-import DAO.QuestionDAO;
-import DAO.QuizDAO;
-import Model.Account;
-import Model.Answer;
-import Model.Question;
-import Model.Quiz;
+import DAO.ResultDAO;
+import Model.Result;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
- * @author kimdi
+ * @author admin
  */
-public class QuizSubmitServlet extends HttpServlet {
+@WebServlet(name = "ListPracticedListServlet", urlPatterns = {"/ListPracticedList"})
+public class ListPracticedListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,37 +35,22 @@ public class QuizSubmitServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            Account currUser = (Account) session.getAttribute("currUser");
-            int questionId = Integer.parseInt(request.getParameter("questionId"));
-            int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
-            String[] selectedChoices = request.getParameterValues("selectedChoices");
-            Set<Integer> selectedChoicesSet = new HashSet<>();
-            for (String selectedChoice : selectedChoices) {
-                selectedChoicesSet.add(Integer.parseInt(selectedChoice));
-            }
-            QuestionDAO questionDAO = new QuestionDAO();
-            QuizDAO quizDAO = new QuizDAO();
-            AnswerDAO answerDAO = new AnswerDAO();
-            Question question = questionDAO.getQuestionById(questionId);
-            List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
-            float totalQuizCount = question.getQuizCount();
-            int quizCount = 0;
-            for (Quiz quizz : quizzes) {
-                int correctChoiceCount = 0;
-                List<Answer> answers = answerDAO.getCorrectAnswersByQuizId(quizz.getQuizId());
-                for (Answer answer : answers) {
-                    if (selectedChoicesSet.contains(answer.getAnswerId())) {
-                        correctChoiceCount++;
-                    }
+        String accID = "";
+        String questionID;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("ID".equals(cookie.getName())) {
+                    // Found the "accID" cookie
+                    accID = cookie.getValue();
                 }
-                quizCount += (correctChoiceCount/answers.size());
             }
-            float mark = (quizCount/totalQuizCount)*10;
-            request.setAttribute("mark", mark);
-            response.getWriter().write("QuizHandleResult.jsp");
         }
+        ResultDAO dao = new ResultDAO();
+        List<Result> listResult = dao.getResultByAccountID(accID, "2");
+        request.setAttribute("listResult", listResult);
+        request.getRequestDispatcher("HistoryList.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
