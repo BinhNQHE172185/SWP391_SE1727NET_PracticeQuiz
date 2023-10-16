@@ -23,6 +23,9 @@
 /*=================================
 	1. HEADER
 =================================*/
+#Ebtn .btn{
+    margin-right: 10px;
+}
 .bg-fix {
     background-attachment: fixed;
 	background-size: cover;
