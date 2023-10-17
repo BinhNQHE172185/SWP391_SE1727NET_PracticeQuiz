@@ -54,13 +54,18 @@ public class ViewPracticedDetailServlet extends HttpServlet {
             // Lưu vào attribute của quiz
             answerMap.put(quiz.getQuizId(), answerList);
         }
-        
+
         String selected = rs.getSelectedChoice();
         String[] selectedChoices = selected.replaceAll("[\\[\\]\"]", "").split(", ");
-        Set<String> selectedChoicesSet = new HashSet<>();
-        for (String selectedChoice : selectedChoices) {
-            selectedChoicesSet.add((selectedChoice));
+        int[] intArray = new int[selectedChoices.length];
+
+        for (int i = 0; i < selectedChoices.length; i++) {
+            intArray[i] = Integer.parseInt(selectedChoices[i]);
         }
+//        Set<String> selectedChoicesSet = new HashSet<>();
+//        for (String selectedChoice : selectedChoices) {
+//            selectedChoicesSet.add((selectedChoice));
+//        }
 
         request.setAttribute("listQuiz", listQuiz);
         request.setAttribute("rs", rs);

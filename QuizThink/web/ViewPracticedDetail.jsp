@@ -170,22 +170,21 @@
                     </table>
 
                     <div class="question-box">
-                        <% int i = 0; %>
-                        <c:forEach items = "${listQuiz}" var = "o">
+                        <c:set var="i" value="0"/>
+                        <c:forEach items = "${listQuiz}" var = "o" >
                             <div class="question">
                                 ${o.content}
                             </div>
 
                             <div class="answers">
-                                
+
                                 <c:set var="answerList" value="${answerMap[o.quizId]}"/>
-                                <c:set var="selectedChoices" value="${selectedChoices[i]}"/>
-                                
-                                <% i++; %>
+                                <c:set var="selectedChoices" value="${intArray.i}"/>                               
+
                                 <c:forEach var="answer" items="${answerList}">     
                                     <c:set var="checked" value="${fn:contains(selectedChoices, answer.answerId)}"/>
                                     <input type="radio" name="question_${o.quizId}" ${checked ? 'checked' : ''}> ${answer.content} <br>
-                                    
+
                                     <c:if test="${answer.isCorrect() == true}">
                                         <c:set var="correctAnswer" value="${answer}"/>
                                     </c:if>
@@ -197,6 +196,7 @@
                                 <p style="margin-bottom: 1px;">Correct Answer:<span class="underline"> ${correctAnswer.content}</span> </p>
                                 <p>Explain: ${o.description}</p>
                             </div>
+                            <c:set var="i" value="${i + 1}"/>
                         </c:forEach>
                     </div>
 
