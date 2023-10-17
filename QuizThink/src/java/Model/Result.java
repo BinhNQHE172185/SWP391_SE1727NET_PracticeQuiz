@@ -20,12 +20,13 @@ public class Result {
     private Time takenDuration;
     private Time duration;
     private float mark;
+    private int quizCount;
 
     public Result() {
         // Default constructor
     }
 
-    public Result(int resultId, int questionId, int accountId, String selectedChoice, Date takenDate, Time takenDuration, Time duration, float mark) {
+    public Result(int resultId, int questionId, int accountId, String selectedChoice, Date takenDate, Time takenDuration, Time duration, float mark, int quizCount) {
         this.resultId = resultId;
         this.questionId = questionId;
         this.accountId = accountId;
@@ -34,7 +35,9 @@ public class Result {
         this.takenDuration = takenDuration;
         this.duration = duration;
         this.mark = mark;
-    }    
+        this.quizCount = quizCount;
+    } 
+
 
     public int getResultId() {
         return resultId;
@@ -98,5 +101,13 @@ public class Result {
 
     public void setMark(float mark) {
         this.mark = mark;
+    }
+    
+    public int getQuizCount() {
+        return quizCount;
+    }
+
+    public void setQuizCount(int quizCount) {
+        this.quizCount = quizCount;
     }
 }

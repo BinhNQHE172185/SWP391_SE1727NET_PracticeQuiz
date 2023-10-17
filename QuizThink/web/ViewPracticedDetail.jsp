@@ -117,6 +117,16 @@
                 padding-bottom: 5px;
                 margin-bottom: 5px;
             }
+
+            /* Đáp án đúng - Màu nền xanh */
+            input[type="radio"].correct {
+                background-color: greenyellow; /* Màu xanh lam */
+            }
+
+            /* Đáp án sai - Màu nền đỏ */
+            input[type="radio"].incorrect {
+                background-color: red; /* Màu đỏ */
+            }
         </style>
     </head>
     <body id="bg">
@@ -161,7 +171,7 @@
                         </tr>
                         <tr>
                             <td style="font-weight: bold;">Right Answer:</td> 
-                            <td>20/${listQuiz.size()}</td>
+                            <td>${rs.quizCount}/${listQuiz.size()}</td>
                         </tr>
                         <tr>
                             <td style="font-weight: bold;">Mark:</td>
@@ -179,20 +189,21 @@
                             <div class="answers">
 
                                 <c:set var="answerList" value="${answerMap[o.quizId]}"/>
-                                <c:set var="selectedChoices" value="${intArray.i}"/>                               
+                                <c:set var="selectedChoices" value="${intArray[i]}"/>                             
 
                                 <c:forEach var="answer" items="${answerList}">     
-                                    <c:set var="checked" value="${fn:contains(selectedChoices, answer.answerId)}"/>
-                                    <input type="radio" name="question_${o.quizId}" ${checked ? 'checked' : ''}> ${answer.content} <br>
+                                    <c:set var="checked" value="${selectedChoices == answer.answerId}"/>
+                                    <input type="radio" name="question_${o.quizId}" ${checked ? 'checked' : ''} disabled
+                                           class="${checked && answer.isCorrect() ? 'correct' : 'incorrect'}"> ${answer.content} <br>
 
-                                    <c:if test="${answer.isCorrect() == true}">
-                                        <c:set var="correctAnswer" value="${answer}"/>
-                                    </c:if>
-                                </c:forEach>                              
+                                           <c:if test="${answer.isCorrect() == true}">
+                                               <c:set var="correctAnswer" value="${answer}"/>
+                                           </c:if>
+                                    </c:forEach>                              
 
-                            </div>
+                                    </div>
 
-                            <div class="explanation">
+                                    <div class="explanation">
                                 <p style="margin-bottom: 1px;">Correct Answer:<span class="underline"> ${correctAnswer.content}</span> </p>
                                 <p>Explain: ${o.description}</p>
                             </div>

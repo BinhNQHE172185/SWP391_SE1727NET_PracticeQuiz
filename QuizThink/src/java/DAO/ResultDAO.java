@@ -19,6 +19,7 @@ import java.util.List;
  * @author admin
  */
 public class ResultDAO extends DBContext {
+    
     private PreparedStatement ps;
     private ResultSet rs;
     
@@ -38,8 +39,9 @@ public class ResultDAO extends DBContext {
                 Date takenDate = rs.getDate("takenDate");
                 Time takenDuration = rs.getTime("takenDuration");
                 Time duration = rs.getTime("duration");
-                float mark = rs.getFloat("mark");                
-                list.add(new Result(Result_id, Question_id, Account_id, selectedChoice, takenDate, takenDuration, duration, mark));
+                float mark = rs.getFloat("mark");
+                int quizCount = rs.getInt("quiz_count");
+                list.add(new Result(Result_id, Question_id, Account_id, selectedChoice, takenDate, takenDuration, duration, mark, quizCount));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
@@ -48,13 +50,13 @@ public class ResultDAO extends DBContext {
         return list;
     }
     
-    public Result getResultByID(String id){
+    public Result getResultByID(String id) {
         try {
             String query = " select * from Result where Result_id = ?";
-             ps = getConnection().prepareStatement(query);
+            ps = getConnection().prepareStatement(query);
             ps.setString(1, id);
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 return new Result(
                         rs.getInt("Result_id"),
@@ -64,7 +66,8 @@ public class ResultDAO extends DBContext {
                         rs.getDate("takenDate"),
                         rs.getTime("takenDuration"),
                         rs.getTime("duration"),
-                        rs.getFloat("mark"));
+                        rs.getFloat("mark"),
+                        rs.getInt("quiz_count"));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
