@@ -70,7 +70,7 @@ public class ViewPracticedDetailServlet extends HttpServlet {
         request.setAttribute("listQuiz", listQuiz);
         request.setAttribute("rs", rs);
         request.setAttribute("answerMap", answerMap);
-        request.setAttribute("selectedChoices", selectedChoices);
+        request.setAttribute("intArray", intArray);
         request.getRequestDispatcher("ViewPracticedDetail.jsp").forward(request, response);
 
     }
