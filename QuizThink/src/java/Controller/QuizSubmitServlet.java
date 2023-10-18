@@ -11,6 +11,11 @@ import Model.Account;
 import Model.Answer;
 import Model.Question;
 import Model.Quiz;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,6 +23,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,33 +49,63 @@ public class QuizSubmitServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             Account currUser = (Account) session.getAttribute("currUser");
-            int questionId = Integer.parseInt(request.getParameter("questionId"));
-            int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
-            String[] selectedChoices = request.getParameterValues("selectedChoices");
-            Set<Integer> selectedChoicesSet = new HashSet<>();
-            for (String selectedChoice : selectedChoices) {
-                selectedChoicesSet.add(Integer.parseInt(selectedChoice));
+
+// Read the request body
+            StringBuilder requestBody = new StringBuilder();
+            BufferedReader reader = request.getReader();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                requestBody.append(line);
             }
-            QuestionDAO questionDAO = new QuestionDAO();
-            QuizDAO quizDAO = new QuizDAO();
-            AnswerDAO answerDAO = new AnswerDAO();
-            Question question = questionDAO.getQuestionById(questionId);
-            List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
-            float totalQuizCount = question.getQuizCount();
-            int quizCount = 0;
-            for (Quiz quizz : quizzes) {
-                int correctChoiceCount = 0;
-                List<Answer> answers = answerDAO.getCorrectAnswersByQuizId(quizz.getQuizId());
-                for (Answer answer : answers) {
-                    if (selectedChoicesSet.contains(answer.getAnswerId())) {
-                        correctChoiceCount++;
-                    }
+            reader.close();
+
+// Parse the JSON data
+            JsonObject jsonData = new Gson().fromJson(requestBody.toString(), JsonObject.class);
+            String questionIdParam = jsonData.get("questionId").getAsString();
+            String timeLeftParam = jsonData.get("timeLeft").getAsString();
+            JsonArray selectedChoicesArray = jsonData.get("selectedChoices").getAsJsonArray();
+
+            if (questionIdParam == null || timeLeftParam == null) {
+                // Handle the case when the required parameters are missing
+                String json = new Gson().toJson("error");
+                response.getWriter().write(json);
+            } else {
+                int questionId = Integer.parseInt(questionIdParam);
+                int timeLeft = Integer.parseInt(timeLeftParam);
+                Set<Integer> selectedChoicesSet = new HashSet<>();
+                for (JsonElement choice : selectedChoicesArray) {
+                    selectedChoicesSet.add(choice.getAsInt());
                 }
-                quizCount += (correctChoiceCount/answers.size());
+                QuestionDAO questionDAO = new QuestionDAO();
+                QuizDAO quizDAO = new QuizDAO();
+                AnswerDAO answerDAO = new AnswerDAO();
+                Question question = questionDAO.getQuestionById(questionId);
+                List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
+                float totalQuizCount = question.getQuizCount();
+                float quizCount = 0;
+                for (Quiz quizz : quizzes) {
+                    int correctChoiceCount = 0;
+                    List<Answer> answers = answerDAO.getCorrectAnswersByQuizId(quizz.getQuizId());
+                    for (Answer answer : answers) {
+                        if (selectedChoicesSet.contains(answer.getAnswerId())) {
+                            correctChoiceCount++;
+                        }
+                    }
+                    quizCount += (correctChoiceCount / answers.size());
+                }
+                float mark = (quizCount / totalQuizCount) * 10;
+
+                //String json = new Gson().toJson(mark);
+                //response.getWriter().write(json);
+                // Store the mark in the session for later retrieval
+                request.setAttribute("mark", mark);
+                request.setAttribute("question", question);
+                request.setAttribute("quizzes", quizzes);
+                session.setAttribute("endTime", timeLeft);
+
+                // Redirect to another page
+                request.getRequestDispatcher("QuizHandleResult.jsp").forward(request, response);
             }
-            float mark = (quizCount/totalQuizCount)*10;
-            request.setAttribute("mark", mark);
-            response.getWriter().write("QuizHandleResult.jsp");
         }
     }
 
