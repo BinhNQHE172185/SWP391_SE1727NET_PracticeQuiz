@@ -1,4 +1,5 @@
 <%@page import = "Model.Account" %>
+<%@page import = "Model.Expert" %>
 <%@page import = "java.util.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
@@ -53,6 +54,7 @@
 <header class="header rs-nav header-transparent">
     <%
         Account acc = (Account) session.getAttribute("currUser");
+        Expert ex = (Expert) session.getAttribute("currExpert");
         String username = "";
         Cookie[] cookies = request.getCookies();
     
@@ -83,6 +85,9 @@
                         <li><a href="Logout">Logout</a></li>
                             <%}else if(acc!=null){%>
                         <li><a href="#"><%=acc.getUsername()%></a></li>
+                        <li><a href="Logout">Logout</a></li>
+                            <%}else if(ex!=null){%>
+                        <li><a href="#"><%=ex.getUsername()%></a></li>
                         <li><a href="Logout">Logout</a></li>
                             <%}else{%>
                         <li><a href="Login.jsp">Login</a></li>
@@ -123,8 +128,17 @@
                         <div class="dropdown">
                             <button class="dropdown-button"><%=acc.getUsername()%></button>
                             <div class="dropdown-content">
-                                <a href="">My profile</a>
-                                <a href="">My courses</a>
+                                <a href="Profile">My profile</a>
+                                <a href="YourSubject">My courses</a>
+
+                            </div>
+                        </div>
+                        <%}else if(ex!=null){%>
+                        <div class="dropdown">
+                            <button class="dropdown-button"><%=ex.getUsername()%></button>
+                            <div class="dropdown-content">
+                                <a href="Profile">My profile</a>
+                                <a href="YourSubject">My courses</a>
 
                             </div>
                         </div>
