@@ -12,6 +12,7 @@ import java.sql.Time;
  * @author admin
  */
 public class Result {
+
     private int resultId;
     private int questionId;
     private int accountId;
@@ -34,7 +35,17 @@ public class Result {
         this.takenDuration = takenDuration;
         this.duration = duration;
         this.mark = mark;
-    }    
+    }
+
+    public Result(int questionId, int accountId, String selectedChoice, Date takenDate, Time takenDuration, Time duration, float mark) {
+        this.questionId = questionId;
+        this.accountId = accountId;
+        this.selectedChoice = selectedChoice;
+        this.takenDate = takenDate;
+        this.takenDuration = takenDuration;
+        this.duration = duration;
+        this.mark = mark;
+    }
 
     public int getResultId() {
         return resultId;

@@ -68,7 +68,8 @@ function submitQuiz() {
         success: function (response) {
             // Handle the success response
             console.log(response);
-            window.location="QuizHandleResult.jsp";
+            var resultId = response;
+            window.location = "ViewPracticedDetail?resultId=" + resultId;
         },
         error: function (error) {
             // Handle any errors that occur during the request

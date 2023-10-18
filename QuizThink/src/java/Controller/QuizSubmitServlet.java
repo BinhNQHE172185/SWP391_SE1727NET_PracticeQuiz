@@ -7,10 +7,12 @@ package Controller;
 import DAO.AnswerDAO;
 import DAO.QuestionDAO;
 import DAO.QuizDAO;
+import DAO.ResultDAO;
 import Model.Account;
 import Model.Answer;
 import Model.Question;
 import Model.Quiz;
+import Model.Result;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -24,9 +26,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.BufferedReader;
+import java.sql.Date;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -45,12 +51,14 @@ public class QuizSubmitServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        //response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             Account currUser = (Account) session.getAttribute("currUser");
 
-// Read the request body
+            // Read the request body
             StringBuilder requestBody = new StringBuilder();
             BufferedReader reader = request.getReader();
             String line;
@@ -59,7 +67,7 @@ public class QuizSubmitServlet extends HttpServlet {
             }
             reader.close();
 
-// Parse the JSON data
+            // Parse the JSON data
             JsonObject jsonData = new Gson().fromJson(requestBody.toString(), JsonObject.class);
             String questionIdParam = jsonData.get("questionId").getAsString();
             String timeLeftParam = jsonData.get("timeLeft").getAsString();
@@ -71,7 +79,7 @@ public class QuizSubmitServlet extends HttpServlet {
                 response.getWriter().write(json);
             } else {
                 int questionId = Integer.parseInt(questionIdParam);
-                int timeLeft = Integer.parseInt(timeLeftParam);
+                Time timeLeft = new Time(Integer.parseInt(timeLeftParam));
                 Set<Integer> selectedChoicesSet = new HashSet<>();
                 for (JsonElement choice : selectedChoicesArray) {
                     selectedChoicesSet.add(choice.getAsInt());
@@ -95,18 +103,20 @@ public class QuizSubmitServlet extends HttpServlet {
                 }
                 float mark = (quizCount / totalQuizCount) * 10;
 
-                //String json = new Gson().toJson(mark);
-                //response.getWriter().write(json);
-                // Store the mark in the session for later retrieval
-                request.setAttribute("mark", mark);
-                request.setAttribute("question", question);
-                request.setAttribute("quizzes", quizzes);
-                session.setAttribute("endTime", timeLeft);
+                ResultDAO resultDAO = new ResultDAO();
+                Result result = new Result(questionId, currUser.getAccountId(), setToString(selectedChoicesSet), new Date(System.currentTimeMillis()), timeLeft, question.getDuration(), mark);
+                int resultId = resultDAO.addResult(result);
 
-                // Redirect to another page
-                request.getRequestDispatcher("QuizHandleResult.jsp").forward(request, response);
+                String jsonResponse = new Gson().toJson(resultId);
+                response.getWriter().write(jsonResponse);
             }
         }
+    }
+
+    public static String setToString(Set<Integer> set) {
+        return set.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(", "));
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
