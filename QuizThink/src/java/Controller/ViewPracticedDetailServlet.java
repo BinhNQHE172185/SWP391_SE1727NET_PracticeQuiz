@@ -46,15 +46,18 @@ public class ViewPracticedDetailServlet extends HttpServlet {
         QuizDAO quizDao = new QuizDAO();
         ResultDAO resultDao = new ResultDAO();
         AnswerDAO answerDao = new AnswerDAO();
-        Result rs = resultDao.getResultByID("5");
-        List<Quiz> listQuiz = quizDao.getQuizzesByQuestionId(2);
+        int resultId = Integer.parseInt(request.getParameter("resultId"));
+        //Result rs = resultDao.getResultByID("5");
+        
+        Result rs = resultDao.getResultByID(resultId);
+        List<Quiz> listQuiz = quizDao.getQuizzesByQuestionId(rs.getQuestionId());
         for (Quiz quiz : listQuiz) {
             // Lấy list câu trả lời cho mỗi câu hỏi
             List<Answer> answerList = answerDao.getAnswersByQuizId(quiz.getQuizId());
             // Lưu vào attribute của quiz
             answerMap.put(quiz.getQuizId(), answerList);
         }
-        
+
         String selected = rs.getSelectedChoice();
         String[] selectedChoices = selected.replaceAll("[\\[\\]\"]", "").split(", ");
         Set<String> selectedChoicesSet = new HashSet<>();
