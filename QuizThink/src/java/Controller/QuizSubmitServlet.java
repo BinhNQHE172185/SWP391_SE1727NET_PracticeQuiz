@@ -78,16 +78,36 @@ public class QuizSubmitServlet extends HttpServlet {
                 String json = new Gson().toJson("error");
                 response.getWriter().write(json);
             } else {
+                QuestionDAO questionDAO = new QuestionDAO();
+                QuizDAO quizDAO = new QuizDAO();
+                AnswerDAO answerDAO = new AnswerDAO();
+                
                 int questionId = Integer.parseInt(questionIdParam);
-                Time timeLeft = new Time(Integer.parseInt(timeLeftParam));
+                //get timeLEft
+                int secondsLeft = Integer.parseInt(timeLeftParam);
+
+                int hours = secondsLeft / 3600;
+                int minutes = (secondsLeft % 3600) / 60;
+                int seconds = secondsLeft % 60;
+
+                Time timeLeft = new Time(hours, minutes, seconds);
+                
+                Question question = questionDAO.getQuestionById(questionId);
+                Time duration = question.getDuration();
+
+                // Calculate the time taken
+                long durationMillis = duration.getTime();
+                long timeLeftMillis = timeLeft.getTime();
+                long timeTakenMillis = durationMillis - timeLeftMillis;
+
+                // Create a new 'Time' object for the time taken
+                Time timeTaken = new Time(timeTakenMillis);
+                //get selected choice
                 Set<Integer> selectedChoicesSet = new HashSet<>();
                 for (JsonElement choice : selectedChoicesArray) {
                     selectedChoicesSet.add(choice.getAsInt());
                 }
-                QuestionDAO questionDAO = new QuestionDAO();
-                QuizDAO quizDAO = new QuizDAO();
-                AnswerDAO answerDAO = new AnswerDAO();
-                Question question = questionDAO.getQuestionById(questionId);
+
                 List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
                 float totalQuizCount = question.getQuizCount();
                 float quizCount = 0;
@@ -104,7 +124,7 @@ public class QuizSubmitServlet extends HttpServlet {
                 float mark = (quizCount / totalQuizCount) * 10;
 
                 ResultDAO resultDAO = new ResultDAO();
-                Result result = new Result(questionId, currUser.getAccountId(), setToString(selectedChoicesSet), new Date(System.currentTimeMillis()), timeLeft, question.getDuration(), mark);
+                Result result = new Result(questionId, currUser.getAccountId(), setToString(selectedChoicesSet), new Date(System.currentTimeMillis()), timeTaken, question.getDuration(), mark, question.getQuizCount());
                 int resultId = resultDAO.addResult(result);
 
                 String jsonResponse = new Gson().toJson(resultId);
