@@ -188,6 +188,14 @@ public class QuizDAO extends DBContext {
             ps.setString(3, content);
             ps.setString(4, description);
             ps.executeUpdate(); // no result ==> no need result set
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int quizId = generatedKeys.getInt(1); // Lấy giá trị quiz_id vừa được tạo
+                // Tạo DAO cho bảng Answer và sử dụng quizId
+                AnswerDAO answerDAO = new AnswerDAO();
+                //add Answers
+                //answerDAO.addAnswers(quizId, answers);
+            }
         } catch (Exception e) {
             // Handle exceptions here
         } finally {
@@ -195,4 +203,6 @@ public class QuizDAO extends DBContext {
             // For simplicity, it's omitted here.
         }
     }
+    
+    
 }
