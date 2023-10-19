@@ -389,6 +389,9 @@
                                     </div>
                                 </div>
                                 <div class="widget-inner">
+                                    <c:if test="${listResult.size() == 0}">
+                                        <p>You haven't take any quizzes yet</p>
+                                    </c:if>
                                     <c:forEach items = "${listResult}" var = "o">
                                         <div class="row card-courses-list admin-courses">
                                             <div class="col-lg-1">
