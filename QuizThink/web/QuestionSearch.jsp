@@ -103,7 +103,6 @@
                                                 <div class="input-group">
                                                     <label for="dzName">Search Question</label>
                                                     <input id="dzName" name="searchQuery" type="text" required class="form-control">
-                                                    <input type="hidden" name="subjectId" value="<%= subject.getSubjectId() %>">
                                                 </div>
                                             </form>
                                         </div>
@@ -144,7 +143,13 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-sm-12">
-                                    <div class="row"><h4>Question list:</h4></div>
+                                    <%
+                                        String searchQuery = (String) request.getAttribute("searchQuery");
+
+                                        if (searchQuery != null && !searchQuery.isEmpty()) {
+                                    %>
+                                    <div class="row"><h4>Result for "<%= searchQuery %>":</h4></div>
+                                    <% } %>
                                     <div class="row">
                                         <!-- Question list display-->
                                         <%
@@ -203,7 +208,7 @@
                                                     <%-- For displaying Previous link except for the 1st page --%>
                                                     <% if (currentPage != 1) { %>
                                                     <li class="previous">
-                                                        <a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
+                                                        <a href="QuestionSearchServlet?subjectId=<%= subject.getSubjectId() %>&searchQuery=<%= searchQuery %>&page=<%= currentPage - 1 %>">
                                                             <i class="ti-arrow-left"></i> Prev
                                                         </a>
                                                     </li>
@@ -215,7 +220,7 @@
                                                     <li class="active"><a><%= i %></a></li>
                                                             <% } else { %>
                                                     <li>
-                                                        <a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
+                                                        <a href="QuestionSearchServlet?subjectId=<%= subject.getSubjectId() %>&searchQuery=<%= searchQuery %>&page=<%= i %>">
                                                             <%= i %>
                                                         </a>
                                                     </li>
@@ -225,7 +230,7 @@
                                                     <%-- For displaying Next link --%>
                                                     <% if (currentPage < noOfPages) { %>
                                                     <li class="next">
-                                                        <a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
+                                                        <a href="QuestionSearchServlet?subjectId=<%= subject.getSubjectId() %>&searchQuery=<%= searchQuery %>&page=<%= currentPage + 1 %>">
                                                             Next <i class="ti-arrow-right"></i>
                                                         </a>
                                                     </li>

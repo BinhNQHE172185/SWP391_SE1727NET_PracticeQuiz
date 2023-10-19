@@ -4,27 +4,32 @@
  */
 package Controller;
 
-import DAO.AnswerDAO;
 import DAO.QuestionDAO;
-import DAO.QuizDAO;
-import DAO.SubjectDAO;
-import Model.Answer;
+import DAO.QuestionStatusDAO;
+import DAO.SubjectStatusDAO;
+import Model.Account;
 import Model.Question;
-import Model.Quiz;
-import Model.Subject;
+import Model.QuestionStatus;
+import Model.SubjectStatus;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author kimdi
  */
-public class QuestionDetailServlet extends HttpServlet {
+@WebServlet(name = "SubjectRegisterServlet", urlPatterns = {"/SubjectRegisterServlet"})
+public class SubjectRegisterServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,43 +45,40 @@ public class QuestionDetailServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            int questionId = Integer.parseInt(request.getParameter("questionId"));
+            HttpSession session = request.getSession();
+            Account currUser = (Account) session.getAttribute("currUser");
+            int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+            // Create an instance of your DAO classes
+            SubjectStatusDAO subjectStatusDAO = new SubjectStatusDAO();
+            QuestionStatusDAO questionStatusDAO = new QuestionStatusDAO();
             QuestionDAO questionDAO = new QuestionDAO();
-            SubjectDAO subjectDAO = new SubjectDAO();
-            QuizDAO quizDAO = new QuizDAO();
-            AnswerDAO answerDAO = new AnswerDAO();
 
-            Question question = questionDAO.getQuestionById(questionId);
-            Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
+            // Generate SubjectStatus entry
+            Date now = Date.valueOf(LocalDate.now());
+            SubjectStatus subjectStatus = new SubjectStatus(subjectId, currUser.getAccountId(), false, now, now);
 
-            int page = 1; // target page
-            int noOfPages = 1; // default no of page
-            int recordsPerPage = 5; // number of quizzes per page
+            if (subjectStatusDAO.getSubjectStatusId(subjectStatus.getSubjectId(), subjectStatus.getAccountId()) == -1) {//check if subjectstatus exist, -1 mean not found
+                int subjectStatusId = subjectStatusDAO.addSubjectStatus(subjectStatus);//add subjectStatus
 
-            if (request.getParameter("page") != null) {
-                page = Integer.parseInt(request.getParameter("page"));
+                // Generate multiple QuestionStatus entries
+                // Assuming you have a list of question IDs for the subject
+                List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId);
+                for (Question question : questions) {
+                    QuestionStatus questionStatus = new QuestionStatus(subjectId, question.getQuestionId(), currUser.getAccountId(), false, now, now);
+                    questionStatusDAO.addQuestionStatus(questionStatus);
+                }
             }
+            // Redirect to a success page or perform any other necessary actions
+            response.sendRedirect("registrationSuccess.jsp");
 
-            int noOfRecords = quizDAO.getNumberOfRecordsByQuestionId(questionId);
-            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
-
-            List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId, (page - 1) * recordsPerPage, recordsPerPage);
-
-            for (Quiz quiz : quizzes) {
-                List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
-                request.setAttribute("answers" + quiz.getQuizId(), answers);
-            }
-            
-            request.setAttribute("subject", subject);
-            request.setAttribute("question", question);
-            request.setAttribute("quizzes", quizzes);
-            request.setAttribute("noOfPages", noOfPages);
-            request.setAttribute("currentPage", page);
-            request.getRequestDispatcher("QuestionDetail.jsp").forward(request, response);
+        } catch (Exception e) {
+            // Handle any exceptions that occur during the registration process
+            e.printStackTrace();
+            response.sendRedirect("registrationError.jsp");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
