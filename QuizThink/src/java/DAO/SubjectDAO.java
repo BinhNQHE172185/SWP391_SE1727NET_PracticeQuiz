@@ -206,11 +206,11 @@ public class SubjectDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
-    public void ApproveSubject(String subjectId){
-        String query = "UPDATE [Subject]\n" +
-                        "SET [status] = 1\n" +
-                        "WHERE [Subject_id] = ?;";
+
+    public void ApproveSubject(String subjectId) {
+        String query = "UPDATE [Subject]\n"
+                + "SET [status] = 1\n"
+                + "WHERE [Subject_id] = ?;";
         try {
             ps = getConnection().prepareStatement(query);
             ps.setString(1, subjectId);
@@ -242,17 +242,17 @@ public class SubjectDAO extends DBContext {
                         rs.getDate(12),
                         rs.getDate(13),
                         rs.getBoolean(14),
-                        rs.getTime(15)    
+                        rs.getTime(15)
                 ));
 
             }
-            }catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
             e.printStackTrace();
-            }
-        return list;
         }
-    
+        return list;
+    }
+
     public int getNumOfSubject() {
         String query = "select COUNT(*) from Subject";
         try {
@@ -268,12 +268,82 @@ public class SubjectDAO extends DBContext {
         return 0;
     }
 
+    public List<Subject> getAllSubjects(int offSet, int noOfRecords) {
+        List<Subject> listSubject = new ArrayList<>();
+        try {
+            // Use a SQL query with OFFSET and FETCH NEXT clauses to implement pagination
+            String query = "SELECT * FROM Subject ORDER BY Subject_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, offSet);
+            ps.setInt(2, noOfRecords);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int subjectId = rs.getInt("Subject_id");
+                int expertId = rs.getInt("Expert_id");
+                int subjectDimensionId = rs.getInt("SubjectDimension_id");
+                String title = rs.getString("title");
+                String imageURL = rs.getString("imageURL");
+                int questionCount = rs.getInt("question_count");
+                int rate = rs.getInt("Rate");
+                int rateCount = rs.getInt("Rate_count");
+                int level = rs.getInt("level");
+                float requirement = rs.getFloat("requirement");
+                String description = rs.getString("description");
+                Date createdDate = rs.getDate("createdDate");
+                Date modifyDate = rs.getDate("modifyDate");
+                boolean status = rs.getBoolean("status");
+                Time duration = rs.getTime("duration");
+
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return listSubject;
+    }
+
+    public int getNumberOfRecords() {
+        String sql = "SELECT COUNT(*) AS count FROM Subject";
+        int count = 0;
+
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("count");
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return count;
+    }
 
     public static void main(String[] args) {
-        SubjectDAO dao = new SubjectDAO();
-        List<Subject> list = dao.getRegistedSubjectByName(2, "a");
-        for (Subject s : list) {
-            System.out.println(s.getTitle());
+        SubjectDAO subjectDAO = new SubjectDAO();
+
+        // Define pagination parameters
+        int recordsPerPage = 5; // Number of records per page
+        int currentPage = 1; // Current page (1-based)
+
+        // Calculate the offset based on the current page
+        int offset = (currentPage - 1) * recordsPerPage;
+
+        // Retrieve subjects for the current page
+        List<Subject> subjects = subjectDAO.getAllSubjects(offset, recordsPerPage);
+
+        // Display the subjects for the current page
+        System.out.println("Subjects for Page " + currentPage + ":");
+        for (Subject subject : subjects) {
+            System.out.println(subject.getTitle());
         }
     }
+
 }
