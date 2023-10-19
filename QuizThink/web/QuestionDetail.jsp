@@ -175,7 +175,11 @@
                                                 <div class="col-md-6 col-lg-6 col-sm-12 info-bx text-left d-flex align-items-center flex-column question-navigation">
                                                     <button class="submit-btn detail"><h4>Learn quiz</h4></button>
                                                     <button class="submit-btn detail" onclick="showExamPopup()"><h4>New exam</h4></button>
-                                                    <button class="submit-btn detail"><h4>View history</h4></button>
+                                                    <form action="ListPracticedList" method="post">
+                                                        <input type="hidden" name="questionId" value="<%= question.getQuestionId() %>">
+                                                        <button class="submit-btn detail"><h4>View history</h4></button>
+                                                    </form>
+
                                                 </div>
                                                 <!-- The Exam Popup -->
                                                 <div id="examPopup" class="exam-popup">
