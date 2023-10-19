@@ -96,9 +96,15 @@
                         </button>
                     </div>
 
+                </div >
+                <div class="form-check input-group mb-3 " id="description-explaination" style="display: none">
+                    <label class="form-label">Description or Explaination for correct answers</label>
+                    <div>
+                        <textarea name="description" class="form-control col-sm-8" > </textarea>
+                    </div>
                 </div>
-            <button class="btn btn-primary add-answer" onclick="addRow()">Add Answer</button>
-
+                <button type="button" class="btn btn-primary add-answer" onclick="addRow()">Add Answer</button>
+            <button type="button" class="btn btn-primary add-answer" onclick="addDescription()">Add Description</button>
             </div>
         </div>
 
@@ -129,6 +135,17 @@ function updateCheckbox(checkbox) {
         }
     }
 </script>
+<script>
+    function addDescription(){
+        var div = document.getElementById("description-explaination");
+        if (div.style.display === "none" || div.style.display === "") {
+            div.style.display = "block"; // Hiện thẻ div
+        } else {
+            div.style.display = "none"; // Ẩn thẻ div
+        }
+    }
+    
+</script> 
 <script>
     function addRow(){
         var rows = document.querySelectorAll('.form-check.input-group.mb-3');

@@ -31,9 +31,9 @@ public class CreateQuiz extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String quiz_id = request.getParameter("quiz_Id"); // GET QUIZ_ID form quiz list
+        // String quiz_id = request.getParameter("quiz_Id"); // GET QUIZ_ID form quiz list
         
-        request.setAttribute("quiz_id", quiz_id); // day quiz_id
+        // request.setAttribute("quiz_id", quiz_id); // day quiz_id
         request.getRequestDispatcher("CreateQuiz.jsp").forward(request, response);
         
     } 
@@ -63,12 +63,16 @@ public class CreateQuiz extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
-        String quiz_id = request.getParameter("quiz_Id"); // GET PARAM form jsp
+        //String question_id = request.getParameter("question_Id"); // GET PARAM form jsp
+        String question_id = "5";
+        String description = request.getParameter("description");
+        String type = "1";
         String content = request.getParameter("content"); // CONTENT of quiz
         String[] answerArray = request.getParameterValues("answer"); // LIST ANSWER
         String[] isCorrectArray = request.getParameterValues("isCorrect"); //Is correct
         
         QuizDAO dao = new QuizDAO();
+        dao.addQuiz(question_id, type, content, description, isCorrectArray, answerArray);
     }
 
     /** 

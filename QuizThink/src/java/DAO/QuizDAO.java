@@ -175,7 +175,7 @@ public class QuizDAO extends DBContext {
     
     
     // Add quiz temp
-    public void addQuiz(String question_id, String type, String content, String description){ 
+    public void addQuiz(String question_id, String type, String content, String description, String[] isCorrectList, String[] contents){ 
         String query = "INSERT INTO Quiz (Question_id, type, content, description)\n" +
                         "VALUES\n" +
                         "    (?, ?, ?, ?)";
@@ -193,8 +193,14 @@ public class QuizDAO extends DBContext {
                 int quizId = generatedKeys.getInt(1); // Lấy giá trị quiz_id vừa được tạo
                 // Tạo DAO cho bảng Answer và sử dụng quizId
                 AnswerDAO answerDAO = new AnswerDAO();
-                //add Answers
-                //answerDAO.addAnswers(quizId, answers);
+                
+                for (int i = 0; i < contents.length; i++) {
+                    if(isCorrectList[i] == "true"){
+                        answerDAO.addAnswer(quizId, "1", contents[i]);
+                    }else{
+                        answerDAO.addAnswer(quizId, "0", contents[i]);
+                    }
+                }
             }
         } catch (Exception e) {
             // Handle exceptions here

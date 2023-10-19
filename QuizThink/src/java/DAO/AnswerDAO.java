@@ -76,7 +76,7 @@ public class AnswerDAO extends DBContext {
     }
     
     // Add Answer temp
-    public void addAnswer(String quiz_id, String isCorrect, String content){ 
+    public void addAnswer(int quiz_id, String isCorrect, String content){ 
         String query = "INSERT INTO Answer (Quiz_id, isCorrect, content)\n" +
                         "VALUES\n" +
                         "    (?, ?, ?)";
@@ -84,7 +84,7 @@ public class AnswerDAO extends DBContext {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
             
-            ps.setString(1, quiz_id);
+            ps.setInt(1, quiz_id);
             ps.setString(2, isCorrect);
             ps.setString(3, content);
             ps.executeUpdate(); 
