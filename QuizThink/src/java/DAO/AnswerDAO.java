@@ -90,9 +90,9 @@ public class AnswerDAO extends DBContext {
             ps.executeUpdate(); 
         } catch (Exception e) {
             // Handle exceptions here
-        } finally {
-            // Close database connections and resources in a real application
-            // For simplicity, it's omitted here.
+        }
+    }
+            
 
     public static void main(String[] args) {
         // Assuming you have a QuizDAO instance called quizDAO
