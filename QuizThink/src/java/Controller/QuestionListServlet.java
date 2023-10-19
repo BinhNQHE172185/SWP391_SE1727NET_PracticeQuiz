@@ -36,16 +36,28 @@ public class QuestionListServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
-            int subjectId = 1;
-            
+
+            int page = 1;//target page
+            int noOfPages = 1;//default no of page
+            int recordsPerPage = 6;
             SubjectDAO subjectDAO = new SubjectDAO();
             QuestionDAO questionDAO = new QuestionDAO();
+
+            int subjectId = 9;
+            //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+
             Subject subject = subjectDAO.getSubjectById(subjectId);
-            List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId);
-            
+            if (request.getParameter("page") != null) {//restive current page if possible
+                page = Integer.parseInt(request.getParameter("page"));
+            }
+            int noOfRecords = questionDAO.getNumberOfRecordsBySubjectId(subjectId);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+
+            List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId, (page - 1) * recordsPerPage, recordsPerPage);
             request.setAttribute("subject", subject);
             request.setAttribute("questions", questions);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
             request.getRequestDispatcher("QuestionList.jsp").forward(request, response);
         }
     }

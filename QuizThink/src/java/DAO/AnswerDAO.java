@@ -46,13 +46,15 @@ public class AnswerDAO extends DBContext {
         }
         return answers;
     }
+
     public List<Answer> getCorrectAnswersByQuizId(int quizId) {
-        String sql = "SELECT * FROM Answer WHERE Quiz_id = ? AND isCorrect = true";
+        String sql = "SELECT * FROM Answer WHERE Quiz_id = ? AND isCorrect = ?";
         List<Answer> answers = new ArrayList<>();
 
         try {
             PreparedStatement statement = getConnection().prepareStatement(sql);
             statement.setInt(1, quizId);
+            statement.setBoolean(2, true);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -91,6 +93,24 @@ public class AnswerDAO extends DBContext {
         } finally {
             // Close database connections and resources in a real application
             // For simplicity, it's omitted here.
+
+    public static void main(String[] args) {
+        // Assuming you have a QuizDAO instance called quizDAO
+        AnswerDAO answerDAO = new AnswerDAO();
+
+        // Assuming you have a quizId to test
+        int quizId = 123; // Replace with your actual quiz ID
+
+        // Call the getCorrectAnswersByQuizId method
+        List<Answer> correctAnswers = answerDAO.getCorrectAnswersByQuizId(quizId);
+
+        // Print the retrieved correct answers
+        for (Answer answer : correctAnswers) {
+            System.out.println("Answer ID: " + answer.getAnswerId());
+            System.out.println("Quiz ID: " + answer.getQuizId());
+            System.out.println("Is Correct: " + answer.isCorrect());
+            System.out.println("Content: " + answer.getContent());
+            System.out.println("---------------------------");
         }
     }
 }

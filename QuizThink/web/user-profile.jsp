@@ -316,7 +316,7 @@
                                     <div class="">
                                         <div class="form-group row">
                                             <div class="col-sm-10  ml-auto">
-                                                <h3>1. Personal Details</h3>
+                                                <h3>Personal Details</h3>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -375,44 +375,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                                <form class="edit-profile" action="ChangePassword" method="post">
-                                    <div class="">
-                                        <div class="form-group row">
-                                            <div class="col-sm-10 ml-auto">
-                                                <h3>2. Password</h3>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Current Password</label>
-                                            <div class="col-sm-7">
-                                                <input class="form-control" type="password" value="${account.getPassword()}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">New Password</label>
-                                            <div class="col-sm-7">
-                                                <input class="form-control" type="password" name="password" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Re Type Password</label>
-                                            <div class="col-sm-7">
-                                                <input class="form-control" type="password" name="repassword" value="">
-                                                <span class="help">${mess}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-2">
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <button class="btn">Save changes</button>
-                                            <button type="reset" class="btn-secondry">Cancel</button>
-                                        </div>
-                                    </div>
-
-                                </form>
+                                </form>                               
                             </div>
                         </div>
                     </div>

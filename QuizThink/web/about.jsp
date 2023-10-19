@@ -155,7 +155,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
                                 <div class="counter-style-1">
                                     <div class="text-primary">
-										<span class="counter">200</span><span>+</span>
+										<span class="counter">20</span><span>+</span>
 									</div>
 									<span class="counter-text">Members</span>
                                 </div>
@@ -163,7 +163,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
                                 <div class="counter-style-1">
 									<div class="text-black">
-										<span class="counter">50</span><span>+</span>
+										<span class="counter">10</span><span>+</span>
 									</div>
 									<span class="counter-text">Mentor</span>
 								</div>
@@ -171,7 +171,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
                                 <div class="counter-style-1">
 									<div class="text-primary">
-										<span class="counter">30</span><span>+</span>
+										<span class="counter">6</span><span>+</span>
 									</div>
 									<span class="counter-text">Subjects</span>
 								</div>
@@ -179,7 +179,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
                                 <div class="counter-style-1">
 									<div class="text-black">
-										<span class="counter">400</span><span>+</span>
+										<span class="counter">40</span><span>+</span>
 									</div>
 									<span class="counter-text">Quizzes</span>
 								</div>

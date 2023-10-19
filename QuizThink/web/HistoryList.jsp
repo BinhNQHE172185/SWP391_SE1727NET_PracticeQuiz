@@ -4,6 +4,7 @@
     Author     : admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -374,57 +375,42 @@
                                     <div class="col-lg-3">
                                         <h4>Taken Date</h4>
                                     </div>
+                                     <div class="col-lg-2">
+                                        <h4>Taken Time</h4>
+                                    </div>
                                     <div class="col-lg-2">
-                                        <h4>Answered/Questions</h4>
+                                        <h4>Answered</h4>
                                     </div>
                                     <div class="col-lg-2">
                                         <h4>Mark/10</h4>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <h4>Taken Time/Duration</h4>
-                                    </div>
+                                    </div>                                   
                                     <div class="col-lg-2">
                                         <h4>Detail</h4>
                                     </div>
                                 </div>
                                 <div class="widget-inner">
-                                    <div class="row card-courses-list admin-courses">
-                                        <div class="col-lg-1">
-                                            <p>STT</p>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <p>Tiêu đề 4</p>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <p>Tiêu đề 4</p>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <p>Tiêu đề 4</p>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <p>Tiêu đề 4</p>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <p>Tiêu đề 4</p>
-                                        </div>
-                                    </div>
-                                    <div class="row card-courses-list admin-courses">
-                                        <div class="col-lg-1">
-                                            <p>STT</p>
-                                        </div>
-                                        <div class="col-lg-5">
-                                            <p>Tiêu đề 4</p>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <p>Tiêu đề 4</p>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <p>Tiêu đề 4</p>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <p>Tiêu đề 4</p>
-                                        </div>
-                                    </div>
+                                    <c:forEach items = "${listResult}" var = "o">
+                                        <div class="row card-courses-list admin-courses">
+                                            <div class="col-lg-1">
+                                                <p>1</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p>${o.takenDate} </p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <p>${o.takenDuration}</p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <p>20/20</p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <p>${o.mark}/10</p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <a href="">View</a>
+                                            </div>
+                                        </div>    
+                                    </c:forEach>                                                               
                                 </div>
 
                             </div>
