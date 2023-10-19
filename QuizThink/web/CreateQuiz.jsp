@@ -54,14 +54,15 @@
 <body>
     <jsp:include page="Dashboard_header.jsp"></jsp:include>  
     <main class="ttr-wrapper">
-        <div class="container">
+        <form action="createquiz" method="POST">
+            <div class="container">
         <!-- Question and Answers -->
         <div class="mb-4">
             <h2>Create new Quiz </h2>
             <label class="form-label">Question: </label>
                 <div class="mb-3">
                     <label for="questionText" class="form-label">Quiz No.</label>
-                    <input type="text" class="form-control" id="questionText" placeholder="Type quiz here">
+                    <input type="text" name="content" class="form-control" id="questionText" placeholder="Type quiz here">
                 </div>
 
                 <div class="mb-3">
@@ -102,10 +103,9 @@
         </div>
 
         <!-- Add Question Button -->
-        <button class="btn btn-primary" id="addQuestion">Save Quiz</button>
-        <button class="btn btn-primary" id="addQuestion">Reset</button>
-
-    </div>
+        <button type="submit" class="btn btn-primary" id="addQuestion">Save Quiz</button>
+        <button type="reset" class="btn btn-primary" id="addQuestion">Reset</button>
+        </form>
     </main>
 </body>
 
@@ -122,8 +122,11 @@ function updateCheckbox(checkbox) {
 </script>
 <script>
     function removeRow(button){
-        var row = button.parentElement; // get the element contain button
-        row.remove();
+        var rows = document.querySelectorAll('.form-check.input-group.mb-3');
+        if(rows.length >2){
+           var row = button.parentElement; // get the element contain button
+            row.remove(); 
+        }
     }
 </script>
 <script>
