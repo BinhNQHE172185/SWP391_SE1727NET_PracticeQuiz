@@ -20,7 +20,6 @@ import java.util.List;
  * @author admin
  */
 public class ResultDAO extends DBContext {
-
     private PreparedStatement ps;
     private ResultSet rs;
 
@@ -41,7 +40,8 @@ public class ResultDAO extends DBContext {
                 Time takenDuration = rs.getTime("takenDuration");
                 Time duration = rs.getTime("duration");
                 float mark = rs.getFloat("mark");
-                list.add(new Result(Result_id, Question_id, Account_id, selectedChoice, takenDate, takenDuration, duration, mark));
+                int quizCount = rs.getInt("quiz_count");
+                list.add(new Result(Result_id, Question_id, Account_id, selectedChoice, takenDate, takenDuration, duration, mark, quizCount));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
@@ -56,7 +56,7 @@ public class ResultDAO extends DBContext {
             ps = getConnection().prepareStatement(query);
             ps.setInt(1, id);
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 return new Result(
                         id,
@@ -66,7 +66,8 @@ public class ResultDAO extends DBContext {
                         rs.getDate("takenDate"),
                         rs.getTime("takenDuration"),
                         rs.getTime("duration"),
-                        rs.getFloat("mark"));
+                        rs.getFloat("mark"),
+                        rs.getInt("quiz_count"));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
