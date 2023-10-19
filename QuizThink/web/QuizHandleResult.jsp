@@ -117,17 +117,22 @@
                                         List<Integer> quizIds = new ArrayList<>();
                                         if ( quizzes != null){
                                             for (Quiz quiz : quizzes) {
-                                                quizIds.add(quiz.quizId());
+                                                quizIds.add(quiz.getQuizId());
                                             }
                                         }
                                         if (question != null) {
                                         %>
                                         <h4>/<%= question.getQuizCount() %></h4>
+                                        <div id="submitQuestionId" data-submitQuestionId="<%= question.getQuestionId() %>"></div>
+
+                                        <%
+                                            }
+                                        if (mark != null) {
+                                        %>
+                                        <h4>Mark: <%= mark %></h4>
                                         <%
                                             }
                                         %>
-                                        <h4>Mark: <%= mark %></h4>
-                                        <div id="submitQuestionId" data-submitQuestionId="<%= question.getQuestionId() %>"></div>
                                         <div id="submitQuizId" data-submitQuizId="<%= quizIds %>"></div>
                                     </div>
                                     <div class="question-timer-container">
@@ -251,12 +256,6 @@
             </div>
             <div class="d-none data-endTime"><%= time %></div>
             <!-- Quiz END-->
-            <div class="submit-container">
-                <button class="submit-btn" onclick="submitQuiz()">
-                    <h4>Submit</h4>
-                </button>
-            </div>
-            <button class="back-to-top fa fa-chevron-up"></button>
         </div>
         <!-- External JavaScripts -->
         <script src="FrontEnd/assets/js/jquery.min.js"></script>

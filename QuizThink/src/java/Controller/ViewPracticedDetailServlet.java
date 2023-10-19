@@ -5,26 +5,30 @@
 package Controller;
 
 import DAO.AnswerDAO;
-import DAO.QuestionDAO;
 import DAO.QuizDAO;
-import DAO.SubjectDAO;
+import DAO.ResultDAO;
 import Model.Answer;
-import Model.Question;
 import Model.Quiz;
-import Model.Subject;
+import Model.Result;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
- * @author kimdi
+ * @author admin
  */
-public class QuestionDetailServlet extends HttpServlet {
+@WebServlet(name = "ViewPracticedDetailServlet", urlPatterns = {"/ViewPracticedDetail"})
+public class ViewPracticedDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,42 +42,40 @@ public class QuestionDetailServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            int questionId = Integer.parseInt(request.getParameter("questionId"));
-            QuestionDAO questionDAO = new QuestionDAO();
-            SubjectDAO subjectDAO = new SubjectDAO();
-            QuizDAO quizDAO = new QuizDAO();
-            AnswerDAO answerDAO = new AnswerDAO();
-
-            Question question = questionDAO.getQuestionById(questionId);
-            Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
-
-            int page = 1; // target page
-            int noOfPages = 1; // default no of page
-            int recordsPerPage = 5; // number of quizzes per page
-
-            if (request.getParameter("page") != null) {
-                page = Integer.parseInt(request.getParameter("page"));
-            }
-
-            int noOfRecords = quizDAO.getNumberOfRecordsByQuestionId(questionId);
-            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
-
-            List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId, (page - 1) * recordsPerPage, recordsPerPage);
-
-            for (Quiz quiz : quizzes) {
-                List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
-                request.setAttribute("answers" + quiz.getQuizId(), answers);
-            }
-            
-            request.setAttribute("subject", subject);
-            request.setAttribute("question", question);
-            request.setAttribute("quizzes", quizzes);
-            request.setAttribute("noOfPages", noOfPages);
-            request.setAttribute("currentPage", page);
-            request.getRequestDispatcher("QuestionDetail.jsp").forward(request, response);
+        Map<Integer, List<Answer>> answerMap = new HashMap<>();
+        QuizDAO quizDao = new QuizDAO();
+        ResultDAO resultDao = new ResultDAO();
+        AnswerDAO answerDao = new AnswerDAO();
+        int resultId = Integer.parseInt(request.getParameter("resultId"));
+        //Result rs = resultDao.getResultByID("5");
+        
+        Result rs = resultDao.getResultByID(resultId);
+        List<Quiz> listQuiz = quizDao.getQuizzesByQuestionId(rs.getQuestionId());
+        for (Quiz quiz : listQuiz) {
+            // Lấy list câu trả lời cho mỗi câu hỏi
+            List<Answer> answerList = answerDao.getAnswersByQuizId(quiz.getQuizId());
+            // Lưu vào attribute của quiz
+            answerMap.put(quiz.getQuizId(), answerList);
         }
+
+        String selected = rs.getSelectedChoice();
+        String[] selectedChoices = selected.replaceAll("[\\[\\]\"]", "").split(", ");
+        int[] intArray = new int[selectedChoices.length];
+
+        for (int i = 0; i < selectedChoices.length; i++) {
+            intArray[i] = Integer.parseInt(selectedChoices[i]);
+        }
+//        Set<String> selectedChoicesSet = new HashSet<>();
+//        for (String selectedChoice : selectedChoices) {
+//            selectedChoicesSet.add((selectedChoice));
+//        }
+
+        request.setAttribute("listQuiz", listQuiz);
+        request.setAttribute("rs", rs);
+        request.setAttribute("answerMap", answerMap);
+        request.setAttribute("intArray", intArray);
+        request.getRequestDispatcher("ViewPracticedDetail.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

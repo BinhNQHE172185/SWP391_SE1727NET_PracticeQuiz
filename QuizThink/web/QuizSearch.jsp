@@ -5,10 +5,14 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="Model.Account" %>
+<%@ page import="Model.Answer" %>
+<%@ page import="Model.Quiz" %>
 <%@ page import="Model.Question" %>
 <%@ page import="Model.Subject" %>
-
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,6 +71,7 @@
             <!-- Content -->
             <%
                 Subject subject = (Subject) request.getAttribute("subject");
+                Question question = (Question)request.getAttribute("question");
             %>
             <div class="page-content bg-white">
                 <!-- inner page banner -->
@@ -99,11 +104,11 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="widget courses-search-bx placeani">
                                         <div class="form-group">
-                                            <form action="QuestionSearchServlet" method="GET"> <!-- Replace "/search" with the appropriate form submission URL -->
+                                            <form action="QuizSearchServlet" method="GET"> <!-- Replace "/search" with the appropriate form submission URL -->
                                                 <div class="input-group">
-                                                    <label for="dzName">Search Question</label>
+                                                    <label for="dzName">Search Quiz</label>
                                                     <input id="dzName" name="searchQuery" type="text" required class="form-control">
-                                                    <input type="hidden" name="subjectId" value="<%= subject.getSubjectId() %>">
+                                                    <input type="hidden" name="questionId" value="<%= question.getQuestionId() %>">
                                                 </div>
                                             </form>
                                         </div>
@@ -144,47 +149,95 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-sm-12">
-                                    <div class="row"><h4>Question list:</h4></div>
-                                    <div class="row">
-                                        <!-- Question list display-->
-                                        <%
-                                        List<Question> questions = (List<Question>) request.getAttribute("questions");
+                                    <!-- Breadcrumb row -->
+                                    <div class="breadcrumb-row">
+                                        <div class="container">
+                                            <ul class="list-inline">
+                                                <li><a href="#">Home</a></li>
+                                                <li>Science</li>
+                                                <li>Computer science</li>
+                                                <li>Software Engineering</li>
+                                                <li><%= subject.getTitle() %></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- Breadcrumb row END -->
+                                    <%
+                                        String searchQuery = (String) request.getAttribute("searchQuery");
 
-                                        if (questions != null && !questions.isEmpty()) {
-                                            for (Question question : questions) {
+                                        if (searchQuery != null && !searchQuery.isEmpty()) {
+                                    %>
+                                    <div class="row"><h4>Result for "<%= searchQuery %>":</h4></div>
+                                    <% } %>
+                                    <div class="row">
+                                        <!-- Quiz list display-->
+                                        <%
+                                        List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
+
+                                        if (quizzes != null && !quizzes.isEmpty()) {
+                                            for (Quiz quiz : quizzes) {
                                         %>
-                                        <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-                                            <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>">
-                                                <div class="cours-bx">
-                                                    <div class="info-bx text-center question-image">
-                                                        <img src="<%= question.getImageURL() %>" alt="" />
-                                                    </div>
-                                                    <div class="info-bx text-center">
-                                                        <h5><%= question.getTitle() %></h5>
-                                                        <span><%= question.getQuizCount() %> quiz</span>
-                                                    </div>
-                                                    <div class="cours-more-info">
-                                                        <div class="review">
-                                                            <span>Requirement:</span>
-                                                            <span><%= question.getRequirement() %>%</span>
+                                        <div class="col-md-12 col-lg-12 col-sm-12 m-b20">
+                                            <div class="cours-bx">
+                                                <div class="d-flex" id="quiz<%= quiz.getQuizId() %>">
+                                                    <div class="info-bx col-md-6 col-lg-6 col-sm-6 text-left border-right">
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 text-left border-bottom">
+                                                            <h5><%= quiz.getContent() %></h5>
+                                                            <%
+                                                            if (quiz.getType() == 0) {
+                                                            %>
+                                                            <span>Select all that apply</span>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <span>Select <%= quiz.getType() %> that apply</span>
+                                                            <%
+                                                            }
+                                                            %>
                                                         </div>
-                                                        <div class="review"><!-- show current progress, show passed + icon if completed-->
-                                                            <h5>Passed</h5>
-                                                            <i class="fa fa-check"></i>
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 text-left m-t20">
+                                                            <span>Explanation: <%= quiz.getDescription() %></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-lg-6 col-sm-6 cours-more-info">
+                                                        <div class="review col-md-12 col-lg-12 col-sm-12">
+                                                            <ul class="option">
+                                                                <%
+                                                                List<Answer> answers = (List<Answer>) request.getAttribute("answers" + quiz.getQuizId());
+                                                                
+                                                                if (answers != null && !answers.isEmpty()) {
+                                                                    for (Answer answer : answers) {
+                                                                %>
+                                                                <li class="<%= answer.isCorrect() %>">
+                                                                    <input type="checkbox" name="quiz<%= quiz.getQuizId() %>" id="choice<%= answer.getAnswerId() %>"
+                                                                           onclick="toggleEffect(this,<%= quiz.getType() %>)">
+                                                                    <label class = "answer-containser" for="choice<%= answer.getAnswerId() %>">
+                                                                        <h5><%= answer.getContent() %></h5>
+                                                                    </label>
+                                                                </li>
+                                                                <%
+                                                                    }
+                                                                } else {
+                                                                %>
+                                                                <p>No answer found.</p>
+                                                                <%
+                                                                }
+                                                                %>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>
                                         <%
-                                                }
-                                            } else {
-                                        %>
-                                        <p>No questions found.</p>
-                                        <%
                                             }
+                                        } else {
                                         %>
-                                        <!-- Question list display END-->
+                                        <p>No quizzes found.</p>
+                                        <%
+                                        }
+                                        %>
+                                        <!-- Quiz list display END-->
                                         <!-- Pagination list display-->
                                         <%
                                             int currentPage = 1; // Set the current page value
@@ -203,7 +256,7 @@
                                                     <%-- For displaying Previous link except for the 1st page --%>
                                                     <% if (currentPage != 1) { %>
                                                     <li class="previous">
-                                                        <a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
+                                                        <a href="QuizSearchServlet?questionId=<%= question.getQuestionId() %>&searchQuery=<%= searchQuery %>&page=<%= currentPage - 1 %>">
                                                             <i class="ti-arrow-left"></i> Prev
                                                         </a>
                                                     </li>
@@ -215,7 +268,7 @@
                                                     <li class="active"><a><%= i %></a></li>
                                                             <% } else { %>
                                                     <li>
-                                                        <a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
+                                                        <a href="QuizSearchServlet?questionId=<%= question.getQuestionId() %>&searchQuery=<%= searchQuery %>&page=<%= i %>">
                                                             <%= i %>
                                                         </a>
                                                     </li>
@@ -225,7 +278,7 @@
                                                     <%-- For displaying Next link --%>
                                                     <% if (currentPage < noOfPages) { %>
                                                     <li class="next">
-                                                        <a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
+                                                        <a href="QuizSearchServlet?questionId=<%= question.getQuestionId() %>&searchQuery=<%= searchQuery %>&page=<%= currentPage + 1 %>">
                                                             Next <i class="ti-arrow-right"></i>
                                                         </a>
                                                     </li>

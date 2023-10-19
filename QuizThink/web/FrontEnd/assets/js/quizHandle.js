@@ -50,6 +50,7 @@ function toggleEffect(checkbox, limitCheck) {
     // Update the counter display
     var counterElement = document.getElementById("quiz-counter");
     counterElement.textContent = quizCounter;
+    //console.log(selectedChoices);
 }
 function submitQuiz() {
     var submitQuestionId = document.getElementById("submitQuestionId").getAttribute("data-submitQuestionId");
@@ -62,12 +63,13 @@ function submitQuiz() {
     $.ajax({
         url: "QuizSubmitServlet",
         method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
         data: JSON.stringify(data),
-        success: function (data) {
-            window.location = data;
+        contentType: "application/json",
+        success: function (response) {
+            // Handle the success response
+            console.log(response);
+            var resultId = response;
+            window.location = "ViewPracticedDetail?resultId=" + resultId;
         },
         error: function (error) {
             // Handle any errors that occur during the request
@@ -87,7 +89,7 @@ var endTime = new Date();
 endTime.setHours(hours);
 endTime.setMinutes(minutes);
 endTime.setSeconds(seconds);
-console.log(endTime);
+//console.log(endTime);
 // Update the count down every 1 second
 var x = setInterval(function () {
 
@@ -96,8 +98,8 @@ var x = setInterval(function () {
 
     // Find the timeLeft between now and the count down date
     timeLeft = endTime - now;
-    console.log("endTime:", endTime);
-    console.log("timeLeft:", timeLeft);
+    //console.log("endTime:", endTime);
+    //console.log("timeLeft:", timeLeft);
     // Time calculations for days, hours, minutes and seconds
     var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
     var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
