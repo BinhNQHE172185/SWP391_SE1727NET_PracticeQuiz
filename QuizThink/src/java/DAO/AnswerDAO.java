@@ -74,7 +74,6 @@ public class AnswerDAO extends DBContext {
         }
         return answers;
     }
-
     
     // Add Answer temp
     public void addAnswer(String quiz_id, String isCorrect, String content){ 
@@ -91,10 +90,9 @@ public class AnswerDAO extends DBContext {
             ps.executeUpdate(); 
         } catch (Exception e) {
             // Handle exceptions here
-        } finally {
-            // Close database connections and resources in a real application
-            // For simplicity, it's omitted here.
-
+        }
+    }
+            
 
     public static void main(String[] args) {
         // Assuming you have a QuizDAO instance called quizDAO
@@ -113,7 +111,6 @@ public class AnswerDAO extends DBContext {
             System.out.println("Is Correct: " + answer.isCorrect());
             System.out.println("Content: " + answer.getContent());
             System.out.println("---------------------------");
-
         }
     }
 }
