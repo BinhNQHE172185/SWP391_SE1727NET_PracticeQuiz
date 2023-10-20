@@ -25,28 +25,27 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String x = "";
-Cookie[] cookies = request.getCookies();
-if (cookies != null) {
-    for (Cookie cookie : cookies) {
-        if (cookie.getName().equals("username")) {
-            // Clear the value of the cookie
-            cookie.setValue(x);
-            // Set the expiration time to 0 to delete the cookie
-            cookie.setMaxAge(0);
-            // Add the modified cookie to the response
-            response.addCookie(cookie);
-            break;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("username") || cookie.getName().equals("password")) {
+                    // Clear the value of the cookie
+                    cookie.setValue(x);
+                    // Set the expiration time to 0 to delete the cookie
+                    cookie.setMaxAge(0);
+                    // Add the modified cookie to the response
+                    response.addCookie(cookie);
+                }
+            }
         }
-    }
-}
 
 // Invalidate the session
-HttpSession session = request.getSession(false);
-if (session != null) {
-    session.invalidate();
-}
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
 
 // Redirect the user to the home page or any other appropriate page
-response.sendRedirect("home.jsp");
+        response.sendRedirect("home.jsp");
     }
 }
