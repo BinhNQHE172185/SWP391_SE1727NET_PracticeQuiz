@@ -55,17 +55,6 @@
     <%
         Account acc = (Account) session.getAttribute("currUser");
         Expert ex = (Expert) session.getAttribute("currExpert");
-        String username = "";
-        Cookie[] cookies = request.getCookies();
-    
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("username")) {
-                    username = cookie.getValue();
-                    break;
-            }
-        }
-    }
     %>
     <div class="top-bar">
         <div class="container">
@@ -78,16 +67,11 @@
                 </div>
                 <div class="topbar-right">
                     <ul>
-                        <%if(!username.equals("")){%>
-                        <li>Welcome <%=username%></a>
-
-                        </li>
-                        <li><a href="Logout">Logout</a></li>
-                            <%}else if(acc!=null){%>
-                        <li><a href="#"><%=acc.getUsername()%></a></li>
+                            <% if(acc!=null){%>
+                        <li><a href="#">Welcome <%=acc.getUsername()%></a></li>
                         <li><a href="Logout">Logout</a></li>
                             <%}else if(ex!=null){%>
-                        <li><a href="#"><%=ex.getUsername()%></a></li>
+                        <li><a href="#">Welcome <%=ex.getUsername()%></a></li>
                         <li><a href="Logout">Logout</a></li>
                             <%}else{%>
                         <li><a href="Login.jsp">Login</a></li>
@@ -115,16 +99,8 @@
                 <!-- Author Nav ==== -->
                 <div class="secondary-menu">
                     <div class="secondary-inner">
-                        <%if(!username.equals("")){%>
-                        <div class="dropdown">
-                            <button class="dropdown-button"><%=username%></button>
-                            <div class="dropdown-content">
-                                <a href="Profile">My profile</a>
-                                <a href="YourSubject">My courses</a>
-
-                            </div>
-                        </div>
-                        <%}else if(acc!=null){%>
+                        
+                        <% if(acc!=null){%>
                         <div class="dropdown">
                             <button class="dropdown-button"><%=acc.getUsername()%></button>
                             <div class="dropdown-content">
