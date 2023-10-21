@@ -10,8 +10,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -209,6 +212,43 @@ public class QuestionDAO extends DBContext {
         return count;
     }
 
+    public void addQuestion(int SubjectID, int ExpertID, String title, String image, String decs, Time time) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        Date creDate = Date.valueOf(currentTime.toLocalDate());
+        String sql = "INSERT INTO [dbo].[Question]\n"
+                + "           ([Subject_id]\n"
+                + "           ,[Expert_id]\n"
+                + "           ,[title]\n"
+                + "           ,[imageURL]\n"
+                + "           ,[description]\n"
+                + "           ,[createdDate]\n"
+                + "           ,[status]\n"
+                + "           ,[duration])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,'True'\n"
+                + "           ,?)";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, SubjectID);
+            ps.setInt(2, ExpertID);
+            ps.setString(3, title);
+            ps.setString(4, image);
+            ps.setString(5, decs);
+            ps.setDate(6, creDate);
+            ps.setTime(7, time);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public static void main(String[] args) {
         // Assuming you have an instance of your DAO class
         QuestionDAO yourDAO = new QuestionDAO();
@@ -217,7 +257,7 @@ public class QuestionDAO extends DBContext {
         int subjectId = 1;
 
         // Call the method to get the number of records for the subject
-        List<Question> questions = yourDAO.searchQuestionsBySubjectId(subjectId,"gex", 0, 5);
+        List<Question> questions = yourDAO.searchQuestionsBySubjectId(subjectId, "gex", 0, 5);
 
         // Print the result
         for (Question question : questions) {
