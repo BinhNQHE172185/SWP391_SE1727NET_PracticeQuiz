@@ -220,7 +220,12 @@
                                             <label class="col-form-label">Duration (Minutes)</label>
                                             <div>
                                                 <input class="form-control" type="number" value="" name="duration" required="">
-
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <label class="col-form-label">Requirement (%)</label>
+                                            <div>
+                                                <input class="form-control" type="number" value="" name="requirement" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-12">

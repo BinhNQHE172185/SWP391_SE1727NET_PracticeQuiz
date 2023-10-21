@@ -212,7 +212,7 @@ public class QuestionDAO extends DBContext {
         return count;
     }
 
-    public void addQuestion(int SubjectID, int ExpertID, String title, String image, String decs, Time time) {
+    public void addQuestion(int SubjectID, int ExpertID,int requirement, String title, String image, String decs, Time time) {
         LocalDateTime currentTime = LocalDateTime.now();
         Date creDate = Date.valueOf(currentTime.toLocalDate());
         String sql = "INSERT INTO [dbo].[Question]\n"
@@ -220,12 +220,14 @@ public class QuestionDAO extends DBContext {
                 + "           ,[Expert_id]\n"
                 + "           ,[title]\n"
                 + "           ,[imageURL]\n"
+                + "           ,[requirement]\n"
                 + "           ,[description]\n"
                 + "           ,[createdDate]\n"
                 + "           ,[status]\n"
                 + "           ,[duration])\n"
                 + "     VALUES\n"
                 + "           (?\n"
+                + "           ,?\n"
                 + "           ,?\n"
                 + "           ,?\n"
                 + "           ,?\n"
@@ -239,9 +241,10 @@ public class QuestionDAO extends DBContext {
             ps.setInt(2, ExpertID);
             ps.setString(3, title);
             ps.setString(4, image);
-            ps.setString(5, decs);
-            ps.setDate(6, creDate);
-            ps.setTime(7, time);
+            ps.setInt(5, requirement);
+            ps.setString(6, decs);
+            ps.setDate(7, creDate);
+            ps.setTime(8, time);
             ps.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);

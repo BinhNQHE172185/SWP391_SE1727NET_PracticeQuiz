@@ -35,6 +35,7 @@ public class ExpertAddQuestionServlet extends HttpServlet {
         String duration = request.getParameter("duration");
         int subjectID = Integer.parseInt(request.getParameter("subjectID"));
         int expertID = Integer.parseInt(request.getParameter("expertID"));
+        int requirement = Integer.parseInt(request.getParameter("requirement"));
         String status = "Successfully";
 
         //DAO
@@ -50,7 +51,7 @@ public class ExpertAddQuestionServlet extends HttpServlet {
         Time time = Time.valueOf(timeString);
         //---
         //Add Question--
-        qd.addQuestion(subjectID, expertID, title, image, desc, time);
+        qd.addQuestion(subjectID, expertID, requirement, title, image, desc, time);
         request.setAttribute("status", status);
         request.getRequestDispatcher("ExpertAddQuestion.jsp").include(request, response);
     }
