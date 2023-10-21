@@ -7,6 +7,7 @@ package Controller;
 import DAO.*;
 import Model.Account;
 import Model.Expert;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
@@ -36,35 +38,38 @@ public class home extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
 
-            Cookie[] ck = request.getCookies();
-            String username = null;
-            String password = null;
-            ExpertDAO ed = new ExpertDAO();
-            AccountDAO ad = new AccountDAO();
+        Cookie[] ck = request.getCookies();
+        String username = null;
+        String password = null;
+        ExpertDAO ed = new ExpertDAO();
+        AccountDAO ad = new AccountDAO();
 
-            for (Cookie cookie : ck) {
-                if (cookie.getName().equals("username")) {
-                    username = cookie.getValue();
-                }
-                if (cookie.getName().equals("password")) {
-                    password = cookie.getValue();
-                }
+        for (Cookie cookie : ck) {
+            if (cookie.getName().equals("username")) {
+                username = cookie.getValue();
             }
-            if (username != null && password != null) {
-                Account accCookie = ad.getAccount(username, password);
-                Expert expCookie = ed.getExpert(username, password);
-                if (accCookie != null) {
-                    request.getSession().setAttribute("currUser", accCookie);
-                }
-                if (expCookie != null) {
-                    request.getSession().setAttribute("currExpert", expCookie);
-                }
+            if (cookie.getName().equals("password")) {
+                password = cookie.getValue();
             }
-            request.getRequestDispatcher("home.jsp").forward(request, response);
         }
+
+        if (username != null && password != null) {
+            Account accCookie = ad.getAccount(username, password);
+            Expert expCookie = ed.getExpert(username, password);
+            if (accCookie != null) {
+                request.getSession().setAttribute("currUser", accCookie);
+            }
+            if (expCookie != null) {
+                request.getSession().setAttribute("currExpert", expCookie);
+            }
+        }
+
+        SubjectDAO subjectDAO = new SubjectDAO();
+        List<Subject> recentSubjects = subjectDAO.getRecentSubject();
+        request.setAttribute("recentSubjects", recentSubjects);
+
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
