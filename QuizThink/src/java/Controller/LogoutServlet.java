@@ -46,6 +46,6 @@ public class LogoutServlet extends HttpServlet {
         }
 
 // Redirect the user to the home page or any other appropriate page
-        response.sendRedirect("home.jsp");
+        response.sendRedirect("home");
     }
 }
