@@ -38,8 +38,8 @@ public class SubjectDetail extends HttpServlet {
          subjectId = Integer.parseInt(subjectIdString);
         SubjectDAO subjectDAO = new SubjectDAO();
          Subject subject = subjectDAO.getSubjectById(subjectId);
-         request.setAttribute("SubjectDetail.jsp", subject);
-         request.getRequestDispatcher("Detail.jsp").forward(request, response);
+         request.setAttribute("subjectdetail", subject);
+         request.getRequestDispatcher("SubjectDetail.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
