@@ -46,7 +46,7 @@ public class ChangePasswordServlet extends HttpServlet {
             if (password.equals(repassword)) {
                 dao.updatePassword(repassword, accId);
                 request.setAttribute("password", password);
-                request.getRequestDispatcher("ChangePassProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("CurrentPassword").forward(request, response);
             } else {
                 request.setAttribute("Account", account);
                 request.setAttribute("mess", mess);
