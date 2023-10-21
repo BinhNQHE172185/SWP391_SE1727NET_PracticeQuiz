@@ -19,8 +19,8 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author admin
  */
-@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/ChangePassword"})
-public class ChangePasswordServlet extends HttpServlet {
+@WebServlet(name = "CurrentPasswordServlet", urlPatterns = {"/CurrentPassword"})
+public class CurrentPasswordServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,27 +36,10 @@ public class ChangePasswordServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("currUser");
-        String password = request.getParameter("password");
-        String repassword = request.getParameter("repassword");
-        String mess = "Password doesn't match";
-        String mess1 = "Password must be at least 8 characters long included letters and numbers";
-        String accId = String.valueOf(account.getAccountId());
         AccountDAO dao = new AccountDAO();
-        if (dao.checkPass(password)) {
-            if (password.equals(repassword)) {
-                dao.updatePassword(repassword, accId);
-                request.setAttribute("password", password);
-                request.getRequestDispatcher("ChangePassProfile.jsp").forward(request, response);
-            } else {
-                request.setAttribute("Account", account);
-                request.setAttribute("mess", mess);
-                request.getRequestDispatcher("CurrentPassword").forward(request, response);
-            }
-        } else {
-            request.setAttribute("Account", account);
-            request.setAttribute("mess1", mess1);
-            request.getRequestDispatcher("CurrentPassword").forward(request, response);
-        }
+        String password = account.getPassword();
+        request.setAttribute("password", password);
+        request.getRequestDispatcher("ChangePassProfile.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

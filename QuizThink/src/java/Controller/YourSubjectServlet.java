@@ -16,6 +16,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -37,25 +38,16 @@ public class YourSubjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int id = 0;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("ID".equals(cookie.getName())) {
-                    // Found the "accID" cookie
-                    String accID = cookie.getValue();
-                    id = Integer.parseInt(accID);
-                }
-            }
-        }
+        HttpSession session = request.getSession();
+        Account currUser = (Account) session.getAttribute("currUser");
         SubjectDAO dao = new SubjectDAO();
         AccountDAO DAO = new AccountDAO();
-        Account account = DAO.getAccountByID(id);
-        List<Subject> listSubject = dao.getRegistedSubject(id);
+        Account account = DAO.getAccountByID(currUser.getAccountId());
+        List<Subject> listSubject = dao.getRegistedSubject(currUser.getAccountId());
         request.setAttribute("listSubjects", listSubject);
         request.setAttribute("account", account);
         request.getRequestDispatcher("RegistedSubject.jsp").forward(request, response);
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
