@@ -87,12 +87,9 @@
 					 <div class="row d-flex flex-row-reverse">
 						<div class="col-lg-3 col-md-4 col-sm-12 m-b30">
 							<div class="course-detail-bx">
-								<div class="course-price">
-									<del>$190</del>
-									<h4 class="price">$120</h4>
-								</div>	
+									
 								<div class="course-buy-now text-center">
-									<a href="#" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
+									<a href="#" class="btn radius-xl text-uppercase">Enroll now</a>
 								</div>
 								<div class="teacher-bx">
 									<div class="teacher-info">

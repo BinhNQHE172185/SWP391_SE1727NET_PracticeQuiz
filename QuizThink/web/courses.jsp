@@ -143,7 +143,7 @@
                                                     <div class="action-box">
                                                         <div class = "info-bx text-center question-image"  ><img src="${o.imageURL}" alt=""> </div>    
 
-                                                        <a href="#" class="btn">Read More</a>
+                                                        <a href="subjectdetail?pid=${o.subjectId}" class="btn">Read More</a>
                                                     </div>
                                                     <div class="info-bx text-center">
                                                         <h5><a href="#">${o.title }</a></h5>
