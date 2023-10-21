@@ -2,6 +2,7 @@ package DAO;
 
 import DAL.DBContext;
 import Model.Answer;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -16,7 +17,9 @@ import java.util.List;
  * @author kimdi
  */
 public class AnswerDAO extends DBContext {
-
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
     public List<Answer> getAnswersByQuizId(int quizId) {
         String sql = "SELECT * FROM Answer WHERE Quiz_id = ?";
         List<Answer> answers = new ArrayList<>();
@@ -71,6 +74,25 @@ public class AnswerDAO extends DBContext {
         }
         return answers;
     }
+    
+    // Add Answer temp
+    public void addAnswer(String quiz_id, String isCorrect, String content){ 
+        String query = "INSERT INTO Answer (Quiz_id, isCorrect, content)\n" +
+                        "VALUES\n" +
+                        "    (?, ?, ?)";
+         try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            
+            ps.setString(1, quiz_id);
+            ps.setString(2, isCorrect);
+            ps.setString(3, content);
+            ps.executeUpdate(); 
+        } catch (Exception e) {
+            // Handle exceptions here
+        }
+    }
+            
 
     public static void main(String[] args) {
         // Assuming you have a QuizDAO instance called quizDAO

@@ -4,23 +4,25 @@
  */
 package Controller;
 
-import DAO.SubjectDAO;
-import Model.Subject;
+import DAO.*;
+import Model.Account;
+import Model.Expert;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author minhk
+ * @author QUYBINH
  */
-@WebServlet(name = "SubjectListServlet", urlPatterns = {"/SubjectList"})
-public class SubjectListServlet extends HttpServlet {
+@WebServlet(name = "home", urlPatterns = {"/home"})
+public class home extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,35 +37,33 @@ public class SubjectListServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            int page = 1; // target page
-            int noOfPages = 1; // default no of pages
-            int recordsPerPage = 6;
-            SubjectDAO subjectDAO = new SubjectDAO();
+            /* TODO output your page here. You may use following sample code. */
 
-            if (request.getParameter("page") != null) {
-                // Retrieve the page number from the request if available
-                page = Integer.parseInt(request.getParameter("page"));
+            Cookie[] ck = request.getCookies();
+            String username = null;
+            String password = null;
+            ExpertDAO ed = new ExpertDAO();
+            AccountDAO ad = new AccountDAO();
+
+            for (Cookie cookie : ck) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                }
+                if (cookie.getName().equals("password")) {
+                    password = cookie.getValue();
+                }
             }
-
-            if (request.getParameter("noOfPages") != null) {
-                // Retrieve the noOfPages from the request if available
-                noOfPages = Integer.parseInt(request.getParameter("noOfPages"));
-            } else {
-                // Calculate the number of pages based on the total number of subjects
-                int noOfRecords = subjectDAO.getNumberOfRecords();
-                noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+            if (username != null && password != null) {
+                Account accCookie = ad.getAccount(username, password);
+                Expert expCookie = ed.getExpert(username, password);
+                if (accCookie != null) {
+                    request.getSession().setAttribute("currUser", accCookie);
+                }
+                if (expCookie != null) {
+                    request.getSession().setAttribute("currExpert", expCookie);
+                }
             }
-
-            // Retrieve subjects for the current page
-            List<Subject> subjects = subjectDAO.getAllSubjects((page - 1) * recordsPerPage, recordsPerPage);
-
-            // Set the attributes for the request
-            request.setAttribute("subjects", subjects);
-            request.setAttribute("noOfPages", noOfPages);
-            request.setAttribute("currentPage", page);
-
-            // Forward the request to the appropriate JSP for displaying subjects
-            request.getRequestDispatcher("courses.jsp").forward(request, response);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
         }
     }
 

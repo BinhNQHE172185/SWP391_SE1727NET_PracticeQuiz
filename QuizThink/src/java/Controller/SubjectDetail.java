@@ -4,8 +4,6 @@
  */
 package Controller;
 
-import DAO.SubjectDAO;
-import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author minhk
  */
-@WebServlet(name = "SubjectListServlet", urlPatterns = {"/SubjectList"})
-public class SubjectListServlet extends HttpServlet {
+@WebServlet(name = "SubjectDetail", urlPatterns = {"/subjectdetail"})
+public class SubjectDetail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,35 +32,16 @@ public class SubjectListServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            int page = 1; // target page
-            int noOfPages = 1; // default no of pages
-            int recordsPerPage = 6;
-            SubjectDAO subjectDAO = new SubjectDAO();
-
-            if (request.getParameter("page") != null) {
-                // Retrieve the page number from the request if available
-                page = Integer.parseInt(request.getParameter("page"));
-            }
-
-            if (request.getParameter("noOfPages") != null) {
-                // Retrieve the noOfPages from the request if available
-                noOfPages = Integer.parseInt(request.getParameter("noOfPages"));
-            } else {
-                // Calculate the number of pages based on the total number of subjects
-                int noOfRecords = subjectDAO.getNumberOfRecords();
-                noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
-            }
-
-            // Retrieve subjects for the current page
-            List<Subject> subjects = subjectDAO.getAllSubjects((page - 1) * recordsPerPage, recordsPerPage);
-
-            // Set the attributes for the request
-            request.setAttribute("subjects", subjects);
-            request.setAttribute("noOfPages", noOfPages);
-            request.setAttribute("currentPage", page);
-
-            // Forward the request to the appropriate JSP for displaying subjects
-            request.getRequestDispatcher("courses.jsp").forward(request, response);
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet SubjectDetail</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet SubjectDetail at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

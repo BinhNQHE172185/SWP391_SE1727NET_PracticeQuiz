@@ -5,17 +5,21 @@
 package DAO;
 
 import DAL.DBContext;
+import Model.Expert;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author admin
  */
 public class ExpertDAO extends DBContext {
-    private PreparedStatement ps;
-    private ResultSet rs;
-    
+
+    PreparedStatement ps;
+    ResultSet rs;
+
     public int getNumOfExpert() {
         String query = "select COUNT(*) from Subject";
         try {
@@ -29,5 +33,38 @@ public class ExpertDAO extends DBContext {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public Expert getExpert(String username, String password) {
+        int expertId;
+        String email;
+        String name;
+        String selfIntroduction;
+        String avatar;
+        boolean status;
+        Expert ex=null;
+        String sql = "SELECT * FROM Expert WHERE username = ? AND password = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                expertId = rs.getInt("Expert_id");
+                username = rs.getString("username");
+                password = rs.getString("password");
+                email = rs.getString("email");
+                name = rs.getString("name");
+                selfIntroduction = rs.getString("self-introduction");
+                avatar = rs.getString("avatar");
+                status = rs.getBoolean("status");
+                ex = new Expert(expertId, username, password, email, name, selfIntroduction, avatar, status);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return ex;
     }
 }
