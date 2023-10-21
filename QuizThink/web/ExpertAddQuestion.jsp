@@ -186,7 +186,6 @@
                     <ul class="db-breadcrumb-list">
                         <li><a href="home.jsp"><i class="fa fa-home"></i>Home</a></li>
                         <li>Subject</li>
-                        <li>Question</li>
                         <li>Add Question</li>
                     </ul>
                 </div>	
