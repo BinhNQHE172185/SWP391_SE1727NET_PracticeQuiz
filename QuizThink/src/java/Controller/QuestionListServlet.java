@@ -43,7 +43,7 @@ public class QuestionListServlet extends HttpServlet {
             SubjectDAO subjectDAO = new SubjectDAO();
             QuestionDAO questionDAO = new QuestionDAO();
 
-            int subjectId = 9;
+            int subjectId = 1;
             //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 
             Subject subject = subjectDAO.getSubjectById(subjectId);

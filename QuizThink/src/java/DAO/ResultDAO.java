@@ -112,7 +112,7 @@ public class ResultDAO extends DBContext {
 //        for(Result rs: list){
 //            System.out.println(rs.getMark());
 //        }
-        Result rs = dao.getResultByID(5);
+        Result rs = dao.getResultByID(1);
         System.out.println(rs.getMark());
 
     }

@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -78,27 +79,24 @@ public class QuizSubmitServlet extends HttpServlet {
                 String json = new Gson().toJson("error");
                 response.getWriter().write(json);
             } else {
+                session.removeAttribute("endTime");//clear timer sesstion
+                session.removeAttribute("question");//clear question sesstion
+                session.removeAttribute("quizzes");//clear quizzes sesstion
                 QuestionDAO questionDAO = new QuestionDAO();
                 QuizDAO quizDAO = new QuizDAO();
                 AnswerDAO answerDAO = new AnswerDAO();
-                
+
                 int questionId = Integer.parseInt(questionIdParam);
                 //get timeLEft
-                int secondsLeft = Integer.parseInt(timeLeftParam);
+                // Get timeLeft
+                long millisecondsLeft = Long.parseLong(timeLeftParam);
 
-                int hours = secondsLeft / 3600;
-                int minutes = (secondsLeft % 3600) / 60;
-                int seconds = secondsLeft % 60;
-
-                Time timeLeft = new Time(hours, minutes, seconds);
-                
                 Question question = questionDAO.getQuestionById(questionId);
                 Time duration = question.getDuration();
 
                 // Calculate the time taken
                 long durationMillis = duration.getTime();
-                long timeLeftMillis = timeLeft.getTime();
-                long timeTakenMillis = durationMillis - timeLeftMillis;
+                long timeTakenMillis = durationMillis - millisecondsLeft;
 
                 // Create a new 'Time' object for the time taken
                 Time timeTaken = new Time(timeTakenMillis);
@@ -120,6 +118,9 @@ public class QuizSubmitServlet extends HttpServlet {
                         }
                     }
                     quizCount += (correctChoiceCount / answers.size());
+                    //clear answers sesstion
+                    String attributeKey = "answers" + quizz.getQuizId();
+                    session.removeAttribute(attributeKey);
                 }
                 float mark = (quizCount / totalQuizCount) * 10;
 

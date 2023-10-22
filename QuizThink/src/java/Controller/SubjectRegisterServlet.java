@@ -69,12 +69,12 @@ public class SubjectRegisterServlet extends HttpServlet {
                 }
             }
             // Redirect to a success page or perform any other necessary actions
-            response.sendRedirect("registrationSuccess.jsp");
+            response.sendRedirect("YourSubject");
 
         } catch (Exception e) {
             // Handle any exceptions that occur during the registration process
             e.printStackTrace();
-            response.sendRedirect("registrationError.jsp");
+            response.sendRedirect("YourSubject");
         }
     }
 
