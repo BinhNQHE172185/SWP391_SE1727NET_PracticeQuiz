@@ -453,11 +453,11 @@
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                    <c:if test="${subjects == null}">
+                                    <c:if test="${recentSubjects == null}">
                                         <div> no subject</div>
                                     </c:if>
 
-                                    <c:forEach items="${subjects}" var="s">
+                                    <c:forEach items="${recentSubjects}" var="s">
                                         <div class="item">
                                             <div class="cours-bx">
                                                 <div class="action-box">
@@ -529,74 +529,36 @@
                     </div>
                     <!-- Testimonials END -->
 
-                    <!-- Recent Courses -->
+                    <!-- Recent Subjects -->
                     <div class="section-area section-sp2 popular-courses-bx">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
-                                    <h2 class="title-head">Recent<span>Courses</span></h2>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page</p>
+                                    <h2 class="title-head">Recent <span>Courses</span></h2>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic1.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
+                                    <c:forEach items="${recentSubjects}" var="subject">
+                                        <div class="item">
+                                            <div class="cours-bx">
+                                                <div class="action-box">
+                                                    <img src="${subject.imageURL}" alt="${subject.title}">
+                                                    <a href="#" class="btn">Read More</a>
+                                                </div>
+                                                <div class="info-bx text-center">
+                                                    <h5><a href="#">${subject.title}</a></h5>
+                                                    <span>${subject.description}</span>
+                                                </div>
                                             </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Introduction EduChamp – LMS plugin</a></h5>
-                                                <span>Programming</span>
-                                            </div>
-
                                         </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic2.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
-                                            </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Programming Fundamentals</a></h5>
-                                                <span>Programming</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic3.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
-                                            </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Mathematics for Engieering</a></h5>
-                                                <span>Mathematics</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic4.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
-                                            </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Introduction to Computer Science</a></h5>
-                                                <span>Computer Science</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Recent News End -->
+                    <!-- Recent Subjects End -->
+
 
 
                     <jsp:include page="footer.jsp"/>

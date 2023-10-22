@@ -4,27 +4,23 @@
  */
 package Controller;
 
-import DAO.*;
-import Model.Account;
-import Model.Expert;
+import DAO.SubjectDAO;
 import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
- * @author QUYBINH
+ * @author minhk
  */
-@WebServlet(name = "home", urlPatterns = {"/home"})
-public class home extends HttpServlet {
+@WebServlet(name = "SearchSubject", urlPatterns = {"/SearchSubject"})
+public class SearchSubject extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,38 +34,38 @@ public class home extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        try ( PrintWriter out = response.getWriter()) {
+            int page = 1;
+            int noOfPages = 1;
+            int recordsPerPage = 6;
+            String searchQuery = "";
+            SubjectDAO subjectDAO = new SubjectDAO();
 
-        Cookie[] ck = request.getCookies();
-        String username = null;
-        String password = null;
-        ExpertDAO ed = new ExpertDAO();
-        AccountDAO ad = new AccountDAO();
+            // Assuming you have a way to get the subjectId parameter, replace this line accordingly
+            
 
-        for (Cookie cookie : ck) {
-            if (cookie.getName().equals("username")) {
-                username = cookie.getValue();
+            
+
+            if (request.getParameter("page") != null) {
+                page = Integer.parseInt(request.getParameter("page"));
             }
-            if (cookie.getName().equals("password")) {
-                password = cookie.getValue();
+            if (request.getParameter("searchQuery") != null && !request.getParameter("searchQuery").isEmpty()) {
+                searchQuery = request.getParameter("searchQuery");
             }
+            System.out.println(searchQuery);
+            // Update the next line to call a method that retrieves the number of records based on your Subject search criteria
+            int noOfRecords = subjectDAO.getNumberOfRecordsBySubjectTitle(searchQuery);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+
+            // Update the next line to call a method that retrieves a list of subjects based on your search criteria
+            List<Subject> subjects = subjectDAO.searchSubjects(searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
+
+            request.setAttribute("subjects", subjects);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("searchQuery", searchQuery);
+            request.getRequestDispatcher("SearchSubject.jsp").forward(request, response);
         }
-
-        if (username != null && password != null) {
-            Account accCookie = ad.getAccount(username, password);
-            Expert expCookie = ed.getExpert(username, password);
-            if (accCookie != null) {
-                request.getSession().setAttribute("currUser", accCookie);
-            }
-            if (expCookie != null) {
-                request.getSession().setAttribute("currExpert", expCookie);
-            }
-        }
-
-        SubjectDAO subjectDAO = new SubjectDAO();
-        List<Subject> recentSubjects = subjectDAO.getRecentSubject();
-        request.setAttribute("recentSubjects", recentSubjects);
-
-        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
