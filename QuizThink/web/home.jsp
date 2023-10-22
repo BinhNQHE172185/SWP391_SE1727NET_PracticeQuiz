@@ -453,11 +453,11 @@
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                    <c:if test="${subjects == null}">
+                                    <c:if test="${recentSubjects == null}">
                                         <div> no subject</div>
                                     </c:if>
 
-                                    <c:forEach items="${subjects}" var="s">
+                                    <c:forEach items="${recentSubjects}" var="s">
                                         <div class="item">
                                             <div class="cours-bx">
                                                 <div class="action-box">
