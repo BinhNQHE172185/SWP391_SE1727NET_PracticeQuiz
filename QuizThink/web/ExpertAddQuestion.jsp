@@ -158,9 +158,15 @@
                 <nav class="ttr-sidebar-navi">
                     <ul>
                         <li>
+                            <a href="Profile" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="fa fa-user"></i></span>
+                                <span class="ttr-label">Profile</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="#" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
-                                <span class="ttr-label">Courses</span>
+                                <span class="ttr-label">Subject</span>
                             </a>
                         </li>
                         <li>
