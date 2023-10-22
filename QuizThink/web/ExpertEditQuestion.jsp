@@ -6,7 +6,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import = "Model.Expert" %>
+<%@page import = "Model.*" %>
 <%@page import = "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -17,6 +17,7 @@
         <%
             Expert ex = (Expert) session.getAttribute("currExpert");
             String status = (String) request.getAttribute("status");
+            Question question = (Question) request.getAttribute("list");
         %>
         <!-- META ============================================= -->
         <meta charset="utf-8">
@@ -201,47 +202,51 @@
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>Add Question</h4>
+                                <h4>Edit Question</h4>
                             </div>
                             <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="#" method="">
+                                <form class="edit-profile m-b30" action="ExpertUpdateQuestion" method="GET">
                                     <div class="row">
-
                                         <div class="form-group col-6">
                                             <input type="hidden" value="10" name="subjectID">
+                                            <input type="hidden" value="<%=question.getQuestionId()%>" name="QuestionID">
                                             <input type="hidden" value="<%=ex.getExpertId()%>" name="expertID">
                                             <label class="col-form-label">Question title</label>
                                             <div>
-                                                <input class="form-control" type="text" value="" name="title" required="">
+                                                <input class="form-control" type="text" value="<%=question.getTitle()%>" name="title" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Image URL</label>
                                             <div>
-                                                <input class="form-control" type="text" value="" name="image" required="">
+                                                <input class="form-control" type="text" value="<%=question.getImageURL()%>" name="image" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-2">
                                             <label class="col-form-label">Duration (Minutes)</label>
+                                            <%
+                                                java.sql.Time timeValue = question.getDuration();
+                                                int totalMinutes = timeValue.getHours() * 60 + timeValue.getMinutes();
+                                            %>
                                             <div>
-                                                <input class="form-control" type="number" value="" name="duration" required="">
+                                                <input class="form-control" type="number" value="<%=totalMinutes%>" name="duration" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-2">
                                             <label class="col-form-label">Requirement (%)</label>
                                             <div>
-                                                <input class="form-control" type="number" value="" name="requirement" required="">
+                                                <input class="form-control" type="number" value="<%=question.getRequirement()%>" name="requirement" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Course description</label>
                                             <div>
-                                                <textarea class="form-control" name="desc"> </textarea>
+                                                <textarea class="form-control" name="desc"><%=question.getDescription()%></textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn">Submit</button>
-                                            <button type="reset" class="btn-secondry">Cancel</button>
+                                            <button type="submit" class="btn">Update</button>
+                                            <button type="button" class="btn-secondry" onclick="window.history.back()">Cancel</button>
                                         </div>
                                         <% if(status !=null){ %>
                                         <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
