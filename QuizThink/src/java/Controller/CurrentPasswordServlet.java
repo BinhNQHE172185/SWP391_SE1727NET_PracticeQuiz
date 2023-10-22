@@ -37,7 +37,8 @@ public class CurrentPasswordServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("currUser");
         AccountDAO dao = new AccountDAO();
-        String password = account.getPassword();
+        Account currUser = dao.getAccountByID(account.getAccountId());
+        String password = currUser.getPassword();
         request.setAttribute("password", password);
         request.getRequestDispatcher("ChangePassProfile.jsp").forward(request, response);
     }

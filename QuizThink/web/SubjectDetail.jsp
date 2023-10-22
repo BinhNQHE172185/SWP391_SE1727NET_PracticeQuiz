@@ -95,11 +95,11 @@
 								<div class="teacher-bx">
 									<div class="teacher-info">
 										<div class="teacher-thumb">
-											<img src="FrontEnd/assets/images/testimonials/pic1.jpg" alt=""/>
+											<img src="${expert.avatar}" alt=""/>
 										</div>
 										<div class="teacher-name">
-											<h5>Hinata Hyuga</h5>
-											<span>Science Teacher</span>
+											<h5>${expert.username}</h5>
+											<span>${expert.name}</span>
 										</div>
 									</div>
 								</div>

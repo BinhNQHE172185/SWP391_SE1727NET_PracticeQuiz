@@ -4,7 +4,9 @@
  */
 package Controller;
 
+import DAO.ExpertDAO;
 import DAO.SubjectDAO;
+import Model.Expert;
 import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,16 +33,25 @@ public class SubjectDetail extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String subjectIdString= request.getParameter("pid");
-        int subjectId;
-         subjectId = Integer.parseInt(subjectIdString);
-        SubjectDAO subjectDAO = new SubjectDAO();
-         Subject subject = subjectDAO.getSubjectById(subjectId);
-         request.setAttribute("subjectdetail", subject);
-         request.getRequestDispatcher("SubjectDetail.jsp").forward(request, response);
-    }
+        throws ServletException, IOException {
+    response.setContentType("text/html;charset=UTF-8");
+    String subjectIdString = request.getParameter("pid");
+    int subjectId = Integer.parseInt(subjectIdString);
+
+    SubjectDAO subjectDAO = new SubjectDAO();
+    ExpertDAO expertDAO = new ExpertDAO();
+
+    
+    Subject subject = subjectDAO.getSubjectById(subjectId);
+    request.setAttribute("subjectdetail", subject);
+
+    
+    Expert expert = expertDAO.getExpertBySubjectID(subjectId);
+    request.setAttribute("expert", expert);
+
+    request.getRequestDispatcher("SubjectDetail.jsp").forward(request, response);
+}
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
