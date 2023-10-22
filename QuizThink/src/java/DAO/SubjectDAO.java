@@ -58,6 +58,29 @@ public class SubjectDAO extends DBContext {
         return listSubject;
     }
 
+    public int getNumberOfRecordsBySubjectTitle(String searchQuery) {
+        String sql = "SELECT COUNT(*) AS count FROM Subject WHERE title LIKE ?";
+        int count = 0;
+
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setString(1, "%" + searchQuery + "%");
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("count");
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return count;
+    }
+
     public List<Subject> getRecentSubject() {
         List<Subject> listSubject = new ArrayList<>();
         try {

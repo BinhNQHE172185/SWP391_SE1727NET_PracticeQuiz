@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author minhk
  */
-@WebServlet(name = "SearchSubject", urlPatterns = {"/search"})
+@WebServlet(name = "SearchSubject", urlPatterns = {"/SearchSubject"})
 public class SearchSubject extends HttpServlet {
 
     /**
@@ -34,47 +34,37 @@ public class SearchSubject extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            int page = 1; // target page
-            int noOfPages = 1; // default no of pages
+        try ( PrintWriter out = response.getWriter()) {
+            int page = 1;
+            int noOfPages = 1;
             int recordsPerPage = 6;
+            String searchQuery = "";
             SubjectDAO subjectDAO = new SubjectDAO();
 
+            // Assuming you have a way to get the subjectId parameter, replace this line accordingly
+            
+
+            
+
             if (request.getParameter("page") != null) {
-                // Retrieve the page number from the request if available
                 page = Integer.parseInt(request.getParameter("page"));
             }
-
-            if (request.getParameter("noOfPages") != null) {
-                // Retrieve the noOfPages from the request if available
-                noOfPages = Integer.parseInt(request.getParameter("noOfPages"));
-            } else {
-                // Calculate the number of pages based on the total number of subjects
-                int noOfRecords = subjectDAO.getNumberOfRecords();
-                noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+            if (request.getParameter("searchQuery") != null && !request.getParameter("searchQuery").isEmpty()) {
+                searchQuery = request.getParameter("searchQuery");
             }
+            System.out.println(searchQuery);
+            // Update the next line to call a method that retrieves the number of records based on your Subject search criteria
+            int noOfRecords = subjectDAO.getNumberOfRecordsBySubjectTitle(searchQuery);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
 
-            String keyword = request.getParameter("keyword");
-            List<Subject> subjects = null;
+            // Update the next line to call a method that retrieves a list of subjects based on your search criteria
+            List<Subject> subjects = subjectDAO.searchSubjects(searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
 
-            if (keyword != null && !keyword.isEmpty()) {
-                // Perform a search if a keyword is provided
-                subjects = subjectDAO.searchSubjects(keyword, (page - 1) * recordsPerPage, recordsPerPage);
-            } else {
-                // Retrieve all subjects if no keyword is provided
-                subjects = subjectDAO.getAllSubjects((page - 1) * recordsPerPage, recordsPerPage);
-            }
-
-            // Set the attributes for the request
             request.setAttribute("subjects", subjects);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
-            request.setAttribute("keyword", keyword);
-
-            // Forward the request to the appropriate JSP for displaying subjects
-            request.getRequestDispatcher("SearchResult.jsp").forward(request, response);
-        } catch (Exception e) {
-            // Handle exceptions
+            request.setAttribute("searchQuery", searchQuery);
+            request.getRequestDispatcher("SearchSubject.jsp").forward(request, response);
         }
     }
 

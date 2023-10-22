@@ -81,12 +81,12 @@
                                     <div class="cours-bx">
                                         <div class="action-box">
                                             <div class="info-bx text-center question-image">
-                                                <img src="${subject.imageURL}" alt="">
+                                                <img src="${subjects.imageURL}" alt="">
                                             </div>
-                                            <a href="subjectdetail?pid=${subject.subjectId}" class="btn">Read More</a>
+                                            <a href="subjectdetail?pid=${subjects.subjectId}" class="btn">Read More</a>
                                         </div>
                                         <div class="info-bx text-center">
-                                            <h5><a href="#">${subject.title}</a></h5>
+                                            <h5><a href="#">${subjects.title}</a></h5>
                                             <span>Programming</span>
                                         </div>
                                     </div>

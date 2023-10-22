@@ -67,7 +67,7 @@
                 </div>
                 <div class="topbar-right">
                     <ul>
-                        <% if(acc!=null){%>
+                            <% if(acc!=null){%>
                         <li><a href="#">Welcome <%=acc.getUsername()%></a></li>
                         <li><a href="Logout">Logout</a></li>
                             <%}else if(ex!=null){%>
@@ -99,7 +99,7 @@
                 <!-- Author Nav ==== -->
                 <div class="secondary-menu">
                     <div class="secondary-inner">
-
+                        
                         <% if(acc!=null){%>
                         <div class="dropdown">
                             <button class="dropdown-button"><%=acc.getUsername()%></button>
@@ -119,23 +119,17 @@
                             </div>
                         </div>
                         <%}%>
-                        <form action="SearchSubject" method="GET" class="search-form">
                         <ul>
                             <li><a href="https://www.facebook.com/DaihocFPTHaNoi" class="btn-link"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="https://daihoc.fpt.edu.vn/" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
 
                             <!-- Search Button ==== -->
-
-                            <li class="search-btn"><button id="quik-search-btn" type="submit" class="btn-link"><i class="fa fa-search"></i></button></li>
-                            <li class="search-field">
-                                <input type="text" name="keyword" value="" id="search-input" class="search-input" style="width: 70%;border-radius: 10px; margin-left: 10px;background-color: transparent;color: white;border: 1px solid white;" placeholder="Search">
-                            </li>
+                            <li class="search-btn"><button id="quik-search-btn" type="button" class="btn-link"><i class="fa fa-search"></i></button></li>
                         </ul>
-                        </form>
                     </div>
                 </div>
                 <!-- Search Box ==== -->
-
+                
                 <!-- Navigation Menu ==== -->
                 <div class="menu-links navbar-collapse collapse justify-content-start" id="menuDropdown">
                     <div class="menu-logo">
