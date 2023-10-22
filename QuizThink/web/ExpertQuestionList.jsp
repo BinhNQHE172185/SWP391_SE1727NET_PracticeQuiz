@@ -20,6 +20,7 @@
             Expert ex = (Expert) session.getAttribute("currExpert");
             String status = (String) request.getAttribute("status");
             Subject subject = (Subject) request.getAttribute("subject");
+            List<Question> questions = (List<Question>) request.getAttribute("questions");
         %>
         <!-- META ============================================= -->
         <meta charset="utf-8">
@@ -234,8 +235,6 @@
                 <div class="row">
                     <!-- Your Profile Views Chart END-->
                     <%
-                        List<Question> questions = (List<Question>) request.getAttribute("questions");
-
                         if (questions != null && !questions.isEmpty()) {
                              for (Question question : questions) {
                     %>
@@ -250,12 +249,11 @@
                                     <span><%= question.getQuizCount() %> quiz</span>
                                 </div>
                                 <div class="cours-more-info">
-                                    <div class="review" style="border-right: 0px">
-                                        <span>Requirement:</span>
-                                        <span><%= question.getRequirement() %>%</span>
+                                    <div class="review" style="text-align: center;">
+                                        <span><a href="ExpertEditQuestion?QuestionID=<%=question.getQuestionId()%>"><h5>Edit</h5></a></span>
                                     </div>
-                                    <div class="review" style="border-right: 0px"><!-- show current progress, show passed + icon if completed-->
-                                        <span><a href="ExpertEditQuestion.jsp"><i class="fa fa-gear"></i><h5>Edit</h5></a></span>
+                                    <div class="review" style="text-align: center;"><!-- show current progress, show passed + icon if completed-->
+                                        <span><a href="#"><h5>Delete</h5></a></span>
                                     </div>
                                 </div>
                             </div>
