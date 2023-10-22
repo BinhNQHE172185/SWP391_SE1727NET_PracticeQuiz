@@ -45,27 +45,26 @@ public class LoginServlet extends HttpServlet {
             //Cookie luu tru username
             if (x != null) {
                 Cookie usernameCookie = new Cookie("username", username);
+                Cookie passwordCookie = new Cookie("password", password);
                 usernameCookie.setMaxAge(60 * 60);
+                passwordCookie.setMaxAge(60 * 60);
                 response.addCookie(usernameCookie);
-                Cookie IdCookie = new Cookie("ID", String.valueOf(x.getAccountId()));
-                IdCookie.setMaxAge(60 * 60);
-                response.addCookie(IdCookie);
-                response.sendRedirect("home.jsp");
+                response.addCookie(passwordCookie);
             } else if (e != null) {
                 Cookie usernameCookie = new Cookie("username", username);
+                Cookie passwordCookie = new Cookie("password", password);
                 usernameCookie.setMaxAge(60 * 60);
+                passwordCookie.setMaxAge(60 * 60);
                 response.addCookie(usernameCookie);
-                Cookie IdCookie = new Cookie("ID", String.valueOf(e.getExpertId()));
-                IdCookie.setMaxAge(60 * 60);
-                response.addCookie(IdCookie);
-                response.sendRedirect("home.jsp");
+                response.addCookie(passwordCookie);
+                passwordCookie.setMaxAge(60 * 60);
             }
-        } else if (x != null) {
+        }
+        if (x != null) {
             request.getSession().setAttribute("currUser", x);
-            request.getRequestDispatcher("home.jsp").forward(request, response);
         } else if (e != null) {
             request.getSession().setAttribute("currExpert", e);
-            request.getRequestDispatcher("home.jsp").forward(request, response);
         }
+        request.getRequestDispatcher("home").forward(request, response);
     }
 }

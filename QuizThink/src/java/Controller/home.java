@@ -4,12 +4,14 @@
  */
 package Controller;
 
-import DAO.AccountDAO;
+import DAO.*;
 import Model.Account;
+import Model.Expert;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,10 +19,10 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author admin
+ * @author QUYBINH
  */
-@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/ChangePassword"})
-public class ChangePasswordServlet extends HttpServlet {
+@WebServlet(name = "home", urlPatterns = {"/home"})
+public class home extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,28 +36,34 @@ public class ChangePasswordServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("currUser");
-        String password = request.getParameter("password");
-        String repassword = request.getParameter("repassword");
-        String mess = "Password doesn't match";
-        String mess1 = "Password must be at least 8 characters long included letters and numbers";
-        String accId = String.valueOf(account.getAccountId());
-        AccountDAO dao = new AccountDAO();
-        if (dao.checkPass(password)) {
-            if (password.equals(repassword)) {
-                dao.updatePassword(repassword, accId);
-                request.setAttribute("password", password);
-                request.getRequestDispatcher("CurrentPassword").forward(request, response);
-            } else {
-                request.setAttribute("Account", account);
-                request.setAttribute("mess", mess);
-                request.getRequestDispatcher("CurrentPassword").forward(request, response);
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+
+            Cookie[] ck = request.getCookies();
+            String username = null;
+            String password = null;
+            ExpertDAO ed = new ExpertDAO();
+            AccountDAO ad = new AccountDAO();
+
+            for (Cookie cookie : ck) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                }
+                if (cookie.getName().equals("password")) {
+                    password = cookie.getValue();
+                }
             }
-        } else {
-            request.setAttribute("Account", account);
-            request.setAttribute("mess1", mess1);
-            request.getRequestDispatcher("CurrentPassword").forward(request, response);
+            if (username != null && password != null) {
+                Account accCookie = ad.getAccount(username, password);
+                Expert expCookie = ed.getExpert(username, password);
+                if (accCookie != null) {
+                    request.getSession().setAttribute("currUser", accCookie);
+                }
+                if (expCookie != null) {
+                    request.getSession().setAttribute("currExpert", expCookie);
+                }
+            }
+            request.getRequestDispatcher("home.jsp").forward(request, response);
         }
     }
 

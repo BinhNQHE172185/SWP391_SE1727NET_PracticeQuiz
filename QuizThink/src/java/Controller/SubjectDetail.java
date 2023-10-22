@@ -4,8 +4,10 @@
  */
 package Controller;
 
-import DAO.AccountDAO;
-import Model.Account;
+import DAO.ExpertDAO;
+import DAO.SubjectDAO;
+import Model.Expert;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +15,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author admin
+ * @author minhk
  */
-@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/ChangePassword"})
-public class ChangePasswordServlet extends HttpServlet {
+@WebServlet(name = "SubjectDetail", urlPatterns = {"/subjectdetail"})
+public class SubjectDetail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,32 +33,25 @@ public class ChangePasswordServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("currUser");
-        String password = request.getParameter("password");
-        String repassword = request.getParameter("repassword");
-        String mess = "Password doesn't match";
-        String mess1 = "Password must be at least 8 characters long included letters and numbers";
-        String accId = String.valueOf(account.getAccountId());
-        AccountDAO dao = new AccountDAO();
-        if (dao.checkPass(password)) {
-            if (password.equals(repassword)) {
-                dao.updatePassword(repassword, accId);
-                request.setAttribute("password", password);
-                request.getRequestDispatcher("CurrentPassword").forward(request, response);
-            } else {
-                request.setAttribute("Account", account);
-                request.setAttribute("mess", mess);
-                request.getRequestDispatcher("CurrentPassword").forward(request, response);
-            }
-        } else {
-            request.setAttribute("Account", account);
-            request.setAttribute("mess1", mess1);
-            request.getRequestDispatcher("CurrentPassword").forward(request, response);
-        }
-    }
+        throws ServletException, IOException {
+    response.setContentType("text/html;charset=UTF-8");
+    String subjectIdString = request.getParameter("pid");
+    int subjectId = Integer.parseInt(subjectIdString);
+
+    SubjectDAO subjectDAO = new SubjectDAO();
+    ExpertDAO expertDAO = new ExpertDAO();
+
+    
+    Subject subject = subjectDAO.getSubjectById(subjectId);
+    request.setAttribute("subjectdetail", subject);
+
+    
+    Expert expert = expertDAO.getExpertBySubjectID(subjectId);
+    request.setAttribute("expert", expert);
+
+    request.getRequestDispatcher("SubjectDetail.jsp").forward(request, response);
+}
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
