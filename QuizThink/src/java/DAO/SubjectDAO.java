@@ -338,6 +338,46 @@ public class SubjectDAO extends DBContext {
         return listSubject;
     }
 
+    public List<Subject> searchSubjects(String keyword, int offSet, int noOfRecords) {
+        List<Subject> searchResults = new ArrayList<>();
+        try {
+            // Use a SQL query to search for subjects by keyword
+            String query = "SELECT * FROM Subject WHERE title LIKE ? "
+                    + "ORDER BY Subject_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            ps = getConnection().prepareStatement(query);
+            // Set the keyword with wildcards for a broad search
+            ps.setString(1, "%" + keyword + "%");
+            ps.setString(2, "%" + keyword + "%");
+            ps.setInt(3, offSet);
+            ps.setInt(4, noOfRecords);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int subjectId = rs.getInt("Subject_id");
+                int expertId = rs.getInt("Expert_id");
+                int subjectDimensionId = rs.getInt("SubjectDimension_id");
+                String title = rs.getString("title");
+                String imageURL = rs.getString("imageURL");
+                int questionCount = rs.getInt("question_count");
+                int rate = rs.getInt("Rate");
+                int rateCount = rs.getInt("Rate_count");
+                int level = rs.getInt("level");
+                float requirement = rs.getFloat("requirement");
+                String description = rs.getString("description");
+                Date createdDate = rs.getDate("createdDate");
+                Date modifyDate = rs.getDate("modifyDate");
+                boolean status = rs.getBoolean("status");
+                Time duration = rs.getTime("duration");
+
+                searchResults.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return searchResults;
+    }
+
     public int getNumberOfRecords() {
         String sql = "SELECT COUNT(*) AS count FROM Subject";
         int count = 0;
