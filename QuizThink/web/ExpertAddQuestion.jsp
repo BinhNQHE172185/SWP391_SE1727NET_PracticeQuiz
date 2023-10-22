@@ -158,9 +158,15 @@
                 <nav class="ttr-sidebar-navi">
                     <ul>
                         <li>
+                            <a href="Profile" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="fa fa-user"></i></span>
+                                <span class="ttr-label">Profile</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="#" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
-                                <span class="ttr-label">Courses</span>
+                                <span class="ttr-label">Subject</span>
                             </a>
                         </li>
                         <li>
@@ -186,7 +192,6 @@
                     <ul class="db-breadcrumb-list">
                         <li><a href="home.jsp"><i class="fa fa-home"></i>Home</a></li>
                         <li>Subject</li>
-                        <li>Question</li>
                         <li>Add Question</li>
                     </ul>
                 </div>	
@@ -220,7 +225,12 @@
                                             <label class="col-form-label">Duration (Minutes)</label>
                                             <div>
                                                 <input class="form-control" type="number" value="" name="duration" required="">
-
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <label class="col-form-label">Requirement (%)</label>
+                                            <div>
+                                                <input class="form-control" type="number" value="" name="requirement" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
@@ -231,7 +241,7 @@
                                         </div>
                                         <div class="col-12">
                                             <button type="submit" class="btn">Submit</button>
-                                            <button type="reset" class="btn-secondry">Cancel</button>
+                                            <button type="button" class="btn-secondry" onclick="window.history.back()">Cancel</button>
                                         </div>
                                         <% if(status !=null){ %>
                                         <div class="col-lg-12" style="padding-bottom: 10px; color: red;">

@@ -6,13 +6,22 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import = "Model.Expert" %>
+<%@page import= "Model.Question" %>
+<%@page import= "Model.Subject" %>
+<%@page import = "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:08:15 GMT -->
     <head>
-
+        <%
+            Expert ex = (Expert) session.getAttribute("currExpert");
+            String status = (String) request.getAttribute("status");
+            Subject subject = (Subject) request.getAttribute("subject");
+            List<Question> questions = (List<Question>) request.getAttribute("questions");
+        %>
         <!-- META ============================================= -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -185,20 +194,20 @@
                 <div class="db-breadcrumb">
                     <ul class="db-breadcrumb-list">
                         <li><a href="home.jsp"><i class="fa fa-home"></i>Home</a></li>
-                        <li>Student List</li>
+                        <li>Subject</li>
+                        <li>Question List</li>
                     </ul>
                 </div>	
                 <!-- Card -->
                 <div class="row">
-                    <!-- Your Profile Views Chart END-->
                     <div class="container-fluid">
                         <table>
                             <tr>
                                 <td>
                                     <label style="text-align: left;">Search</label>
-                                    <form action="" class="form" onsubmit="countRows()">
+                                    <form action="" class="form">
                                         <div class="input-group">
-                                            <input type="text" name="search" class="form-control" placeholder="Search course by name">
+                                            <input type="text" name="search" class="form-control" placeholder="Search question by name">
                                             <div class="input-group-append">
                                                 <button type="submit" class="btn btn-success">Search</button>
                                             </div>
@@ -208,72 +217,107 @@
                             </tr>
                         </table>
                     </div>
-                    
-
-                </div>
-                <div class="row">
                     <div style="text-align: left;" class="col-lg-6 m-b10">
-                        <h3>Student List</h3>
+                        <h3>Question List</h3>
                     </div>
                     <div id="Ebtn" class="col-lg-6 m-b10">
                         <div style="display: flex;justify-content: flex-end;">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add new student</button>
-                            <button type="submit" class="btn btn-success"><i class="fa fa-sort"></i> Sort By</button>
-                            <button type="submit" class="btn btn-success"><i class="fa fa-filter"></i> Filter</button>
+                            <a href="ExpertAddQuestion.jsp" class="btn btn-success">
+                                <i class="fa fa-plus"></i> Add new question
+                            </a>
+                            <a href="#" class="btn btn-success"><i class="fa fa-sort"></i> Sort By</a>
+                            <a href="#" class="btn btn-success"><i class="fa fa-filter"></i> Filter</a>
+
                         </div>
-                        
+
                     </div>
                 </div>
-                <section>
-                    <div>
-                        <section class="content">
-                            <div class="row">
-                                <div class="col-lg-12 m-b30">
-                                    <div class="box">
-                                        <!-- /.box-header -->
-                                        <div class="box-body">
-                                            <table id="example2" class="table table-bordered table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Full Name</th>
-                                                        <th>Email</th>
-                                                        <th>Gender</th>
-                                                        <th>Avatar</th>
-                                                        <th>Date of Birth</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="userdata">
-                                                <c:forEach items="${listAccount}" var="o" varStatus="status">
-                                                    <tr>
-                                                        <td>${o.email}</td>
-                                                        <td>${o.gender}</td>
-                                                        <td>${o.avatar}</td>
-                                                        <td>${o.dob}</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </c:forEach>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <!-- /.box-body -->
+                <div class="row">
+                    <!-- Your Profile Views Chart END-->
+                    <%
+                        if (questions != null && !questions.isEmpty()) {
+                             for (Question question : questions) {
+                    %>
+                    <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                        <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>">
+                            <div class="cours-bx">
+                                <div class="info-bx text-center question-image">
+                                    <img src="<%= question.getImageURL() %>" alt="" />
+                                </div>
+                                <div class="info-bx text-center">
+                                    <h5><%= question.getTitle() %></h5>
+                                    <span><%= question.getQuizCount() %> quiz</span>
+                                </div>
+                                <div class="cours-more-info">
+                                    <div class="review" style="text-align: center;">
+                                        <span><a href="ExpertEditQuestion?QuestionID=<%=question.getQuestionId()%>"><h5>Edit</h5></a></span>
+                                    </div>
+                                    <div class="review" style="text-align: center;"><!-- show current progress, show passed + icon if completed-->
+                                        <span><a href="#"><h5>Delete</h5></a></span>
                                     </div>
                                 </div>
-                                <!-- /.col -->
                             </div>
-                            <!-- /.row -->
-                            <div >
-                                <ul class="pagination">	
-                                    <c:forEach begin="1" end="${lastPage}" var="i">
-                                        <li <c:if test="${i == currentPage}">class="active"</c:if>><a data-param="page" data-value="${i}" onclick="handleLinkClick(event, this)">${i}</a></li>
-                                    </c:forEach>
-                                </ul>
-                            </div>
-                        </section>
+                        </a>
                     </div>
-                </section>
-            </div>
+                    <%
+                            }
+                        } else {
+                    %>
+                    <p>No questions found.</p>
+                    <%
+                        }
+                    %>
+                    <!-- Pagination list display-->
+                    <%
+                        int currentPage = 1; // Set the current page value
+                        int noOfPages = 5; // Set the total number of pages
+                        if (request.getAttribute("currentPage") != null ){
+                             currentPage = (int) request.getAttribute("currentPage");
+                        }
+                        if (request.getAttribute("noOfPages") != null ){
+                             noOfPages = (int) request.getAttribute("noOfPages");
+                        }
+                        if (noOfPages > 1) {
+                    %>
+                    <div class="col-lg-12 m-b20">
+                        <div class="pagination-bx rounded-sm gray clearfix">
+                            <ul class="pagination">
+                                <%-- For displaying Previous link except for the 1st page --%>
+                                <% if (currentPage != 1) { %>
+                                <li class="previous">
+                                    <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
+                                        <i class="ti-arrow-left"></i> Prev
+                                    </a>
+                                </li>
+                                <% } %>
+
+                                <%-- For displaying pages --%>
+                                <% for (int i = 1; i <= noOfPages; i++) { %>
+                                <% if (currentPage == i) { %>
+                                <li class="active"><a><%= i %></a></li>
+                                        <% } else { %>
+                                <li>
+                                    <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
+                                        <%= i %>
+                                    </a>
+                                </li>
+                                <% } %>
+                                <% } %>
+
+                                <%-- For displaying Next link --%>
+                                <% if (currentPage < noOfPages) { %>
+                                <li class="next">
+                                    <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
+                                        Next <i class="ti-arrow-right"></i>
+                                    </a>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                    <% } %>
+                    <!-- Pagination list end-->
+                </div>
         </main>
         <div class="ttr-overlay"></div>
 
@@ -297,82 +341,82 @@
         <script src='admin/assets/vendors/calendar/moment.min.js'></script>
         <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
         <script>
-                                            $(document).ready(function () {
+            $(document).ready(function () {
 
-                                                $('#calendar').fullCalendar({
-                                                    header: {
-                                                        left: 'prev,next today',
-                                                        center: 'title',
-                                                        right: 'month,agendaWeek,agendaDay,listWeek'
-                                                    },
-                                                    defaultDate: '2019-03-12',
-                                                    navLinks: true, // can click day/week names to navigate views
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay,listWeek'
+                    },
+                    defaultDate: '2019-03-12',
+                    navLinks: true, // can click day/week names to navigate views
 
-                                                    weekNumbers: true,
-                                                    weekNumbersWithinDays: true,
-                                                    weekNumberCalculation: 'ISO',
+                    weekNumbers: true,
+                    weekNumbersWithinDays: true,
+                    weekNumberCalculation: 'ISO',
 
-                                                    editable: true,
-                                                    eventLimit: true, // allow "more" link when too many events
-                                                    events: [
-                                                        {
-                                                            title: 'All Day Event',
-                                                            start: '2019-03-01'
-                                                        },
-                                                        {
-                                                            title: 'Long Event',
-                                                            start: '2019-03-07',
-                                                            end: '2019-03-10'
-                                                        },
-                                                        {
-                                                            id: 999,
-                                                            title: 'Repeating Event',
-                                                            start: '2019-03-09T16:00:00'
-                                                        },
-                                                        {
-                                                            id: 999,
-                                                            title: 'Repeating Event',
-                                                            start: '2019-03-16T16:00:00'
-                                                        },
-                                                        {
-                                                            title: 'Conference',
-                                                            start: '2019-03-11',
-                                                            end: '2019-03-13'
-                                                        },
-                                                        {
-                                                            title: 'Meeting',
-                                                            start: '2019-03-12T10:30:00',
-                                                            end: '2019-03-12T12:30:00'
-                                                        },
-                                                        {
-                                                            title: 'Lunch',
-                                                            start: '2019-03-12T12:00:00'
-                                                        },
-                                                        {
-                                                            title: 'Meeting',
-                                                            start: '2019-03-12T14:30:00'
-                                                        },
-                                                        {
-                                                            title: 'Happy Hour',
-                                                            start: '2019-03-12T17:30:00'
-                                                        },
-                                                        {
-                                                            title: 'Dinner',
-                                                            start: '2019-03-12T20:00:00'
-                                                        },
-                                                        {
-                                                            title: 'Birthday Party',
-                                                            start: '2019-03-13T07:00:00'
-                                                        },
-                                                        {
-                                                            title: 'Click for Google',
-                                                            url: 'http://google.com/',
-                                                            start: '2019-03-28'
-                                                        }
-                                                    ]
-                                                });
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: [
+                        {
+                            title: 'All Day Event',
+                            start: '2019-03-01'
+                        },
+                        {
+                            title: 'Long Event',
+                            start: '2019-03-07',
+                            end: '2019-03-10'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2019-03-09T16:00:00'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2019-03-16T16:00:00'
+                        },
+                        {
+                            title: 'Conference',
+                            start: '2019-03-11',
+                            end: '2019-03-13'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2019-03-12T10:30:00',
+                            end: '2019-03-12T12:30:00'
+                        },
+                        {
+                            title: 'Lunch',
+                            start: '2019-03-12T12:00:00'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2019-03-12T14:30:00'
+                        },
+                        {
+                            title: 'Happy Hour',
+                            start: '2019-03-12T17:30:00'
+                        },
+                        {
+                            title: 'Dinner',
+                            start: '2019-03-12T20:00:00'
+                        },
+                        {
+                            title: 'Birthday Party',
+                            start: '2019-03-13T07:00:00'
+                        },
+                        {
+                            title: 'Click for Google',
+                            url: 'http://google.com/',
+                            start: '2019-03-28'
+                        }
+                    ]
+                });
 
-                                            });
+            });
 
         </script>
     </body>
