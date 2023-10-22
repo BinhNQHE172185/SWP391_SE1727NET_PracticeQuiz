@@ -212,7 +212,37 @@ public class QuestionDAO extends DBContext {
         return count;
     }
 
-    public void addQuestion(int SubjectID, int ExpertID,int requirement, String title, String image, String decs, Time time) {
+    public int getNumberOfRecordBySubjectIDAndExpertID(int ExpertID, int SubjectID){
+        String sql = "SELECT \n"
+                + "  COUNT(*) as count\n"
+                + "FROM \n"
+                + "  Expert e\n"
+                + "  JOIN Question q ON q.Expert_id = e.Expert_id\n"
+                + "  JOIN Subject s ON q.Subject_id = s.Subject_id\n"
+                + "WHERE \n"
+                + "  (e.Expert_id = ?) and (s.Subject_id=?) ";
+        int count = 0;
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setInt(1, ExpertID);
+            statement.setInt(2, SubjectID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("count");
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public void addQuestion(int SubjectID, int ExpertID, int requirement, String title, String image, String decs, Time time) {
         LocalDateTime currentTime = LocalDateTime.now();
         Date creDate = Date.valueOf(currentTime.toLocalDate());
         String sql = "INSERT INTO [dbo].[Question]\n"
