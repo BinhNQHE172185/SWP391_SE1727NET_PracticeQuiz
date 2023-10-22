@@ -241,7 +241,7 @@
                                         </div>
                                         <div class="col-12">
                                             <button type="submit" class="btn">Submit</button>
-                                            <button type="reset" class="btn-secondry">Cancel</button>
+                                            <button type="button" class="btn-secondry" onclick="window.history.back()">Cancel</button>
                                         </div>
                                         <% if(status !=null){ %>
                                         <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
