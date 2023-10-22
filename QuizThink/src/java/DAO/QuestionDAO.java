@@ -54,7 +54,7 @@ public class QuestionDAO extends DBContext {
         }
         return question;
     }
-
+    
     public List<Question> getQuestionsBySubjectId(int subjectId) {
         String sql = "SELECT * FROM Question WHERE Subject_id = ?";
         List<Question> questions = new ArrayList<>();
@@ -126,7 +126,7 @@ public class QuestionDAO extends DBContext {
         }
         return questions;
     }
-
+    
     public List<Question> searchQuestionsBySubjectId(int subjectId, String searchQuery, int offSet, int noOfRecords) {
         String sql = "SELECT * FROM Question WHERE Subject_id = ? AND title LIKE ? ORDER BY Question_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         List<Question> questions = new ArrayList<>();
@@ -187,7 +187,7 @@ public class QuestionDAO extends DBContext {
 
         return count;
     }
-
+    
     public int getNumberOfRecordsBySubjectIdAndSearch(int subjectId, String searchQuery) {
         String sql = "SELECT COUNT(*) AS count FROM Question WHERE Subject_id = ? AND title LIKE ?";
         int count = 0;
@@ -280,6 +280,33 @@ public class QuestionDAO extends DBContext {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public void ExpertUpdateQuestion(int ExpertId, int QuestionId, String title, String image, String desc, float requirement, Time time ) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        Date creDate = Date.valueOf(currentTime.toLocalDate());
+        String sql = "UPDATE [dbo].[Question] \n"
+                + "   SET [title] = ?\n"
+                + "      ,[imageURL] = ?\n"
+                + "      ,[description] = ?\n"
+                + "      ,[requirement] = ?\n"
+                + "      ,[modifyDate] = ?\n"
+                + "      ,[duration] = ?\n"
+                + " WHERE Expert_id = ? and Question_id = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, title);
+            ps.setString(2, image);
+            ps.setFloat(4, requirement);
+            ps.setString(3, desc);
+            ps.setDate(5, creDate);
+            ps.setTime(6, time);
+            ps.setInt(7, ExpertId);
+            ps.setInt(8, QuestionId);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static void main(String[] args) {
