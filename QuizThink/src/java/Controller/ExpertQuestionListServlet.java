@@ -60,7 +60,7 @@ public class ExpertQuestionListServlet extends HttpServlet {
             int noOfRecords = questionDAO.getNumberOfRecordBySubjectIDAndExpertID(expertID, subjectId);
             noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
 
-            List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId, (page - 1) * recordsPerPage, recordsPerPage);
+            List<Question> questions = questionDAO.getQuestionsBySubjectIdAndExpertID(subjectId, expertID, (page - 1) * recordsPerPage, recordsPerPage);
             request.setAttribute("subject", subject);
             request.setAttribute("questions", questions);
             request.setAttribute("noOfPages", noOfPages);
