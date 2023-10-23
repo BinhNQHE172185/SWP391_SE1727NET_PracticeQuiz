@@ -275,7 +275,7 @@
                                                                                 <a href="" class="edit-link">Edit</a>
                                                                             </div>
                                                                             <div class="review action">
-                                                                                <a href="" class="delete-link">Delete</a>
+                                                                                <a href="ExpertDeleteSubject?id=${o.subjectId}" class="delete-link">Delete</a>
                                                                             </div>
                                                                         </div>
                                                                     </div>

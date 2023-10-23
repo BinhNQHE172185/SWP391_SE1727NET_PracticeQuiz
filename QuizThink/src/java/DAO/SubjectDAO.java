@@ -263,6 +263,20 @@ public class SubjectDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    
+    public void deleteExpertSubject(int expertID, int subjectID) {
+
+        String query = "delete from Subject where Expert_id = ? and Subject_id = ? ";
+        try {
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, expertID);
+            ps.setInt(2, subjectID);
+            rs = ps.executeQuery();
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     public void ApproveSubject(String subjectId) {
         String query = "UPDATE [Subject]\n"
