@@ -45,12 +45,14 @@ public class home extends HttpServlet {
         ExpertDAO ed = new ExpertDAO();
         AccountDAO ad = new AccountDAO();
 
-        for (Cookie cookie : ck) {
-            if (cookie.getName().equals("username")) {
-                username = cookie.getValue();
-            }
-            if (cookie.getName().equals("password")) {
-                password = cookie.getValue();
+        if (ck != null) {
+            for (Cookie cookie : ck) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                }
+                if (cookie.getName().equals("password")) {
+                    password = cookie.getValue();
+                }
             }
         }
 
