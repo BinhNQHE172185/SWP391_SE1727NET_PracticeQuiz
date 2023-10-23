@@ -74,28 +74,6 @@
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
-                    <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)">
-                        <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
-                        <button class="input-group-text remove-answer" onclick="removeRow(this)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
-                    <div class="form-check input-group mb-3 ">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)">
-                        <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
-                        <button class="input-group-text remove-answer" onclick="removeRow(this)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
-                    <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)">
-                        <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
-                        <button class="input-group-text remove-answer" onclick="removeRow(this)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
-
                 </div >
                 <div class="form-check input-group mb-3 " id="description-explaination" style="display: none">
                     <label class="form-label">Description or Explaination for correct answers</label>

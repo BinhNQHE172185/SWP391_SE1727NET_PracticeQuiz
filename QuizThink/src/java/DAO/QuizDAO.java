@@ -217,6 +217,28 @@ public class QuizDAO extends DBContext {
             ex.printStackTrace();
         }
     }
-    
+    // Get  Account by ID
+
+    public Quiz getQuizID(String quiz_id) {
+        String query = "SELECT * FROM Quiz WHERE Quiz_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, quiz_id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Quiz(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getString(4),
+                        rs.getString(5)
+                );
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return null;
+    }
     
 }

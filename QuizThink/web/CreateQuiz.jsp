@@ -68,28 +68,32 @@
                 <div class="mb-3">
                     <label class="form-label">Answers</label>
                     <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)" >
+                        <input class="form-check-input" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" >
+                        <input type="hidden" name="isCorrect" value =" incorrect">
                         <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
                     <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)">
+                        <input class="form-check-input" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)">
+                        <input type="hidden" name="isCorrect" value =" incorrect">
                         <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
                     <div class="form-check input-group mb-3 ">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)">
+                        <input class="form-check-input" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)">
+                        <input type="hidden" name="isCorrect" value =" incorrect">
                         <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
                     <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)">
+                        <input class="form-check-input" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)">
+                        <input type="hidden" name="isCorrect" value =" incorrect">
                         <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
@@ -118,13 +122,23 @@
 <script>
 
 function updateCheckbox(checkbox) {
-    if(checkbox.checked){
-        checkbox.value = "correct";
-    }else{
-        checkbox.value = "incorrect";
+    // Check if the checkbox is checked
+    var isChecked = checkbox.checked;
+    
+    // Find the hidden input element within the same parent div
+    var hiddenInput = checkbox.parentElement.querySelector('input[type="hidden"]');
+    
+    if (isChecked) {
+        // If the checkbox is checked, set the hidden input value to "correct"
+        hiddenInput.value = "correct";
+    } else {
+        // If the checkbox is not checked, set the hidden input value to "incorrect"
+        hiddenInput.value = "incorrect";
     }
-    console.log(checkbox.value); 
-} 
+    
+    // Optional: Log the hidden input value for testing
+    console.log(hiddenInput.value);
+}
 </script>
 
     
