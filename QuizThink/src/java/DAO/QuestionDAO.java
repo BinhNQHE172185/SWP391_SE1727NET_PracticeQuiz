@@ -318,7 +318,7 @@ public class QuestionDAO extends DBContext {
                 + "  JOIN Question q ON q.Expert_id = e.Expert_id\n"
                 + "  JOIN Subject s ON q.Subject_id = s.Subject_id\n"
                 + "WHERE \n"
-                + "  (e.Expert_id = ?) and (s.Subject_id=?) and (q.status = 1) \";";
+                + "  (e.Expert_id = ?) and (s.Subject_id=?) and (q.status = 1)";
         int count = 0;
         try {
             PreparedStatement statement = getConnection().prepareStatement(sql);

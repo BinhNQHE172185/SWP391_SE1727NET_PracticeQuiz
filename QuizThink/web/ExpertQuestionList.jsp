@@ -19,6 +19,7 @@
         <%
             Expert ex = (Expert) session.getAttribute("currExpert");
             String status = (String) request.getAttribute("status");
+            String search = (String) request.getAttribute("search");
             Subject subject = (Subject) request.getAttribute("subject");
             List<Question> questions = (List<Question>) request.getAttribute("questions");
         %>
@@ -227,8 +228,6 @@
                                 <i class="fa fa-plus"></i> Add new question
                             </a>
                             <a href="#" class="btn btn-success"><i class="fa fa-sort"></i> Sort By</a>
-                            <a href="#" class="btn btn-success"><i class="fa fa-filter"></i> Filter</a>
-
                         </div>
 
                     </div>
@@ -286,9 +285,15 @@
                                 <%-- For displaying Previous link except for the 1st page --%>
                                 <% if (currentPage != 1) { %>
                                 <li class="previous">
+                                    <% if(search==null){%>
                                     <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
                                         <i class="ti-arrow-left"></i> Prev
                                     </a>
+                                    <%}else{%>
+                                    <a href="ExpertQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
+                                        <i class="ti-arrow-left"></i> Prev
+                                    </a>
+                                    <%}%>
                                 </li>
                                 <% } %>
 
@@ -298,9 +303,15 @@
                                 <li class="active"><a><%= i %></a></li>
                                         <% } else { %>
                                 <li>
+                                    <% if(search==null){%>
                                     <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
                                         <%= i %>
                                     </a>
+                                    <%}else{%>
+                                    <a href="ExpertQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
+                                        <%= i %>
+                                    </a>
+                                    <%}%>
                                 </li>
                                 <% } %>
                                 <% } %>
@@ -308,9 +319,15 @@
                                 <%-- For displaying Next link --%>
                                 <% if (currentPage < noOfPages) { %>
                                 <li class="next">
+                                    <% if (search==null){%>
                                     <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
                                         Next <i class="ti-arrow-right"></i>
                                     </a>
+                                    <%}else{%>
+                                    <a href="ExpertQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
+                                        Next <i class="ti-arrow-right"></i>
+                                    </a>
+                                    <%}%>
                                 </li>
                                 <% } %>
                             </ul>

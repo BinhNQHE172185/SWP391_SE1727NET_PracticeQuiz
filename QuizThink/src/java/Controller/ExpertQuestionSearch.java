@@ -54,6 +54,7 @@ public class ExpertQuestionSearch extends HttpServlet {
 
             List<Question> questions = questionDAO.searchQuestionsBySubjectIdAndExpertId(subjectId, ex.getExpertId(), searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
             request.setAttribute("subject", subject);
+            request.setAttribute("search", searchQuery);
             request.setAttribute("questions", questions);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
