@@ -35,7 +35,7 @@ public class ExpertAddQuestionServlet extends HttpServlet {
         String duration = request.getParameter("duration");
         int subjectID = Integer.parseInt(request.getParameter("subjectID"));
         int expertID = Integer.parseInt(request.getParameter("expertID"));
-        int requirement = Integer.parseInt(request.getParameter("requirement"));
+        float requirement = Float.parseFloat(request.getParameter("requirement"));
         String status = "Successfully";
 
         //DAO
