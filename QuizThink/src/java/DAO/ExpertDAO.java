@@ -109,5 +109,44 @@ public class ExpertDAO extends DBContext {
 
         return ex;
     }
-
+    
+    public Expert getExpertByID(int expertID) {
+        int expertId;
+        String username;
+        String password;
+        String email;
+        String name;
+        String selfIntroduction;
+        String avatar;
+        boolean status;
+        Expert ex = null;
+        String sql = "select * from Expert where Expert_id = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, expertID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                expertId = rs.getInt("Expert_id");
+                username = rs.getString("username");
+                password = rs.getString("password");
+                email = rs.getString("email");
+                name = rs.getString("name");
+                selfIntroduction = rs.getString("self-introduction");
+                avatar = rs.getString("avatar");
+                status = rs.getBoolean("status");
+                ex = new Expert(expertId, username, password, email, name, selfIntroduction, avatar, status);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return ex;
+    }
+       
+    public static void main(String[] args) {
+        ExpertDAO dao = new ExpertDAO();
+        Expert ex = dao.getExpertByID(37);
+        System.out.println(ex.getName());
+    }
 }

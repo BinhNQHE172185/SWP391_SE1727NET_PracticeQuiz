@@ -4,24 +4,25 @@
  */
 package Controller;
 
+import DAO.ExpertDAO;
 import DAO.SubjectDAO;
-import Model.Account;
+import Model.Expert;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "CancelSubject", urlPatterns = {"/cancel"})
-public class CancelSubject extends HttpServlet {
+@WebServlet(name = "ExpertSubjectListServlet", urlPatterns = {"/ExpertSubjectList"})
+public class ExpertSubjectListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,12 +36,13 @@ public class CancelSubject extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int idSubject = Integer.valueOf(request.getParameter("id"));
-        HttpSession session = request.getSession();
-        Account currUser = (Account) session.getAttribute("currUser");
         SubjectDAO dao = new SubjectDAO();
-        dao.cancelRegistedSubject(currUser.getAccountId(), idSubject);
-        response.sendRedirect("YourSubject");
+        ExpertDAO DAO = new ExpertDAO();
+        Expert expert = DAO.getExpertByID(37);
+        List<Subject> list = dao.getSubjectByExpert(37);
+        request.setAttribute("list", list);
+        request.setAttribute("expert", expert);
+        request.getRequestDispatcher("ExpertSubjectList.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
