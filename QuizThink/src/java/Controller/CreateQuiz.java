@@ -65,7 +65,11 @@ public class CreateQuiz extends HttpServlet {
         
         //String question_id = request.getParameter("question_Id"); // GET PARAM form jsp
         String question_id = "5";
+        
         String description = request.getParameter("description");
+        if(description == null){
+            description = "null";
+        }
         String type = "1";
         String content = request.getParameter("content"); // CONTENT of quiz
         String[] answerArray = request.getParameterValues("answer"); // LIST ANSWER
@@ -73,6 +77,18 @@ public class CreateQuiz extends HttpServlet {
         
         QuizDAO dao = new QuizDAO();
         dao.addQuiz(question_id, type, content, description, isCorrectArray, answerArray);
+        response.sendRedirect("CreateQuiz.jsp");
+        System.out.println("Array 1:");
+        for (int i = 0; i < answerArray.length; i++) {
+            System.out.println(answerArray[i]);
+        }
+
+        // Print the contents of array2
+        System.out.println("Array 2:");
+        for (int i = 0; i < isCorrectArray.length; i++) {
+            System.out.println(isCorrectArray[i]);
+        }
+        
     }
 
     /** 

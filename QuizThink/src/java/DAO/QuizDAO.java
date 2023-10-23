@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -181,32 +182,39 @@ public class QuizDAO extends DBContext {
                         "    (?, ?, ?, ?)";
          try {
             conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
+            ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             
             ps.setString(1, question_id);
             ps.setString(2, type);
             ps.setString(3, content);
-            ps.setString(4, description);
-            ps.executeUpdate(); // no result ==> no need result set
-            ResultSet generatedKeys = ps.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                int quizId = generatedKeys.getInt(1); // Lấy giá trị quiz_id vừa được tạo
-                // Tạo DAO cho bảng Answer và sử dụng quizId
-                AnswerDAO answerDAO = new AnswerDAO();
-                
-                for (int i = 0; i < contents.length; i++) {
-                    if(isCorrectList[i] == "true"){
-                        answerDAO.addAnswer(quizId, "1", contents[i]);
-                    }else{
-                        answerDAO.addAnswer(quizId, "0", contents[i]);
+            if(description.equals("null")){
+                ps.setNull(4, java.sql.Types.NVARCHAR);
+            }else{
+               ps.setString(4, description); 
+            }
+             System.out.println("hello");
+            ps.execute(); // no result ==> no need result set
+            
+           
+                rs = ps.getGeneratedKeys();
+
+                if (rs.next()) {
+                    int quizId = rs.getInt(1); // Lấy giá trị quiz_id vừa được tạo
+                    // Tạo DAO cho bảng Answer và sử dụng quizId
+                    AnswerDAO answerDAO = new AnswerDAO();
+                    System.out.println("Giá trị tự động tạo (ID): " + quizId);
+                    for (int i = 0; i < contents.length; i++) {
+                        if(isCorrectList[i].equals("correct")){
+                            answerDAO.addAnswer(quizId, "1", contents[i]);
+                        }else{
+                            answerDAO.addAnswer(quizId, "0", contents[i]);
+                        }
                     }
                 }
-            }
-        } catch (Exception e) {
-            // Handle exceptions here
-        } finally {
-            // Close database connections and resources in a real application
-            // For simplicity, it's omitted here.
+            
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
     

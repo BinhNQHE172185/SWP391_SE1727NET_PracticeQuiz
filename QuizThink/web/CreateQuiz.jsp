@@ -68,28 +68,28 @@
                 <div class="mb-3">
                     <label class="form-label">Answers</label>
                     <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="false" onchange="updateCheckbox(this)" >
+                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)" >
                         <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
                     <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="false" onchange="updateCheckbox(this)">
+                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)">
                         <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
                     <div class="form-check input-group mb-3 ">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="false" onchange="updateCheckbox(this)">
+                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)">
                         <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
                     <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="false" onchange="updateCheckbox(this)">
+                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)">
                         <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
@@ -100,7 +100,7 @@
                 <div class="form-check input-group mb-3 " id="description-explaination" style="display: none">
                     <label class="form-label">Description or Explaination for correct answers</label>
                     <div>
-                        <textarea name="description" class="form-control col-sm-8" > </textarea>
+                        <textarea name="description" class="form-control col-sm-8"> </textarea>
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary add-answer" onclick="addRow()">Add Answer</button>
@@ -119,14 +119,17 @@
 
 function updateCheckbox(checkbox) {
     if(checkbox.checked){
-        checkbox.value = "true";
+        checkbox.value = "correct";
     }else{
-        checkbox.value = "false";
+        checkbox.value = "incorrect";
     }
     console.log(checkbox.value); 
 } 
 </script>
+
+    
 <script>
+    
     function removeRow(button){
         var rows = document.querySelectorAll('.form-check.input-group.mb-3');
         if(rows.length >2){
@@ -146,8 +149,29 @@ function updateCheckbox(checkbox) {
     }
     
 </script> 
+
 <script>
-    function addRow(){
+    let isCorrectCounter = 0; // Biến để theo dõi số lượng checkbox
+
+    function addRow() {
+        // Tạo một form-check input-group mới với chỉ mục duy nhất
+        const newCheckbox = document.createElement("div");
+        newCheckbox.classList.add("form-check", "input-group", "mb-3");
+
+        newCheckbox.innerHTML = `
+            <input class="form-check-input" type="checkbox" name="isCorrect[${isCorrectCounter}]" value="incorrect" onchange="updateCheckbox(this)">
+            <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
+            <button class="input-group-text remove-answer" onclick="removeRow(this)">
+                <i class="fa fa-trash"></i>
+            </button>
+        `;
+
+        document.getElementById("yourContainer").appendChild(newCheckbox);
+
+        isCorrectCounter++; // Tăng chỉ mục cho checkbox
+    }
+
+    function addRow_default(){
         var rows = document.querySelectorAll('.form-check.input-group.mb-3');
         if(rows.length < 8){
             var originalRow = document.querySelector('.form-check.input-group.mb-3');
