@@ -205,9 +205,10 @@
                             <tr>
                                 <td>
                                     <label style="text-align: left;">Search</label>
-                                    <form action="" class="form">
+                                    <form action="ExpertQuestionSearch" class="form" method="GET">
                                         <div class="input-group">
                                             <input type="text" name="search" class="form-control" placeholder="Search question by name">
+                                            <input type="hidden" name="subjectId" value="<%=subject.getSubjectId()%>" class="form-control">
                                             <div class="input-group-append">
                                                 <button type="submit" class="btn btn-success">Search</button>
                                             </div>
@@ -226,8 +227,6 @@
                                 <i class="fa fa-plus"></i> Add new question
                             </a>
                             <a href="#" class="btn btn-success"><i class="fa fa-sort"></i> Sort By</a>
-                            <a href="#" class="btn btn-success"><i class="fa fa-filter"></i> Filter</a>
-
                         </div>
 
                     </div>
@@ -253,7 +252,7 @@
                                         <span><a href="ExpertEditQuestion?QuestionID=<%=question.getQuestionId()%>"><h5>Edit</h5></a></span>
                                     </div>
                                     <div class="review" style="text-align: center;"><!-- show current progress, show passed + icon if completed-->
-                                        <span><a href="#"><h5>Delete</h5></a></span>
+                                        <span><a href="ExpertDeleteQuestion?QuestionID=<%= question.getQuestionId() %>&subjectId=<%=subject.getSubjectId()%>"><h5>Delete</h5></a></span>
                                     </div>
                                 </div>
                             </div>
