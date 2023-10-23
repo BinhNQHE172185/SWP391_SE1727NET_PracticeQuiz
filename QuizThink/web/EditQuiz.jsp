@@ -67,13 +67,18 @@
 
                 <div class="mb-3">
                     <label class="form-label">Answers</label>
+                    
+                <c:forEach items="answerList" var="o">
                     <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="isCorrect" value="incorrect" onchange="updateCheckbox(this)" >
-                        <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
+                        <input class="form-check-input" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" >
+                        <input type="hidden" name="isCorrect" value =" incorrect">\
+                        <input type="hidden" name="answer_id" value="${o.answer_id}">
+                        <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here" value="${o.content}">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
+                </c:forEach>
                 </div >
                 <div class="form-check input-group mb-3 " id="description-explaination" style="display: none">
                     <label class="form-label">Description or Explaination for correct answers</label>
@@ -96,13 +101,23 @@
 <script>
 
 function updateCheckbox(checkbox) {
-    if(checkbox.checked){
-        checkbox.value = "correct";
-    }else{
-        checkbox.value = "incorrect";
+    // Check if the checkbox is checked
+    var isChecked = checkbox.checked;
+    
+    // Find the hidden input element within the same parent div
+    var hiddenInput = checkbox.parentElement.querySelector('input[type="hidden"]');
+    
+    if (isChecked) {
+        // If the checkbox is checked, set the hidden input value to "correct"
+        hiddenInput.value = "correct";
+    } else {
+        // If the checkbox is not checked, set the hidden input value to "incorrect"
+        hiddenInput.value = "incorrect";
     }
-    console.log(checkbox.value); 
-} 
+    
+    // Optional: Log the hidden input value for testing
+    console.log(hiddenInput.value);
+}
 </script>
 
     
@@ -129,27 +144,7 @@ function updateCheckbox(checkbox) {
 </script> 
 
 <script>
-    let isCorrectCounter = 0; // Biến để theo dõi số lượng checkbox
-
-    function addRow() {
-        // Tạo một form-check input-group mới với chỉ mục duy nhất
-        const newCheckbox = document.createElement("div");
-        newCheckbox.classList.add("form-check", "input-group", "mb-3");
-
-        newCheckbox.innerHTML = `
-            <input class="form-check-input" type="checkbox" name="isCorrect[${isCorrectCounter}]" value="incorrect" onchange="updateCheckbox(this)">
-            <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
-            <button class="input-group-text remove-answer" onclick="removeRow(this)">
-                <i class="fa fa-trash"></i>
-            </button>
-        `;
-
-        document.getElementById("yourContainer").appendChild(newCheckbox);
-
-        isCorrectCounter++; // Tăng chỉ mục cho checkbox
-    }
-
-    function addRow_default(){
+    function addRow(){
         var rows = document.querySelectorAll('.form-check.input-group.mb-3');
         if(rows.length < 8){
             var originalRow = document.querySelector('.form-check.input-group.mb-3');
@@ -157,8 +152,6 @@ function updateCheckbox(checkbox) {
             console.log("Số dòng hiện tại: " + rows.length);
             
             var newCheckbox = newRow.querySelector('input[type="checkbox"]');
-            newCheckbox.value = "false";
-            newCheckbox.checked = false;
             
             newCheckbox.onchange = function() {
                 updateCheckbox(newCheckbox);

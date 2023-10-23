@@ -165,27 +165,7 @@ function updateCheckbox(checkbox) {
 </script> 
 
 <script>
-    let isCorrectCounter = 0; // Biến để theo dõi số lượng checkbox
-
-    function addRow() {
-        // Tạo một form-check input-group mới với chỉ mục duy nhất
-        const newCheckbox = document.createElement("div");
-        newCheckbox.classList.add("form-check", "input-group", "mb-3");
-
-        newCheckbox.innerHTML = `
-            <input class="form-check-input" type="checkbox" name="isCorrect[${isCorrectCounter}]" value="incorrect" onchange="updateCheckbox(this)">
-            <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
-            <button class="input-group-text remove-answer" onclick="removeRow(this)">
-                <i class="fa fa-trash"></i>
-            </button>
-        `;
-
-        document.getElementById("yourContainer").appendChild(newCheckbox);
-
-        isCorrectCounter++; // Tăng chỉ mục cho checkbox
-    }
-
-    function addRow_default(){
+    function addRow(){
         var rows = document.querySelectorAll('.form-check.input-group.mb-3');
         if(rows.length < 8){
             var originalRow = document.querySelector('.form-check.input-group.mb-3');
@@ -193,8 +173,6 @@ function updateCheckbox(checkbox) {
             console.log("Số dòng hiện tại: " + rows.length);
             
             var newCheckbox = newRow.querySelector('input[type="checkbox"]');
-            newCheckbox.value = "false";
-            newCheckbox.checked = false;
             
             newCheckbox.onchange = function() {
                 updateCheckbox(newCheckbox);
