@@ -370,9 +370,8 @@ public class SubjectDAO extends DBContext {
             ps = getConnection().prepareStatement(query);
             // Set the keyword with wildcards for a broad search
             ps.setString(1, "%" + keyword + "%");
-            ps.setString(2, "%" + keyword + "%");
-            ps.setInt(3, offSet);
-            ps.setInt(4, noOfRecords);
+            ps.setInt(2, offSet);
+            ps.setInt(3, noOfRecords);
             rs = ps.executeQuery();
 
             while (rs.next()) {

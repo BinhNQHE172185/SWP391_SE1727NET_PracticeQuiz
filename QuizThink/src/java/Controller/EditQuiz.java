@@ -5,11 +5,9 @@
 
 package Controller;
 
-import DAO.QuizDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,8 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Dell
  */
-@WebServlet(name="CreateQuiz", urlPatterns={"/createquiz"})
-public class CreateQuiz extends HttpServlet {
+public class EditQuiz extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,11 +28,18 @@ public class CreateQuiz extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // String quiz_id = request.getParameter("quiz_Id"); // GET QUIZ_ID form quiz list
-        
-        // request.setAttribute("quiz_id", quiz_id); // day quiz_id
-        request.getRequestDispatcher("CreateQuiz.jsp").forward(request, response);
-        
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet EditQuiz</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet EditQuiz at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -62,33 +66,7 @@ public class CreateQuiz extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-        //String question_id = request.getParameter("question_Id"); // GET PARAM form jsp
-        String question_id = "5";
-        
-        String description = request.getParameter("description");
-        if(description == null){
-            description = "null";
-        }
-        String type = "1";
-        String content = request.getParameter("content"); // CONTENT of quiz
-        String[] answerArray = request.getParameterValues("answer"); // LIST ANSWER
-        String[] isCorrectArray = request.getParameterValues("isCorrect"); //Is correct
-        
-        QuizDAO dao = new QuizDAO();
-        dao.addQuiz(question_id, type, content, description, isCorrectArray, answerArray);
-        response.sendRedirect("CreateQuiz.jsp");
-        System.out.println("Array 1:");
-        for (int i = 0; i < answerArray.length; i++) {
-            System.out.println(answerArray[i]);
-        }
-
-        // Print the contents of array2
-        System.out.println("Array 2:");
-        for (int i = 0; i < isCorrectArray.length; i++) {
-            System.out.println(isCorrectArray[i]);
-        }
-        
+        processRequest(request, response);
     }
 
     /** 
