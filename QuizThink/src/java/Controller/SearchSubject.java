@@ -4,8 +4,8 @@
  */
 package Controller;
 
-import DAO.AccountDAO;
-import Model.Account;
+import DAO.SubjectDAO;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +13,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
- * @author admin
+ * @author minhk
  */
-@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/ChangePassword"})
-public class ChangePasswordServlet extends HttpServlet {
+@WebServlet(name = "SearchSubject", urlPatterns = {"/SearchSubject"})
+public class SearchSubject extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,28 +34,37 @@ public class ChangePasswordServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("currUser");
-        String password = request.getParameter("password");
-        String repassword = request.getParameter("repassword");
-        String mess = "Password doesn't match";
-        String mess1 = "Password must be at least 8 characters long included letters and numbers";
-        String accId = String.valueOf(account.getAccountId());
-        AccountDAO dao = new AccountDAO();
-        if (dao.checkPass(password)) {
-            if (password.equals(repassword)) {
-                dao.updatePassword(repassword, accId);
-                request.setAttribute("password", password);
-                request.getRequestDispatcher("CurrentPassword").forward(request, response);
-            } else {
-                request.setAttribute("Account", account);
-                request.setAttribute("mess", mess);
-                request.getRequestDispatcher("CurrentPassword").forward(request, response);
+        try ( PrintWriter out = response.getWriter()) {
+            int page = 1;
+            int noOfPages = 1;
+            int recordsPerPage = 6;
+            String searchQuery = "";
+            SubjectDAO subjectDAO = new SubjectDAO();
+
+            // Assuming you have a way to get the subjectId parameter, replace this line accordingly
+            
+
+            
+
+            if (request.getParameter("page") != null) {
+                page = Integer.parseInt(request.getParameter("page"));
             }
-        } else {
-            request.setAttribute("Account", account);
-            request.setAttribute("mess1", mess1);
-            request.getRequestDispatcher("CurrentPassword").forward(request, response);
+            if (request.getParameter("searchQuery") != null && !request.getParameter("searchQuery").isEmpty()) {
+                searchQuery = request.getParameter("searchQuery");
+            }
+            System.out.println(searchQuery);
+            // Update the next line to call a method that retrieves the number of records based on your Subject search criteria
+            int noOfRecords = subjectDAO.getNumberOfRecordsBySubjectTitle(searchQuery);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+
+            // Update the next line to call a method that retrieves a list of subjects based on your search criteria
+            List<Subject> subjects = subjectDAO.searchSubjects(searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
+
+            request.setAttribute("subjects", subjects);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("searchQuery", searchQuery);
+            request.getRequestDispatcher("SearchSubject.jsp").forward(request, response);
         }
     }
 

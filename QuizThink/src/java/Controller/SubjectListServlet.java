@@ -34,11 +34,37 @@ public class SubjectListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        SubjectDAO dao = new SubjectDAO();
-        List<Subject> listSubject = dao.getAllSubjects();
-        request.setAttribute("listSubjects", listSubject);
-        request.getRequestDispatcher("courses.jsp").forward(request, response);
+        try ( PrintWriter out = response.getWriter()) {
+            int page = 1; // target page
+            int noOfPages = 1; // default no of pages
+            int recordsPerPage = 6;
+            SubjectDAO subjectDAO = new SubjectDAO();
 
+            if (request.getParameter("page") != null) {
+                // Retrieve the page number from the request if available
+                page = Integer.parseInt(request.getParameter("page"));
+            }
+
+            if (request.getParameter("noOfPages") != null) {
+                // Retrieve the noOfPages from the request if available
+                noOfPages = Integer.parseInt(request.getParameter("noOfPages"));
+            } else {
+                // Calculate the number of pages based on the total number of subjects
+                int noOfRecords = subjectDAO.getNumberOfRecords();
+                noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+            }
+
+            // Retrieve subjects for the current page
+            List<Subject> subjects = subjectDAO.getAllSubjects((page - 1) * recordsPerPage, recordsPerPage);
+
+            // Set the attributes for the request
+            request.setAttribute("subjects", subjects);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+
+            // Forward the request to the appropriate JSP for displaying subjects
+            request.getRequestDispatcher("courses.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -54,6 +80,7 @@ public class SubjectListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+       
     }
 
     /**

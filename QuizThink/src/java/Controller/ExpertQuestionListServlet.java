@@ -4,8 +4,12 @@
  */
 package Controller;
 
-import DAO.AccountDAO;
-import Model.Account;
+import DAO.ExpertDAO;
+import DAO.QuestionDAO;
+import DAO.SubjectDAO;
+import Model.Expert;
+import Model.Question;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,13 +18,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
- * @author admin
+ * @author QUYBINH
  */
-@WebServlet(name = "ChangePasswordServlet", urlPatterns = {"/ChangePassword"})
-public class ChangePasswordServlet extends HttpServlet {
+@WebServlet(name = "ExpertQuestionListServlet", urlPatterns = {"/ExpertQuestionList"})
+public class ExpertQuestionListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,28 +39,33 @@ public class ChangePasswordServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("currUser");
-        String password = request.getParameter("password");
-        String repassword = request.getParameter("repassword");
-        String mess = "Password doesn't match";
-        String mess1 = "Password must be at least 8 characters long included letters and numbers";
-        String accId = String.valueOf(account.getAccountId());
-        AccountDAO dao = new AccountDAO();
-        if (dao.checkPass(password)) {
-            if (password.equals(repassword)) {
-                dao.updatePassword(repassword, accId);
-                request.setAttribute("password", password);
-                request.getRequestDispatcher("CurrentPassword").forward(request, response);
-            } else {
-                request.setAttribute("Account", account);
-                request.setAttribute("mess", mess);
-                request.getRequestDispatcher("CurrentPassword").forward(request, response);
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            int page = 1;//target page
+            int noOfPages = 1;//default no of page
+            int recordsPerPage = 6;
+            SubjectDAO subjectDAO = new SubjectDAO();
+            QuestionDAO questionDAO = new QuestionDAO();
+            HttpSession session= request.getSession();
+            Expert ex = (Expert) session.getAttribute("currExpert");
+            
+            int expertID = ex.getExpertId();
+            int subjectId = 10;
+            //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+
+            Subject subject = subjectDAO.getSubjectById(subjectId);
+            if (request.getParameter("page") != null) {//restive current page if possible
+                page = Integer.parseInt(request.getParameter("page"));
             }
-        } else {
-            request.setAttribute("Account", account);
-            request.setAttribute("mess1", mess1);
-            request.getRequestDispatcher("CurrentPassword").forward(request, response);
+            int noOfRecords = questionDAO.getNumberOfRecordBySubjectIDAndExpertID(expertID, subjectId);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+
+            List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId, (page - 1) * recordsPerPage, recordsPerPage);
+            request.setAttribute("subject", subject);
+            request.setAttribute("questions", questions);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+            request.getRequestDispatcher("ExpertQuestionList.jsp").forward(request, response);
         }
     }
 

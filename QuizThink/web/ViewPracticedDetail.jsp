@@ -196,14 +196,14 @@
                                     <input type="radio" name="question_${o.quizId}" ${checked ? 'checked' : ''} disabled
                                            class="${checked && answer.isCorrect() ? 'correct' : 'incorrect'}"> ${answer.content} <br>
 
-                                           <c:if test="${answer.isCorrect() == true}">
-                                               <c:set var="correctAnswer" value="${answer}"/>
-                                           </c:if>
-                                    </c:forEach>                              
+                                    <c:if test="${answer.isCorrect() == true}">
+                                        <c:set var="correctAnswer" value="${answer}"/>
+                                    </c:if>
+                                </c:forEach>                              
 
-                                    </div>
+                            </div>
 
-                                    <div class="explanation">
+                            <div class="explanation">
                                 <p style="margin-bottom: 1px;">Correct Answer:<span class="underline"> ${correctAnswer.content}</span> </p>
                                 <p>Explain: ${o.description}</p>
                             </div>

@@ -84,92 +84,134 @@
                 <div class="content-block">
                     <!-- About Us -->
                     <div class="section-area section-sp1">
-    <div class="container">
-		 <div class="row">
-			<div class="col-lg-3 col-md-4 col-sm-12 m-b30">
-				<div class="widget courses-search-bx placeani">
-					<div class="form-group">
-						<div class="input-group">
-							<label>Search Courses</label>
-							<input name="dzName" type="text" required class="form-control">
-						</div>
-					</div>
-				</div>
-				<div class="widget widget_archive">
-                    <h5 class="widget-title style-1">All Courses</h5>
-                    <ul>
-                        <li class="active"><a href="#">General</a></li>
-                        <li><a href="#">IT & Software</a></li>
-                        <li><a href="#">Photography</a></li>
-                        <li><a href="#">Programming Language</a></li>
-                        <li><a href="#">Technology</a></li>
-                    </ul>
-                </div>
-				<div class="widget">
-					<a href="#"><img src="FrontEnd/assets/images/adv/adv.jpg" alt=""/></a>
-				</div>
-				<div class="widget recent-posts-entry widget-courses">
-                    <h5 class="widget-title style-1">Recent Courses</h5>
-<!--                    <div class="widget-post-bx">
-                        <div class="widget-post clearfix">
-                            <div class="ttr-post-media"> <img src="FrontEnd/assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
-                            <div class="ttr-post-info">
-                                <div class="ttr-post-header">
-                                    <h6 class="post-title"><a href="#">Introduction EduChamp</a></h6>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
+                                    <div class="widget courses-search-bx placeani">
+                                        <div class="form-group">
+                                            <form action="SearchSubject" method="GET"> 
+                                                <div class="input-group">
+                                                    <label for="dzName">Search Subject</label>
+                                                    <input id="dzName" name="searchQuery" type="text" required class="form-control">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="widget widget_archive">
+                                        <h5 class="widget-title style-1">All Courses</h5>
+                                        <ul>
+                                            <li class="active"><a href="#">General</a></li>
+                                            <li><a href="#">IT & Software</a></li>
+                                            <li><a href="#">Photography</a></li>
+                                            <li><a href="#">Programming Language</a></li>
+                                            <li><a href="#">Technology</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="widget">
+                                        <a href="#"><img src="FrontEnd/assets/images/adv/adv.jpg" alt=""/></a>
+                                    </div>
+                                    <div class="widget recent-posts-entry widget-courses">
+                                        <h5 class="widget-title style-1">Recent Courses</h5>
+                                        <!--                    <div class="widget-post-bx">
+                                                                <div class="widget-post clearfix">
+                                                                    <div class="ttr-post-media"> <img src="FrontEnd/assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
+                                                                    <div class="ttr-post-info">
+                                                                        <div class="ttr-post-header">
+                                                                            <h6 class="post-title"><a href="#">Introduction EduChamp</a></h6>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                <div class="widget-post clearfix">
+                                                                    <div class="ttr-post-media"> <img src="FrontEnd/assets/images/blog/recent-blog/pic3.jpg" width="200" height="160" alt=""> </div>
+                                                                    <div class="ttr-post-info">
+                                                                        <div class="ttr-post-header">
+                                                                            <h6 class="post-title"><a href="#">English For Tommorow</a></h6>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>-->
+                                    </div>
                                 </div>
-                                
+                                <div class="col-lg-9 col-md-8 col-sm-12">
+                                    <div class="row">
+                                        <c:if test="${subjects == null}">
+                                            <div> no subject</div>
+                                        </c:if>
+                                        <c:forEach items="${subjects}" var="o">
+                                            <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                                                <div class="cours-bx">
+                                                    <div class="action-box">
+                                                        <div class = "info-bx text-center question-image"  ><img src="${o.imageURL}" alt=""> </div>    
+
+                                                        <a href="subjectdetail?pid=${o.subjectId}" class="btn">Read More</a>
+                                                    </div>
+                                                    <div class="info-bx text-center">
+                                                        <h5><a href="#">${o.title }</a></h5>
+                                                        <span>Programming</span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+
+
+                                        <!-- Pagination list display-->
+                                        <%
+                                            int currentPage = 1; // Set the current page value
+                                            int noOfPages = 5; // Set the total number of pages
+                                            if (request.getAttribute("currentPage") != null ){
+                                                 currentPage = (int) request.getAttribute("currentPage");
+                                            }
+                                            if (request.getAttribute("noOfPages") != null ){
+                                                 noOfPages = (int) request.getAttribute("noOfPages");
+                                            }
+                                            if (noOfPages > 1) {
+                                        %>
+                                        <div class="col-lg-12 m-b20">
+                                            <div class="pagination-bx rounded-sm gray clearfix">
+                                                <ul class="pagination">
+                                                    <%-- For displaying Previous link except for the 1st page --%>
+                                                    <% if (currentPage != 1) { %>
+                                                    <li class="previous">
+                                                        <a href="SubjectList?page=<%= currentPage - 1 %>&noOfPages=<%= noOfPages %>">
+                                                            <i class="ti-arrow-left"></i> Prev
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
+
+                                                    <%-- For displaying pages --%>
+                                                    <% for (int i = 1; i <= noOfPages; i++) { %>
+                                                    <% if (currentPage == i) { %>
+                                                    <li class="active"><a><%= i %></a></li>
+                                                            <% } else { %>
+                                                    <li>
+                                                        <a href="SubjectList?page=<%= i %>&noOfPages=<%= noOfPages %> %>">
+                                                            <%= i %>
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
+                                                    <% } %>
+
+                                                    <%-- For displaying Next link --%>
+                                                    <% if (currentPage < noOfPages) { %>
+                                                    <li class="next">
+                                                        <a href="SubjectList?page=<%= currentPage + 1 %>&noOfPages=<%= noOfPages %>%>">
+                                                            Next <i class="ti-arrow-right"></i>
+                                                        </a>
+                                                    </li>
+                                                    <% } %>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                        <!-- Pagination list end-->
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="widget-post clearfix">
-                            <div class="ttr-post-media"> <img src="FrontEnd/assets/images/blog/recent-blog/pic3.jpg" width="200" height="160" alt=""> </div>
-                            <div class="ttr-post-info">
-                                <div class="ttr-post-header">
-                                    <h6 class="post-title"><a href="#">English For Tommorow</a></h6>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>-->
-                </div>
-			</div>
-			<div class="col-lg-9 col-md-8 col-sm-12">
-				<div class="row">
-                                    <c:if test="${listSubjects == null}">
-                                        <div> no subject</div>
-                                    </c:if>
-                                    <<c:forEach items="${listSubjects}" var="o">
-                                        <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-						<div class="cours-bx">
-							<div class="action-box">
-								<img src="${o.imageURL}" alt="">
-								<a href="#" class="btn">Read More</a>
-							</div>
-							<div class="info-bx text-center">
-								<h5><a href="#">${o.title }</a></h5>
-								<span>Programming</span>
-							</div>
-							
-						</div>
-					</div>
-                                    </c:forEach>
-					
-								
-					<div class="col-lg-12 m-b20">
-						<div class="pagination-bx rounded-sm gray clearfix">
-							<ul class="pagination">
-								<li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
-								<li class="active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+                    </div>
                 </div>
                 <!-- contact area END -->
 

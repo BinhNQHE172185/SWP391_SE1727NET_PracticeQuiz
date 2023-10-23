@@ -5,7 +5,9 @@
 package Controller;
 
 import DAO.AccountDAO;
+import DAO.ExpertDAO;
 import Model.Account;
+import Model.Expert;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -31,23 +33,38 @@ public class LoginServlet extends HttpServlet {
 
         Account x;
         AccountDAO ad = new AccountDAO();
+        Expert e;
+        ExpertDAO ed = new ExpertDAO();
 
         x = ad.getAccount(username, password);
-        if(x==null){
+        e = ed.getExpert(username, password);
+        if (x == null && e == null) {
             request.setAttribute("status", status);
             request.getRequestDispatcher("Login.jsp").include(request, response);
         } else if (remember != null && remember.equals("on")) {
             //Cookie luu tru username
-            Cookie usernameCookie = new Cookie("username", username);
-            usernameCookie.setMaxAge(60 * 60);
-            response.addCookie(usernameCookie);
-            Cookie IdCookie = new Cookie("ID", String.valueOf(x.getAccountId()));
-            IdCookie.setMaxAge(60 * 60);
-            response.addCookie(IdCookie);
-            response.sendRedirect("home.jsp");
-        } else {
-            request.getSession().setAttribute("currUser", x);
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            if (x != null) {
+                Cookie usernameCookie = new Cookie("username", username);
+                Cookie passwordCookie = new Cookie("password", password);
+                usernameCookie.setMaxAge(60 * 60);
+                passwordCookie.setMaxAge(60 * 60);
+                response.addCookie(usernameCookie);
+                response.addCookie(passwordCookie);
+            } else if (e != null) {
+                Cookie usernameCookie = new Cookie("username", username);
+                Cookie passwordCookie = new Cookie("password", password);
+                usernameCookie.setMaxAge(60 * 60);
+                passwordCookie.setMaxAge(60 * 60);
+                response.addCookie(usernameCookie);
+                response.addCookie(passwordCookie);
+                passwordCookie.setMaxAge(60 * 60);
+            }
         }
+        if (x != null) {
+            request.getSession().setAttribute("currUser", x);
+        } else if (e != null) {
+            request.getSession().setAttribute("currExpert", e);
+        }
+        request.getRequestDispatcher("home").forward(request, response);
     }
 }

@@ -60,7 +60,7 @@
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <jsp:include page = "header.jsp"/>
-            
+
             <!-- Content -->
             <div class="page-content bg-white">
                 <!-- Main Slider -->
@@ -341,7 +341,7 @@
                                          data-paddingbottom="[0,0,0,0]"
                                          data-paddingleft="[0,0,0,0]"
                                          style="z-index: 7; text-transform:capitalize; white-space: unset; color:#fff; font-family:rubik; font-size:18px; line-height:28px; font-weight:400;">
-                                       Unlock the full potential of your learning journey with our premium account. Subscribers gain access to exclusive benefits, including ad-free browsing, unlimited quiz attempts, in-depth performance analytics, and priority access to new and exciting quiz content.
+                                        Unlock the full potential of your learning journey with our premium account. Subscribers gain access to exclusive benefits, including ad-free browsing, unlimited quiz attempts, in-depth performance analytics, and priority access to new and exciting quiz content.
                                     </div>
                                     <!-- LAYER NR. 4 -->
                                     <div class="tp-caption Newspaper-Button rev-btn " 
@@ -448,71 +448,43 @@
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
                                     <h2 class="title-head">Popular <span>Courses</span></h2>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page</p>
+
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic1.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
+                                    <c:if test="${recentSubjects == null}">
+                                        <div> no subject</div>
+                                    </c:if>
+
+                                    <c:forEach items="${recentSubjects}" var="s">
+                                        <div class="item">
+                                            <div class="cours-bx">
+                                                <div class="action-box">
+                                                    <img src="${s.imageURL}" alt="">
+                                                    <a href="subjectdetail?pid=${s.subjectId}" class="btn">Read More</a>
+                                                </div>
+                                                <div class="info-bx text-center">
+                                                    <h5><a href="#">${s.title }</a></h5>
+                                                    <span>Programming</span>
+                                                </div>
+
                                             </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Programming Fundamentals</a></h5>
-                                                <span>Programming</span>
-                                            </div>
-                                            
                                         </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic2.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
-                                            </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Mathematics for Engineering</a></h5>
-                                                <span>Mathematics</span>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic3.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
-                                            </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Introduction to Computer Science</a></h5>
-                                                <span>Computer Science</span>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic4.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
-                                            </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Introduction EduChamp – LMS plugin</a></h5>
-                                                <span>Programming</span>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
+                                    </c:forEach>
+
+
+
+
+
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Popular Courses END -->
 
-                    
-                   
+
+
 
                     <!-- Testimonials -->
                     <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(FrontEnd/assets/images/background/fpt1.png);">
@@ -557,198 +529,160 @@
                     </div>
                     <!-- Testimonials END -->
 
-                    <!-- Recent Courses -->
+                    <!-- Recent Subjects -->
                     <div class="section-area section-sp2 popular-courses-bx">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
-                                    <h2 class="title-head">Recent<span>Courses</span></h2>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page</p>
+                                    <h2 class="title-head">Recent <span>Courses</span></h2>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic1.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
+                                    <c:forEach items="${recentSubjects}" var="subject">
+                                        <div class="item">
+                                            <div class="cours-bx">
+                                                <div class="action-box">
+                                                    <img src="${subject.imageURL}" alt="${subject.title}">
+                                                    <a href="#" class="btn">Read More</a>
+                                                </div>
+                                                <div class="info-bx text-center">
+                                                    <h5><a href="#">${subject.title}</a></h5>
+                                                    <span>${subject.description}</span>
+                                                </div>
                                             </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Introduction EduChamp – LMS plugin</a></h5>
-                                                <span>Programming</span>
-                                            </div>
-                                            
                                         </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic2.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
-                                            </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Programming Fundamentals</a></h5>
-                                                <span>Programming</span>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic3.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
-                                            </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Mathematics for Engieering</a></h5>
-                                                <span>Mathematics</span>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="cours-bx">
-                                            <div class="action-box">
-                                                <img src="FrontEnd/assets/images/courses/pic4.jpg" alt="">
-                                                <a href="#" class="btn">Read More</a>
-                                            </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="#">Introduction to Computer Science</a></h5>
-                                                <span>Computer Science</span>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Recent News End -->
+                    <!-- Recent Subjects End -->
 
-               
-<jsp:include page="footer.jsp"/>
-            <!-- Footer END ==== -->
-            <button class="back-to-top fa fa-chevron-up" ></button>
-        </div>
 
-        <!-- External JavaScripts -->
-        <script src="FrontEnd/assets/js/jquery.min.js"></script>
-        <script src="FrontEnd/assets/vendors/bootstrap/js/popper.min.js"></script>
-        <script src="FrontEnd/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-        <script src="FrontEnd/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-        <script src="FrontEnd/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-        <script src="FrontEnd/assets/vendors/magnific-popup/magnific-popup.js"></script>
-        <script src="FrontEnd/assets/vendors/counter/waypoints-min.js"></script>
-        <script src="FrontEnd/assets/vendors/counter/counterup.min.js"></script>
-        <script src="FrontEnd/assets/vendors/imagesloaded/imagesloaded.js"></script>
-        <script src="FrontEnd/assets/vendors/masonry/masonry.js"></script>
-        <script src="FrontEnd/assets/vendors/masonry/filter.js"></script>
-        <script src="FrontEnd/assets/vendors/owl-carousel/owl.carousel.js"></script>
-        <script src="FrontEnd/assets/js/functions.js"></script>
-        <script src="FrontEnd/assets/js/contact.js"></script>
-        <!--        <script src='FrontEnd/assets/vendors/switcher/switcher.js'></script>-->
-        <!-- Revolution JavaScripts Files -->
-        <script src="FrontEnd/assets/vendors/revolution/js/jquery.themepunch.tools.min.js"></script>
-        <script src="FrontEnd/assets/vendors/revolution/js/jquery.themepunch.revolution.min.js"></script>
-        <!-- Slider revolution 5.0 Extensions  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
-        <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.actions.min.js"></script>
-        <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
-        <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
-        <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
-        <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.migration.min.js"></script>
-        <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
-        <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
-        <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
-        <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.video.min.js"></script>
-        <script>
-            jQuery(document).ready(function () {
-                var ttrevapi;
-                var tpj = jQuery;
-                if (tpj("#rev_slider_486_1").revolution == undefined) {
-                    revslider_showDoubleJqueryError("#rev_slider_486_1");
-                } else {
-                    ttrevapi = tpj("#rev_slider_486_1").show().revolution({
-                        sliderType: "standard",
-                        jsFileLocation: "FrontEnd/assets/vendors/revolution/js/",
-                        sliderLayout: "fullwidth",
-                        dottedOverlay: "none",
-                        delay: 9000,
-                        navigation: {
-                            keyboardNavigation: "on",
-                            keyboard_direction: "horizontal",
-                            mouseScrollNavigation: "off",
-                            mouseScrollReverse: "default",
-                            onHoverStop: "on",
-                            touch: {
-                                touchenabled: "on",
-                                swipe_threshold: 75,
-                                swipe_min_touches: 1,
-                                swipe_direction: "horizontal",
-                                drag_block_vertical: false
-                            }
-                            ,
-                            arrows: {
-                                style: "uranus",
-                                enable: true,
-                                hide_onmobile: false,
-                                hide_onleave: false,
-                                tmp: '',
-                                left: {
-                                    h_align: "left",
-                                    v_align: "center",
-                                    h_offset: 10,
-                                    v_offset: 0
+
+                    <jsp:include page="footer.jsp"/>
+                    <!-- Footer END ==== -->
+                    <button class="back-to-top fa fa-chevron-up" ></button>
+                </div>
+
+                <!-- External JavaScripts -->
+                <script src="FrontEnd/assets/js/jquery.min.js"></script>
+                <script src="FrontEnd/assets/vendors/bootstrap/js/popper.min.js"></script>
+                <script src="FrontEnd/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+                <script src="FrontEnd/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+                <script src="FrontEnd/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+                <script src="FrontEnd/assets/vendors/magnific-popup/magnific-popup.js"></script>
+                <script src="FrontEnd/assets/vendors/counter/waypoints-min.js"></script>
+                <script src="FrontEnd/assets/vendors/counter/counterup.min.js"></script>
+                <script src="FrontEnd/assets/vendors/imagesloaded/imagesloaded.js"></script>
+                <script src="FrontEnd/assets/vendors/masonry/masonry.js"></script>
+                <script src="FrontEnd/assets/vendors/masonry/filter.js"></script>
+                <script src="FrontEnd/assets/vendors/owl-carousel/owl.carousel.js"></script>
+                <script src="FrontEnd/assets/js/functions.js"></script>
+                <script src="FrontEnd/assets/js/contact.js"></script>
+                <!--        <script src='FrontEnd/assets/vendors/switcher/switcher.js'></script>-->
+                <!-- Revolution JavaScripts Files -->
+                <script src="FrontEnd/assets/vendors/revolution/js/jquery.themepunch.tools.min.js"></script>
+                <script src="FrontEnd/assets/vendors/revolution/js/jquery.themepunch.revolution.min.js"></script>
+                <!-- Slider revolution 5.0 Extensions  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
+                <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+                <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+                <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+                <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+                <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.migration.min.js"></script>
+                <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+                <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+                <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+                <script src="FrontEnd/assets/vendors/revolution/js/extensions/revolution.extension.video.min.js"></script>
+                <script>
+                    jQuery(document).ready(function () {
+                        var ttrevapi;
+                        var tpj = jQuery;
+                        if (tpj("#rev_slider_486_1").revolution == undefined) {
+                            revslider_showDoubleJqueryError("#rev_slider_486_1");
+                        } else {
+                            ttrevapi = tpj("#rev_slider_486_1").show().revolution({
+                                sliderType: "standard",
+                                jsFileLocation: "FrontEnd/assets/vendors/revolution/js/",
+                                sliderLayout: "fullwidth",
+                                dottedOverlay: "none",
+                                delay: 9000,
+                                navigation: {
+                                    keyboardNavigation: "on",
+                                    keyboard_direction: "horizontal",
+                                    mouseScrollNavigation: "off",
+                                    mouseScrollReverse: "default",
+                                    onHoverStop: "on",
+                                    touch: {
+                                        touchenabled: "on",
+                                        swipe_threshold: 75,
+                                        swipe_min_touches: 1,
+                                        swipe_direction: "horizontal",
+                                        drag_block_vertical: false
+                                    }
+                                    ,
+                                    arrows: {
+                                        style: "uranus",
+                                        enable: true,
+                                        hide_onmobile: false,
+                                        hide_onleave: false,
+                                        tmp: '',
+                                        left: {
+                                            h_align: "left",
+                                            v_align: "center",
+                                            h_offset: 10,
+                                            v_offset: 0
+                                        },
+                                        right: {
+                                            h_align: "right",
+                                            v_align: "center",
+                                            h_offset: 10,
+                                            v_offset: 0
+                                        }
+                                    },
+
                                 },
-                                right: {
-                                    h_align: "right",
-                                    v_align: "center",
-                                    h_offset: 10,
-                                    v_offset: 0
+                                viewPort: {
+                                    enable: true,
+                                    outof: "pause",
+                                    visible_area: "80%",
+                                    presize: false
+                                },
+                                responsiveLevels: [1240, 1024, 778, 480],
+                                visibilityLevels: [1240, 1024, 778, 480],
+                                gridwidth: [1240, 1024, 778, 480],
+                                gridheight: [768, 600, 600, 600],
+                                lazyType: "none",
+                                parallax: {
+                                    type: "scroll",
+                                    origo: "enterpoint",
+                                    speed: 400,
+                                    levels: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 46, 47, 48, 49, 50, 55],
+                                    type: "scroll",
+                                },
+                                shadow: 0,
+                                spinner: "off",
+                                stopLoop: "off",
+                                stopAfterLoops: -1,
+                                stopAtSlide: -1,
+                                shuffle: "off",
+                                autoHeight: "off",
+                                hideThumbsOnMobile: "off",
+                                hideSliderAtLimit: 0,
+                                hideCaptionAtLimit: 0,
+                                hideAllCaptionAtLilmit: 0,
+                                debugMode: false,
+                                fallbacks: {
+                                    simplifyAll: "off",
+                                    nextSlideOnWindowFocus: "off",
+                                    disableFocusListener: false,
                                 }
-                            },
-
-                        },
-                        viewPort: {
-                            enable: true,
-                            outof: "pause",
-                            visible_area: "80%",
-                            presize: false
-                        },
-                        responsiveLevels: [1240, 1024, 778, 480],
-                        visibilityLevels: [1240, 1024, 778, 480],
-                        gridwidth: [1240, 1024, 778, 480],
-                        gridheight: [768, 600, 600, 600],
-                        lazyType: "none",
-                        parallax: {
-                            type: "scroll",
-                            origo: "enterpoint",
-                            speed: 400,
-                            levels: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 46, 47, 48, 49, 50, 55],
-                            type: "scroll",
-                        },
-                        shadow: 0,
-                        spinner: "off",
-                        stopLoop: "off",
-                        stopAfterLoops: -1,
-                        stopAtSlide: -1,
-                        shuffle: "off",
-                        autoHeight: "off",
-                        hideThumbsOnMobile: "off",
-                        hideSliderAtLimit: 0,
-                        hideCaptionAtLimit: 0,
-                        hideAllCaptionAtLilmit: 0,
-                        debugMode: false,
-                        fallbacks: {
-                            simplifyAll: "off",
-                            nextSlideOnWindowFocus: "off",
-                            disableFocusListener: false,
+                            });
                         }
                     });
-                }
-            });
-        </script>
-    </body>
+                </script>
+                </body>
 
-</html>
+                </html>
 
