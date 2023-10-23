@@ -235,7 +235,7 @@
                                         <div class="form-group col-2">
                                             <label class="col-form-label">Requirement (%)</label>
                                             <div>
-                                                <input class="form-control" type="number" value="<%=question.getRequirement()%>" name="requirement">
+                                                <input class="form-control" type="number" value="<%=question.getRequirement()%>" name="requirement" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
