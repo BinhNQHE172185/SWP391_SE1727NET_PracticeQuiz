@@ -205,27 +205,27 @@
                                 <h4>Edit Question</h4>
                             </div>
                             <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="ExpertUpdateQuestion" method="GET">
+                                <form class="edit-profile m-b30" action="ExpertUpdateSubject" method="GET">
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <input type="hidden" value="10" name="subjectID">
-                                            <input type="hidden" value="<%=question.getQuestionId()%>" name="QuestionID">
+                                            <input type="hidden" value="<%=subject.getSubjectId()%>" name="QuestionID">
                                             <input type="hidden" value="<%=ex.getExpertId()%>" name="expertID">
-                                            <label class="col-form-label">Question title</label>
+                                            <label class="col-form-label">Subject title</label>
                                             <div>
-                                                <input class="form-control" type="text" value="<%=question.getTitle()%>" name="title" required="">
+                                                <input class="form-control" type="text" value="<%=subject.getTitle()%>" name="title" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Image URL</label>
                                             <div>
-                                                <input class="form-control" type="text" value="<%=question.getImageURL()%>" name="image" required="">
+                                                <input class="form-control" type="text" value="<%=subject.getImageURL()%>" name="image" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-2">
                                             <label class="col-form-label">Duration (Minutes)</label>
                                             <%
-                                                java.sql.Time timeValue = question.getDuration();
+                                                java.sql.Time timeValue = subject.getDuration();
                                                 int totalMinutes = timeValue.getHours() * 60 + timeValue.getMinutes();
                                             %>
                                             <div>
@@ -235,13 +235,13 @@
                                         <div class="form-group col-2">
                                             <label class="col-form-label">Requirement (%)</label>
                                             <div>
-                                                <input class="form-control" type="number" value="<%=question.getRequirement()%>" name="requirement">
+                                                <input class="form-control" type="number" value="<%=subject.getRequirement()%>" name="requirement" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
-                                            <label class="col-form-label">Course description</label>
+                                            <label class="col-form-label">Subject description</label>
                                             <div>
-                                                <textarea class="form-control" name="desc"><%=question.getDescription()%></textarea>
+                                                <textarea class="form-control" name="desc"><%=subject.getDescription()%></textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">

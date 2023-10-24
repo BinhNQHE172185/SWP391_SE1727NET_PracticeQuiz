@@ -19,6 +19,7 @@
         <%
             Expert ex = (Expert) session.getAttribute("currExpert");
             String status = (String) request.getAttribute("status");
+            String search = (String) request.getAttribute("search");
             Subject subject = (Subject) request.getAttribute("subject");
             List<Question> questions = (List<Question>) request.getAttribute("questions");
         %>
@@ -205,9 +206,10 @@
                             <tr>
                                 <td>
                                     <label style="text-align: left;">Search</label>
-                                    <form action="" class="form">
+                                    <form action="ExpertQuestionSearch" class="form" method="GET">
                                         <div class="input-group">
                                             <input type="text" name="search" class="form-control" placeholder="Search question by name">
+                                            <input type="hidden" name="subjectId" value="<%=subject.getSubjectId()%>" class="form-control">
                                             <div class="input-group-append">
                                                 <button type="submit" class="btn btn-success">Search</button>
                                             </div>
@@ -226,8 +228,6 @@
                                 <i class="fa fa-plus"></i> Add new question
                             </a>
                             <a href="#" class="btn btn-success"><i class="fa fa-sort"></i> Sort By</a>
-                            <a href="#" class="btn btn-success"><i class="fa fa-filter"></i> Filter</a>
-
                         </div>
 
                     </div>
@@ -253,7 +253,7 @@
                                         <span><a href="ExpertEditQuestion?QuestionID=<%=question.getQuestionId()%>"><h5>Edit</h5></a></span>
                                     </div>
                                     <div class="review" style="text-align: center;"><!-- show current progress, show passed + icon if completed-->
-                                        <span><a href="#"><h5>Delete</h5></a></span>
+                                        <span><a href="ExpertDeleteQuestion?QuestionID=<%= question.getQuestionId() %>&subjectId=<%=subject.getSubjectId()%>"><h5>Delete</h5></a></span>
                                     </div>
                                 </div>
                             </div>
@@ -285,9 +285,15 @@
                                 <%-- For displaying Previous link except for the 1st page --%>
                                 <% if (currentPage != 1) { %>
                                 <li class="previous">
+                                    <% if(search==null){%>
                                     <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
                                         <i class="ti-arrow-left"></i> Prev
                                     </a>
+                                    <%}else{%>
+                                    <a href="ExpertQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
+                                        <i class="ti-arrow-left"></i> Prev
+                                    </a>
+                                    <%}%>
                                 </li>
                                 <% } %>
 
@@ -297,9 +303,15 @@
                                 <li class="active"><a><%= i %></a></li>
                                         <% } else { %>
                                 <li>
+                                    <% if(search==null){%>
                                     <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
                                         <%= i %>
                                     </a>
+                                    <%}else{%>
+                                    <a href="ExpertQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
+                                        <%= i %>
+                                    </a>
+                                    <%}%>
                                 </li>
                                 <% } %>
                                 <% } %>
@@ -307,9 +319,15 @@
                                 <%-- For displaying Next link --%>
                                 <% if (currentPage < noOfPages) { %>
                                 <li class="next">
+                                    <% if (search==null){%>
                                     <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
                                         Next <i class="ti-arrow-right"></i>
                                     </a>
+                                    <%}else{%>
+                                    <a href="ExpertQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
+                                        Next <i class="ti-arrow-right"></i>
+                                    </a>
+                                    <%}%>
                                 </li>
                                 <% } %>
                             </ul>
