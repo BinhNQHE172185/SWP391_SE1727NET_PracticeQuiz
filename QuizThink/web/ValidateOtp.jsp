@@ -5,8 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import = "Model.*" %>
-<%@page import = "java.util.*" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,8 +53,6 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="FrontEnd/assets/css/color/color-1.css">
-        <% Account acc = (Account) request.getAttribute("Account"); %>
-        <% Expert ex = (Expert) request.getAttribute("Expert"); %>
         <% String status = (String) request.getAttribute("status"); %>
     </head>
     <body id="bg">
@@ -69,23 +65,16 @@
                 <div class="account-form-inner">
                     <div class="account-container">
                         <div class="heading-bx left">
-                            <h2 class="title-head">Change <span>Password</span></h2>
+                            <h2 class="title-head">Validate <span>OTP</span></h2>
+                            <p>Login Your Account <a href="Login.jsp">Click here</a></p>
                         </div>	
-                        <form class="contact-bx" action="UpdatePassword" method="POST">
+                        <form class="contact-bx" action="ValidateOtp" method="POST">
                             <div class="row placeani">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <label>Enter your new password</label>
-                                            <input name="password" type="password" required="" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <label>Re-enter your new password</label>
-                                            <input name="reEnter" type="password" required="" class="form-control">
+                                            <label>Validate OTP</label>
+                                            <input name="otp" type="text" required="" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -96,15 +85,6 @@
                                     %>
                                 </div>
                                 <%}%>
-                                <div>
-                                    <% if(acc!=null){%>
-                                    <input name="accountID" type="hidden" value="<%=acc.getAccountId()%>">
-                                    <input name="email" type="hidden" value="<%=acc.getEmail()%>">
-                                    <%}else if(ex!=null){%>
-                                    <input name="expertId" type="hidden" value="<%=ex.getExpertId()%>">
-                                    <input name="email" type="hidden" value="<%=ex.getEmail()%>">
-                                    <%}%>
-                                </div>
                                 <div class="col-lg-12 m-b30">
                                     <button name="submit" type="submit" value="Submit" class="btn button-md">Submit</button>
                                 </div>

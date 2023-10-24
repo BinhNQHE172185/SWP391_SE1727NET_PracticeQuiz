@@ -6,6 +6,7 @@ package DAO;
 
 import DAL.DBContext;
 import Model.Expert;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
@@ -67,7 +68,53 @@ public class ExpertDAO extends DBContext {
         }
         return ex;
     }
+    
+    public Expert checkMail(String email){
+        Expert ex = null;
+        int expertId;
+        String name;
+        String username;
+        String password;
+        String selfIntroduction;
+        String avatar;
+        boolean status;
+        String sql = "SELECT * FROM Expert WHERE email = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                expertId = rs.getInt("Expert_id");
+                username = rs.getString("username");
+                password = rs.getString("password");
+                email = rs.getString("email");
+                name = rs.getString("name");
+                selfIntroduction = rs.getString("self-introduction");
+                avatar = rs.getString("avatar");
+                status = rs.getBoolean("status");
+                ex = new Expert(expertId, username, password, email, name, selfIntroduction, avatar, status);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return ex;
+    }
+    
+    public void updatePassword(String password, String expertId) {
+        String query = "update Expert set password = ? where Expert_id =?";
+        try {
+            Connection conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, password);
+            ps.setString(2, expertId);
+            rs = ps.executeQuery();
+        } catch (Exception e) {
 
+        }
+    }
+    
     public Expert getExpertBySubjectID(int subjectId) {
         int expertId;
         String username;

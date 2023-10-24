@@ -31,11 +31,11 @@
         <meta name="robots" content="" />
 
         <!-- DESCRIPTION -->
-        <meta name="description" content="EduChamp : Education HTML Template" />
+        <meta name="description" content="Quiz Think" />
 
         <!-- OG -->
-        <meta property="og:title" content="EduChamp : Education HTML Template" />
-        <meta property="og:description" content="EduChamp : Education HTML Template" />
+        <meta property="og:title" content="Quiz Think" />
+        <meta property="og:description" content="Quiz Think" />
         <meta property="og:image" content="" />
         <meta name="format-detection" content="telephone=no">
 
@@ -44,7 +44,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="admin/assets/images/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>EduChamp : Education HTML Template </title>
+        <title>Expert Profile</title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -114,14 +114,11 @@
                     <!-- header right menu start -->
                     <ul class="ttr-header-navigation">
                         <li>
-                            <a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
-                        </li>
-                        <li>
-                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="#" width="32" height="32"></span></a>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="<%=ex.getAvatar()%>" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
-                                    <li><a href="user-profile.html">My profile</a></li>
-                                    <li><a href="../login.html">Logout</a></li>
+                                    <li><a href="Profile">My profile</a></li>
+                                    <li><a href="Logout">Logout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -211,7 +208,7 @@
                                             <input type="text" name="search" class="form-control" placeholder="Search question by name">
                                             <input type="hidden" name="subjectId" value="<%=subject.getSubjectId()%>" class="form-control">
                                             <div class="input-group-append">
-                                                <button type="submit" class="btn btn-success">Search</button>
+                                                <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Search</button>
                                             </div>
                                         </div>
                                     </form>
