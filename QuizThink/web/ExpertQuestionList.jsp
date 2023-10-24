@@ -227,7 +227,15 @@
                             <a href="ExpertAddQuestion.jsp" class="btn btn-success">
                                 <i class="fa fa-plus"></i> Add new question
                             </a>
-                            <a href="#" class="btn btn-success"><i class="fa fa-sort"></i> Sort By</a>
+                            <div class="dropdown">
+                                <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-sort"></i> Sort
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="ExpertQuestionSortAsc?subjectID=<%= subject.getSubjectId() %>">By Name Asc</a>
+                                    <a class="dropdown-item" href="ExpertQuestionSortDesc?subjectID=<%= subject.getSubjectId() %>">By Name Desc</a>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
