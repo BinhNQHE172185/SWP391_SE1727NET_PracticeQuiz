@@ -206,7 +206,7 @@
                                 <form class="edit-profile m-b30" action="ExpertUpdateSubject" method="GET">
                                     <div class="row">
                                         <div class="form-group col-8">
-                                            <!--                                            <input type="hidden" value="10" name="subjectID">-->
+                                            <!--<input type="hidden" value="10" name="subjectID">-->
                                             <input type="hidden" value="${subject.getSubjectId()}" name="SubjectID">
                                             <input type="hidden" value="${ex.getExpertId()}" name="expertID">
                                             <label class="col-form-label">Subject title</label>
