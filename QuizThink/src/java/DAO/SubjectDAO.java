@@ -312,24 +312,23 @@ public class SubjectDAO extends DBContext {
         }
     }
 
-    public void updateExpertSubject(String title, String imageURL, float requirement, String description, Date modifyDate, Time duration, int subjectID) {
+    public void updateExpertSubject(String title, String imageURL, float requirement, String description, Date modifyDate, int subjectID) {
+        
         String query = "UPDATE Subject \n"
                 + "SET title = ?, \n"
                 + "    imageURL = ?,\n"
                 + "    requirement = ?,\n"
                 + "    [description] = ?,\n"
-                + "    modifyDate = ?,\n"
-                + "    duration = ?\n"
+                + "    modifyDate = ?\n"
                 + "WHERE Subject_id = ?;";
-       try {
+        try {
             ps = getConnection().prepareStatement(query);
             ps.setString(1, title);
             ps.setString(2, imageURL);
             ps.setFloat(3, requirement);
             ps.setString(4, description);
             ps.setDate(5, modifyDate);
-            ps.setTime(6, duration);
-            ps.setInt(7, subjectID);
+            ps.setInt(6, subjectID);
             rs = ps.executeQuery();
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
