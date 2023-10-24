@@ -40,9 +40,9 @@ public class ListPracticedListServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             Account currUser = (Account) session.getAttribute("currUser");
-            int questionId = Integer.parseInt(request.getParameter("questionId"));
+            //int questionId = Integer.parseInt(request.getParameter("questionId"));
 
-            //int questionId = 1;//default
+            int questionId = 1;//default
             /*
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
@@ -55,7 +55,7 @@ public class ListPracticedListServlet extends HttpServlet {
             }
              */
             ResultDAO dao = new ResultDAO();
-            List<Result> listResult = dao.getResultByAccountID(questionId, currUser.getAccountId());
+            List<Result> listResult = dao.getResultByAccountID(questionId, 1);
             request.setAttribute("listResult", listResult);
             request.getRequestDispatcher("HistoryList.jsp").forward(request, response);
         }

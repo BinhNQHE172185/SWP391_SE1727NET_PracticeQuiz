@@ -29,6 +29,7 @@ import java.io.BufferedReader;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -82,6 +83,14 @@ public class QuizSubmitServlet extends HttpServlet {
                 session.removeAttribute("endTime");//clear timer sesstion
                 session.removeAttribute("question");//clear question sesstion
                 session.removeAttribute("quizzes");//clear quizzes sesstion
+                // clear answers sesstion
+                Enumeration<String> attributeNames = session.getAttributeNames();
+                while (attributeNames.hasMoreElements()) {
+                    String attributeName = attributeNames.nextElement();
+                    if (attributeName.startsWith("answer")) {
+                        session.removeAttribute(attributeName);
+                    }
+                }
                 QuestionDAO questionDAO = new QuestionDAO();
                 QuizDAO quizDAO = new QuizDAO();
                 AnswerDAO answerDAO = new AnswerDAO();

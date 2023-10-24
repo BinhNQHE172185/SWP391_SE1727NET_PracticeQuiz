@@ -80,7 +80,7 @@ public class ResultDAO extends DBContext {
         int resultId = 0;
 
         try {
-            String query = "INSERT INTO Result (Question_id, Account_id, selectedChoice, takenDate, takenDuration, duration, mark) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Result (Question_id, Account_id, selectedChoice, takenDate, takenDuration, duration, mark, quiz_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             ps = getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, result.getQuestionId());
             ps.setInt(2, result.getAccountId());
@@ -89,7 +89,8 @@ public class ResultDAO extends DBContext {
             ps.setTime(5, result.getTakenDuration());
             ps.setTime(6, result.getDuration());
             ps.setFloat(7, result.getMark());
-
+            ps.setInt(8, result.getQuizCount());
+            
             int affectedRows = ps.executeUpdate();
             if (affectedRows > 0) {
                 // Retrieve the generated result ID

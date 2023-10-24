@@ -21,13 +21,14 @@ public class QuestionStatusDAO extends DBContext {
     public int addQuestionStatus(QuestionStatus questionStatus) {
         int questionStatusId = 0;
         try {
-            String query = "INSERT INTO QuestionStatus (Question_id, Account_id, status, createdDate, modifyDate) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO QuestionStatus (Subject_id, Question_id, Account_id, status, createdDate, modifyDate) VALUES (?, ?, ?, ?, ?, ?)";
             ps = getConnection().prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, questionStatus.getQuestionId());
-            ps.setInt(2, questionStatus.getAccountId());
-            ps.setBoolean(3, questionStatus.isStatus());
-            ps.setObject(4, questionStatus.getCreatedDate());
-            ps.setObject(5, questionStatus.getModifyDate());
+            ps.setInt(1, questionStatus.getSubjectId());
+            ps.setInt(2, questionStatus.getQuestionId());
+            ps.setInt(3, questionStatus.getAccountId());
+            ps.setBoolean(4, questionStatus.isStatus());
+            ps.setObject(5, questionStatus.getCreatedDate());
+            ps.setObject(6, questionStatus.getModifyDate());
             ps.executeUpdate();
 
             // Retrieve the generated QuestionStatus_id
