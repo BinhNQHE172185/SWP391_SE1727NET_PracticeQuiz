@@ -15,9 +15,7 @@
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:08:15 GMT -->
     <head>
         <%
-            Expert ex = (Expert) session.getAttribute("currExpert");
             String status = (String) request.getAttribute("status");
-            Question question = (Question) request.getAttribute("list");
         %>
         <!-- META ============================================= -->
         <meta charset="utf-8">
@@ -207,54 +205,40 @@
                             <div class="widget-inner">
                                 <form class="edit-profile m-b30" action="ExpertUpdateSubject" method="GET">
                                     <div class="row">
-                                        <div class="form-group col-6">
-                                            <input type="hidden" value="10" name="subjectID">
-                                            <input type="hidden" value="<%=subject.getSubjectId()%>" name="QuestionID">
-                                            <input type="hidden" value="<%=ex.getExpertId()%>" name="expertID">
+                                        <div class="form-group col-8">
+                                            <!--                                            <input type="hidden" value="10" name="subjectID">-->
+                                            <input type="hidden" value="${subject.getSubjectId()}" name="SubjectID">
+                                            <input type="hidden" value="${ex.getExpertId()}" name="expertID">
                                             <label class="col-form-label">Subject title</label>
                                             <div>
-                                                <input class="form-control" type="text" value="<%=subject.getTitle()%>" name="title" required="">
+                                                <input class="form-control" type="text" value="${subject.getTitle()}" name="title" required="">
                                             </div>
                                         </div>
-                                        <div class="form-group col-6">
-                                            <label class="col-form-label">Image URL</label>
-                                            <div>
-                                                <input class="form-control" type="text" value="<%=subject.getImageURL()%>" name="image" required="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-2">
-                                            <label class="col-form-label">Duration (Minutes)</label>
-                                            <%
-                                                java.sql.Time timeValue = subject.getDuration();
-                                                int totalMinutes = timeValue.getHours() * 60 + timeValue.getMinutes();
-                                            %>
-                                            <div>
-                                                <input class="form-control" type="number" value="<%=totalMinutes%>" name="duration" required="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-2">
+                                        <div class="form-group col-4">
                                             <label class="col-form-label">Requirement (%)</label>
                                             <div>
-                                                <input class="form-control" type="number" value="<%=subject.getRequirement()%>" name="requirement" required="">
+                                                <input class="form-control" type="number" value="${subject.getRequirement()}" name="requirement" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
+                                            <label class="col-form-label">Image URL</label>
+                                            <div>
+                                                <input class="form-control" type="text" value="${subject.getImageURL()}" name="image" required="">
+                                            </div>
+                                        </div>                                                                               
+                                        <div class="form-group col-12">
                                             <label class="col-form-label">Subject description</label>
                                             <div>
-                                                <textarea class="form-control" name="desc"><%=subject.getDescription()%></textarea>
+                                                <textarea class="form-control" name="desc">${subject.getDescription()}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <button type="submit" class="btn">Update</button>
                                             <button type="button" class="btn-secondry" onclick="window.history.back()">Cancel</button>
                                         </div>
-                                        <% if(status !=null){ %>
-                                        <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
-                                            <%=
-                                            status
-                                            %>
+                                        <div class="col-12" style="color: red; margin-top: 5px; font-size: 120%;">
+                                            ${status}
                                         </div>
-                                        <%}%>
                                     </div>
                                 </form>
                             </div>
@@ -284,82 +268,82 @@
         <script src='admin/assets/vendors/calendar/moment.min.js'></script>
         <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
         <script>
-            $(document).ready(function () {
+                                                $(document).ready(function () {
 
-                $('#calendar').fullCalendar({
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,agendaWeek,agendaDay,listWeek'
-                    },
-                    defaultDate: '2019-03-12',
-                    navLinks: true, // can click day/week names to navigate views
+                                                    $('#calendar').fullCalendar({
+                                                        header: {
+                                                            left: 'prev,next today',
+                                                            center: 'title',
+                                                            right: 'month,agendaWeek,agendaDay,listWeek'
+                                                        },
+                                                        defaultDate: '2019-03-12',
+                                                        navLinks: true, // can click day/week names to navigate views
 
-                    weekNumbers: true,
-                    weekNumbersWithinDays: true,
-                    weekNumberCalculation: 'ISO',
+                                                        weekNumbers: true,
+                                                        weekNumbersWithinDays: true,
+                                                        weekNumberCalculation: 'ISO',
 
-                    editable: true,
-                    eventLimit: true, // allow "more" link when too many events
-                    events: [
-                        {
-                            title: 'All Day Event',
-                            start: '2019-03-01'
-                        },
-                        {
-                            title: 'Long Event',
-                            start: '2019-03-07',
-                            end: '2019-03-10'
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: '2019-03-09T16:00:00'
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: '2019-03-16T16:00:00'
-                        },
-                        {
-                            title: 'Conference',
-                            start: '2019-03-11',
-                            end: '2019-03-13'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2019-03-12T10:30:00',
-                            end: '2019-03-12T12:30:00'
-                        },
-                        {
-                            title: 'Lunch',
-                            start: '2019-03-12T12:00:00'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2019-03-12T14:30:00'
-                        },
-                        {
-                            title: 'Happy Hour',
-                            start: '2019-03-12T17:30:00'
-                        },
-                        {
-                            title: 'Dinner',
-                            start: '2019-03-12T20:00:00'
-                        },
-                        {
-                            title: 'Birthday Party',
-                            start: '2019-03-13T07:00:00'
-                        },
-                        {
-                            title: 'Click for Google',
-                            url: 'http://google.com/',
-                            start: '2019-03-28'
-                        }
-                    ]
-                });
+                                                        editable: true,
+                                                        eventLimit: true, // allow "more" link when too many events
+                                                        events: [
+                                                            {
+                                                                title: 'All Day Event',
+                                                                start: '2019-03-01'
+                                                            },
+                                                            {
+                                                                title: 'Long Event',
+                                                                start: '2019-03-07',
+                                                                end: '2019-03-10'
+                                                            },
+                                                            {
+                                                                id: 999,
+                                                                title: 'Repeating Event',
+                                                                start: '2019-03-09T16:00:00'
+                                                            },
+                                                            {
+                                                                id: 999,
+                                                                title: 'Repeating Event',
+                                                                start: '2019-03-16T16:00:00'
+                                                            },
+                                                            {
+                                                                title: 'Conference',
+                                                                start: '2019-03-11',
+                                                                end: '2019-03-13'
+                                                            },
+                                                            {
+                                                                title: 'Meeting',
+                                                                start: '2019-03-12T10:30:00',
+                                                                end: '2019-03-12T12:30:00'
+                                                            },
+                                                            {
+                                                                title: 'Lunch',
+                                                                start: '2019-03-12T12:00:00'
+                                                            },
+                                                            {
+                                                                title: 'Meeting',
+                                                                start: '2019-03-12T14:30:00'
+                                                            },
+                                                            {
+                                                                title: 'Happy Hour',
+                                                                start: '2019-03-12T17:30:00'
+                                                            },
+                                                            {
+                                                                title: 'Dinner',
+                                                                start: '2019-03-12T20:00:00'
+                                                            },
+                                                            {
+                                                                title: 'Birthday Party',
+                                                                start: '2019-03-13T07:00:00'
+                                                            },
+                                                            {
+                                                                title: 'Click for Google',
+                                                                url: 'http://google.com/',
+                                                                start: '2019-03-28'
+                                                            }
+                                                        ]
+                                                    });
 
-            });
+                                                });
 
         </script>
     </body>

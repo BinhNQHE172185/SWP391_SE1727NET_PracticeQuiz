@@ -272,7 +272,7 @@
                                                                         </div>
                                                                         <div class="cours-more-info">
                                                                             <div class="review action">
-                                                                                <a href="" class="edit-link">Edit</a>
+                                                                                <a href="ExpertEditSubject?id=${o.subjectId}" class="edit-link">Edit</a>
                                                                             </div>
                                                                             <div class="review action">
                                                                                 <a href="ExpertDeleteSubject?id=${o.subjectId}" class="delete-link">Delete</a>
