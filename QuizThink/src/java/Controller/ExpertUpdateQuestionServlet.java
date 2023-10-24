@@ -4,31 +4,28 @@
  */
 package Controller;
 
-import DAO.ExpertDAO;
 import DAO.QuestionDAO;
-import Model.Expert;
 import Model.Question;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.sql.Time;
 
 /**
  *
  * @author QUYBINH
  */
-@WebServlet(name = "ExpertAddQuestionServlet", urlPatterns = {"/ExpertAddQuestion"})
-public class ExpertAddQuestionServlet extends HttpServlet {
+@WebServlet(name = "ExpertUpdateQuestionServlet", urlPatterns = {"/ExpertUpdateQuestion"})
+public class ExpertUpdateQuestionServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int QuestionID = Integer.parseInt(request.getParameter("QuestionID"));
         String title = request.getParameter("title");
         String image = request.getParameter("image");
         String desc = request.getParameter("desc");
@@ -49,10 +46,15 @@ public class ExpertAddQuestionServlet extends HttpServlet {
         String timeString = String.format("%02d:%02d:00", hours, remainderMinutes);
 
         Time time = Time.valueOf(timeString);
-        //---
-        //Add Question--
-        qd.addQuestion(subjectID, expertID, requirement, title, image, desc, time);
+
+        qd.ExpertUpdateQuestion(expertID, QuestionID, title, image, desc, requirement, time);
+        Question q;
+
+        q = qd.getQuestionById(QuestionID);
+
+        request.setAttribute("list", q);
         request.setAttribute("status", status);
-        request.getRequestDispatcher("ExpertAddQuestion.jsp").include(request, response);
+        request.getRequestDispatcher("ExpertEditQuestion.jsp").include(request, response);
     }
+
 }

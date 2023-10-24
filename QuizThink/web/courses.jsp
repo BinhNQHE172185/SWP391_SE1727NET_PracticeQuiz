@@ -89,10 +89,12 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="widget courses-search-bx placeani">
                                         <div class="form-group">
-                                            <div class="input-group">
-                                                <label>Search Courses</label>
-                                                <input name="dzName" type="text" required class="form-control">
-                                            </div>
+                                            <form action="SearchSubject" method="GET"> 
+                                                <div class="input-group">
+                                                    <label for="dzName">Search Subject</label>
+                                                    <input id="dzName" name="searchQuery" type="text" required class="form-control">
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="widget widget_archive">

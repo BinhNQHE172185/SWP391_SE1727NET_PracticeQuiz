@@ -4,15 +4,16 @@
  */
 package Controller;
 
-import DAO.*;
-import Model.Account;
+import DAO.ExpertDAO;
+import DAO.QuestionDAO;
+import DAO.SubjectDAO;
 import Model.Expert;
+import Model.Question;
 import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,8 +24,8 @@ import java.util.List;
  *
  * @author QUYBINH
  */
-@WebServlet(name = "home", urlPatterns = {"/home"})
-public class home extends HttpServlet {
+@WebServlet(name = "ExpertQuestionListServlet", urlPatterns = {"/ExpertQuestionList"})
+public class ExpertQuestionListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,40 +39,34 @@ public class home extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            int page = 1;//target page
+            int noOfPages = 1;//default no of page
+            int recordsPerPage = 6;
+            SubjectDAO subjectDAO = new SubjectDAO();
+            QuestionDAO questionDAO = new QuestionDAO();
+            HttpSession session= request.getSession();
+            Expert ex = (Expert) session.getAttribute("currExpert");
+            
+            int expertID = ex.getExpertId();
+            int subjectId = 10;
+            //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 
-        Cookie[] ck = request.getCookies();
-        String username = null;
-        String password = null;
-        ExpertDAO ed = new ExpertDAO();
-        AccountDAO ad = new AccountDAO();
-
-        if (ck != null) {
-            for (Cookie cookie : ck) {
-                if (cookie.getName().equals("username")) {
-                    username = cookie.getValue();
-                }
-                if (cookie.getName().equals("password")) {
-                    password = cookie.getValue();
-                }
+            Subject subject = subjectDAO.getSubjectById(subjectId);
+            if (request.getParameter("page") != null) {//restive current page if possible
+                page = Integer.parseInt(request.getParameter("page"));
             }
+            int noOfRecords = questionDAO.getNumberOfRecordBySubjectIDAndExpertID(expertID, subjectId);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+
+            List<Question> questions = questionDAO.getQuestionsBySubjectIdAndExpertID(subjectId, expertID, (page - 1) * recordsPerPage, recordsPerPage);
+            request.setAttribute("subject", subject);
+            request.setAttribute("questions", questions);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+            request.getRequestDispatcher("ExpertQuestionList.jsp").forward(request, response);
         }
-
-        if (username != null && password != null) {
-            Account accCookie = ad.getAccount(username, password);
-            Expert expCookie = ed.getExpert(username, password);
-            if (accCookie != null) {
-                request.getSession().setAttribute("currUser", accCookie);
-            }
-            if (expCookie != null) {
-                request.getSession().setAttribute("currExpert", expCookie);
-            }
-        }
-
-        SubjectDAO subjectDAO = new SubjectDAO();
-        List<Subject> recentSubjects = subjectDAO.getRecentSubject();
-        request.setAttribute("recentSubjects", recentSubjects);
-
-        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
