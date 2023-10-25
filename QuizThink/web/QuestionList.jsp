@@ -152,6 +152,7 @@
 
                                         if (questions != null && !questions.isEmpty()) {
                                             for (Question question : questions) {
+                                            boolean questionStatus = (boolean) request.getAttribute("questionStatus" + question.getQuestionId());
                                         %>
                                         <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
                                             <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>">
@@ -169,8 +170,19 @@
                                                             <span><%= question.getRequirement() %>%</span>
                                                         </div>
                                                         <div class="review"><!-- show current progress, show passed + icon if completed-->
+                                                            <%
+                                                            if (questionStatus) {
+                                                            %>
                                                             <h5>Passed</h5>
                                                             <i class="fa fa-check"></i>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <h5>Not pass</h5>
+                                                            <i class="fa fa-times"></i>
+                                                            <%
+                                                            }
+                                                            %>
                                                         </div>
                                                     </div>
                                                 </div>
