@@ -124,7 +124,7 @@
                             <li><a href="https://daihoc.fpt.edu.vn/" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
 
                             <!-- Search Button ==== -->
-                            <li class="search-btn"><button id="quik-search-btn" type="button" class="btn-link"><i class="fa fa-search"></i></button></li>
+<!--                            <li class="search-btn"><button id="quik-search-btn" type="button" class="btn-link"><i class="fa fa-search"></i></button></li>-->
                         </ul>
                     </div>
                 </div>
@@ -133,10 +133,10 @@
                 <!-- Navigation Menu ==== -->
                 <div class="menu-links navbar-collapse collapse justify-content-start" id="menuDropdown">
                     <div class="menu-logo">
-                        <a href="home.jsp"><img src="FrontEnd/assets/images/logo.png" alt=""></a>
+                        <a href="home"><img src="FrontEnd/assets/images/logo.png" alt=""></a>
                     </div>
                     <ul class="nav navbar-nav">	
-                        <li class="active"><a href="home.jsp">Home</a>
+                        <li class="active"><a href="home">Home</a>
 
                         </li>
 

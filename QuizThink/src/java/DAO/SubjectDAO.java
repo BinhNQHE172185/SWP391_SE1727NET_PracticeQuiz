@@ -422,24 +422,32 @@ public class SubjectDAO extends DBContext {
         return count;
     }
 
+    
+
+
+
     public static void main(String[] args) {
-        SubjectDAO subjectDAO = new SubjectDAO();
+        // Create an instance of the class that contains the getRecentSubject function
+         SubjectDAO dao = new SubjectDAO(); // Replace YourClassName with the actual name of your class
 
-        // Define pagination parameters
-        int recordsPerPage = 5; // Number of records per page
-        int currentPage = 1; // Current page (1-based)
+        // Call the getRecentSubject function to retrieve the list of recent subjects
+        List<Subject> recentSubjects = dao.getRecentSubject(); // Replace YourClassName with the actual name of your class
 
-        // Calculate the offset based on the current page
-        int offset = (currentPage - 1) * recordsPerPage;
-
-        // Retrieve subjects for the current page
-        List<Subject> subjects = subjectDAO.getAllSubjects(offset, recordsPerPage);
-
-        // Display the subjects for the current page
-        System.out.println("Subjects for Page " + currentPage + ":");
-        for (Subject subject : subjects) {
-            System.out.println(subject.getTitle());
+        // Check if any subjects were retrieved
+        if (recentSubjects.isEmpty()) {
+            System.out.println("No recent subjects found.");
+        } else {
+            // Iterate through the list of recent subjects and print their details
+            for (Subject subject : recentSubjects) {
+                System.out.println("Subject ID: " + subject.getSubjectId());
+                System.out.println("Title: " + subject.getTitle());
+                System.out.println("Description: " + subject.getDescription());
+                System.out.println("Created Date: " + subject.getCreatedDate());
+                System.out.println("--------------------------------------------------------");
+            }
         }
     }
+
+
 
 }

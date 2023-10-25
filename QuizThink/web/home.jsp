@@ -1,5 +1,5 @@
 
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -453,9 +453,9 @@
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                    <c:if test="${recentSubjects == null}">
+<!--                                    <c:if test="${recentSubjects == null}">
                                         <div> no subject</div>
-                                    </c:if>
+                                    </c:if>-->
 
                                     <c:forEach items="${recentSubjects}" var="s">
                                         <div class="item">
