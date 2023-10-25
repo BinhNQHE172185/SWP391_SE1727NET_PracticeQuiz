@@ -163,7 +163,79 @@ public class QuestionDAO extends DBContext {
         }
         return questions;
     }
+    public List<Question> getQuestionsBySubjectIdAndExpertIDAsc(int subjectId, int ExpertId, int offSet, int noOfRecords) {
+        String sql = "SELECT * FROM Question WHERE Subject_id = ? AND status = 1 AND Expert_id = ? ORDER BY title ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        List<Question> questions = new ArrayList<>();
 
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setInt(1, subjectId);
+            statement.setInt(2, ExpertId);
+            statement.setInt(3, offSet);
+            statement.setInt(4, noOfRecords);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int questionId = resultSet.getInt("Question_id");
+                String title = resultSet.getString("title");
+                String imageURL = resultSet.getString("imageURL");
+                int quizCount = resultSet.getInt("quiz_count");
+                String description = resultSet.getString("description");
+                float requirement = resultSet.getFloat("requirement");
+                Date createdDate = resultSet.getDate("createdDate");
+                Date modifyDate = resultSet.getDate("modifyDate");
+                boolean status = resultSet.getBoolean("status");
+                Time duration = resultSet.getTime("duration");
+
+                Question question = new Question(questionId, subjectId, ExpertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+
+                questions.add(question);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return questions;
+    }
+    public List<Question> getQuestionsBySubjectIdAndExpertIDDesc(int subjectId, int ExpertId, int offSet, int noOfRecords) {
+        String sql = "SELECT * FROM Question WHERE Subject_id = ? AND status = 1 AND Expert_id = ? ORDER BY title DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        List<Question> questions = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setInt(1, subjectId);
+            statement.setInt(2, ExpertId);
+            statement.setInt(3, offSet);
+            statement.setInt(4, noOfRecords);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int questionId = resultSet.getInt("Question_id");
+                String title = resultSet.getString("title");
+                String imageURL = resultSet.getString("imageURL");
+                int quizCount = resultSet.getInt("quiz_count");
+                String description = resultSet.getString("description");
+                float requirement = resultSet.getFloat("requirement");
+                Date createdDate = resultSet.getDate("createdDate");
+                Date modifyDate = resultSet.getDate("modifyDate");
+                boolean status = resultSet.getBoolean("status");
+                Time duration = resultSet.getTime("duration");
+
+                Question question = new Question(questionId, subjectId, ExpertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+
+                questions.add(question);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return questions;
+    }
+    
     public List<Question> searchQuestionsBySubjectId(int subjectId, String searchQuery, int offSet, int noOfRecords) {
         String sql = "SELECT * FROM Question WHERE Subject_id = ? AND title LIKE ? ORDER BY Question_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         List<Question> questions = new ArrayList<>();

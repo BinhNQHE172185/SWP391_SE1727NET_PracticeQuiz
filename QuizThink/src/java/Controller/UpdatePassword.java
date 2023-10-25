@@ -4,8 +4,8 @@
  */
 package Controller;
 
-import DAO.AccountDAO;
-import Model.Account;
+import DAO.*;
+import Model.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -27,19 +27,26 @@ public class UpdatePassword extends HttpServlet {
         String password = request.getParameter("password");
         String reEnter = request.getParameter("reEnter");
         String accountID = request.getParameter("accountID");
+        String expertId = request.getParameter("expertId");
         String email = request.getParameter("email");
         String status = "Password doesn't match";
         String passStatus = "Password must be at least 8 characters long included letters and numbers";
 
         AccountDAO ad = new AccountDAO();
         Account acc = ad.checkEmail(email);
-
+        ExpertDAO ed = new ExpertDAO();
+        Expert ex = ed.checkMail(email);
         if (ad.checkPass(password)) {
             if (password.equals(reEnter)) {
-                ad.updatePassword(password, accountID);
+                if(acc!=null){
+                    ad.updatePassword(password, accountID);
+                }else if(ex!=null){
+                    ed.updatePassword(password, expertId);
+                }
                 request.getRequestDispatcher("home.jsp").forward(request, response);
             } else {
                 request.setAttribute("Account", acc);
+                request.setAttribute("Expert", ex);
                 request.setAttribute("status", status);
                 request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
             }
