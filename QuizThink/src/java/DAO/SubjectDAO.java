@@ -312,8 +312,28 @@ public class SubjectDAO extends DBContext {
         }
     }
 
+    public void addExpertSubject(int expertID, int subjectDimensionID, String title, String imageURL, String description, Date createdDate, Date modifyDate, boolean status ) {
+        try {
+            String query = "  insert into Subject(Expert_id, SubjectDimension_id, title, imageURL, [description], createdDate, modifyDate, [status])\n"
+                    + "  values (?, ?, ?, ?, ?, ?, ?, ?)";
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, expertID);
+            ps.setInt(2, subjectDimensionID);
+            ps.setString(3, title);
+            ps.setString(4, imageURL);
+            ps.setString(5, description);
+            ps.setDate(6, createdDate);
+            ps.setDate(7, modifyDate);
+            ps.setBoolean(8, status);
+            ps.executeQuery();
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public void updateExpertSubject(String title, String imageURL, float requirement, String description, Date modifyDate, int subjectID) {
-        
+
         String query = "UPDATE Subject \n"
                 + "SET title = ?, \n"
                 + "    imageURL = ?,\n"

@@ -284,7 +284,7 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-
+                                                <a href="ListSubjectDimension">Add</a>
                                             </div>
                                             <!-- <div class="tab-pane" id="quiz-results">
                                                     <div class="profile-head">
