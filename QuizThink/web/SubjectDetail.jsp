@@ -122,8 +122,7 @@
 								<div class="course-info-list scroll-page">
 									<ul class="navbar">
 										<li><a class="nav-link" href="#overview"><i class="ti-zip"></i>Overview</a></li>
-										<li><a class="nav-link" href="#curriculum"><i class="ti-bookmark-alt"></i>Curriculum</a></li>
-										<li><a class="nav-link" href="#instructor"><i class="ti-user"></i>Instructor</a></li>
+										
 										<li><a class="nav-link" href="#reviews"><i class="ti-comments"></i>Reviews</a></li>
 									</ul>
 								</div>
@@ -154,9 +153,9 @@
 											<li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
 											<li><i class="ti-stats-up"></i> <span class="label">Skill level</span> <span class="value">Beginner</span></li>
 											<li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
-											<li><i class="ti-user"></i> <span class="label">Students</span> <span class="value">32</span></li>
-											<li><i class="ti-check-box"></i> <span class="label">Assessments</span> <span class="value">Yes</span></li>
-										</ul>
+											
+										
+										</ul>s="ti-check-box"></i> <span class="label">Assessments</span> <span class="value">Yes</span></li>
 									</div>
 									<div class="col-md-12 col-lg-8">
 										<h5 class="m-b5">Course Description</h5>
@@ -166,41 +165,7 @@
 								</div>
 							</div>
 							
-							<div class="" id="instructor">
-								<h4>Instructor</h4>
-								<div class="instructor-bx">
-									<div class="instructor-author">
-										<img src="FrontEnd/assets/images/testimonials/pic1.jpg" alt="">
-									</div>
-									<div class="instructor-info">
-										<h6>Keny White </h6>
-										<span>Professor</span>
-										<ul class="list-inline m-tb10">
-											<li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a></li>
-											<li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a></li>
-											<li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a></li>
-											<li><a href="#" class="btn sharp-sm google-plus"><i class="fa fa-google-plus"></i></a></li>
-										</ul>
-										<p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
-									</div>
-								</div>
-								<div class="instructor-bx">
-									<div class="instructor-author">
-										<img src="FrontEnd/assets/images/testimonials/pic2.jpg" alt="">
-									</div>
-									<div class="instructor-info">
-										<h6>Keny White </h6>
-										<span>Professor</span>
-										<ul class="list-inline m-tb10">
-											<li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a></li>
-											<li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a></li>
-											<li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a></li>
-											<li><a href="#" class="btn sharp-sm google-plus"><i class="fa fa-google-plus"></i></a></li>
-										</ul>
-										<p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
-									</div>
-								</div>
-							</div>
+							
 							<div class="" id="reviews">
 								<h4>Reviews</h4>
 								
