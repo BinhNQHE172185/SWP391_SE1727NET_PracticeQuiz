@@ -9,6 +9,7 @@
 <%@ page import="Model.Answer" %>
 <%@ page import="Model.Quiz" %>
 <%@ page import="Model.Question" %>
+<%@ page import="Model.QuestionStatus" %>
 <%@ page import="Model.Subject" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
@@ -72,6 +73,7 @@
             <%
                 Subject subject = (Subject) request.getAttribute("subject");
                 Question question = (Question)request.getAttribute("question");
+                QuestionStatus questionStatus = (QuestionStatus)request.getAttribute("questionStatus");
             %>
             <div class="page-content bg-white">
                 <!-- inner page banner -->
@@ -213,8 +215,19 @@
                                                 </div>
                                                 <div class="col-md-12 col-lg-12 col-sm-12 cours-more-info">
                                                     <div class="review"><!-- show current progress, show passed + icon if completed-->
+                                                        <%
+                                                        if (questionStatus != null && questionStatus.isStatus() == true) {
+                                                        %>
                                                         <h5>Passed</h5>
                                                         <i class="fa fa-check"></i>
+                                                        <%
+                                                        } else {
+                                                        %>
+                                                        <h5>Not pass</h5>
+                                                        <i class="fa fa-times"></i>
+                                                        <%
+                                                        }
+                                                        %>
                                                     </div>
                                                 </div>
                                             </div>
