@@ -7,6 +7,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import = "Model.Expert" %>
+<%@page import= "Model.Question" %>
+<%@page import= "Model.Subject" %>
 <%@page import = "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -17,6 +19,9 @@
         <%
             Expert ex = (Expert) session.getAttribute("currExpert");
             String status = (String) request.getAttribute("status");
+            String search = (String) request.getAttribute("search");
+            Subject subject = (Subject) request.getAttribute("subject");
+            List<Question> questions = (List<Question>) request.getAttribute("questions");
         %>
         <!-- META ============================================= -->
         <meta charset="utf-8">
@@ -26,11 +31,11 @@
         <meta name="robots" content="" />
 
         <!-- DESCRIPTION -->
-        <meta name="description" content="EduChamp : Education HTML Template" />
+        <meta name="description" content="Quiz Think" />
 
         <!-- OG -->
-        <meta property="og:title" content="EduChamp : Education HTML Template" />
-        <meta property="og:description" content="EduChamp : Education HTML Template" />
+        <meta property="og:title" content="Quiz Think" />
+        <meta property="og:description" content="Quiz Think" />
         <meta property="og:image" content="" />
         <meta name="format-detection" content="telephone=no">
 
@@ -39,7 +44,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="admin/assets/images/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>EduChamp : Education HTML Template </title>
+        <title>Expert Profile</title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -109,14 +114,11 @@
                     <!-- header right menu start -->
                     <ul class="ttr-header-navigation">
                         <li>
-                            <a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
-                        </li>
-                        <li>
-                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="#" width="32" height="32"></span></a>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="<%=ex.getAvatar()%>" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
-                                    <li><a href="user-profile.html">My profile</a></li>
-                                    <li><a href="../login.html">Logout</a></li>
+                                    <li><a href="Profile">My profile</a></li>
+                                    <li><a href="Logout">Logout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -175,7 +177,6 @@
                                 <span class="ttr-label">Student List</span>
                             </a>
                         </li>
-
                         <li class="ttr-seperate"></li>
                     </ul>
                     <!-- sidebar menu end -->
@@ -192,69 +193,153 @@
                     <ul class="db-breadcrumb-list">
                         <li><a href="home.jsp"><i class="fa fa-home"></i>Home</a></li>
                         <li>Subject</li>
-                        <li>Add Question</li>
+                        <li>Question List</li>
                     </ul>
                 </div>	
                 <!-- Card -->
                 <div class="row">
-                    <!-- Your Profile Views Chart END-->
-                    <div class="col-lg-12 m-b30">
-                        <div class="widget-box">
-                            <div class="wc-title">
-                                <h4>Add Question</h4>
-                            </div>
-                            <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="ExpertAddQuestion" method="POST">
-                                    <div class="row">
-
-                                        <div class="form-group col-6">
-                                            <input type="hidden" value="10" name="subjectID">
-                                            <input type="hidden" value="<%=ex.getExpertId()%>" name="expertID">
-                                            <label class="col-form-label">Question title</label>
-                                            <div>
-                                                <input class="form-control" type="text" value="" name="title" required="">
+                    <div class="container-fluid">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label style="text-align: left;">Search</label>
+                                    <form action="ExpertQuestionSearch" class="form" method="GET">
+                                        <div class="input-group">
+                                            <input type="text" name="search" class="form-control" placeholder="Search question by name">
+                                            <input type="hidden" name="subjectId" value="<%=subject.getSubjectId()%>" class="form-control">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Search</button>
                                             </div>
                                         </div>
-                                        <div class="form-group col-6">
-                                            <label class="col-form-label">Image URL</label>
-                                            <div>
-                                                <input class="form-control" type="text" value="" name="image" required="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-2">
-                                            <label class="col-form-label">Duration (Minutes)</label>
-                                            <div>
-                                                <input class="form-control" type="number" value="" name="duration" required="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-2">
-                                            <label class="col-form-label">Requirement (%)</label>
-                                            <div>
-                                                <input class="form-control" type="number" value="" name="requirement" required="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-12">
-                                            <label class="col-form-label">Course description</label>
-                                            <div>
-                                                <textarea class="form-control" name="desc"> </textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button type="submit" class="btn">Submit</button>
-                                            <button type="button" class="btn-secondry" onclick="window.history.back()">Cancel</button>
-                                        </div>
-                                        <% if(status !=null){ %>
-                                        <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
-                                            <%=
-                                            status
-                                            %>
-                                        </div>
-                                        <%}%>
-                                    </div>
-                                </form>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="text-align: left;" class="col-lg-6 m-b10">
+                        <h3>Question List</h3>
+                    </div>
+                    <div id="Ebtn" class="col-lg-6 m-b10">
+                        <div style="display: flex;justify-content: flex-end;">
+                            <a href="ExpertAddQuestion.jsp" class="btn btn-success">
+                                <i class="fa fa-plus"></i> Add new question
+                            </a>
+                            <div class="dropdown">
+                                <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-sort"></i> Sort
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="ExpertQuestionSortAsc?subjectID=<%= subject.getSubjectId() %>">By Name Asc</a>
+                                    <a class="dropdown-item" href="ExpertQuestionSortDesc?subjectID=<%= subject.getSubjectId() %>">By Name Desc</a>
+                                </div>
                             </div>
                         </div>
+
                     </div>
+                </div>
+                <div class="row">
+                    <!-- Your Profile Views Chart END-->
+                    <%
+                        if (questions != null && !questions.isEmpty()) {
+                             for (Question question : questions) {
+                    %>
+                    <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                        <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>">
+                            <div class="cours-bx">
+                                <div class="info-bx text-center question-image">
+                                    <img src="<%= question.getImageURL() %>" alt="" />
+                                </div>
+                                <div class="info-bx text-center">
+                                    <h5><%= question.getTitle() %></h5>
+                                    <span><%= question.getQuizCount() %> quiz</span>
+                                </div>
+                                <div class="cours-more-info">
+                                    <div class="review" style="text-align: center;">
+                                        <span><a href="ExpertEditQuestion?QuestionID=<%=question.getQuestionId()%>"><h5>Edit</h5></a></span>
+                                    </div>
+                                    <div class="review" style="text-align: center;"><!-- show current progress, show passed + icon if completed-->
+                                        <span><a href="ExpertDeleteQuestion?QuestionID=<%= question.getQuestionId() %>&subjectId=<%=subject.getSubjectId()%>"><h5>Delete</h5></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <%
+                            }
+                        } else {
+                    %>
+                    <p>No questions found.</p>
+                    <%
+                        }
+                    %>
+                    <!-- Pagination list display-->
+                    <%
+                        int currentPage = 1; // Set the current page value
+                        int noOfPages = 5; // Set the total number of pages
+                        if (request.getAttribute("currentPage") != null ){
+                             currentPage = (int) request.getAttribute("currentPage");
+                        }
+                        if (request.getAttribute("noOfPages") != null ){
+                             noOfPages = (int) request.getAttribute("noOfPages");
+                        }
+                        if (noOfPages > 1) {
+                    %>
+                    <div class="col-lg-12 m-b20">
+                        <div class="pagination-bx rounded-sm gray clearfix">
+                            <ul class="pagination">
+                                <%-- For displaying Previous link except for the 1st page --%>
+                                <% if (currentPage != 1) { %>
+                                <li class="previous">
+                                    <% if(search==null){%>
+                                    <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
+                                        <i class="ti-arrow-left"></i> Prev
+                                    </a>
+                                    <%}else{%>
+                                    <a href="ExpertQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
+                                        <i class="ti-arrow-left"></i> Prev
+                                    </a>
+                                    <%}%>
+                                </li>
+                                <% } %>
+
+                                <%-- For displaying pages --%>
+                                <% for (int i = 1; i <= noOfPages; i++) { %>
+                                <% if (currentPage == i) { %>
+                                <li class="active"><a><%= i %></a></li>
+                                        <% } else { %>
+                                <li>
+                                    <% if(search==null){%>
+                                    <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
+                                        <%= i %>
+                                    </a>
+                                    <%}else{%>
+                                    <a href="ExpertQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
+                                        <%= i %>
+                                    </a>
+                                    <%}%>
+                                </li>
+                                <% } %>
+                                <% } %>
+
+                                <%-- For displaying Next link --%>
+                                <% if (currentPage < noOfPages) { %>
+                                <li class="next">
+                                    <% if (search==null){%>
+                                    <a href="ExpertQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
+                                        Next <i class="ti-arrow-right"></i>
+                                    </a>
+                                    <%}else{%>
+                                    <a href="ExpertQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
+                                        Next <i class="ti-arrow-right"></i>
+                                    </a>
+                                    <%}%>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                    <% } %>
+                    <!-- Pagination list end-->
                 </div>
         </main>
         <div class="ttr-overlay"></div>

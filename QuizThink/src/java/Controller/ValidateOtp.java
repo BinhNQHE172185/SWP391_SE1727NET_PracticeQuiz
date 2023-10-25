@@ -5,26 +5,23 @@
 package Controller;
 
 import DAO.*;
-import Model.Account;
-import Model.Expert;
-import Model.Subject;
+import Model.*;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  *
  * @author QUYBINH
  */
-@WebServlet(name = "home", urlPatterns = {"/home"})
-public class home extends HttpServlet {
+@WebServlet(name = "ValidateOtp", urlPatterns = {"/ValidateOtp"})
+public class ValidateOtp extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,40 +35,45 @@ public class home extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        Cookie[] ck = request.getCookies();
-        String username = null;
-        String password = null;
-        ExpertDAO ed = new ExpertDAO();
-        AccountDAO ad = new AccountDAO();
-
-        if (ck != null) {
-            for (Cookie cookie : ck) {
-                if (cookie.getName().equals("username")) {
-                    username = cookie.getValue();
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            try {
+                int value = Integer.parseInt(request.getParameter("otp"));
+                HttpSession session = request.getSession();
+                int otp = (int) session.getAttribute("otp");
+                String email = (String) session.getAttribute("email");
+                AccountDAO ad = new AccountDAO();
+                Account acc = ad.checkEmail(email);
+                ExpertDAO ed = new ExpertDAO();
+                Expert ex = ed.checkMail(email);
+                
+                RequestDispatcher dispatcher = null;
+                
+                if (value == otp) {
+                    
+                    request.setAttribute("email", request.getParameter("email"));
+                    request.setAttribute("status", "success");
+                    if (acc != null) {
+                        request.setAttribute("Account", acc);
+                    } else if (ex != null) {
+                        request.setAttribute("Expert", ex);
+                    }
+                    dispatcher = request.getRequestDispatcher("ChangePassword.jsp");
+                    dispatcher.forward(request, response);
+                    
+                } else {
+                    request.setAttribute("status", "Wrong Otp");
+                    
+                    dispatcher = request.getRequestDispatcher("ValidateOtp.jsp");
+                    dispatcher.forward(request, response);
+                    
                 }
-                if (cookie.getName().equals("password")) {
-                    password = cookie.getValue();
-                }
+            } catch (Exception e) {
+                request.setAttribute("status", "Wrong Otp.");
+                
+                request.getRequestDispatcher("ValidateOtp.jsp").forward(request, response);
             }
         }
-
-        if (username != null && password != null) {
-            Account accCookie = ad.getAccount(username, password);
-            Expert expCookie = ed.getExpert(username, password);
-            if (accCookie != null) {
-                request.getSession().setAttribute("currUser", accCookie);
-            }
-            if (expCookie != null) {
-                request.getSession().setAttribute("currExpert", expCookie);
-            }
-        }
-
-        SubjectDAO subjectDAO = new SubjectDAO();
-        List<Subject> recentSubjects = subjectDAO.getRecentSubject();
-        request.setAttribute("recentSubjects", recentSubjects);
-
-        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

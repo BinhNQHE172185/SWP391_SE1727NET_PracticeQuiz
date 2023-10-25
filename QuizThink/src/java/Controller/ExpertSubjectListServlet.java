@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller;
 
-import DAO.QuizDAO;
+import DAO.ExpertDAO;
+import DAO.SubjectDAO;
+import Model.Expert;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,34 +15,40 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
- * @author Dell
+ * @author admin
  */
-@WebServlet(name="CreateQuiz", urlPatterns={"/createquiz"})
-public class CreateQuiz extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+@WebServlet(name = "ExpertSubjectListServlet", urlPatterns = {"/ExpertSubjectList"})
+public class ExpertSubjectListServlet extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // String quiz_id = request.getParameter("quiz_Id"); // GET QUIZ_ID form quiz list
-        
-        // request.setAttribute("quiz_id", quiz_id); // day quiz_id
-        request.getRequestDispatcher("CreateQuiz.jsp").forward(request, response);
-        
-    } 
+        SubjectDAO dao = new SubjectDAO();
+        ExpertDAO DAO = new ExpertDAO();
+        Expert expert = DAO.getExpertByID(37);
+        List<Subject> list = dao.getSubjectByExpert(37);
+        request.setAttribute("list", list);
+        request.setAttribute("expert", expert);
+        request.getRequestDispatcher("ExpertSubjectList.jsp").forward(request, response);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -48,12 +56,13 @@ public class CreateQuiz extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -61,38 +70,13 @@ public class CreateQuiz extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        
-        //String question_id = request.getParameter("question_Id"); // GET PARAM form jsp
-        String question_id = "5";
-        
-        String description = request.getParameter("description");
-        if(description == null){
-            description = "null";
-        }
-        String type = "1";
-        String content = request.getParameter("content"); // CONTENT of quiz
-        String[] answerArray = request.getParameterValues("answer"); // LIST ANSWER
-        String[] isCorrectArray = request.getParameterValues("isCorrect"); //Is correct
-        
-        QuizDAO dao = new QuizDAO();
-        dao.addQuiz(question_id, type, content, description, isCorrectArray, answerArray);
-        response.sendRedirect("CreateQuiz.jsp");
-        System.out.println("Array 1:");
-        for (int i = 0; i < answerArray.length; i++) {
-            System.out.println(answerArray[i]);
-        }
-
-        // Print the contents of array2
-        System.out.println("Array 2:");
-        for (int i = 0; i < isCorrectArray.length; i++) {
-            System.out.println(isCorrectArray[i]);
-        }
-        
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
