@@ -20,6 +20,7 @@ import java.util.List;
  * @author admin
  */
 public class ResultDAO extends DBContext {
+
     private PreparedStatement ps;
     private ResultSet rs;
 
@@ -56,7 +57,7 @@ public class ResultDAO extends DBContext {
             ps = getConnection().prepareStatement(query);
             ps.setInt(1, id);
             rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 return new Result(
                         id,
@@ -90,7 +91,7 @@ public class ResultDAO extends DBContext {
             ps.setTime(6, result.getDuration());
             ps.setFloat(7, result.getMark());
             ps.setInt(8, result.getQuizCount());
-            
+
             int affectedRows = ps.executeUpdate();
             if (affectedRows > 0) {
                 // Retrieve the generated result ID
@@ -107,14 +108,54 @@ public class ResultDAO extends DBContext {
         return resultId;
     }
 
-    public static void main(String[] args) {
-        ResultDAO dao = new ResultDAO();
-//        List<Result> list = dao.getResultByAccountID("2", "2");
-//        for(Result rs: list){
-//            System.out.println(rs.getMark());
-//        }
-        Result rs = dao.getResultByID(1);
-        System.out.println(rs.getMark());
+    public Result getHighestMarkResultByQuestionIdAndAccountId(int questionId, int accountId) {
+        Result highestMarkResult = null;
+        try {
+            String query = "SELECT TOP 1 * FROM Result WHERE Question_id = ? AND Account_id = ? ORDER BY mark DESC";
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, questionId);
+            ps.setInt(2, accountId);
+            rs = ps.executeQuery();
 
+            if (rs.next()) {
+                int resultId = rs.getInt("Result_id");
+                String selectedChoice = rs.getString("selectedChoice");
+                Date takenDate = rs.getDate("takenDate");
+                Time takenDuration = rs.getTime("takenDuration");
+                Time duration = rs.getTime("duration");
+                float mark = rs.getFloat("mark");
+                int quizCount = rs.getInt("quiz_count");
+
+                highestMarkResult = new Result(resultId, questionId, accountId, selectedChoice, takenDate, takenDuration, duration, mark, quizCount);
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return highestMarkResult;
+    }
+
+    public static void main(String[] args) {
+        ResultDAO resultDAO = new ResultDAO();
+        int questionId = 37;
+        int accountId = 1;
+
+        // Call the getHighestMarkResultByQuestionIdAndAccountId method
+        Result highestMarkResult = resultDAO.getHighestMarkResultByQuestionIdAndAccountId(questionId, accountId);
+
+        // Print the retrieved result information
+        if (highestMarkResult != null) {
+            System.out.println("Result ID: " + highestMarkResult.getResultId());
+            System.out.println("Question ID: " + highestMarkResult.getQuestionId());
+            System.out.println("Account ID: " + highestMarkResult.getAccountId());
+            System.out.println("Selected Choice: " + highestMarkResult.getSelectedChoice());
+            System.out.println("Taken Date: " + highestMarkResult.getTakenDate());
+            System.out.println("Taken Duration: " + highestMarkResult.getTakenDuration());
+            System.out.println("Duration: " + highestMarkResult.getDuration());
+            System.out.println("Mark: " + highestMarkResult.getMark());
+            System.out.println("Quiz Count: " + highestMarkResult.getQuizCount());
+        } else {
+            System.out.println("Result not found for Question ID: " + questionId + " and Account ID: " + accountId);
+        }
     }
 }
