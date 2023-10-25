@@ -6,18 +6,19 @@ package Controller;
 
 import DAO.AnswerDAO;
 import DAO.QuestionDAO;
+import DAO.QuestionStatusDAO;
 import DAO.QuizDAO;
 import DAO.ResultDAO;
 import Model.Account;
 import Model.Answer;
 import Model.Question;
+import Model.QuestionStatus;
 import Model.Quiz;
 import Model.Result;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -28,12 +29,10 @@ import jakarta.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.sql.Date;
 import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -137,6 +136,10 @@ public class QuizSubmitServlet extends HttpServlet {
                 Result result = new Result(questionId, currUser.getAccountId(), setToString(selectedChoicesSet), new Date(System.currentTimeMillis()), timeTaken, question.getDuration(), mark, question.getQuizCount());
                 int resultId = resultDAO.addResult(result);
 
+                session.removeAttribute("questionStatusUpdated");//force client to update status 
+                updateQuestionStatus(question, currUser);
+                
+
                 String jsonResponse = new Gson().toJson(resultId);
                 response.getWriter().write(jsonResponse);
             }
@@ -147,6 +150,20 @@ public class QuizSubmitServlet extends HttpServlet {
         return set.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(", "));
+    }
+
+    protected void updateQuestionStatus(Question question, Account currUser) {
+        QuestionStatusDAO questionStatusDAO = new QuestionStatusDAO();
+        ResultDAO resultDAO = new ResultDAO();
+        QuestionStatus questionStatus = questionStatusDAO.getQuestionStatusByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
+        if (!questionStatus.isStatus()) {
+            Result result = resultDAO.getHighestMarkResultByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
+            if (result != null) {
+                if ((result.getMark() * 10) >= question.getRequirement()) {
+                    questionStatusDAO.updateQuestionStatusToTrue(questionStatus.getQuestionStatusId());
+                }
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
