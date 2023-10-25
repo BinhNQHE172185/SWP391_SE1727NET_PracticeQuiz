@@ -148,14 +148,14 @@
 								<div class="row">
 									<div class="col-md-12 col-lg-4">
 										<ul class="course-features">
-											<li><i class="ti-book"></i> <span class="label">Lectures</span> <span class="value">8</span></li>
-											<li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">1</span></li>
+											<li><i class="ti-book"></i> <span class="label">Questions</span> <span class="value">${subjectdetail.questionCount}</span></li>
+											<li><i class="ti-help-alt"></i> <span class="label">Requirement</span> <span class="value">${subjectdetail.requirement}%</span></li>
 											<li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
-											<li><i class="ti-stats-up"></i> <span class="label">Skill level</span> <span class="value">Beginner</span></li>
+											<li><i class="ti-stats-up"></i> <span class="label">Rate</span> <span class="value">${subjectdetail.rate}</span></li>
 											<li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
 											
 										
-										</ul>s="ti-check-box"></i> <span class="label">Assessments</span> <span class="value">Yes</span></li>
+										</ul>
 									</div>
 									<div class="col-md-12 col-lg-8">
 										<h5 class="m-b5">Course Description</h5>
