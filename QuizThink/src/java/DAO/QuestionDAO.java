@@ -163,6 +163,81 @@ public class QuestionDAO extends DBContext {
         }
         return questions;
     }
+
+    public List<Question> getQuestionsBySubjectIdAsc(int subjectId, int offSet, int noOfRecords) {
+        String sql = "SELECT * FROM Question WHERE Subject_id = ? AND status = 1 ORDER BY title ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        List<Question> questions = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setInt(1, subjectId);
+            statement.setInt(2, offSet);
+            statement.setInt(3, noOfRecords);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int questionId = resultSet.getInt("Question_id");
+                int expertId = resultSet.getInt("Expert_id");
+                String title = resultSet.getString("title");
+                String imageURL = resultSet.getString("imageURL");
+                int quizCount = resultSet.getInt("quiz_count");
+                String description = resultSet.getString("description");
+                float requirement = resultSet.getFloat("requirement");
+                Date createdDate = resultSet.getDate("createdDate");
+                Date modifyDate = resultSet.getDate("modifyDate");
+                boolean status = resultSet.getBoolean("status");
+                Time duration = resultSet.getTime("duration");
+
+                Question question = new Question(questionId, subjectId, expertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+
+                questions.add(question);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return questions;
+    }
+
+    public List<Question> getQuestionsBySubjectIdDesc(int subjectId, int offSet, int noOfRecords) {
+        String sql = "SELECT * FROM Question WHERE Subject_id = ? AND status = 1 ORDER BY title DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        List<Question> questions = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setInt(1, subjectId);
+            statement.setInt(2, offSet);
+            statement.setInt(3, noOfRecords);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int questionId = resultSet.getInt("Question_id");
+                int expertId = resultSet.getInt("Expert_id");
+                String title = resultSet.getString("title");
+                String imageURL = resultSet.getString("imageURL");
+                int quizCount = resultSet.getInt("quiz_count");
+                String description = resultSet.getString("description");
+                float requirement = resultSet.getFloat("requirement");
+                Date createdDate = resultSet.getDate("createdDate");
+                Date modifyDate = resultSet.getDate("modifyDate");
+                boolean status = resultSet.getBoolean("status");
+                Time duration = resultSet.getTime("duration");
+
+                Question question = new Question(questionId, subjectId, expertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+
+                questions.add(question);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return questions;
+    }
+
     public List<Question> getQuestionsBySubjectIdAndExpertIDAsc(int subjectId, int ExpertId, int offSet, int noOfRecords) {
         String sql = "SELECT * FROM Question WHERE Subject_id = ? AND status = 1 AND Expert_id = ? ORDER BY title ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         List<Question> questions = new ArrayList<>();
@@ -199,6 +274,7 @@ public class QuestionDAO extends DBContext {
         }
         return questions;
     }
+
     public List<Question> getQuestionsBySubjectIdAndExpertIDDesc(int subjectId, int ExpertId, int offSet, int noOfRecords) {
         String sql = "SELECT * FROM Question WHERE Subject_id = ? AND status = 1 AND Expert_id = ? ORDER BY title DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         List<Question> questions = new ArrayList<>();
@@ -235,7 +311,7 @@ public class QuestionDAO extends DBContext {
         }
         return questions;
     }
-    
+
     public List<Question> searchQuestionsBySubjectId(int subjectId, String searchQuery, int offSet, int noOfRecords) {
         String sql = "SELECT * FROM Question WHERE Subject_id = ? AND title LIKE ? ORDER BY Question_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         List<Question> questions = new ArrayList<>();
@@ -492,6 +568,45 @@ public class QuestionDAO extends DBContext {
             ps.setInt(1, subjectId);
             ps.setInt(2, QuestionId);
             ps.setInt(3, ExpertId);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void updateQuestion(int QuestionId, String title, String image, String desc, float requirement, Time time) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        Date creDate = Date.valueOf(currentTime.toLocalDate());
+        String sql = "UPDATE [dbo].[Question] \n"
+                + "   SET [title] = ?\n"
+                + "      ,[imageURL] = ?\n"
+                + "      ,[description] = ?\n"
+                + "      ,[requirement] = ?\n"
+                + "      ,[modifyDate] = ?\n"
+                + "      ,[duration] = ?\n"
+                + " WHERE Question_id = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, title);
+            ps.setString(2, image);
+            ps.setFloat(4, requirement);
+            ps.setString(3, desc);
+            ps.setDate(5, creDate);
+            ps.setTime(6, time);
+            ps.setInt(7, QuestionId);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void deleteQuestion(int QuestionId) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        Date creDate = Date.valueOf(currentTime.toLocalDate());
+        String sql = "UPDATE [dbo].[Question]\n"
+                + "   SET [status] = 'False'\n"
+                + " WHERE Question_id = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, QuestionId);
             ps.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
