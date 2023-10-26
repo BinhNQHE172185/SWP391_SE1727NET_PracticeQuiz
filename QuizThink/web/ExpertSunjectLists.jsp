@@ -1,17 +1,14 @@
 <%-- 
-    Document   : ExpertStudentList
-    Created on : Oct 13, 2023, 4:01:39 PM
-    Author     : QUYBINH
+    Document   : ExpertSunjectLists
+    Created on : Oct 26, 2023, 1:18:19 PM
+    Author     : admin
 --%>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import = "Model.*" %>
-<%@page import = "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-
+    <%String search = (String) request.getAttribute("search");%>
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:08:15 GMT -->
     <head>
         <!-- META ============================================= -->
@@ -22,11 +19,11 @@
         <meta name="robots" content="" />
 
         <!-- DESCRIPTION -->
-        <meta name="description" content="EduChamp : Education HTML Template" />
+        <meta name="description" content="Quiz Think" />
 
         <!-- OG -->
-        <meta property="og:title" content="EduChamp : Education HTML Template" />
-        <meta property="og:description" content="EduChamp : Education HTML Template" />
+        <meta property="og:title" content="Quiz Think" />
+        <meta property="og:description" content="Quiz Think" />
         <meta property="og:image" content="" />
         <meta name="format-detection" content="telephone=no">
 
@@ -35,7 +32,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="admin/assets/images/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>EduChamp : Education HTML Template </title>
+        <title>Expert Profile</title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -105,14 +102,11 @@
                     <!-- header right menu start -->
                     <ul class="ttr-header-navigation">
                         <li>
-                            <a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
-                        </li>
-                        <li>
-                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="#" width="32" height="32"></span></a>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="${expert.getAvatar()}" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
-                                    <li><a href="user-profile.html">My profile</a></li>
-                                    <li><a href="../login.html">Logout</a></li>
+                                    <li><a href="Profile">My profile</a></li>
+                                    <li><a href="Logout">Logout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -154,7 +148,7 @@
                 <nav class="ttr-sidebar-navi">
                     <ul>
                         <li>
-                            <a href="Profile" class="ttr-material-button">
+                            <a href="ExpertProfile" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="fa fa-user"></i></span>
                                 <span class="ttr-label">Profile</span>
                             </a>
@@ -171,7 +165,6 @@
                                 <span class="ttr-label">Student List</span>
                             </a>
                         </li>
-
                         <li class="ttr-seperate"></li>
                     </ul>
                     <!-- sidebar menu end -->
@@ -188,57 +181,79 @@
                     <ul class="db-breadcrumb-list">
                         <li><a href="home.jsp"><i class="fa fa-home"></i>Home</a></li>
                         <li>Subject</li>
-                        <li>Add Question</li>
                     </ul>
                 </div>	
                 <!-- Card -->
                 <div class="row">
-                    <!-- Your Profile Views Chart END-->
-                    <div class="col-lg-12 m-b30">
-                        <div class="widget-box">
-                            <div class="wc-title">
-                                <h4>Expert profile</h4>
-                            </div>
-                            <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="ExpertUpdateProfile" method="GET">
-                                    <div class="row">
-                                        <div class="form-group col-6">
-                                            <input type="hidden" value="${expert.getExpertId()}" name="expertID">
-                                            <label class="col-form-label">Full Name</label>
-                                            <div>
-                                                <input class="form-control" type="text" value="${expert.getName()}" name="name" required="">
+                    <div class="container-fluid">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label style="text-align: left;">Search</label>
+                                    <form action="ExpertQuestionSearch" class="form" method="GET">
+                                        <div class="input-group">
+                                            <input type="text" name="search" class="form-control" placeholder="Search subject by name">                                            
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Search</button>
                                             </div>
                                         </div>
-                                        <div class="form-group col-6">
-                                            <label class="col-form-label">Email</label>
-                                            <div>
-                                                <input class="form-control" type="email" value="${expert.getEmail()}" name="email" required="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-12">
-                                            <label class="col-form-label">Avatar</label>
-                                            <div>
-                                                <input class="form-control" type="text" value="${expert.getAvatar()}" name="image" required="">
-                                            </div>
-                                        </div>                                                                               
-                                        <div class="form-group col-12">
-                                            <label class="col-form-label">Self-description</label>
-                                            <div>
-                                                <textarea class="form-control" name="desc">${expert.getSelfIntroduction()}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button type="submit" class="btn">Update</button>
-                                            <button type="reset" class="btn-secondry" onclick="window.history.back()">Cancel</button>
-                                        </div>
-                                        <div class="col-12" style="color: red; margin-top: 5px; font-size: 120%;">
-                                            ${status}
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="text-align: left;" class="col-lg-6 m-b10">
+                        <h3>Subject List</h3>
+                    </div>
+                    <div id="Ebtn" class="col-lg-6 m-b10">
+                        <div style="display: flex;justify-content: flex-end;">
+                            <a href="ListSubjectDimension" class="btn btn-success">
+                                <i class="fa fa-plus"></i> Add new question
+                            </a>
+                            <div class="dropdown">
+                                <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-sort"></i> Sort
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="">By Name Asc</a>
+                                    <a class="dropdown-item" href="">By Name Desc</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    <!-- Your Profile Views Chart END-->
+                    <c:forEach items="${list}" var="o">
+                        <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                            <a href="">
+                                <div class="cours-bx">
+                                    <div class="info-bx text-center question-image">
+                                        <img src="${o.imageURL}" alt="" />
+                                    </div>
+                                    <div class="info-bx text-center">
+                                        <h5>${o.title}</h5>
+                                        <span>Programming</span>
+                                    </div>
+                                    <div class="cours-more-info">
+                                        <div class="review" style="text-align: center;">
+                                            <span><a href="ExpertEditSubject?id=${o.subjectId}"><h5>Edit</h5></a></span>
+                                        </div>
+                                        <div class="review" style="text-align: center;"><!-- show current progress, show passed + icon if completed-->
+                                            <span><a href="ExpertDeleteSubject?id=${o.subjectId}"><h5>Delete</h5></a></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
+                    <c:if test="${list.size() == 0}">
+                        <p>No questions found.</p>
+                    </c:if>
+
+                    <!-- Pagination list display-->
+                    
+                    <!-- Pagination list end-->
                 </div>
         </main>
         <div class="ttr-overlay"></div>
@@ -263,82 +278,82 @@
         <script src='admin/assets/vendors/calendar/moment.min.js'></script>
         <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
         <script>
-                                                $(document).ready(function () {
+            $(document).ready(function () {
 
-                                                    $('#calendar').fullCalendar({
-                                                        header: {
-                                                            left: 'prev,next today',
-                                                            center: 'title',
-                                                            right: 'month,agendaWeek,agendaDay,listWeek'
-                                                        },
-                                                        defaultDate: '2019-03-12',
-                                                        navLinks: true, // can click day/week names to navigate views
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay,listWeek'
+                    },
+                    defaultDate: '2019-03-12',
+                    navLinks: true, // can click day/week names to navigate views
 
-                                                        weekNumbers: true,
-                                                        weekNumbersWithinDays: true,
-                                                        weekNumberCalculation: 'ISO',
+                    weekNumbers: true,
+                    weekNumbersWithinDays: true,
+                    weekNumberCalculation: 'ISO',
 
-                                                        editable: true,
-                                                        eventLimit: true, // allow "more" link when too many events
-                                                        events: [
-                                                            {
-                                                                title: 'All Day Event',
-                                                                start: '2019-03-01'
-                                                            },
-                                                            {
-                                                                title: 'Long Event',
-                                                                start: '2019-03-07',
-                                                                end: '2019-03-10'
-                                                            },
-                                                            {
-                                                                id: 999,
-                                                                title: 'Repeating Event',
-                                                                start: '2019-03-09T16:00:00'
-                                                            },
-                                                            {
-                                                                id: 999,
-                                                                title: 'Repeating Event',
-                                                                start: '2019-03-16T16:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Conference',
-                                                                start: '2019-03-11',
-                                                                end: '2019-03-13'
-                                                            },
-                                                            {
-                                                                title: 'Meeting',
-                                                                start: '2019-03-12T10:30:00',
-                                                                end: '2019-03-12T12:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Lunch',
-                                                                start: '2019-03-12T12:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Meeting',
-                                                                start: '2019-03-12T14:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Happy Hour',
-                                                                start: '2019-03-12T17:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Dinner',
-                                                                start: '2019-03-12T20:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Birthday Party',
-                                                                start: '2019-03-13T07:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Click for Google',
-                                                                url: 'http://google.com/',
-                                                                start: '2019-03-28'
-                                                            }
-                                                        ]
-                                                    });
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: [
+                        {
+                            title: 'All Day Event',
+                            start: '2019-03-01'
+                        },
+                        {
+                            title: 'Long Event',
+                            start: '2019-03-07',
+                            end: '2019-03-10'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2019-03-09T16:00:00'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2019-03-16T16:00:00'
+                        },
+                        {
+                            title: 'Conference',
+                            start: '2019-03-11',
+                            end: '2019-03-13'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2019-03-12T10:30:00',
+                            end: '2019-03-12T12:30:00'
+                        },
+                        {
+                            title: 'Lunch',
+                            start: '2019-03-12T12:00:00'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2019-03-12T14:30:00'
+                        },
+                        {
+                            title: 'Happy Hour',
+                            start: '2019-03-12T17:30:00'
+                        },
+                        {
+                            title: 'Dinner',
+                            start: '2019-03-12T20:00:00'
+                        },
+                        {
+                            title: 'Birthday Party',
+                            start: '2019-03-13T07:00:00'
+                        },
+                        {
+                            title: 'Click for Google',
+                            url: 'http://google.com/',
+                            start: '2019-03-28'
+                        }
+                    ]
+                });
 
-                                                });
+            });
 
         </script>
     </body>

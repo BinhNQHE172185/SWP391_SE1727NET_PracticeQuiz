@@ -45,5 +45,27 @@ public class SubjectDimensionDAO extends DBContext {
         return list;
     }
     
+    public SubjectDimension getSubjectDimensionByID(int id){
+        String query = "select * from SubjectDimension where SubjectDimension_id = ?";
+        SubjectDimension subjectDimension = null;
+        try{
+            PreparedStatement statement = getConnection().prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int subjectDimensionId = resultSet.getInt("SubjectDimension_id");
+                int ParentSD_id = resultSet.getInt("ParentSD_id");
+                String title = resultSet.getString("title");
+                String imageURL = resultSet.getString("imageURL");
+                String description = resultSet.getString("description");
+                
+                subjectDimension = new SubjectDimension(subjectDimensionId, ParentSD_id, title, imageURL, description);
+            }
+        }catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return subjectDimension;
+    }
     
 }
