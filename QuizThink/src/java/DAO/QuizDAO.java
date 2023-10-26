@@ -217,9 +217,8 @@ public class QuizDAO extends DBContext {
             ex.printStackTrace();
         }
     }
-    // Get  Account by ID
-
-    public Quiz getQuizID(String quiz_id) {
+    // Get  Quiz by ID
+    public Quiz getQuizByID(String quiz_id) {
         String query = "SELECT * FROM Quiz WHERE Quiz_id = ?";
         try {
             conn = new DBContext().getConnection();
@@ -228,17 +227,43 @@ public class QuizDAO extends DBContext {
             rs = ps.executeQuery();
             if (rs.next()) {
                 return new Quiz(
-                        rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getInt(3),
-                        rs.getString(4),
-                        rs.getString(5)
+                        rs.getInt(1), // Quiz_id
+                        rs.getInt(2), // question_id
+                        rs.getInt(3), // Type
+                        rs.getString(4),//Content
+                        rs.getString(5) //Description
                 );
             }
         } catch (Exception e) {
             //e.printStackTrace();
         }
         return null;
+    }
+    
+    // Edit quiz
+    public void editQuiz(String quiz_id, String type, String content, String description, String[] isCorrectList, String[] contents){ 
+        String query = "UPDATE [Quiz]\n" +
+                        "SET [type] = ?,\n" +
+                        "    [content] = ?,\n" +
+                        "    [description] = ?\n" +
+                        "WHERE [quiz_id] = ?;";
+         try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, type);
+            ps.setString(2, content);
+            if(description.equals("null")){
+                ps.setNull(3, java.sql.Types.NVARCHAR);
+            }else{
+               ps.setString(3, description); 
+            }
+            ps.setString(4, quiz_id);
+            ps.executeUpdate(); // no result ==> no need result set
+            
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }
     
 }

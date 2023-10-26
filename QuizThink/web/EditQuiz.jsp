@@ -62,17 +62,26 @@
             <label class="form-label">Question: </label>
                 <div class="mb-3">
                     <label for="questionText" class="form-label">Quiz No.</label>
-                    <input type="text" name="content" class="form-control" id="questionText" placeholder="Type quiz here">
+                    <input type="text" name="content" class="form-control" id="questionText" placeholder="Type quiz here" value="${quiz.content}">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Answers</label>
                     
-                <c:forEach items="answerList" var="o">
+                <c:forEach items="${answerList}" var="o">
                     <div class="form-check input-group mb-3">
                         <input class="form-check-input" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" >
-                        <input type="hidden" name="isCorrect" value =" incorrect">\
-                        <input type="hidden" name="answer_id" value="${o.answer_id}">
+                        <input type="hidden" name="isCorrect" value =" incorrect">
+                        <input type="hidden" name="answer_id" value="${o.answerId}">
+                        <c:if test="${o.isCorrect == 'true'}">
+                            <script>
+                                // This JavaScript code will run when the checkbox is checked
+                                var checkbox = document.querySelector('input[name="checkbox"]');
+                                var hiddenInput = document.querySelector('input[name="isCorrect"]');
+                                checkbox.checked = true; // Check the checkbox
+                                hiddenInput.value = "correct"; // Set the hidden input value to "correct"
+                            </script>
+                        </c:if>
                         <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here" value="${o.content}">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
@@ -153,6 +162,7 @@ function updateCheckbox(checkbox) {
             
             var newCheckbox = newRow.querySelector('input[type="checkbox"]');
             
+            newCheckbox.checked = false;
             newCheckbox.onchange = function() {
                 updateCheckbox(newCheckbox);
             };

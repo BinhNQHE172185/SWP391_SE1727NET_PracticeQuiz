@@ -155,6 +155,12 @@
 		                	<span class="ttr-label">Add Quiz</span>
 		                </a>
 		            </li>
+                            <li>
+						<a href="editquiz" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-book"></i></span>
+		                	<span class="ttr-label">Edit Quiz</span>
+		                </a>
+		            </li>
                             <!-- HREF SERVLET -->
                             <li>
 						<a href="addquiz" class="ttr-material-button">
