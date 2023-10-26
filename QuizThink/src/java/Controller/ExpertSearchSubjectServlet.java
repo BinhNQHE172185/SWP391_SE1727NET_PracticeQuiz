@@ -44,7 +44,7 @@ public class ExpertSearchSubjectServlet extends HttpServlet {
         request.setAttribute("list", list);
         request.setAttribute("search", search);
         request.setAttribute("expert", expert);
-        request.getRequestDispatcher("ExpertSubjectList.jsp").forward(request, response);
+        request.getRequestDispatcher("ExpertSunjectLists.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

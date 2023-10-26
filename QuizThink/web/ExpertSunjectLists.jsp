@@ -190,7 +190,7 @@
                             <tr>
                                 <td>
                                     <label style="text-align: left;">Search</label>
-                                    <form action="ExpertQuestionSearch" class="form" method="GET">
+                                    <form action="ExpertSearchSubject" class="form" method="GET">
                                         <div class="input-group">
                                             <input type="text" name="search" class="form-control" placeholder="Search subject by name">                                            
                                             <div class="input-group-append">
@@ -248,7 +248,9 @@
                         </div>
                     </c:forEach>
                     <c:if test="${list.size() == 0}">
-                        <p>No questions found.</p>
+                        <div style="text-align: left;" class="col-lg-6 m-b10">
+                            <p>No questions found.</p>
+                        </div>                      
                     </c:if>
 
                     <!-- Pagination list display-->

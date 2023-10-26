@@ -42,7 +42,7 @@ public class ExpertSubjectListServlet extends HttpServlet {
         List<Subject> list = dao.getSubjectByExpert(37);
         request.setAttribute("list", list);
         request.setAttribute("expert", expert);
-        request.getRequestDispatcher("ExpertSubjectList.jsp").forward(request, response);
+        request.getRequestDispatcher("ExpertSunjectLists.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
