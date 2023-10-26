@@ -99,39 +99,37 @@
                                     </div>
                                     <div class="widget widget_archive">
                                         <h5 class="widget-title style-1">All Courses</h5>
+
                                         <ul>
-                                            <li class="active"><a href="#">General</a></li>
-                                            <li><a href="#">IT & Software</a></li>
-                                            <li><a href="#">Photography</a></li>
-                                            <li><a href="#">Programming Language</a></li>
-                                            <li><a href="#">Technology</a></li>
+                                            <c:if test="${listDimension == null}">
+                                                <div> no Category</div>
+                                            </c:if>
+                                            <c:forEach items= "${listDimension}" var="o" >
+                                                <li class="active"><a href="#">${o.title}</a></li>
+                                                </c:forEach>
                                         </ul>
+
                                     </div>
                                     <div class="widget">
                                         <a href="#"><img src="FrontEnd/assets/images/adv/adv.jpg" alt=""/></a>
                                     </div>
                                     <div class="widget recent-posts-entry widget-courses">
                                         <h5 class="widget-title style-1">Recent Courses</h5>
-                                        <!--                    <div class="widget-post-bx">
-                                                                <div class="widget-post clearfix">
-                                                                    <div class="ttr-post-media"> <img src="FrontEnd/assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
-                                                                    <div class="ttr-post-info">
-                                                                        <div class="ttr-post-header">
-                                                                            <h6 class="post-title"><a href="#">Introduction EduChamp</a></h6>
-                                                                        </div>
-                                                                        
-                                                                    </div>
-                                                                </div>
-                                                                <div class="widget-post clearfix">
-                                                                    <div class="ttr-post-media"> <img src="FrontEnd/assets/images/blog/recent-blog/pic3.jpg" width="200" height="160" alt=""> </div>
-                                                                    <div class="ttr-post-info">
-                                                                        <div class="ttr-post-header">
-                                                                            <h6 class="post-title"><a href="#">English For Tommorow</a></h6>
-                                                                        </div>
-                                                                        
-                                                                    </div>
-                                                                </div>
-                                                            </div>-->
+                                        <c:forEach items="${recentSubjects}" var="r" varStatus="loopStatus">
+                                            <c:if test="${loopStatus.index < 3}">
+                                                <div class="widget-post-bx">
+                                                    <div class="widget-post clearfix">
+                                                        <div class="ttr-post-media"> <img src="${r.imageURL}" width="200" height="143" alt=""> </div>
+                                                        <div class="ttr-post-info">
+                                                            <div class="ttr-post-header">
+                                                                <h6 class="post-title"><a href="subjectdetail?pid=${r.subjectId}">${r.title}</a></h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-sm-12">
