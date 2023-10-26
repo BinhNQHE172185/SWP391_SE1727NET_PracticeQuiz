@@ -4,10 +4,8 @@
  */
 package Controller;
 
-import DAO.ExpertDAO;
-import DAO.SubjectDAO;
-import Model.Expert;
-import Model.Subject;
+import DAO.SubjectDimensionDAO;
+import Model.SubjectDimension;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -21,8 +19,8 @@ import java.util.List;
  *
  * @author admin
  */
-@WebServlet(name = "ExpertSearchSubjectServlet", urlPatterns = {"/ExpertSearchSubject"})
-public class ExpertSearchSubjectServlet extends HttpServlet {
+@WebServlet(name = "ListSubjectDimensionServlet", urlPatterns = {"/ListSubjectDimension"})
+public class ListSubjectDimensionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,15 +34,10 @@ public class ExpertSearchSubjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String search = request.getParameter("search");
-        SubjectDAO dao = new SubjectDAO();
-        ExpertDAO DAO = new ExpertDAO();
-        Expert expert = DAO.getExpertByID(37);
-        List<Subject> list = dao.searchSubjectByExpert(37, search);
-        request.setAttribute("list", list);
-        request.setAttribute("search", search);
-        request.setAttribute("expert", expert);
-        request.getRequestDispatcher("ExpertSunjectLists.jsp").forward(request, response);
+        SubjectDimensionDAO dao = new SubjectDimensionDAO();
+        List<SubjectDimension> listDimension = dao.getAllSubjectDimension();
+        request.setAttribute("listDimension", listDimension);
+        request.getRequestDispatcher("ExpertAddSubject.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -44,11 +44,20 @@ public class Answer {
     public boolean isCorrect() {
         return isCorrect;
     }
-
+    
     public void setCorrect(boolean correct) {
         isCorrect = correct;
     }
 
+    public boolean isIsCorrect() {
+        return isCorrect;
+    }
+
+    public void setIsCorrect(boolean isCorrect) {
+        this.isCorrect = isCorrect;
+    }
+
+    
     public String getContent() {
         return content;
     }

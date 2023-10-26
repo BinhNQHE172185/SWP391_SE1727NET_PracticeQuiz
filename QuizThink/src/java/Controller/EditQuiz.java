@@ -5,12 +5,17 @@
 
 package Controller;
 
+import DAO.AnswerDAO;
+import DAO.QuizDAO;
+import Model.Answer;
+import Model.Quiz;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
@@ -27,19 +32,18 @@ public class EditQuiz extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet EditQuiz</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet EditQuiz at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+//        String quiz_id = request.getParameter("quiz_id");
+//        int quiz_ID = Integer.parseInt(quiz_id);
+        String quiz_id = "287";
+        int quiz_ID = 287;
+        QuizDAO quizDAO = new QuizDAO();
+        AnswerDAO answerDAO = new AnswerDAO();
+        
+        Quiz quiz = quizDAO.getQuizByID(quiz_id);
+        List<Answer> answerList = answerDAO.getAnswersByQuizId(quiz_ID);
+        request.setAttribute("quiz", quiz);
+        request.setAttribute("answerList", answerList);
+        request.getRequestDispatcher("EditQuiz.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
