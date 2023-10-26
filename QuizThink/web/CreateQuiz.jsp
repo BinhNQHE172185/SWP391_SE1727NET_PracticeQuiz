@@ -51,7 +51,7 @@
 	<link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
         <link rel="stylesheet" type="text/css" href="admin/assets/css/add-quiz.css">
     </head>
-<body>
+    <body>
     <jsp:include page="Dashboard_header.jsp"></jsp:include>  
     <main class="ttr-wrapper">
         <form action="createquiz" method="POST">
