@@ -66,7 +66,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(FrontEnd/assets/images/background/fpt1.png);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">Courses Details</h1>
+                            <h1 class="text-white">Subject Details</h1>
                         </div>
                     </div>
                 </div>
@@ -74,8 +74,8 @@
                 <div class="breadcrumb-row">
                     <div class="container">
                         <ul class="list-inline">
-                            <li><a href="#">Home</a></li>
-                            <li>Courses Details</li>
+                            <li><a href="home">Home</a></li>
+                            <li>Subject Details</li>
                         </ul>
                     </div>
                 </div>
