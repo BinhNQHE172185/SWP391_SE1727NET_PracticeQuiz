@@ -5,7 +5,9 @@
 package Controller;
 
 import DAO.SubjectDAO;
+import DAO.SubjectDimensionDAO;
 import Model.Subject;
+import Model.SubjectDimension;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -53,6 +55,10 @@ public class SubjectListServlet extends HttpServlet {
                 int noOfRecords = subjectDAO.getNumberOfRecords();
                 noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
             }
+            SubjectDimensionDAO dao = new SubjectDimensionDAO();
+            List<SubjectDimension> listDimension = dao.getAllSubjectDimension();
+            List<Subject> recentSubjects = subjectDAO.getRecentSubject();
+        
 
             // Retrieve subjects for the current page
             List<Subject> subjects = subjectDAO.getAllSubjects((page - 1) * recordsPerPage, recordsPerPage);
@@ -61,7 +67,8 @@ public class SubjectListServlet extends HttpServlet {
             request.setAttribute("subjects", subjects);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
-
+            request.setAttribute("listDimension", listDimension);
+            request.setAttribute("recentSubjects", recentSubjects);
             // Forward the request to the appropriate JSP for displaying subjects
             request.getRequestDispatcher("courses.jsp").forward(request, response);
         }
@@ -80,7 +87,7 @@ public class SubjectListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-       
+
     }
 
     /**
