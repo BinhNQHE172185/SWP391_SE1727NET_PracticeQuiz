@@ -6,7 +6,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import = "Model.*" %>
+<%@page import = "Model.Expert" %>
 <%@page import = "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -14,9 +14,7 @@
 
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:08:15 GMT -->
     <head>
-        <%
-            String status = (String) request.getAttribute("status");
-        %>
+
         <!-- META ============================================= -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -200,45 +198,47 @@
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>Edit Question</h4>
+                                <h4>Add Subject</h4>
                             </div>
                             <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="ExpertUpdateSubject" method="GET">
+                                <form class="edit-profile m-b30" action="ExpertAddSubject" method="POST">
                                     <div class="row">
-                                        <div class="form-group col-8">
-                                            <!--<input type="hidden" value="10" name="subjectID">-->
-                                            <input type="hidden" value="${subject.getSubjectId()}" name="SubjectID">
-                                            <input type="hidden" value="${ex.getExpertId()}" name="expertID">
+
+                                        <div class="form-group col-7">
+                                            <input type="hidden" value="" name="subjectID">
+                                            <input type="hidden" value="" name="expertID">
                                             <label class="col-form-label">Subject title</label>
                                             <div>
-                                                <input class="form-control" type="text" value="${subject.getTitle()}" name="title" required="">
+                                                <input class="form-control" type="text" value="" name="title" required="">
                                             </div>
                                         </div>
-                                        <div class="form-group col-4">
-                                            <label class="col-form-label">Requirement (%)</label>
+                                        <div class="form-group col-5">
+                                            <label class="col-form-label">Subject dimension</label>
                                             <div>
-                                                <input class="form-control" type="number" value="${subject.getRequirement()}" name="requirement" required="">
+                                                <select name="dimension" class="form-control">
+                                                    <c:forEach items="${listDimension}" var="o">
+                                                        <option value="${o.subjectDimensionId}">${o.title}</option>       
+                                                    </c:forEach> 
+                                                </select>
                                             </div>
-                                        </div>
+                                        </div>                                       
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Image URL</label>
                                             <div>
-                                                <input class="form-control" type="text" value="${subject.getImageURL()}" name="image" required="">
+                                                <input class="form-control" type="text" value="" name="imageURL" required="">
                                             </div>
-                                        </div>                                                                               
+                                        </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Subject description</label>
                                             <div>
-                                                <textarea class="form-control" name="desc">${subject.getDescription()}</textarea>
+                                                <textarea class="form-control" name="desc"> </textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn">Update</button>
+                                            <button type="submit" class="btn">Add Subject</button>
                                             <button type="button" class="btn-secondry" onclick="window.history.back()">Cancel</button>
                                         </div>
-                                        <div class="col-12" style="color: red; margin-top: 5px; font-size: 120%;">
-                                            ${status}
-                                        </div>
+
                                     </div>
                                 </form>
                             </div>

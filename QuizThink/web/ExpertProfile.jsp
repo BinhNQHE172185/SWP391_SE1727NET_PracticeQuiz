@@ -14,9 +14,6 @@
 
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:08:15 GMT -->
     <head>
-        <%
-            String status = (String) request.getAttribute("status");
-        %>
         <!-- META ============================================= -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -200,41 +197,39 @@
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>Edit Question</h4>
+                                <h4>Expert profile</h4>
                             </div>
                             <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="ExpertUpdateSubject" method="GET">
+                                <form class="edit-profile m-b30" action="ExpertUpdateProfile" method="GET">
                                     <div class="row">
-                                        <div class="form-group col-8">
-                                            <!--<input type="hidden" value="10" name="subjectID">-->
-                                            <input type="hidden" value="${subject.getSubjectId()}" name="SubjectID">
-                                            <input type="hidden" value="${ex.getExpertId()}" name="expertID">
-                                            <label class="col-form-label">Subject title</label>
+                                        <div class="form-group col-6">
+                                            <input type="hidden" value="${expert.getExpertId()}" name="expertID">
+                                            <label class="col-form-label">Full Name</label>
                                             <div>
-                                                <input class="form-control" type="text" value="${subject.getTitle()}" name="title" required="">
+                                                <input class="form-control" type="text" value="${expert.getName()}" name="name" required="">
                                             </div>
                                         </div>
-                                        <div class="form-group col-4">
-                                            <label class="col-form-label">Requirement (%)</label>
+                                        <div class="form-group col-6">
+                                            <label class="col-form-label">Email</label>
                                             <div>
-                                                <input class="form-control" type="number" value="${subject.getRequirement()}" name="requirement" required="">
+                                                <input class="form-control" type="email" value="${expert.getEmail()}" name="email" required="">
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Image URL</label>
                                             <div>
-                                                <input class="form-control" type="text" value="${subject.getImageURL()}" name="image" required="">
+                                                <input class="form-control" type="text" value="${expert.getAvatar()}" name="image" required="">
                                             </div>
                                         </div>                                                                               
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Subject description</label>
                                             <div>
-                                                <textarea class="form-control" name="desc">${subject.getDescription()}</textarea>
+                                                <textarea class="form-control" name="desc">${expert.getSelfIntroduction()}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <button type="submit" class="btn">Update</button>
-                                            <button type="button" class="btn-secondry" onclick="window.history.back()">Cancel</button>
+                                            <button type="reset" class="btn-secondry" onclick="window.history.back()">Cancel</button>
                                         </div>
                                         <div class="col-12" style="color: red; margin-top: 5px; font-size: 120%;">
                                             ${status}
