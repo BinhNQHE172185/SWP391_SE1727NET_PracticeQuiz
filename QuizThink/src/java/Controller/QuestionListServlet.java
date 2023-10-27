@@ -8,11 +8,14 @@ import DAO.QuestionDAO;
 import DAO.QuestionStatusDAO;
 import DAO.ResultDAO;
 import DAO.SubjectDAO;
+import DAO.SubjectDimensionDAO;
 import Model.Account;
 import Model.Question;
 import Model.QuestionStatus;
 import Model.Result;
 import Model.Subject;
+import Model.SubjectDimension;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,6 +23,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,6 +62,9 @@ public class QuestionListServlet extends HttpServlet {
 
             Subject subject = subjectDAO.getSubjectById(subjectId);
 
+            GetParentSubjectDimensionTitle getParentSubjectDimensionTitle = new GetParentSubjectDimensionTitle();
+            List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subjectId);
+
             if (session.getAttribute("questionStatusUpdated") == null) {//run once every session or when manually cleared
                 updateQuestionStatusInSubject(subject, currUser);
                 session.setAttribute("questionStatusUpdated", true);//run once
@@ -75,6 +82,7 @@ public class QuestionListServlet extends HttpServlet {
                 boolean status = (questionStatus != null && questionStatus.isStatus());
                 request.setAttribute("questionStatus" + question.getQuestionId(), status);
             }
+            request.setAttribute("parentSubjectDimensions", parentSubjectDimensions);
             request.setAttribute("subject", subject);
             request.setAttribute("questions", questions);
             request.setAttribute("noOfPages", noOfPages);
