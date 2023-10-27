@@ -86,8 +86,8 @@
                                             <div class="form-group col-6">
                                                 <input type="hidden" value="10" name="subjectID">
                                                 <input type="hidden" value="<%=question.getQuestionId()%>" name="QuestionID">
-                                            <input type="hidden" value="<%=question.getExpertId()%>" name="expertID">
-                                            <label class="col-form-label">Question title</label>
+                                                <input type="hidden" value="<%=question.getExpertId()%>" name="expertID">
+                                                <label class="col-form-label">Question title</label>
                                             <div>
                                                 <input class="form-control" type="text" value="<%=question.getTitle()%>" name="title" required="">
                                             </div>
