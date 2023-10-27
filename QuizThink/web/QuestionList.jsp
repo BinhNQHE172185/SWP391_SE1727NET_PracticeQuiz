@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Model.Question" %>
 <%@ page import="Model.Subject" %>
+<%@ page import="Model.SubjectDimension" %>
 
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
@@ -82,9 +83,16 @@
                     <div class="container">
                         <ul class="list-inline">
                             <li><a href="#">Home</a></li>
-                            <li>Science</li>
-                            <li>Computer science</li>
-                            <li>Software Engineering</li>
+                                <%
+                                List<SubjectDimension> parentSubjectDimensions = (List<SubjectDimension>) request.getAttribute("parentSubjectDimensions");
+                                if (parentSubjectDimensions != null) {
+                                    for (SubjectDimension subjectDimension : parentSubjectDimensions) {
+                                %>
+                            <li><%= subjectDimension.getTitle() %></li>
+                                <%
+                            }
+                        }
+                                %>
                             <li><%= subject.getTitle() %></li>
                         </ul>
                     </div>
