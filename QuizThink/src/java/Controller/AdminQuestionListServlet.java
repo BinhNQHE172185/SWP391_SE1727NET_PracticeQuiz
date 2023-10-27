@@ -4,14 +4,17 @@
  */
 package Controller;
 
-import DAO.ResultDAO;
+import DAO.ExpertDAO;
+import DAO.QuestionDAO;
+import DAO.SubjectDAO;
 import Model.Account;
-import Model.Result;
+import Model.Expert;
+import Model.Question;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,10 +23,10 @@ import java.util.List;
 
 /**
  *
- * @author admin
+ * @author kimdi
  */
-@WebServlet(name = "ListPracticedListServlet", urlPatterns = {"/ListPracticedList"})
-public class ListPracticedListServlet extends HttpServlet {
+@WebServlet(name = "AdminQuestionListServlet", urlPatterns = {"/AdminQuestionList"})
+public class AdminQuestionListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,26 +41,29 @@ public class ListPracticedListServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            Account currUser = (Account) session.getAttribute("currUser");
-            //int questionId = Integer.parseInt(request.getParameter("questionId"));
+            /* TODO output your page here. You may use following sample code. */
+            int page = 1;//target page
+            int noOfPages = 1;//default no of page
+            int recordsPerPage = 6;
+            SubjectDAO subjectDAO = new SubjectDAO();
+            QuestionDAO questionDAO = new QuestionDAO();
+            
+            int subjectId = 10;
+            //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 
-            int questionId = 1;//default
-            /*
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if ("ID".equals(cookie.getName())) {
-                        // Found the "accID" cookie
-                        accID = Integer.parseInt(cookie.getValue());
-                    }
-                }
+            Subject subject = subjectDAO.getSubjectById(subjectId);
+            if (request.getParameter("page") != null) {//restive current page if possible
+                page = Integer.parseInt(request.getParameter("page"));
             }
-             */
-            ResultDAO dao = new ResultDAO();
-            List<Result> listResult = dao.getResultByAccountID(questionId, 1);
-            request.setAttribute("listResult", listResult);
-            request.getRequestDispatcher("HistoryList.jsp").forward(request, response);
+            int noOfRecords = questionDAO.getNumberOfRecordsBySubjectId(subjectId);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+
+            List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId, (page - 1) * recordsPerPage, recordsPerPage);
+            request.setAttribute("subject", subject);
+            request.setAttribute("questions", questions);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+            request.getRequestDispatcher("AdminQuestionList.jsp").forward(request, response);
         }
     }
 

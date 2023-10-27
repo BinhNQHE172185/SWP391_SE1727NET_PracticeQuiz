@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Model.Question" %>
 <%@ page import="Model.Subject" %>
+<%@ page import="Model.SubjectDimension" %>
 
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
@@ -82,9 +83,16 @@
                     <div class="container">
                         <ul class="list-inline">
                             <li><a href="#">Home</a></li>
-                            <li>Science</li>
-                            <li>Computer science</li>
-                            <li>Software Engineering</li>
+                                <%
+                                List<SubjectDimension> parentSubjectDimensions = (List<SubjectDimension>) request.getAttribute("parentSubjectDimensions");
+                                if (parentSubjectDimensions != null) {
+                                    for (SubjectDimension subjectDimension : parentSubjectDimensions) {
+                                %>
+                            <li><%= subjectDimension.getTitle() %></li>
+                                <%
+                            }
+                        }
+                                %>
                             <li><%= subject.getTitle() %></li>
                         </ul>
                     </div>
@@ -152,6 +160,7 @@
 
                                         if (questions != null && !questions.isEmpty()) {
                                             for (Question question : questions) {
+                                            boolean questionStatus = (boolean) request.getAttribute("questionStatus" + question.getQuestionId());
                                         %>
                                         <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
                                             <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>">
@@ -169,8 +178,19 @@
                                                             <span><%= question.getRequirement() %>%</span>
                                                         </div>
                                                         <div class="review"><!-- show current progress, show passed + icon if completed-->
+                                                            <%
+                                                            if (questionStatus) {
+                                                            %>
                                                             <h5>Passed</h5>
                                                             <i class="fa fa-check"></i>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <h5>Not pass</h5>
+                                                            <i class="fa fa-times"></i>
+                                                            <%
+                                                            }
+                                                            %>
                                                         </div>
                                                     </div>
                                                 </div>

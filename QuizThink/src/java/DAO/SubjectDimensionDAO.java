@@ -5,12 +5,10 @@
 package DAO;
 
 import DAL.DBContext;
-import Model.Subject;
 import Model.SubjectDimension;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Time;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +20,10 @@ public class SubjectDimensionDAO extends DBContext {
 
     private PreparedStatement ps;
     private ResultSet rs;
-    
-    public List<SubjectDimension> getAllSubjectDimension(){
+
+    public List<SubjectDimension> getAllSubjectDimension() {
         List<SubjectDimension> list = new ArrayList<>();
-        try{
+        try {
             String query = "SELECT * FROM SubjectDimension";
             ps = getConnection().prepareStatement(query);
             rs = ps.executeQuery();
@@ -38,17 +36,17 @@ public class SubjectDimensionDAO extends DBContext {
 
                 list.add(new SubjectDimension(subjectDimensionId, ParentSD_id, title, imageURL, description));
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
             e.printStackTrace();
         }
         return list;
     }
-    
-    public SubjectDimension getSubjectDimensionByID(int id){
+
+    public SubjectDimension getSubjectDimensionByID(int id) {
         String query = "select * from SubjectDimension where SubjectDimension_id = ?";
         SubjectDimension subjectDimension = null;
-        try{
+        try {
             PreparedStatement statement = getConnection().prepareStatement(query);
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -58,14 +56,38 @@ public class SubjectDimensionDAO extends DBContext {
                 String title = resultSet.getString("title");
                 String imageURL = resultSet.getString("imageURL");
                 String description = resultSet.getString("description");
-                
+
                 subjectDimension = new SubjectDimension(subjectDimensionId, ParentSD_id, title, imageURL, description);
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.err.println("An error occurred while executing the query: " + ex.getMessage());
             ex.printStackTrace();
         }
         return subjectDimension;
     }
-    
+
+    public SubjectDimension getParentSubjectDimension(int parentSDId) {
+        String query = "SELECT * FROM SubjectDimension WHERE SubjectDimension_id = (SELECT ParentSD_id FROM SubjectDimension WHERE SubjectDimension_id = ?)";
+        SubjectDimension parentSubjectDimension = null;
+
+        try (
+                 PreparedStatement statement = getConnection().prepareStatement(query)) {
+            statement.setInt(1, parentSDId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int subjectDimensionId = resultSet.getInt("SubjectDimension_id");
+                parentSDId = resultSet.getInt("ParentSD_id");
+                String title = resultSet.getString("title");
+                String imageURL = resultSet.getString("imageURL");
+                String description = resultSet.getString("description");
+
+                parentSubjectDimension = new SubjectDimension(subjectDimensionId, parentSDId, title, imageURL, description);
+            }
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return parentSubjectDimension;
+    }
+
 }
