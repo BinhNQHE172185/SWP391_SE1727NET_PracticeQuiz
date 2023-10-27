@@ -46,7 +46,7 @@ public class YourSubjectServlet extends HttpServlet {
         List<Subject> listSubject = dao.getRegistedSubject(currUser.getAccountId());
         request.setAttribute("listSubjects", listSubject);
         request.setAttribute("account", account);
-        request.getRequestDispatcher("RegistedSubject.jsp").forward(request, response);
+        request.getRequestDispatcher("RegisteredSubject.jsp").forward(request, response);
 
     }
 
