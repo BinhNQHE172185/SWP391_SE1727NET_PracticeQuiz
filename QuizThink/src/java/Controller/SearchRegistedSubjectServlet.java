@@ -5,6 +5,7 @@
 package Controller;
 
 import DAO.SubjectDAO;
+import Model.Account;
 import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -34,11 +36,14 @@ public class SearchRegistedSubjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        Account currUser = (Account) session.getAttribute("currUser");
         String searchContent = request.getParameter("search");
         SubjectDAO dao = new SubjectDAO();
-        List<Subject> listSubject = dao.getRegistedSubjectByName(2, searchContent);
+        List<Subject> listSubject = dao.getRegistedSubjectByName(currUser.getAccountId(), searchContent);
         request.setAttribute("listSubjects", listSubject);
-        request.getRequestDispatcher("RegistedSubject.jsp").forward(request, response);
+        request.setAttribute("searchContent", searchContent);
+        request.getRequestDispatcher("RegisteredSubject.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

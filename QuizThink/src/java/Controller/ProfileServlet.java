@@ -40,7 +40,7 @@ public class ProfileServlet extends HttpServlet {
         AccountDAO dao = new AccountDAO();
         Account account = dao.getAccountByID(currUser.getAccountId());
         request.setAttribute("account", account);
-        request.getRequestDispatcher("user-profile.jsp").forward(request, response);
+        request.getRequestDispatcher("UserProfile.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
