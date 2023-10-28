@@ -30,7 +30,7 @@
                 <li>
                     <a href="MarketerDashBoard.jsp" class="ttr-material-button ttr-submenu-toggle">HOME</a>
                 </li>
-                
+
             </ul>
             <!-- header left menu end -->
         </div>
@@ -39,10 +39,6 @@
             <ul class="ttr-header-navigation">
                 <li>
                     <a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
-                </li>
-                <li>
-                    <a href="#" class="ttr-material-button ttr-submenu-toggle"><i class="fa fa-bell"></i></a>
-                    
                 </li>
                 <li>
                     <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="FrontEnd/assets/images/testimonials/pic3.jpg" width="32" height="32"></span></a>
@@ -55,7 +51,7 @@
                         </ul>
                     </div>
                 </li>
-                
+
             </ul>
             <!-- header right menu end -->
         </div>
