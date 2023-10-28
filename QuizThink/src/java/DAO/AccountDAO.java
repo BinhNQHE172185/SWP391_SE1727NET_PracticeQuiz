@@ -612,16 +612,21 @@ public List<Account> getAllCustomer() {
 //    }
     
     public static void main(String[] args) {
-        try {
-            AccountDAO dao = new AccountDAO();
-            List<Account> list = dao.getAllAccount(1);
-            for (Account account : list) {
-                System.out.println(account);
-            }
-            Account a = dao.getAccountByID(2);
-            System.out.println(a);
-        } catch (Exception e) {
-            e.printStackTrace();
+    AccountDAO accountDAO = new AccountDAO(); 
+    List<Account> customers = accountDAO.getAllCustomer();
+
+    if (customers != null) {
+        
+        for (Account customer : customers) {
+            System.out.println("Account ID: " + customer.getAccountId());
+            System.out.println("Username: " + customer.getUsername());
+            System.out.println("Email: " + customer.getEmail());
+            
+            System.out.println("=========================");
         }
+    } else {
+        System.out.println("error");
     }
+}
+
 }
