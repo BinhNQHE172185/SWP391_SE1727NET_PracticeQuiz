@@ -6,6 +6,8 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import= "Model.*" %>
+<%@page import = "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,6 +61,9 @@
         <link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
 
+        <% List<Subject> subject = (List<Subject>) request.getAttribute("list");%>
+        <% List<SubjectStatus> subjectStatus = (List<SubjectStatus>) request.getAttribute("subjectStatus");%>
+        <% List<Account> account = (List<Account>) request.getAttribute("studentList");%>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -195,12 +200,18 @@
                         <table>
                             <tr>
                                 <td>
-                                    <label style="text-align: left;">Search</label>
-                                    <form action="" class="form" onsubmit="countRows()">
+                                    <label style="text-align: left;">Subject</label>
+                                    <form action="ExpertStudentShowList" class="form" onsubmit="countRows()">
                                         <div class="input-group">
-                                            <input type="text" name="search" class="form-control" placeholder="Search course by name">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-success">Search</button>
+                                            <select class="form-select" name="option">
+                                                <option selected>Select Subject</option>
+                                                <% if(subject!=null){%>
+                                                <%for(Subject s : subject){%>
+                                                <option value="<%=s.getSubjectId()%>"><%=s.getTitle()%></option>
+                                                <%}}%>
+                                            </select>
+                                            <div style="margin-left: 10px">
+                                                <button type="submit" class="btn btn-success"> Submit</button>
                                             </div>
                                         </div>
                                     </form>
@@ -208,7 +219,7 @@
                             </tr>
                         </table>
                     </div>
-                    
+
 
                 </div>
                 <div class="row">
@@ -219,9 +230,8 @@
                         <div style="display: flex;justify-content: flex-end;">
                             <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add new student</button>
                             <button type="submit" class="btn btn-success"><i class="fa fa-sort"></i> Sort By</button>
-                            <button type="submit" class="btn btn-success"><i class="fa fa-filter"></i> Filter</button>
                         </div>
-                        
+
                     </div>
                 </div>
                 <section>
@@ -238,22 +248,26 @@
                                                         <th>Full Name</th>
                                                         <th>Email</th>
                                                         <th>Gender</th>
-                                                        <th>Avatar</th>
                                                         <th>Date of Birth</th>
+                                                        <th>Erolled Date</th>
+                                                        <th>History</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="userdata">
-                                                <c:forEach items="${listAccount}" var="o" varStatus="status">
+                                                    <% if (account != null && subjectStatus != null) { %>
+                                                    <% for (Account acc : account) { %>
                                                     <tr>
-                                                        <td>${o.email}</td>
-                                                        <td>${o.gender}</td>
-                                                        <td>${o.avatar}</td>
-                                                        <td>${o.dob}</td>
-                                                        <td></td>
+                                                        <td><%= acc.getFullname() %></td>
+                                                        <td><%= acc.getEmail() %></td>
+                                                        <td><%= acc.getGender() %></td>
+                                                        <td><%= acc.getDob() %></td>
+                                                        <td><%= acc.getCreatedDate() %></td>
+                                                        <td><a href="">View</a></td>
+                                                        <td><a href="">Remove</a></td>
                                                     </tr>
-                                                </c:forEach>
-
+                                                    <% } %>
+                                                    <% } %>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -267,7 +281,7 @@
                                 <ul class="pagination">	
                                     <c:forEach begin="1" end="${lastPage}" var="i">
                                         <li <c:if test="${i == currentPage}">class="active"</c:if>><a data-param="page" data-value="${i}" onclick="handleLinkClick(event, this)">${i}</a></li>
-                                    </c:forEach>
+                                        </c:forEach>
                                 </ul>
                             </div>
                         </section>

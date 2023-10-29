@@ -6,8 +6,14 @@ package DAO;
 
 import DAL.DBContext;
 import Model.SubjectStatus;
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,7 +23,7 @@ public class SubjectStatusDAO extends DBContext {
 
     private PreparedStatement ps;
     private ResultSet rs;
-    
+
     public int getSubjectStatusId(int subjectId, int accountId) {
         int subjectStatusId = -1;
         try {
@@ -61,5 +67,32 @@ public class SubjectStatusDAO extends DBContext {
             e.printStackTrace();
         }
         return subjectStatusId;
+    }
+
+    public List<SubjectStatus> getStudentListExpert(int subjectId) {
+        List<SubjectStatus> ss = new ArrayList<>();
+        int ssId;
+        boolean status;
+        Date createdDate;
+        int AccountId;
+        String sql = "select * from SubjectStatus s, Account a \n"
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, subjectId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                ssId = rs.getInt("SubjectStatus_id");
+                status = rs.getBoolean("status");
+                createdDate = rs.getDate("createdDate");
+                AccountId = rs.getInt("Account_id");
+                ss.add(new SubjectStatus(ssId, subjectId, AccountId, status, createdDate));
+            }
+            ps.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(SubjectStatusDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ss;
     }
 }
