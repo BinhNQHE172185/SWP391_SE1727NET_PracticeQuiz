@@ -46,9 +46,9 @@ public class ExpertQuestionSortDesc extends HttpServlet {
             int recordsPerPage = 6;
             SubjectDAO subjectDAO = new SubjectDAO();
             QuestionDAO questionDAO = new QuestionDAO();
-            HttpSession session= request.getSession();
+            HttpSession session = request.getSession();
             Expert ex = (Expert) session.getAttribute("currExpert");
-            
+
             int expertID = ex.getExpertId();
             int subjectId = 10;
             //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
@@ -59,6 +59,9 @@ public class ExpertQuestionSortDesc extends HttpServlet {
             }
             int noOfRecords = questionDAO.getNumberOfRecordBySubjectIDAndExpertID(expertID, subjectId);
             noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+            if (page > noOfPages) {
+                page = noOfPages;
+            }
 
             List<Question> questions = questionDAO.getQuestionsBySubjectIdAndExpertIDDesc(subjectId, expertID, (page - 1) * recordsPerPage, recordsPerPage);
             request.setAttribute("subject", subject);

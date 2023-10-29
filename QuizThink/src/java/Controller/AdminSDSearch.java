@@ -4,25 +4,22 @@
  */
 package Controller;
 
-import DAO.QuestionDAO;
-import DAO.SubjectDAO;
-import Model.Question;
-import Model.Subject;
+import DAO.SubjectDimensionDAO;
+import Model.SubjectDimension;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
  * @author QUYBINH
  */
-@WebServlet(name = "AdminQuestionSearch", urlPatterns = {"/AdminQuestionSearch"})
-public class AdminQuestionSearch extends HttpServlet {
+@WebServlet(name = "AdminSDSearch", urlPatterns = {"/AdminSDSearch"})
+public class AdminSDSearch extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -30,33 +27,29 @@ public class AdminQuestionSearch extends HttpServlet {
         int page = 1;//target page
         int noOfPages = 1;//default no of page
         int recordsPerPage = 6;
+        int parentId = -1;
         String searchQuery = "";
-        SubjectDAO subjectDAO = new SubjectDAO();
-        QuestionDAO questionDAO = new QuestionDAO();
-        HttpSession session = request.getSession();
+        SubjectDimensionDAO subjectDimensionDAO = new SubjectDimensionDAO();
 
-        int subjectId = Integer.parseInt(request.getParameter("subjectId"));
-
-        Subject subject = subjectDAO.getSubjectById(subjectId);
         if (request.getParameter("page") != null) {//restive current page if possible
             page = Integer.parseInt(request.getParameter("page"));
         }
         if ((request.getParameter("search") != null) && (request.getParameter("search") != "")) {//restive current search query if possible
             searchQuery = request.getParameter("search");
         }
-        int noOfRecords = questionDAO.getNumberOfRecordsBySubjectIdAndSearch(subjectId, searchQuery);
+        int noOfRecords = subjectDimensionDAO.getNumberOfRecordsByTitle(searchQuery);
         noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
         if (page > noOfPages) {
             page = noOfPages;
         }
 
-        List<Question> questions = questionDAO.searchQuestionsBySubjectId(subjectId, searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
-        request.setAttribute("subject", subject);
+        List<SubjectDimension> SDlist = subjectDimensionDAO.searchSubjectDimensionsByTitle(searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
+        request.setAttribute("SDlist", SDlist);
+        request.setAttribute("parentId", parentId);
         request.setAttribute("search", searchQuery);
-        request.setAttribute("questions", questions);
         request.setAttribute("noOfPages", noOfPages);
         request.setAttribute("currentPage", page);
-        request.getRequestDispatcher("AdminQuestionList.jsp").forward(request, response);
+        request.getRequestDispatcher("AdminSDList.jsp").forward(request, response);
 
     }
 }

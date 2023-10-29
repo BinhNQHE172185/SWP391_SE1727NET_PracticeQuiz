@@ -1,7 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import= "Model.Question" %>
-<%@page import= "Model.Subject" %>
+<%@page import= "Model.SubjectDimension" %>
 <%@page import = "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -56,10 +55,9 @@
     </head>
     <body>
         <%
-            String status = (String) request.getAttribute("status");
             String search = (String) request.getAttribute("search");
-            Subject subject = (Subject) request.getAttribute("subject");
-            List<Question> questions = (List<Question>) request.getAttribute("questions");
+            int parentId = (int) request.getAttribute("parentId");
+            List<SubjectDimension> SDlist = (List<SubjectDimension>) request.getAttribute("SDlist");
         %>
         <jsp:include page="Dashboard_header.jsp"></jsp:include>  
 
@@ -69,8 +67,7 @@
                     <div class="db-breadcrumb">
                         <ul class="db-breadcrumb-list">
                             <li><a href="Dashboard.jsp"><i class="fa fa-home"></i>Dashboard</a></li>
-                            <li>Subject</li>
-                            <li>Question List</li>
+                            <li>Subject Dimension</li>
                         </ul>
                     </div>	
                     <!-- Card -->
@@ -80,10 +77,9 @@
                                 <tr>
                                     <td>
                                         <label style="text-align: left;">Search</label>
-                                        <form action="AdminQuestionSearch" class="form" method="GET">
+                                        <form action="AdminSDSearch" class="form" method="GET">
                                             <div class="input-group">
-                                                <input type="text" name="search" class="form-control" placeholder="Search question by name">
-                                                <input type="hidden" name="subjectId" value="<%=subject.getSubjectId()%>" class="form-control">
+                                                <input type="text" name="search" class="form-control" placeholder="Search subject dimension by name">
                                             <div class="input-group-append">
                                                 <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Search</button>
                                             </div>
@@ -94,17 +90,20 @@
                         </table>
                     </div>
                     <div style="text-align: left;" class="col-lg-6 m-b10">
-                        <h3>Question List</h3>
+                        <h3>Subject Dimension List</h3>
                     </div>
                     <div id="Ebtn" class="col-lg-6 m-b10">
                         <div style="display: flex;justify-content: flex-end;">
+                            <a href="AdminAddSD.jsp" class="btn btn-success">
+                                <i class="fa fa-plus"></i> Add new subject dimension
+                            </a>
                             <div class="dropdown">
                                 <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-sort"></i> Sort
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="AdminQuestionSortAsc?subjectID=<%= subject.getSubjectId() %>">By Name Asc</a>
-                                    <a class="dropdown-item" href="AdminQuestionSortDesc?subjectID=<%= subject.getSubjectId() %>">By Name Desc</a>
+                                    <a class="dropdown-item" href="AdminSDSortAsc?parentId=<%= parentId %>">By Name Asc</a>
+                                    <a class="dropdown-item" href="AdminSDSortDesc?parentId=<%= parentId %>">By Name Desc</a>
                                 </div>
                             </div>
                         </div>
@@ -114,25 +113,27 @@
                 <div class="row">
                     <!-- Your Profile Views Chart END-->
                     <%
-                        if (questions != null && !questions.isEmpty()) {
-                             for (Question question : questions) {
+                        if (SDlist != null && !SDlist.isEmpty()) {
+                             for (SubjectDimension subjectDimension : SDlist) {
                     %>
                     <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-                        <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>">
+                        <a href="SDDetailServlet?questionId=<%= subjectDimension.getSubjectDimensionId() %>">
                             <div class="cours-bx">
                                 <div class="info-bx text-center question-image">
-                                    <img src="<%= question.getImageURL() %>" alt="" />
+                                    <img src="<%= subjectDimension.getImageURL() %>" alt="" />
                                 </div>
                                 <div class="info-bx text-center">
-                                    <h5><%= question.getTitle() %></h5>
-                                    <span><%= question.getQuizCount() %> quiz</span>
+                                    <h5><%= subjectDimension.getTitle() %></h5>
                                 </div>
                                 <div class="cours-more-info">
                                     <div class="review" style="text-align: center;">
-                                        <span><a href="AdminEditQuestion?QuestionID=<%=question.getQuestionId()%>"><h5>Edit</h5></a></span>
+                                        <span><a href="AdminSDDetail?subjectDimensionId=<%=subjectDimension.getSubjectDimensionId()%>"><h5>Edit</h5></a></span>
                                     </div>
                                     <div class="review" style="text-align: center;"><!-- show current progress, show passed + icon if completed-->
-                                        <span><a href="AdminDeleteQuestion?QuestionID=<%= question.getQuestionId() %>&subjectId=<%=subject.getSubjectId()%>"><h5>Delete</h5></a></span>
+                                        <span><a href="AdminDeleteSD?subjectDimensionId=<%= subjectDimension.getSubjectDimensionId() %>"><h5>Delete</h5></a></span>
+                                    </div>
+                                    <div class="review" style="text-align: center;"><!-- show current progress, show passed + icon if completed-->
+                                        <span><a href="AdminSDList?parentId=<%= subjectDimension.getSubjectDimensionId() %>"><h5>View Child SD</h5></a></span>
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +143,7 @@
                             }
                         } else {
                     %>
-                    <p>No questions found.</p>
+                    <p>No subject dimension found.</p>
                     <%
                         }
                     %>
@@ -165,11 +166,11 @@
                                 <% if (currentPage != 1) { %>
                                 <li class="previous">
                                     <% if(search==null){%>
-                                    <a href="AdminQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
+                                    <a href="AdminSDList?parentId=<%= parentId %>&page=<%= currentPage - 1 %>">
                                         <i class="ti-arrow-left"></i> Prev
                                     </a>
                                     <%}else{%>
-                                    <a href="AdminQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage - 1 %>">
+                                    <a href="AdminSDSearch?search=<%=search%>&page=<%= currentPage - 1 %>">
                                         <i class="ti-arrow-left"></i> Prev
                                     </a>
                                     <%}%>
@@ -183,11 +184,11 @@
                                         <% } else { %>
                                 <li>
                                     <% if(search==null){%>
-                                    <a href="AdminQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
+                                    <a href="AdminSDList?parentId=<%= parentId %>&page=<%= i %>">
                                         <%= i %>
                                     </a>
                                     <%}else{%>
-                                    <a href="AdminQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= i %>">
+                                    <a href="AdminSDSearch?search=<%=search%>&page=<%= i %>">
                                         <%= i %>
                                     </a>
                                     <%}%>
@@ -199,11 +200,11 @@
                                 <% if (currentPage < noOfPages) { %>
                                 <li class="next">
                                     <% if (search==null){%>
-                                    <a href="AdminQuestionList?subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
+                                    <a href="AdminSDList?parentId=<%= parentId %>&page=<%= currentPage + 1 %>">
                                         Next <i class="ti-arrow-right"></i>
                                     </a>
                                     <%}else{%>
-                                    <a href="AdminQuestionSearch?search=<%=search%>&subjectId=<%= subject.getSubjectId() %>&page=<%= currentPage + 1 %>">
+                                    <a href="AdminSDSearch?search=<%=search%>&page=<%= currentPage + 1 %>">
                                         Next <i class="ti-arrow-right"></i>
                                     </a>
                                     <%}%>
