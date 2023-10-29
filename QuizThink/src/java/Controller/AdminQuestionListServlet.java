@@ -4,11 +4,8 @@
  */
 package Controller;
 
-import DAO.ExpertDAO;
 import DAO.QuestionDAO;
 import DAO.SubjectDAO;
-import Model.Account;
-import Model.Expert;
 import Model.Question;
 import Model.Subject;
 import java.io.IOException;
@@ -18,7 +15,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -47,7 +43,7 @@ public class AdminQuestionListServlet extends HttpServlet {
             int recordsPerPage = 6;
             SubjectDAO subjectDAO = new SubjectDAO();
             QuestionDAO questionDAO = new QuestionDAO();
-            
+
             int subjectId = 10;
             //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 
@@ -57,6 +53,9 @@ public class AdminQuestionListServlet extends HttpServlet {
             }
             int noOfRecords = questionDAO.getNumberOfRecordsBySubjectId(subjectId);
             noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+            if (page > noOfPages) {
+                page = noOfPages;
+            }
 
             List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId, (page - 1) * recordsPerPage, recordsPerPage);
             request.setAttribute("subject", subject);

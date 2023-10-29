@@ -8,14 +8,12 @@ import DAO.QuestionDAO;
 import DAO.QuestionStatusDAO;
 import DAO.ResultDAO;
 import DAO.SubjectDAO;
-import DAO.SubjectDimensionDAO;
 import Model.Account;
 import Model.Question;
 import Model.QuestionStatus;
 import Model.Result;
 import Model.Subject;
 import Model.SubjectDimension;
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,7 +21,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

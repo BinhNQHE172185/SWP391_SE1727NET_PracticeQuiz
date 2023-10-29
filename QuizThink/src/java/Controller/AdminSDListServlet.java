@@ -4,10 +4,8 @@
  */
 package Controller;
 
-import DAO.QuestionDAO;
-import DAO.SubjectDAO;
-import Model.Question;
-import Model.Subject;
+import DAO.SubjectDimensionDAO;
+import Model.SubjectDimension;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,14 +13,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
- * @author QUYBINH
+ * @author kimdi
  */
-@WebServlet(name = "AdminQuestionSortAsc", urlPatterns = {"/AdminQuestionSortAsc"})
-public class AdminQuestionSortAsc extends HttpServlet {
+@WebServlet(name = "AdminSDListServlet", urlPatterns = {"/AdminSDList"})
+public class AdminSDListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,28 +40,35 @@ public class AdminQuestionSortAsc extends HttpServlet {
             int page = 1;//target page
             int noOfPages = 1;//default no of page
             int recordsPerPage = 6;
-            SubjectDAO subjectDAO = new SubjectDAO();
-            QuestionDAO questionDAO = new QuestionDAO();
+            int parentId = 0;
+            SubjectDimensionDAO subjectDimensionDAO = new SubjectDimensionDAO();
 
-            int subjectId = 10;
-            //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
-
-            Subject subject = subjectDAO.getSubjectById(subjectId);
             if (request.getParameter("page") != null) {//restive current page if possible
                 page = Integer.parseInt(request.getParameter("page"));
             }
-            int noOfRecords = questionDAO.getNumberOfRecordsBySubjectId(subjectId);
-            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
-            if (page > noOfPages) {
-                page = noOfPages;
-            }
 
-            List<Question> questions = questionDAO.getQuestionsBySubjectIdAsc(subjectId, (page - 1) * recordsPerPage, recordsPerPage);
-            request.setAttribute("subject", subject);
-            request.setAttribute("questions", questions);
+            List<SubjectDimension> SDlist = new ArrayList<>();
+            if ((request.getParameter("parentId") != null) && (Integer.parseInt(request.getParameter("parentId")) != 0)) {//restive current parentId if possible
+                parentId = Integer.parseInt(request.getParameter("parentId"));
+                int noOfRecords = subjectDimensionDAO.getNumberOfRecordsChildSD(parentId);
+                noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+                if (page > noOfPages) {
+                    page = noOfPages;
+                }
+                SDlist = subjectDimensionDAO.getChildSubjectDimensions(parentId, (page - 1) * recordsPerPage, recordsPerPage);
+            } else {
+                int noOfRecords = subjectDimensionDAO.getNumberOfRecordsParentSD();
+                noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+                if (page > noOfPages) {
+                    page = noOfPages;
+                }
+                SDlist = subjectDimensionDAO.getAllParentSubjectDimensions((page - 1) * recordsPerPage, recordsPerPage);
+            }
+            request.setAttribute("SDlist", SDlist);
+            request.setAttribute("parentId", parentId);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
-            request.getRequestDispatcher("AdminQuestionList.jsp").forward(request, response);
+            request.getRequestDispatcher("AdminSDList.jsp").forward(request, response);
         }
     }
 
