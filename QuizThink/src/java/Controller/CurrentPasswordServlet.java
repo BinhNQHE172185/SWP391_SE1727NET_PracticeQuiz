@@ -40,7 +40,8 @@ public class CurrentPasswordServlet extends HttpServlet {
         Account currUser = dao.getAccountByID(account.getAccountId());
         String password = currUser.getPassword();
         request.setAttribute("password", password);
-        request.getRequestDispatcher("ChangePassProfile.jsp").forward(request, response);
+        request.setAttribute("account", currUser);
+        request.getRequestDispatcher("ChangePasswordProfile.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
