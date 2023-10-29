@@ -89,8 +89,9 @@ public class AnswerDAO extends DBContext {
             ps.setString(2, isCorrect);
             ps.setString(3, content);
             ps.executeUpdate(); 
-        } catch (Exception e) {
-            // Handle exceptions here
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
             
@@ -103,7 +104,11 @@ public class AnswerDAO extends DBContext {
          try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, isCorrect);
+            if(isCorrect.equals("correct")){
+                ps.setString(1, "1");
+            }else{
+                ps.setString(1, "0");
+            }
             ps.setString(2, content);
             ps.setString(3, answer_id);
             ps.executeUpdate(); // no result ==> no need result set
