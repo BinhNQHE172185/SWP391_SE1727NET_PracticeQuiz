@@ -38,8 +38,8 @@ public class AdminAddSD extends HttpServlet {
         subjectDimension.setImageURL(image);
         subjectDimension.setDescription(desc);
 
-        if (request.getParameter("parentSDId") != null) {
-            subjectDimension.setParentSDId(Integer.parseInt(request.getParameter("parentSDId")));
+        if (request.getParameter("parentId") != null) {
+            subjectDimension.setParentSDId(Integer.parseInt(request.getParameter("parentId")));
         }
 
         // Add SubjectDimension
@@ -49,7 +49,7 @@ public class AdminAddSD extends HttpServlet {
             request.setAttribute("status", "Error, please try again later");
         }
 
-        request.getRequestDispatcher("ExpertAddQuestion.jsp").forward(request, response);
+        request.getRequestDispatcher("AdminAddSD.jsp").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)//load add page
@@ -57,6 +57,6 @@ public class AdminAddSD extends HttpServlet {
         SubjectDimensionDAO subjectDimensionDAO = new SubjectDimensionDAO();
         List<SubjectDimension> SDlist = subjectDimensionDAO.getAllSubjectDimension();
         request.setAttribute("SDlist", SDlist);
-        request.getRequestDispatcher("ExpertAddQuestion.jsp").forward(request, response);
+        request.getRequestDispatcher("AdminAddSD.jsp").forward(request, response);
     }
 }

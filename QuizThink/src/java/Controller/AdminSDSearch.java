@@ -27,7 +27,7 @@ public class AdminSDSearch extends HttpServlet {
         int page = 1;//target page
         int noOfPages = 1;//default no of page
         int recordsPerPage = 6;
-        int parentId = -1;
+        int parentId = 0;
         String searchQuery = "";
         SubjectDimensionDAO subjectDimensionDAO = new SubjectDimensionDAO();
 

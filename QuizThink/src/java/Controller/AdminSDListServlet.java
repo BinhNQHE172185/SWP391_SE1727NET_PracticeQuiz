@@ -40,7 +40,7 @@ public class AdminSDListServlet extends HttpServlet {
             int page = 1;//target page
             int noOfPages = 1;//default no of page
             int recordsPerPage = 6;
-            int parentId = -1;
+            int parentId = 0;
             SubjectDimensionDAO subjectDimensionDAO = new SubjectDimensionDAO();
 
             if (request.getParameter("page") != null) {//restive current page if possible
@@ -48,7 +48,7 @@ public class AdminSDListServlet extends HttpServlet {
             }
 
             List<SubjectDimension> SDlist = new ArrayList<>();
-            if ((request.getParameter("parentId") != null) && (Integer.parseInt(request.getParameter("parentId")) != -1)) {//restive current parentId if possible
+            if ((request.getParameter("parentId") != null) && (Integer.parseInt(request.getParameter("parentId")) != 0)) {//restive current parentId if possible
                 parentId = Integer.parseInt(request.getParameter("parentId"));
                 int noOfRecords = subjectDimensionDAO.getNumberOfRecordsChildSD(parentId);
                 noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);

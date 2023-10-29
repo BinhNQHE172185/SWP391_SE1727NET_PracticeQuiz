@@ -146,17 +146,17 @@
                     <%
                         }
                     %>
-                    <!-- Pagination list display-->
+                    <!-- Pagination list display -->
                     <%
-                        int currentPage = 1; // Set the current page value
-                        int noOfPages = 5; // Set the total number of pages
-                        if (request.getAttribute("currentPage") != null ){
-                             currentPage = (int) request.getAttribute("currentPage");
-                        }
-                        if (request.getAttribute("noOfPages") != null ){
-                             noOfPages = (int) request.getAttribute("noOfPages");
-                        }
-                        if (noOfPages > 1) {
+                    int currentPage = 1; // Set the current page value
+                    int noOfPages = 5; // Set the total number of pages
+                    if (request.getAttribute("currentPage") != null ){
+                         currentPage = (int) request.getAttribute("currentPage");
+                    }
+                    if (request.getAttribute("noOfPages") != null ){
+                         noOfPages = (int) request.getAttribute("noOfPages");
+                    }
+                    if (noOfPages > 1) {
                     %>
                     <div class="col-lg-12 m-b20">
                         <div class="pagination-bx rounded-sm gray clearfix">

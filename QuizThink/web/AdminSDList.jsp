@@ -80,29 +80,31 @@
                                         <form action="AdminSDSearch" class="form" method="GET">
                                             <div class="input-group">
                                                 <input type="text" name="search" class="form-control" placeholder="Search subject dimension by name">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Search</button>
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Search</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div style="text-align: left;" class="col-lg-6 m-b10">
-                        <h3>Subject Dimension List</h3>
-                    </div>
-                    <div id="Ebtn" class="col-lg-6 m-b10">
-                        <div style="display: flex;justify-content: flex-end;">
-                            <a href="AdminAddSD.jsp" class="btn btn-success">
-                                <i class="fa fa-plus"></i> Add new subject dimension
-                            </a>
-                            <div class="dropdown">
-                                <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-sort"></i> Sort
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="AdminSDSortAsc?parentId=<%= parentId %>">By Name Asc</a>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="text-align: left;" class="col-lg-6 m-b10">
+                            <h3>Subject Dimension List</h3>
+                        </div>
+                        <div id="Ebtn" class="col-lg-6 m-b10">
+                            <div style="display: flex;justify-content: flex-end;">
+                                <form action="AdminAddSD" method="GET">
+                                    <button class="btn btn-success" type="submit">
+                                        <i class="fa fa-plus"></i> Add new subject dimension
+                                    </button>
+                                </form>
+                                <div class="dropdown">
+                                    <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-sort"></i> Sort
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="AdminSDSortAsc?parentId=<%= parentId %>">By Name Asc</a>
                                     <a class="dropdown-item" href="AdminSDSortDesc?parentId=<%= parentId %>">By Name Desc</a>
                                 </div>
                             </div>
@@ -111,46 +113,43 @@
                     </div>
                 </div>
                 <div class="row">
-                    <!-- Your Profile Views Chart END-->
-                    <%
-                        if (SDlist != null && !SDlist.isEmpty()) {
-                             for (SubjectDimension subjectDimension : SDlist) {
-                    %>
-                    <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-                        <a href="SDDetailServlet?questionId=<%= subjectDimension.getSubjectDimensionId() %>">
-                            <div class="cours-bx">
-                                <div class="info-bx text-center question-image">
-                                    <img src="<%= subjectDimension.getImageURL() %>" alt="" />
+                    <c:choose>
+                        <c:when test="${not empty SDlist}">
+                            <c:forEach var="subjectDimension" items="${SDlist}">
+                                <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                                    <a href="SDDetailServlet?questionId=${subjectDimension.subjectDimensionId}">
+                                        <div class="cours-bx">
+                                            <div class="info-bx text-center question-image">
+                                                <img src="${subjectDimension.imageURL}" alt="" />
+                                            </div>
+                                            <div class="info-bx text-center">
+                                                <h5>${subjectDimension.title}</h5>
+                                            </div>
+                                            <div class="cours-more-info">
+                                                <div class="review" style="text-align: center;">
+                                                    <span><a href="AdminSDDetail?subjectDimensionId=${subjectDimension.subjectDimensionId}"><h5>Edit</h5></a></span>
+                                                </div>
+                                                <div class="review" style="text-align: center;">
+                                                    <span><a href="AdminDeleteSD?subjectDimensionId=${subjectDimension.subjectDimensionId}"><h5>Delete</h5></a></span>
+                                                </div>
+                                                <div class="review" style="text-align: center;">
+                                                    <span><a href="AdminSDList?parentId=${subjectDimension.subjectDimensionId}"><h5>View Child SD</h5></a></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                                <div class="info-bx text-center">
-                                    <h5><%= subjectDimension.getTitle() %></h5>
-                                </div>
-                                <div class="cours-more-info">
-                                    <div class="review" style="text-align: center;">
-                                        <span><a href="AdminSDDetail?subjectDimensionId=<%=subjectDimension.getSubjectDimensionId()%>"><h5>Edit</h5></a></span>
-                                    </div>
-                                    <div class="review" style="text-align: center;"><!-- show current progress, show passed + icon if completed-->
-                                        <span><a href="AdminDeleteSD?subjectDimensionId=<%= subjectDimension.getSubjectDimensionId() %>"><h5>Delete</h5></a></span>
-                                    </div>
-                                    <div class="review" style="text-align: center;"><!-- show current progress, show passed + icon if completed-->
-                                        <span><a href="AdminSDList?parentId=<%= subjectDimension.getSubjectDimensionId() %>"><h5>View Child SD</h5></a></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <%
-                            }
-                        } else {
-                    %>
-                    <p>No subject dimension found.</p>
-                    <%
-                        }
-                    %>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <p>No subject dimension found.</p>
+                        </c:otherwise>
+                    </c:choose>
+
                     <!-- Pagination list display-->
                     <%
                         int currentPage = 1; // Set the current page value
-                        int noOfPages = 5; // Set the total number of pages
+                        int noOfPages = 1; // Set the total number of pages
                         if (request.getAttribute("currentPage") != null ){
                              currentPage = (int) request.getAttribute("currentPage");
                         }
