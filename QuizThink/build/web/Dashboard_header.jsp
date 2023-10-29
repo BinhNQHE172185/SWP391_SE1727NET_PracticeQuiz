@@ -174,18 +174,6 @@
 		                	<span class="ttr-label">Subject Details</span>
 		                </a>
 		            </li>
-                            <li>
-						<a href="AdminQuestionList" class="ttr-material-button">
-							<span class="ttr-icon"><i class="ti-book"></i></span>
-		                	<span class="ttr-label">Question List</span>
-		                </a>
-		            </li>
-                            <li>
-						<a href="AdminSDList" class="ttr-material-button">
-							<span class="ttr-icon"><i class="ti-book"></i></span>
-		                	<span class="ttr-label">Subject Dimension List</span>
-		                </a>
-		            </li>
 					
 		            <li class="ttr-seperate"></li>
 				</ul>

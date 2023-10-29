@@ -111,6 +111,7 @@ public class AnswerDAO extends DBContext {
         }
     }
             
+
     // Edit answer
     public void editAnswer(String answer_id, String isCorrect, String content){ 
         String query = "UPDATE [Answer]\n" +
@@ -134,7 +135,7 @@ public class AnswerDAO extends DBContext {
             ex.printStackTrace();
         }
     }
-    
+
     public static void main(String[] args) {
         // Assuming you have a QuizDAO instance called quizDAO
         AnswerDAO answerDAO = new AnswerDAO();
