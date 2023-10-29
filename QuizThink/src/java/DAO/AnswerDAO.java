@@ -5,6 +5,7 @@ import Model.Answer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,7 +94,26 @@ public class AnswerDAO extends DBContext {
         }
     }
             
-
+    // Edit answer
+    public void editAnswer(String answer_id, String isCorrect, String content){ 
+        String query = "UPDATE [Answer]\n" +
+                        "SET [isCorrect] = ?,\n" +
+                        "    [content] = ?\n" +
+                        "WHERE [Answer_id] = ?;";
+         try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, isCorrect);
+            ps.setString(2, content);
+            ps.setString(3, answer_id);
+            ps.executeUpdate(); // no result ==> no need result set
+            
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
     public static void main(String[] args) {
         // Assuming you have a QuizDAO instance called quizDAO
         AnswerDAO answerDAO = new AnswerDAO();

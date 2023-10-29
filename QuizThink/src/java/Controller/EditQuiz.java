@@ -70,7 +70,32 @@ public class EditQuiz extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        AnswerDAO answerDAO = new AnswerDAO();
+        QuizDAO quizDAO = new QuizDAO();
+        
+        //String question_id = request.getParameter("question_Id"); // GET PARAM form jsp
+        //String question_id = "5";
+        String quiz_Id = request.getParameter("quiz_Id");
+        int quiz_id = Integer.parseInt(quiz_Id);
+        String description = request.getParameter("description");
+        if(description == null){
+            description = "null";
+        }
+        String type = "1";
+        String content = request.getParameter("content"); // CONTENT of quiz
+        String[] isExist = request.getParameterValues("exist"); // LIST Exist
+        String[] isDelete = request.getParameterValues("delete"); // LIST Exist
+        String[] answerArray = request.getParameterValues("answer"); // LIST ANSWER
+        String[] isCorrectArray = request.getParameterValues("isCorrect"); //Is correct
+        quizDAO.editQuiz(quiz_Id, type, content, description, isCorrectArray, isDelete);
+        for (int i = 0; i < isExist.length; i++) {
+            if(isExist[i].equals("none") && isDelete[i].equals("false")){
+                answerDAO.addAnswer(quiz_id, isCorrectArray[i], answerArray[i]);
+            }else if(!isExist[i].equals("none") && isDelete[i].equals("false")){
+                //answerDAO.editAnswer(Answer_Id, isCorrectArray[i], content);
+            }
+        }
+        response.sendRedirect("editquiz");
     }
 
     /** 
