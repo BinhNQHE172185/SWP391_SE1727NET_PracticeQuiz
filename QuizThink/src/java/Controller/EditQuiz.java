@@ -90,13 +90,17 @@ public class EditQuiz extends HttpServlet {
         quizDAO.editQuiz(quiz_Id, type, content, description, isCorrectArray, isDelete);
         for (int i = 0; i < isExist.length; i++) {
             if(isExist[i].equals("none") && isDelete[i].equals("false")){
-                if(isCorrectArray[i].equals("correct")){
-                answerDAO.addAnswer(quiz_id, "1", answerArray[i]);    
-                }else{
-                    answerDAO.addAnswer(quiz_id, "0", answerArray[i]);
+                if(answerArray[i] != ""){
+                    if(isCorrectArray[i].equals("correct")){
+                    answerDAO.addAnswer(quiz_id, "1", answerArray[i]);    
+                    }else{
+                        answerDAO.addAnswer(quiz_id, "0", answerArray[i]);
+                    }
                 }
             }else if(!isExist[i].equals("none") && isDelete[i].equals("false")){
                 answerDAO.editAnswer(isExist[i], isCorrectArray[i], answerArray[i]);
+            }else if(!isExist[i].equals("none") && isDelete[i].equals("true")){
+                answerDAO.removeAnswer(isExist[i]);
             }
         }
         response.sendRedirect("editquiz");

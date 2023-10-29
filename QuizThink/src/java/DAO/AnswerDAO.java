@@ -94,6 +94,22 @@ public class AnswerDAO extends DBContext {
             ex.printStackTrace();
         }
     }
+    
+    //Remove Answer
+    public void removeAnswer(String answer_id){ 
+        String query ="delete from Answer \n" +
+                        "where answer_id = ?";
+         try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            
+            ps.setString(1, answer_id);
+            ps.executeUpdate(); 
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
             
     // Edit answer
     public void editAnswer(String answer_id, String isCorrect, String content){ 
