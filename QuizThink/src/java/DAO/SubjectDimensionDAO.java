@@ -201,6 +201,32 @@ public class SubjectDimensionDAO extends DBContext {
         return list;
     }
 
+    public List<SubjectDimension> getAllChildSubjectDimensions(int parentId) {
+        List<SubjectDimension> list = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM SubjectDimension WHERE ParentSD_id = ?";
+            PreparedStatement statement = getConnection().prepareStatement(query);
+            statement.setInt(1, parentId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int subjectDimensionId = resultSet.getInt("SubjectDimension_id");
+                int parentSDId = resultSet.getInt("ParentSD_id");
+                String title = resultSet.getString("title");
+                String imageURL = resultSet.getString("imageURL");
+                String description = resultSet.getString("description");
+
+                list.add(new SubjectDimension(subjectDimensionId, parentSDId, title, imageURL, description));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public List<SubjectDimension> getChildSubjectDimensionsAsc(int parentId, int offSet, int noOfRecords) {
         List<SubjectDimension> list = new ArrayList<>();
         try {
@@ -385,5 +411,48 @@ public class SubjectDimensionDAO extends DBContext {
             return false;
         }
         return true;
+    }
+
+    public boolean updateSubjectDimension(SubjectDimension subjectDimension) {
+        try {
+            String query = "UPDATE SubjectDimension SET ParentSD_id = ?, title = ?, imageURL = ?, description = ? WHERE SubjectDimension_id = ?";
+            PreparedStatement statement = getConnection().prepareStatement(query);
+            Integer parentSDId = subjectDimension.getParentSDId();
+            if (parentSDId != null) {
+                statement.setInt(1, parentSDId);
+            } else {
+                statement.setNull(1, Types.INTEGER);
+            }
+            statement.setString(2, subjectDimension.getTitle());
+            statement.setString(3, subjectDimension.getImageURL());
+            statement.setString(4, subjectDimension.getDescription());
+            statement.setInt(5, subjectDimension.getSubjectDimensionId());
+            int rowsAffected = statement.executeUpdate();
+
+            statement.close();
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteSubjectDimension(int subjectDimensionId) {
+        try {
+            String query = "DELETE FROM SubjectDimension WHERE SubjectDimension_id = ?";
+            PreparedStatement statement = getConnection().prepareStatement(query);
+            statement.setInt(1, subjectDimensionId);
+            int rowsAffected = statement.executeUpdate();
+
+            statement.close();
+
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 }

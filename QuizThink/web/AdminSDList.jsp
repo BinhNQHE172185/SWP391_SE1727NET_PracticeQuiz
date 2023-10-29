@@ -91,20 +91,23 @@
                         </div>
                         <div style="text-align: left;" class="col-lg-6 m-b10">
                             <h3>Subject Dimension List</h3>
+                            <div class="col-lg-12" style="padding-bottom: 10px; color: red;">
+                            ${status}
                         </div>
-                        <div id="Ebtn" class="col-lg-6 m-b10">
-                            <div style="display: flex;justify-content: flex-end;">
-                                <form action="AdminAddSD" method="GET">
-                                    <button class="btn btn-success" type="submit">
-                                        <i class="fa fa-plus"></i> Add new subject dimension
-                                    </button>
-                                </form>
-                                <div class="dropdown">
-                                    <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-sort"></i> Sort
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="AdminSDSortAsc?parentId=<%= parentId %>">By Name Asc</a>
+                    </div>
+                    <div id="Ebtn" class="col-lg-6 m-b10">
+                        <div style="display: flex;justify-content: flex-end;">
+                            <form action="AdminAddSD" method="GET">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fa fa-plus"></i> Add new subject dimension
+                                </button>
+                            </form>
+                            <div class="dropdown">
+                                <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-sort"></i> Sort
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="AdminSDSortAsc?parentId=<%= parentId %>">By Name Asc</a>
                                     <a class="dropdown-item" href="AdminSDSortDesc?parentId=<%= parentId %>">By Name Desc</a>
                                 </div>
                             </div>
@@ -117,7 +120,7 @@
                         <c:when test="${not empty SDlist}">
                             <c:forEach var="subjectDimension" items="${SDlist}">
                                 <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-                                    <a href="SDDetailServlet?questionId=${subjectDimension.subjectDimensionId}">
+                                    <a href="SDDetailServlet?subjectDimensionId=${subjectDimension.subjectDimensionId}">
                                         <div class="cours-bx">
                                             <div class="info-bx text-center question-image">
                                                 <img src="${subjectDimension.imageURL}" alt="" />
@@ -127,7 +130,7 @@
                                             </div>
                                             <div class="cours-more-info">
                                                 <div class="review" style="text-align: center;">
-                                                    <span><a href="AdminSDDetail?subjectDimensionId=${subjectDimension.subjectDimensionId}"><h5>Edit</h5></a></span>
+                                                    <span><a href="AdminUpdateSD?subjectDimensionId=${subjectDimension.subjectDimensionId}"><h5>Edit</h5></a></span>
                                                 </div>
                                                 <div class="review" style="text-align: center;">
                                                     <span><a href="AdminDeleteSD?subjectDimensionId=${subjectDimension.subjectDimensionId}"><h5>Delete</h5></a></span>

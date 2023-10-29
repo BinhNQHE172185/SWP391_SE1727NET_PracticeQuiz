@@ -63,7 +63,7 @@
                         <ul class="db-breadcrumb-list">
                             <li><a href="Dashboard.jsp"><i class="fa fa-home"></i>Dashboard</a></li>
                             <li>Subject Dimension</li>
-                            <li>Edit Subject Dimension</li>
+                            <li>Add Subject Dimension</li>
                         </ul>
                     </div>	
                     <!-- Card -->
@@ -86,7 +86,7 @@
                             </table>
                         </div>
                         <div style="text-align: left;" class="col-lg-6 m-b10">
-                            <h3>Edit Subject Dimension</h3>
+                            <h3>Add Subject Dimension</h3>
                         </div>
                         <div id="Ebtn" class="col-lg-6 m-b10">
                             <div style="display: flex;justify-content: flex-end;">
@@ -98,33 +98,36 @@
                     </div>
                     <div class="row">
                         <div class="widget-inner">
-                            <form class="edit-profile m-b30" action="AdminAddSD" method="POST">
+                            <form class="edit-profile m-b30" action="AdminUpdateSD" method="POST">
                                 <div class="row">
+                                    <input type="hidden" value="${subjectDimension.subjectDimensionId}" name="subjectDimensionId">
                                     <div class="form-group col-6">
-                                        <label class="col-form-label">Subject Dimension title</label>
-                                        <div>
-                                            <input class="form-control" type="text" value="" name="title" required="">
-                                        </div>
+                                    <label class="col-form-label">Subject Dimension title</label>
+                                    <div>
+                                        <input class="form-control" type="text" value="${subjectDimension.title}" name="title" required="">
                                     </div>
-                                    <div class="form-group col-6">
-                                        <label class="col-form-label">Image URL</label>
-                                        <div>
-                                            <input class="form-control" type="text" value="" name="image" required="">
-                                        </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Image URL</label>
+                                    <div>
+                                        <input class="form-control" type="text" value="${subjectDimension.imageURL}" name="image" required="">
                                     </div>
-                                    <div class="form-group col-2">
-                                        <label class="col-form-label">Parent Dimension (Optional)</label>
-                                        <select class="form-control" name="parentId">
-                                            <option value="" selected>No Parent</option>
+                                </div>
+                                <div class="form-group col-2">
+                                    <label class="col-form-label">Parent Dimension (Optional)</label>
+                                    <select class="form-control" name="parentId">
+                                        <option value="" selected>No Parent</option>
                                         <c:forEach var="item" items="${SDlist}">
-                                            <option value="${item.subjectDimensionId}">${item.title}</option>
+                                            <option value="${item.subjectDimensionId}" ${item.subjectDimensionId == subjectDimension.parentSDId ? 'selected' : ''}>
+                                                ${item.title}
+                                            </option>
                                         </c:forEach>
                                     </select>
                                 </div>
                                 <div class="form-group col-12">
                                     <label class="col-form-label">Subject Dimension description</label>
                                     <div>
-                                        <textarea class="form-control" name="desc"> </textarea>
+                                        <textarea class="form-control" name="desc">${subjectDimension.description}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-12">
