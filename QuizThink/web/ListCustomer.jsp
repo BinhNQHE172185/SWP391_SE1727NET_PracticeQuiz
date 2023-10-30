@@ -96,7 +96,6 @@
                                                                     <th>Gender</th>
                                                                     <th>Avatar</th>
                                                                     <th>Date of Birth</th>
-                                                                    <th>Action</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="userdata">
@@ -110,9 +109,6 @@
                                                                     <td>${c.gender}</td>
                                                                     <td>${c.avatar}</td>
                                                                     <td>${c.dob}</td>
-                                                                    <td>
-
-                                                                    </td>
                                                                 </tr>
                                                             </c:forEach>
                                                             </tbody>                                            
