@@ -66,7 +66,49 @@ public class AccountDAO extends DBContext {
         }
         return account;
     }
+    
 
+
+public List<Account> getAllCustomer() {
+    List<Account> customerList = new ArrayList<>();
+    String sql = "SELECT * FROM Account a " +
+                 "INNER JOIN AccountRole ar ON a.Account_id = ar.Account_id " +
+                 "INNER JOIN Role r ON ar.role_id = r.role_id " +
+                 "WHERE r.role_name = 'customer'";
+    
+    try {
+        PreparedStatement ps = getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        
+        while (rs.next()) {
+            int accountId = rs.getInt("Account_id");
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+            String email = rs.getString("email");
+            String fullname = rs.getString("fullname");
+            Date dob = rs.getDate("DOB");
+            String gender = rs.getString("gender");
+            String selfIntroduction = rs.getString("self-introduction");
+            String avatar = rs.getString("avatar");
+            Date createDate = rs.getDate("createdDate");
+            Date modifyDate = rs.getDate("modifyDate");
+            String passwordToken = rs.getString("passwordToken");
+            boolean accountStatus = rs.getBoolean("status");
+
+            Account customer = new Account(accountId, username, password, email, fullname, dob, gender, selfIntroduction, avatar, createDate, modifyDate, passwordToken, accountStatus);
+            
+            customerList.add(customer);
+        }
+        rs.close();
+        ps.close();
+    } catch (Exception ex) {
+        Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+    return customerList;
+}
+
+    
     public Account getUsername(String username) {
         Account account = null;
         int accountId;
@@ -570,16 +612,21 @@ public class AccountDAO extends DBContext {
 //    }
     
     public static void main(String[] args) {
-        try {
-            AccountDAO dao = new AccountDAO();
-            List<Account> list = dao.getAllAccount(1);
-            for (Account account : list) {
-                System.out.println(account);
-            }
-            Account a = dao.getAccountByID(2);
-            System.out.println(a);
-        } catch (Exception e) {
-            e.printStackTrace();
+    AccountDAO accountDAO = new AccountDAO(); 
+    List<Account> customers = accountDAO.getAllCustomer();
+
+    if (customers != null) {
+        
+        for (Account customer : customers) {
+            System.out.println("Account ID: " + customer.getAccountId());
+            System.out.println("Username: " + customer.getUsername());
+            System.out.println("Email: " + customer.getEmail());
+            
+            System.out.println("=========================");
         }
+    } else {
+        System.out.println("error");
     }
+}
+
 }
