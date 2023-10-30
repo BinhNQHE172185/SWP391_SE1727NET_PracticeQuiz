@@ -108,7 +108,7 @@
                             <a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="#" width="32" height="32"></span></a>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="${expert.getAvatar()}" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
                                     <li><a href="user-profile.html">My profile</a></li>
@@ -160,7 +160,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button">
+                            <a href="ExpertSubjectList" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
                                 <span class="ttr-label">Subject</span>
                             </a>
@@ -229,7 +229,7 @@
                                         </div>
                                         <div class="col-12">
                                             <button type="submit" class="btn">Update</button>
-                                            <button type="reset" class="btn-secondry" onclick="window.history.back()">Cancel</button>
+                                            <button type="reset" class="btn-secondry">Cancel</button>
                                         </div>
                                         <div class="col-12" style="color: red; margin-top: 5px; font-size: 120%;">
                                             ${status}
