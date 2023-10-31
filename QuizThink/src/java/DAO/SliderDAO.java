@@ -31,6 +31,8 @@ public class SliderDAO extends DBContext {
                 String imageURL = resultSet.getString("imageURL");
                 String linkURL = resultSet.getString("linkURL");
                 String description = resultSet.getString("description");
+                String title = resultSet.getString("Title");
+                String name = resultSet.getString("Name");
                 // Retrieve other fields as needed
 
                 Slider slider = new Slider();
@@ -38,6 +40,9 @@ public class SliderDAO extends DBContext {
                 slider.setImageURL(imageURL);
                 slider.setLinkURL(linkURL);
                 slider.setDescription(description);
+                slider.setTitle(title);
+                slider.setName(name);
+                
                 // Set other fields
 
                 sliders.add(slider);
@@ -50,6 +55,22 @@ public class SliderDAO extends DBContext {
         }
         return sliders;
     }
+    public void addSlider(String title, String name, String imageURL, String description) {
+    String sql = "INSERT INTO Slider (Title, Name, imageURL, description, createdDate, modifyDate, status) " +
+                 "VALUES (?, ?, ?, ?, GETDATE(), GETDATE(), 1)";
+
+    try {
+        PreparedStatement statement = getConnection().prepareStatement(sql);
+        statement.setString(1, title);
+        statement.setString(2, name);
+        statement.setString(3, imageURL);
+        statement.setString(4, description);
+    } catch (Exception ex) {
+        System.err.println("An error occurred while adding a slider: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+}
+
 
     public static void main(String[] args) {
         SliderDAO sliderDAO = new SliderDAO();
@@ -61,6 +82,8 @@ public class SliderDAO extends DBContext {
             System.out.println("Image URL: " + slider.getImageURL());
             System.out.println("Link URL: " + slider.getLinkURL());
             System.out.println("Description: " + slider.getDescription());
+            System.out.println("Name: "+slider.getName());
+            System.out.println("Title: "+slider.getTitle());
             System.out.println("---------------------------");
         }
     }
