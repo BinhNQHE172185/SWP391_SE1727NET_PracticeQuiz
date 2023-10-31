@@ -3,7 +3,7 @@
     Created on : Oct 27, 2023, 5:58:02 PM
     Author     : minhk
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <head>
 
@@ -274,21 +274,21 @@
         .modal form label {
             font-weight: normal;
         }
-        
+
     </style>
     <script>
-            function back() {
-                window.location.href = "home";
+        function back() {
+            window.location.href = "home";
+        }
+        function doDelete(id)
+        {
+            var c = confirm("Are you sure?");
+            if (c)
+            {
+                window.location.href = "delete?pid=" + id;
             }
-                function doDelete(id)
-                {
-                    var c = confirm("Are you sure?");
-                    if (c)
-                    {
-                        window.location.href = "delete?pid=" + id;
-                    }
-                }
-        </script>
+        }
+    </script>
 </head>
 <body class="ttr-opened-sidebar ttr-pinned-sidebar">
     <jsp:include page = "MarketerHeader.jsp"/>	<!-- header end -->
@@ -308,34 +308,73 @@
                     <tr> 
                         <th>ID</th>
                         <th>Title</th>
+                        <th>Name</th>
                         <th>Image</th>
+                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${products}" var="p">
-                    <tr> 
-                        <td>${p.id}</td>
-                        <td>${p.name}</td>
-                        <td>
-                            <img src="${p.imageUrl}">
-                        </td>
-                        
-                        <td>
-<!--                            <a href="load?pid=${p.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#" class="delete" data-toggle="modal" onclick="doDelete(${p.id})"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->
+                    <c:forEach items="${sliders}" var="s">
+                        <tr> 
+                            <td>${s.sliderId}</td>
+                            <td>${s.title}</td>
+                            <td>${s.name}</td>
+                            <td>
+                                <img src="${s.imageURL}">
+                            </td>
+                            <td>${s.description}</td>
 
-                        </td>
-                    </tr>
-                </c:forEach>
+                            <td>
+    <!--                            <a href="load?pid=${p.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="#" class="delete" data-toggle="modal" onclick="doDelete(${p.id})"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>-->
+
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
-            
+
         </div>
         <a href="#">
-            <button type="button" class="btn btn-primary" onclick="back()">Trở về trang chủ</button>
-            <a href="#addEmployeeModal"  data-toggle="modal">  <button type="button" class="btn btn-success"><span>Thêm sản phẩm</span></button> </a>
+            <button type="button" class="btn btn-primary" onclick="back()">Back to Home</button>
+            <a href="#addEmployeeModal"  data-toggle="modal">  <button type="button" class="btn btn-success"><span>Add slider</span></button> </a>
     </div>
+    <!--                            add-->
+    <div id="addEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="AddSlider" method="post">
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Add Slider</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input name="title" type="text" class="form-control" required >
+                        </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input name="name" type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>ImageURL</label>
+                            <input name="imageURL" type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea name="description" class="form-control" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-success" value="Confirm">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
 
 
 
