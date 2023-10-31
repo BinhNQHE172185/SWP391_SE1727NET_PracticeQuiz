@@ -11,7 +11,7 @@
     <div class="ttr-sidebar-wrapper content-scroll">
         <!-- side menu logo start -->
         <div class="ttr-sidebar-logo">
-            <a href="#"><img alt="" src="admin/assets/images/logo.png" width="122" height="27"></a>
+            <a href="#"><img alt="" src="FrontEnd/assets/images/Logo1-Purple.png" width="122" height="27"></a>
             <!-- <div class="ttr-sidebar-pin-button" title="Pin/Unpin Menu">
                     <i class="material-icons ttr-fixed-icon">gps_fixed</i>
                     <i class="material-icons ttr-not-fixed-icon">gps_not_fixed</i>
@@ -31,26 +31,14 @@
                     </a>
                 </li>
                 <li>
-                    <a href="ManageSliders.jsp" class="ttr-material-button">
+                    <a href="ManageSlider" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-book"></i></span>
-                        <span class="ttr-label">Sliders</span>
+                        <span class="ttr-label">Manage Sliders</span>
                     </a>
                 </li>
 
 
-                <li>
-                    <a href="bookmark.html" class="ttr-material-button">
-                        <span class="ttr-icon"><i class="ti-bookmark-alt"></i></span>
-                        <span class="ttr-label">Add new Slider</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="review.html" class="ttr-material-button">
-                        <span class="ttr-icon"><i class="ti-comments"></i></span>
-                        <span class="ttr-label">Edit</span>
-                    </a>
-                </li>
-                <!--                        <li>
+                                                <!--                        <li>
                                             <a href="add-listing.html" class="ttr-material-button">
                                                 <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
                                                 <span class="ttr-label">Add listing</span>

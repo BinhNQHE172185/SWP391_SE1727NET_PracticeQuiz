@@ -10,8 +10,9 @@
     <div class="ttr-header-wrapper">
         <!--sidebar menu toggler start -->
         <div class="ttr-toggle-sidebar ttr-material-button">
-            <i class="ti-close ttr-open-icon"></i>
             <i class="ti-menu ttr-close-icon"></i>
+            <i class="ti-close ttr-open-icon"></i>
+            
         </div>
         <!--sidebar menu toggler end -->
         <!--logo start -->
