@@ -16,11 +16,13 @@ public class Slider {
     private Date modifyDate;
     private boolean status;
     private int marketerId;
+    private String title;
+    private String name;
 
     public Slider() {
     }
 
-    public Slider(int sliderId, String imageURL, String linkURL, String description, Date createdDate, Date modifyDate, boolean status, int marketerId) {
+    public Slider(int sliderId, String imageURL, String linkURL, String description, Date createdDate, Date modifyDate, boolean status, int marketerId, String title, String name ) {
         this.sliderId = sliderId;
         this.imageURL = imageURL;
         this.linkURL = linkURL;
@@ -29,6 +31,8 @@ public class Slider {
         this.modifyDate = modifyDate;
         this.status = status;
         this.marketerId = marketerId;
+         this.title = title;
+        this.name = name;
     }
 
     public int getSliderId() {
@@ -94,4 +98,23 @@ public class Slider {
     public void setMarketerId(int marketerId) {
         this.marketerId = marketerId;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+
+    
 }
