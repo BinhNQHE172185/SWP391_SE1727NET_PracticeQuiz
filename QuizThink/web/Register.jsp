@@ -53,12 +53,12 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="FrontEnd/assets/css/color/color-1.css">
-        
+
         <% String Pstatus = (String) request.getAttribute("Pstatus"); %>
         <% String Ustatus = (String) request.getAttribute("Ustatus"); %>
         <% String UserExistStatus = (String) request.getAttribute("UserExistStatus"); %>
         <% String emailExistStatus = (String) request.getAttribute("emailExistStatus"); %>
-        
+
     </head>
     <body id="bg">
         <div class="page-wraper">
@@ -127,6 +127,12 @@
                                     %>
                                 </div>
                                 <%}%>
+                                <div class="form-group col-lg-6 m-b30">
+                                    <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customControlAutosizing" name="expert">
+                                    <label class="custom-control-label" for="customControlAutosizing">I am a teacher</label>
+                                </div>
+                                </div>
                                 <div class="col-lg-12 m-b30">
                                     <button name="submit" type="submit" value="Submit" class="btn button-md">Sign Up</button>
                                 </div>
