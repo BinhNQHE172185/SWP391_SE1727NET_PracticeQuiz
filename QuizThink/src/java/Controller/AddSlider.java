@@ -5,6 +5,7 @@
 package Controller;
 
 import DAO.SliderDAO;
+import Model.Marketer;
 import Model.Slider;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -34,19 +36,20 @@ public class AddSlider extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        // Retrieve parameters from the request
-        int sliderId=Integer.valueOf(request.getParameter("sliderId"));
+        HttpSession session = request.getSession();
+        Marketer ma = (Marketer) session.getAttribute("currMarketer");
+        // Retrieve parameters from the request        
         String title = request.getParameter("title");
         String name = request.getParameter("name");
         String imageURL = request.getParameter("imageURL");
         String description = request.getParameter("description");
-       
-      // Create a SliderDAO instance to add the slider
+
+        // Create a SliderDAO instance to add the slider
         SliderDAO sliderDAO = new SliderDAO();
-        sliderDAO.addSlider(sliderId,imageURL,"",description,true,1,title,name);
+        sliderDAO.addSlider(imageURL, "", description, true, ma.getMarketerID(), title, name);
         List<Slider> sliders = sliderDAO.listSliders();
         request.setAttribute("sliders", sliders);
+
         request.getRequestDispatcher("AddSlider.jsp").forward(request, response);
     }
 
