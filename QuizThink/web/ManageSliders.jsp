@@ -311,7 +311,7 @@
                         <th>Name</th>
                         <th>Image</th>
                         <th>Description</th>
-                         <th>Action</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -324,9 +324,9 @@
                                 <img src="${s.imageURL}">
                             </td>
                             <td>${s.description}</td>
-                            
+
                             <td>
-<!--                                <a href="load?pid=${s.sliderId}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>-->
+                                <a href="editslider?pid=${s.sliderId}" style="color:orange;">Edit</a>
                                 <a href="deleteslider?pid=${s.sliderId}">Delete</a>
 
                             </td>
@@ -338,51 +338,51 @@
         </div>
         <a href="#">
             <button type="button" class="btn btn-primary" onclick="back()">Back to Home</button>
-            <a href="#addEmployeeModal"  data-toggle="modal">  <button type="button" class="btn btn-success"><span>Add slider</span></button> </a>
+
     </div>
     <!--                            add-->
-<!--    <div id="addEmployeeModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="AddSlider" method="post">
-                    <div class="modal-header">						
-                        <h4 class="modal-title">Add Slider</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>ID</label>
-                            <input name="sliderId" type="text" class="form-control" required >
+    <!--    <div id="addEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="AddSlider" method="post">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Add Slider</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
-                        <div class="form-group">
-                            <label>Title</label>
-                            <input name="title" type="text" class="form-control" required >
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>ID</label>
+                                <input name="sliderId" type="text" class="form-control" required >
+                            </div>
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input name="title" type="text" class="form-control" required >
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input name="name" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>ImageURL</label>
+                                <input name="imageURL" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" class="form-control" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Marketer</label>
+                                <textarea name="marketerId" class="form-control" required></textarea>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input name="name" type="text" class="form-control" required>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-success" value="Confirm">
                         </div>
-                        <div class="form-group">
-                            <label>ImageURL</label>
-                            <input name="imageURL" type="text" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea name="description" class="form-control" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Marketer</label>
-                            <textarea name="marketerId" class="form-control" required></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        <input type="submit" class="btn btn-success" value="Confirm">
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
-    </div> -->
+        </div> -->
 
 
 
