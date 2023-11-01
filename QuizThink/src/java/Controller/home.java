@@ -7,6 +7,7 @@ package Controller;
 import DAO.*;
 import Model.Account;
 import Model.Expert;
+import Model.Slider;
 import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -66,7 +67,9 @@ public class home extends HttpServlet {
                 request.getSession().setAttribute("currExpert", expCookie);
             }
         }
-
+        SliderDAO sliderDAO = new SliderDAO();
+        List<Slider> sliders = sliderDAO.listSliders();
+        request.setAttribute("sliders", sliders);
         SubjectDAO subjectDAO = new SubjectDAO();
         List<Subject> recentSubjects = subjectDAO.getRecentSubject();
         request.setAttribute("recentSubjects", recentSubjects);
