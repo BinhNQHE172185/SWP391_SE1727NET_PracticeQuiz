@@ -280,14 +280,13 @@
         function back() {
             window.location.href = "home";
         }
-        function doDelete(id)
-        {
-            var c = confirm("Are you sure?");
-            if (c)
-            {
-                window.location.href = "deleteslider?pid=${s.sliderId}" + sliderId;
-            }
+         function confirmDelete(id) {
+        var result = confirm("Are you sure?");
+        if (result) {
+            
+            window.location.href = "deleteslider?pid=" + id;
         }
+    }
     </script>
 </head>
 <body class="ttr-opened-sidebar ttr-pinned-sidebar">
@@ -327,7 +326,8 @@
 
                             <td>
                                 <a href="editslider?pid=${s.sliderId}" style="color:orange;">Edit</a>
-                                <a href="deleteslider?pid=${s.sliderId}">Delete</a>
+                                <a href="javascript:void(0);" style="color: red;" onclick="confirmDelete(${s.sliderId});">Delete</a>
+
 
                             </td>
                         </tr>
