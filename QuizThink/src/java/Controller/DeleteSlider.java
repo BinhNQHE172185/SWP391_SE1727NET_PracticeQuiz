@@ -5,7 +5,6 @@
 package Controller;
 
 import DAO.SliderDAO;
-import Model.Slider;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author minhk
  */
-@WebServlet(name = "AddSlider", urlPatterns = {"/AddSlider"})
-public class AddSlider extends HttpServlet {
+@WebServlet(name = "DeleteSlider", urlPatterns = {"/deleteslider"})
+public class DeleteSlider extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,20 +32,10 @@ public class AddSlider extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        // Retrieve parameters from the request
-        int sliderId=Integer.valueOf(request.getParameter("sliderId"));
-        String title = request.getParameter("title");
-        String name = request.getParameter("name");
-        String imageURL = request.getParameter("imageURL");
-        String description = request.getParameter("description");
-       
-      // Create a SliderDAO instance to add the slider
-        SliderDAO sliderDAO = new SliderDAO();
-        sliderDAO.addSlider(sliderId,imageURL,"",description,true,1,title,name);
-        List<Slider> sliders = sliderDAO.listSliders();
-        request.setAttribute("sliders", sliders);
-        request.getRequestDispatcher("AddSlider.jsp").forward(request, response);
+        int sliderId=Integer.valueOf(request.getParameter("pid"));
+        SliderDAO sliderDao= new SliderDAO();
+        sliderDao.deleteSlider(sliderId);
+        response.sendRedirect("ManageSlider");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

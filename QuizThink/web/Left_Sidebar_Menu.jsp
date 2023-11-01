@@ -30,20 +30,19 @@
                         <span class="ttr-label">Customers</span>
                     </a>
                 </li>
+
                 <li>
                     <a href="ManageSlider" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-book"></i></span>
                         <span class="ttr-label">Manage Sliders</span>
                     </a>
                 </li>
-
-
-                                                <!--                        <li>
-                                            <a href="add-listing.html" class="ttr-material-button">
-                                                <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
-                                                <span class="ttr-label">Add listing</span>
-                                            </a>
-                                        </li>-->
+                <li>
+                    <a href="AddSlider.jsp" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-home"></i></span>
+                        <span class="ttr-label">Add new Slider</span>
+                    </a>
+                </li>
                 <li class="ttr-seperate"></li>
             </ul>
             <!-- sidebar menu end -->
