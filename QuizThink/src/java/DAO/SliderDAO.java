@@ -92,21 +92,21 @@ public class SliderDAO extends DBContext {
         return slider;
     }
 
-    public void addSlider(int sliderId, String imageURL, String linkURL, String description, boolean status, int marketerId, String title, String name) {
-        String sql = "INSERT INTO Slider (Slider_id, imageURL, linkURL, description, createdDate, modifyDate, status, Marketer_id, Title, Name)"
-                + "VALUES (?,?,?,?,GETDATE(),GETDATE(),?,?,?,?);";
+    public void addSlider( String imageURL, String linkURL, String description, boolean status, int marketerId, String title, String name) {
+        String sql = "INSERT INTO Slider ( imageURL, linkURL, description, createdDate, modifyDate, status, Marketer_id, Title, Name)"
+                + "VALUES (?,?,?,GETDATE(),GETDATE(),?,?,?,?);";
 
         try {
             PreparedStatement statement = getConnection().prepareStatement(sql);
 
-            statement.setInt(1, sliderId);
-            statement.setString(2, imageURL);
-            statement.setString(3, linkURL);
-            statement.setString(4, description);
-            statement.setBoolean(5, status);
-            statement.setInt(6, marketerId);
-            statement.setString(7, title);
-            statement.setString(8, name);
+            
+            statement.setString(1, imageURL);
+            statement.setString(2, linkURL);
+            statement.setString(3, description);
+            statement.setBoolean(4, status);
+            statement.setInt(5, marketerId);
+            statement.setString(6, title);
+            statement.setString(7, name);
             statement.executeUpdate();
         } catch (Exception ex) {
             System.err.println("An error occurred while adding a slider: " + ex.getMessage());
