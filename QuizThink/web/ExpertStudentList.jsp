@@ -65,7 +65,7 @@
         <% List<SubjectStatus> subjectStatus = (List<SubjectStatus>) request.getAttribute("subjectStatus");%>
         <% List<Account> account = (List<Account>) request.getAttribute("studentList");%>
         <% List<Account> student = (List<Account>) request.getAttribute("student");%>
-        <%
+        <% 
             int subjectId = (Integer) session.getAttribute("subjectId");
         %>
 
@@ -238,15 +238,15 @@
                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
-                                        <form action="" method="">
+                                        <form action="ExpertAddStudent" method="POST">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalCenterTitle">Invite new Student</h5>
+                                                <h5 class="modal-title" id="exampleModalCenterTitle">Add new Student</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="success-message" style="display:none; color: green; margin-top: 10px; margin-left: 20px;">
-                                                Invitation sent successfully!
+                                                Add Successfully!
                                             </div>
                                             <div class="empty-message" style="display:none; color: red; margin-top: 10px; margin-left: 20px;">
                                                 Empty!
@@ -258,7 +258,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary" onclick="showSuccessMessage()">Send invite</button>
+                                                <button type="submit" class="btn btn-primary">Add</button>
                                             </div>
                                         </form>
                                     </div>
@@ -306,7 +306,7 @@
                                                         <td><%= acc.getGender() %></td>
                                                         <td><%= acc.getDob() %></td>
                                                         <td><%= acc.getCreatedDate() %></td>
-                                                        <td><a href="">View</a></td>
+                                                        <td><a href="ExpertStudentHistory?AccountId=<%=acc.getAccountId()%>">View</a></td>
                                                         <td><a href="ExpertRemoveStudent?accountId=<%=acc.getAccountId()%>">Remove</a></td>
                                                     </tr>
                                                     <% } %>
