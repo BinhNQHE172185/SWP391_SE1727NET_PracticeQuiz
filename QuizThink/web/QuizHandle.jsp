@@ -110,9 +110,9 @@
                                         <h4>Quiz completed:</h4>
                                         <h4 id="quiz-counter">0</h4>
                                         <%
-                                        Question question = (Question) request.getAttribute("question");
-                                        List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
-                                        Time time = (Time) request.getAttribute("endTime");
+                                        Question question = (Question) session.getAttribute("question");
+                                        List<Quiz> quizzes = (List<Quiz>) session.getAttribute("quizzes");
+                                        Time time = (Time) session.getAttribute("endTime");
                                         List<Integer> quizIds = new ArrayList<>();
                                         if ( quizzes != null){
                                             for (Quiz quiz : quizzes) {
@@ -196,7 +196,7 @@
                                                         <div class="review col-md-12 col-lg-12 col-sm-12">
                                                             <ul class="option">
                                                                 <%
-                                                                List<Answer> answers = (List<Answer>) request.getAttribute("answers" + quiz.getQuizId());
+                                                                List<Answer> answers = (List<Answer>) session.getAttribute("answers" + quiz.getQuizId());
                                                                 if (answers != null && !answers.isEmpty()) {
                                                                     for (Answer answer : answers) {
                                                                 %>

@@ -21,7 +21,8 @@ import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -42,24 +43,35 @@ public class QuizHandleServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");//prevent using cache to reload exam
         try ( PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             int questionId = Integer.parseInt(request.getParameter("questionId"));
+            // Clear the old exam session
+            Enumeration<String> attributeNames = session.getAttributeNames();
+            while (attributeNames.hasMoreElements()) {
+                String attributeName = attributeNames.nextElement();
+                if (attributeName.startsWith("answer")) {
+                    session.removeAttribute(attributeName);
+                }
+            }
+            session.removeAttribute("endTime");//clear timer sesstion
+            session.removeAttribute("question");//clear question sesstion
+            session.removeAttribute("quizzes");//clear quizzes sesstion
+            
             QuestionDAO questionDAO = new QuestionDAO();
             QuizDAO quizDAO = new QuizDAO();
             AnswerDAO answerDAO = new AnswerDAO();
-
-            Question question = questionDAO.getQuestionById(questionId);
-            List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
-            for (Quiz quizz : quizzes) {
-                List<Answer> answers = answerDAO.getAnswersByQuizId(quizz.getQuizId());
-                request.setAttribute("answers" + quizz.getQuizId(), answers);
-
-            }
             Time time;
-            if (session.getAttribute("endTime") != null) {
-                time = (Time) session.getAttribute("endTime");
-            } else {
+            if (session.getAttribute("endTime") == null) {//shuffle quizes and get new endtime
+                Question question = questionDAO.getQuestionById(questionId);
+                List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
+                Collections.shuffle(quizzes); // Shuffle the quizzes list randomly
+                for (Quiz quizz : quizzes) {
+                    List<Answer> answers = answerDAO.getAnswersByQuizId(quizz.getQuizId());
+                    Collections.shuffle(answers); // Shuffle the answers list randomly
+                    session.setAttribute("answers" + quizz.getQuizId(), answers);
+                }
                 LocalDateTime currentTime = LocalDateTime.now();
                 LocalTime durationTime = question.getDuration().toLocalTime();
                 Duration duration = Duration.ofHours(durationTime.getHour())
@@ -68,12 +80,13 @@ public class QuizHandleServlet extends HttpServlet {
                 LocalDateTime endTime = currentTime.plus(duration);
 
                 time = Time.valueOf(endTime.toLocalTime());
+
+                session.setAttribute("question", question);
                 session.setAttribute("endTime", time);
+                session.setAttribute("quizzes", quizzes);
             }
-            request.setAttribute("question", question);
-            request.setAttribute("quizzes", quizzes);
-            request.setAttribute("endTime", time);
-            request.getRequestDispatcher("QuizHandle.jsp").forward(request, response);
+            //request.getRequestDispatcher("QuizHandle.jsp").forward(request, response);
+            response.sendRedirect("QuizHandle.jsp");
         }
     }
 

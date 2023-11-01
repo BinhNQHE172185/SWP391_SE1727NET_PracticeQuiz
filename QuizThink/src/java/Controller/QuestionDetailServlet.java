@@ -6,11 +6,16 @@ package Controller;
 
 import DAO.AnswerDAO;
 import DAO.QuestionDAO;
+import DAO.QuestionStatusDAO;
 import DAO.QuizDAO;
+import DAO.ResultDAO;
 import DAO.SubjectDAO;
+import Model.Account;
 import Model.Answer;
 import Model.Question;
+import Model.QuestionStatus;
 import Model.Quiz;
+import Model.Result;
 import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +23,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -40,14 +46,22 @@ public class QuestionDetailServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession();
+            Account currUser = (Account) session.getAttribute("currUser");
+
             int questionId = Integer.parseInt(request.getParameter("questionId"));
             QuestionDAO questionDAO = new QuestionDAO();
             SubjectDAO subjectDAO = new SubjectDAO();
             QuizDAO quizDAO = new QuizDAO();
             AnswerDAO answerDAO = new AnswerDAO();
+            QuestionStatusDAO questionStatusDAO = new QuestionStatusDAO();
 
             Question question = questionDAO.getQuestionById(questionId);
             Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
+
+            updateQuestionStatus(question, currUser);
+
+            QuestionStatus questionStatus = questionStatusDAO.getQuestionStatusByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
 
             int page = 1; // target page
             int noOfPages = 1; // default no of page
@@ -66,13 +80,28 @@ public class QuestionDetailServlet extends HttpServlet {
                 List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
                 request.setAttribute("answers" + quiz.getQuizId(), answers);
             }
-            
+
             request.setAttribute("subject", subject);
             request.setAttribute("question", question);
+            request.setAttribute("questionStatus", questionStatus);
             request.setAttribute("quizzes", quizzes);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
             request.getRequestDispatcher("QuestionDetail.jsp").forward(request, response);
+        }
+    }
+
+    protected void updateQuestionStatus(Question question, Account currUser) {
+        QuestionStatusDAO questionStatusDAO = new QuestionStatusDAO();
+        ResultDAO resultDAO = new ResultDAO();
+        QuestionStatus questionStatus = questionStatusDAO.getQuestionStatusByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
+        if (!questionStatus.isStatus()) {
+            Result result = resultDAO.getHighestMarkResultByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
+            if (result != null) {
+                if ((result.getMark() * 10) >= question.getRequirement()) {
+                    questionStatusDAO.updateQuestionStatusToTrue(questionStatus.getQuestionStatusId());
+                }
+            }
         }
     }
 
