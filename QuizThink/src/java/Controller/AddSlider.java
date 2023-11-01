@@ -36,16 +36,18 @@ public class AddSlider extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         // Retrieve parameters from the request
+        int sliderId=Integer.valueOf(request.getParameter("sliderId"));
         String title = request.getParameter("title");
         String name = request.getParameter("name");
         String imageURL = request.getParameter("imageURL");
         String description = request.getParameter("description");
+       
       // Create a SliderDAO instance to add the slider
         SliderDAO sliderDAO = new SliderDAO();
-        sliderDAO.addSlider(title, name, imageURL, description);
+        sliderDAO.addSlider(sliderId,imageURL,"",description,true,1,title,name);
         List<Slider> sliders = sliderDAO.listSliders();
         request.setAttribute("sliders", sliders);
-        request.getRequestDispatcher("ManageSliders.jsp").forward(request, response);
+        request.getRequestDispatcher("AddSlider.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
