@@ -56,6 +56,42 @@ public class SliderDAO extends DBContext {
         return sliders;
     }
 
+    public Slider getSliderById(int sliderId) {
+        String sql = "SELECT * FROM Slider WHERE Slider_id = ?";
+        Slider slider = null;
+
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setInt(1, sliderId);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String imageURL = resultSet.getString("imageURL");
+                String linkURL = resultSet.getString("linkURL");
+                String description = resultSet.getString("description");
+                String title = resultSet.getString("Title");
+                String name = resultSet.getString("Name");
+                // Retrieve other fields as needed
+
+                slider = new Slider();
+                slider.setSliderId(sliderId);
+                slider.setImageURL(imageURL);
+                slider.setLinkURL(linkURL);
+                slider.setDescription(description);
+                slider.setTitle(title);
+                slider.setName(name);
+                // Set other fields
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return slider;
+    }
+
     public void addSlider(int sliderId, String imageURL, String linkURL, String description, boolean status, int marketerId, String title, String name) {
         String sql = "INSERT INTO Slider (Slider_id, imageURL, linkURL, description, createdDate, modifyDate, status, Marketer_id, Title, Name)"
                 + "VALUES (?,?,?,?,GETDATE(),GETDATE(),?,?,?,?);";
@@ -92,11 +128,38 @@ public class SliderDAO extends DBContext {
         }
     }
 
+    public void updateSlider(String title, String name, String imageURL, String description, int sliderId) {
+        String sql = "UPDATE Slider\n"
+                + "SET\n"
+                + "    [Title] = ?,\n"
+                + "    [Name] = ?,\n"
+                + "    [imageURL] = ?,\n"
+                + "    [description] = ?,\n"
+                + "    [modifyDate] = GETDATE()\n"
+                + "WHERE\n"
+                + "    [Slider_id] = ?;";
+
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+
+            statement.setString(1, title);
+            statement.setString(2, name);
+            statement.setString(3, imageURL);
+            statement.setString(4, description);
+            statement.setInt(5, sliderId);
+            statement.executeUpdate();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while adding a slider: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         SliderDAO sliderDAO = new SliderDAO();
 
         List<Slider> sliders = sliderDAO.listSliders();
-        sliderDAO.addSlider(6, "", "", "aaa ", true, 1, "zzz", "sss");
+        Slider slider = sliderDAO.getSliderById(1);
 
+        System.out.println(slider.getDescription());
     }
 }
