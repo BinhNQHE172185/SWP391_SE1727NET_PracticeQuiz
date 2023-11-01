@@ -6,6 +6,7 @@ package DAO;
 
 import DAL.DBContext;
 import Model.Expert;
+import Model.Marketer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -121,7 +122,7 @@ public class ExpertDAO extends DBContext {
                     + "  set email = ?,\n"
                     + "  [name] = ?,\n"
                     + "  avatar = ?,\n"
-                    + "  [self-introduction] = ?\n"                  
+                    + "  [self-introduction] = ?\n"
                     + "  where Expert_id = ?";
             Connection conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -210,6 +211,101 @@ public class ExpertDAO extends DBContext {
             Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return ex;
+    }
+    public Expert getExpertByUsername(String username) {
+        int expertId;
+        String password;
+        String email;
+        String name;
+        String selfIntroduction;
+        String avatar;
+        boolean status;
+        Expert ex = null;
+        String sql = "select * from Expert where username = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                expertId = rs.getInt("Expert_id");
+                username = rs.getString("username");
+                password = rs.getString("password");
+                email = rs.getString("email");
+                name = rs.getString("name");
+                selfIntroduction = rs.getString("self-introduction");
+                avatar = rs.getString("avatar");
+                status = rs.getBoolean("status");
+                ex = new Expert(expertId, username, password, email, name, selfIntroduction, avatar, status);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return ex;
+    }
+    public Expert getExpertByEmail(String email) {
+        int expertId;
+        String password;
+        String username;
+        String name;
+        String selfIntroduction;
+        String avatar;
+        boolean status;
+        Expert ex = null;
+        String sql = "select * from Expert where username = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                expertId = rs.getInt("Expert_id");
+                username = rs.getString("username");
+                password = rs.getString("password");
+                email = rs.getString("email");
+                name = rs.getString("name");
+                selfIntroduction = rs.getString("self-introduction");
+                avatar = rs.getString("avatar");
+                status = rs.getBoolean("status");
+                ex = new Expert(expertId, username, password, email, name, selfIntroduction, avatar, status);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return ex;
+    }
+
+    public void RegisterExpert(String username, String password, String email) {
+        String sql = "INSERT INTO [dbo].[Expert]\n"
+                + "           ([username]\n"
+                + "           ,[password]\n"
+                + "           ,[email]\n"
+                + "           ,[status])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,'True')";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public boolean UsernameExist(String username) {
+        Expert ac;
+        ac = getExpertByUsername(username);
+        if (ac == null) {
+            return true;
+        }
+        return false;
     }
 
     public static void main(String[] args) {

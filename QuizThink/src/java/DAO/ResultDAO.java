@@ -51,6 +51,32 @@ public class ResultDAO extends DBContext {
         return list;
     }
 
+    public List<Result> getResultByAccount(int accountID) {
+        List<Result> list = new ArrayList<>();
+        try {
+            String query = "select * from Result where Account_id = ? order by takenDate desc";
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, accountID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int Result_id = rs.getInt("Result_id");
+                int Question_id = rs.getInt("Question_id");
+                int Account_id = rs.getInt("Account_id");
+                String selectedChoice = rs.getString("selectedChoice");
+                Date takenDate = rs.getDate("takenDate");
+                Time takenDuration = rs.getTime("takenDuration");
+                Time duration = rs.getTime("duration");
+                float mark = rs.getFloat("mark");
+                int quizCount = rs.getInt("quiz_count");
+                list.add(new Result(Result_id, Question_id, Account_id, selectedChoice, takenDate, takenDuration, duration, mark, quizCount));
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public Result getResultByID(int id) {
         try {
             String query = " select * from Result where Result_id = ?";

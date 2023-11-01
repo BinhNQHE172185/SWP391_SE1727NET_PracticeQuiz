@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -108,6 +109,30 @@ public class SubjectStatusDAO extends DBContext {
         } catch (Exception ex) {
             Logger.getLogger(SubjectStatusDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
+    }
+
+    public void insertStudent(int accountId, int subjectId) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        Date createdDate = Date.valueOf(currentTime.toLocalDate());
+        String sql = "INSERT INTO [dbo].[SubjectStatus]\n"
+                + "           ([Subject_id]\n"
+                + "           ,[Account_id]\n"
+                + "           ,[status]\n"
+                + "           ,[createdDate])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,'True'\n"
+                + "           ,?);";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, subjectId);
+            ps.setInt(2, accountId);
+            ps.setDate(3, createdDate);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(SubjectStatusDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

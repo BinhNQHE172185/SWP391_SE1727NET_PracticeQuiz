@@ -4,9 +4,9 @@
  */
 package Controller;
 
-import DAO.AccountDAO;
+import DAO.*;
 import DAO.ExpertDAO;
-import Model.Account;
+import Model.*;
 import Model.Expert;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -41,9 +41,12 @@ public class ForgotPasswordServlet extends HttpServlet {
         Account acc;
         ExpertDAO ed = new ExpertDAO();
         Expert ex;
+        MarketerDAO mkd = new MarketerDAO();
+        Marketer mk;
         acc = ad.checkEmail(email);
         ex = ed.checkMail(email);
-        if (acc != null || ex !=null) {
+        mk = mkd.checkMail(email);
+        if (acc != null || ex !=null || mk !=null) {
             Random rand = new Random();
             otpvalue = rand.nextInt(1255650);
 
@@ -84,6 +87,8 @@ public class ForgotPasswordServlet extends HttpServlet {
                 request.setAttribute("Account", acc);
             }else if(ex!=null){
                 request.setAttribute("Expert", ex);
+            }else if(mk!=null){
+                request.setAttribute("Marketer", mk);
             }
             dispatcher.forward(request, response);
             //request.setAttribute("status", "success");
