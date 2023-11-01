@@ -27,6 +27,17 @@ public class Result {
         // Default constructor
     }
 
+    public Result(int resultId, int questionId, int accountId, String selectedChoice, Date takenDate, Time takenDuration, Time duration, float mark) {
+        this.resultId = resultId;
+        this.questionId = questionId;
+        this.accountId = accountId;
+        this.selectedChoice = selectedChoice;
+        this.takenDate = takenDate;
+        this.takenDuration = takenDuration;
+        this.duration = duration;
+        this.mark = mark;
+    }
+    
     public Result(int resultId, int questionId, int accountId, String selectedChoice, Date takenDate, Time takenDuration, Time duration, float mark, int quizCount) {
         this.resultId = resultId;
         this.questionId = questionId;
