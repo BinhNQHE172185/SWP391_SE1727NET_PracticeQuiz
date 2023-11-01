@@ -6,8 +6,10 @@ package Controller;
 
 import DAO.AccountDAO;
 import DAO.ExpertDAO;
+import DAO.MarketerDAO;
 import Model.Account;
 import Model.Expert;
+import Model.Marketer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -35,10 +37,14 @@ public class LoginServlet extends HttpServlet {
         AccountDAO ad = new AccountDAO();
         Expert e;
         ExpertDAO ed = new ExpertDAO();
+        Marketer mk;
+        MarketerDAO mkd = new MarketerDAO();
 
         x = ad.getAccount(username, password);
         e = ed.getExpert(username, password);
-        if (x == null && e == null) {
+        mk = mkd.getMarketer(username, password);
+        
+        if (x == null && e == null && mk == null) {
             request.setAttribute("status", status);
             request.getRequestDispatcher("Login.jsp").include(request, response);
         } else if (remember != null && remember.equals("on")) {
@@ -58,13 +64,25 @@ public class LoginServlet extends HttpServlet {
                 response.addCookie(usernameCookie);
                 response.addCookie(passwordCookie);
                 passwordCookie.setMaxAge(60 * 60);
+            } else if (mk != null) {
+                Cookie usernameCookie = new Cookie("username", username);
+                Cookie passwordCookie = new Cookie("password", password);
+                usernameCookie.setMaxAge(60 * 60);
+                passwordCookie.setMaxAge(60 * 60);
+                response.addCookie(usernameCookie);
+                response.addCookie(passwordCookie);
+                passwordCookie.setMaxAge(60 * 60);
             }
         }
         if (x != null) {
             request.getSession().setAttribute("currUser", x);
+            request.getRequestDispatcher("home").forward(request, response);
         } else if (e != null) {
             request.getSession().setAttribute("currExpert", e);
+            request.getRequestDispatcher("home").forward(request, response);
+        } else if (mk != null) {
+            request.getSession().setAttribute("currMarketer", mk);
+            request.getRequestDispatcher("ListCustomerServlet").forward(request, response);
         }
-        request.getRequestDispatcher("home").forward(request, response);
     }
 }
