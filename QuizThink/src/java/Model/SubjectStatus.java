@@ -39,6 +39,15 @@ public class SubjectStatus {
         this.modifyDate = modifyDate;
     }
 
+    public SubjectStatus(int subjectStatusId, int subjectId, int accountId, boolean status, Date createdDate) {
+        this.subjectStatusId = subjectStatusId;
+        this.subjectId = subjectId;
+        this.accountId = accountId;
+        this.status = status;
+        this.createdDate = createdDate;
+    }
+    
+    
     public int getSubjectStatusId() {
         return subjectStatusId;
     }
