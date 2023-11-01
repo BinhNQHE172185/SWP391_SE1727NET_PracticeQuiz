@@ -36,7 +36,7 @@
                         <span class="ttr-icon"><i class="ti-book"></i></span>
                         <span class="ttr-label">Manage Sliders</span>
                     </a>
-                </li>
+                </li>               
                 <li>
                     <a href="AddSlider.jsp" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-home"></i></span>
