@@ -5,7 +5,6 @@
 package Controller;
 
 import DAO.SliderDAO;
-import Model.Marketer;
 import Model.Slider;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,15 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  *
  * @author minhk
  */
-@WebServlet(name = "AddSlider", urlPatterns = {"/AddSlider"})
-public class AddSlider extends HttpServlet {
+@WebServlet(name = "UpdateSlider", urlPatterns = {"/updateslider"})
+public class UpdateSlider extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,21 +33,18 @@ public class AddSlider extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        Marketer ma = (Marketer) session.getAttribute("currMarketer");
-        // Retrieve parameters from the request        
+        String sliderId = request.getParameter("sliderId");
+        int sliderid = Integer.valueOf(sliderId);
         String title = request.getParameter("title");
         String name = request.getParameter("name");
         String imageURL = request.getParameter("imageURL");
         String description = request.getParameter("description");
-
-        // Create a SliderDAO instance to add the slider
         SliderDAO sliderDAO = new SliderDAO();
-        sliderDAO.addSlider(imageURL, "", description, true, ma.getMarketerID(), title, name);
-        List<Slider> sliders = sliderDAO.listSliders();
-        request.setAttribute("sliders", sliders);
-
-        request.getRequestDispatcher("AddSlider.jsp").forward(request, response);
+        sliderDAO.updateSlider(title, name, imageURL, description, sliderid);
+          Slider slider = sliderDAO.getSliderById(sliderid);
+        request.setAttribute("slider", slider);
+        request.getRequestDispatcher("EditSlider.jsp").include(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

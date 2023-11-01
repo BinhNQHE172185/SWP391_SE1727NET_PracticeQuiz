@@ -1,8 +1,9 @@
 <%-- 
-    Document   : ManageSliders
-    Created on : Oct 27, 2023, 5:58:02 PM
+    Document   : EditSlider
+    Created on : Nov 1, 2023, 10:37:52 PM
     Author     : minhk
 --%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <head>
@@ -280,13 +281,14 @@
         function back() {
             window.location.href = "home";
         }
-         function confirmDelete(id) {
-        var result = confirm("Are you sure?");
-        if (result) {
-            
-            window.location.href = "deleteslider?pid=" + id;
+        function doDelete(id)
+        {
+            var c = confirm("Are you sure?");
+            if (c)
+            {
+                window.location.href = "deleteslider?pid=${s.sliderId}" + sliderId;
+            }
         }
-    }
     </script>
 </head>
 <body class="ttr-opened-sidebar ttr-pinned-sidebar">
@@ -294,98 +296,40 @@
     <jsp:include page = "Left_Sidebar_Menu.jsp"/>
     <div class="container">
         <div class="table-wrapper">
-            <div class="">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h2>Manage<b> Sliders</b></h2>
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Slider</h4>
+            </div>
+            <div class="modal-body">
+                <form action="updateslider" method="post">
+                    <div class="form-group">
+                        <label>ID</label>
+                        <input value="${slider.sliderId}" name="sliderId" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input value="${slider.title}" name="title" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input value="${slider.name}" name="name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ImageURL</label>
+                        <input value="${slider.imageURL}" name="imageURL" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="description" class="form-control" required>${slider.description}</textarea>
                     </div>
 
-                </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-success" value="Confirm">
+                    </div>
+                </form>
             </div>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr> 
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Description</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach items="${sliders}" var="s">
-                        <tr> 
-                            <td>${s.sliderId}</td>
-                            <td>${s.title}</td>
-                            <td>${s.name}</td>
-                            <td>
-                                <img src="${s.imageURL}">
-                            </td>
-                            <td>${s.description}</td>
-
-                            <td>
-                                <a href="editslider?pid=${s.sliderId}" style="color:orange;">Edit</a>
-                                <a href="javascript:void(0);" style="color: red;" onclick="confirmDelete(${s.sliderId});">Delete</a>
-
-
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-
         </div>
-        <a href="#">
-            <button type="button" class="btn btn-primary" onclick="back()">Back to Home</button>
-
     </div>
-    <!--                            add-->
-    <!--    <div id="addEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="AddSlider" method="post">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Add Slider</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>ID</label>
-                                <input name="sliderId" type="text" class="form-control" required >
-                            </div>
-                            <div class="form-group">
-                                <label>Title</label>
-                                <input name="title" type="text" class="form-control" required >
-                            </div>
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input name="name" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>ImageURL</label>
-                                <input name="imageURL" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Marketer</label>
-                                <textarea name="marketerId" class="form-control" required></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Confirm">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div> -->
-
-
-
 
 
 
