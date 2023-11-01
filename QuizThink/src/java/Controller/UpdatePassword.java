@@ -28,6 +28,7 @@ public class UpdatePassword extends HttpServlet {
         String reEnter = request.getParameter("reEnter");
         String accountID = request.getParameter("accountID");
         String expertId = request.getParameter("expertId");
+        String marketerId = request.getParameter("marketerId");
         String email = request.getParameter("email");
         String status = "Password doesn't match";
         String passStatus = "Password must be at least 8 characters long included letters and numbers";
@@ -36,22 +37,29 @@ public class UpdatePassword extends HttpServlet {
         Account acc = ad.checkEmail(email);
         ExpertDAO ed = new ExpertDAO();
         Expert ex = ed.checkMail(email);
+        MarketerDAO mkd = new MarketerDAO();
+        Marketer mk = mkd.checkMail(email);
         if (ad.checkPass(password)) {
             if (password.equals(reEnter)) {
-                if(acc!=null){
+                if (acc != null) {
                     ad.updatePassword(password, accountID);
-                }else if(ex!=null){
+                } else if (ex != null) {
                     ed.updatePassword(password, expertId);
+                } else if (mk != null) {
+                    mkd.updatePassword(password, marketerId);
                 }
                 request.getRequestDispatcher("home.jsp").forward(request, response);
             } else {
                 request.setAttribute("Account", acc);
                 request.setAttribute("Expert", ex);
+                request.setAttribute("Marteker", mk);
                 request.setAttribute("status", status);
                 request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("Account", acc);
+            request.setAttribute("Expert", ex);
+            request.setAttribute("Marteker", mk);
             request.setAttribute("status", passStatus);
             request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
         }

@@ -97,4 +97,46 @@ public class MarketerDAO extends DBContext {
         }
        return mk;
     }
+    public Marketer checkMail(String email) {
+        Marketer mk = null;
+        int marketerId;
+        String username;
+        String password;
+        String name;
+        String avatar;
+        String selfIntroduction;
+        boolean status;
+        String sql = "SELECT * FROM Marketer where email = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                marketerId = rs.getInt("Marketer_id");
+                username = rs.getString("username");
+                password = rs.getString("password");
+                email = rs.getString("email");
+                name = rs.getString("name");
+                selfIntroduction = rs.getString("self-introduction");
+                avatar = rs.getString("avatar");
+                status = rs.getBoolean("status");
+                mk = new Marketer(marketerId, username, password, email, name, selfIntroduction, avatar, status);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(MarketerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return mk;
+    }
+    public void updatePassword(String password, String MarketerId) {
+        String query = "update Marketer set password = ? where Marketer_id =?";
+        try {
+            Connection conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, password);
+            ps.setString(2, MarketerId);
+            rs = ps.executeQuery();
+        } catch (Exception e) {
+
+        }
+    }
 }
