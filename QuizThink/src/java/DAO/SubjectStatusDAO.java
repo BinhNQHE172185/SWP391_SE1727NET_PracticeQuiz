@@ -76,12 +76,12 @@ public class SubjectStatusDAO extends DBContext {
         Date createdDate;
         int AccountId;
         String sql = "select * from SubjectStatus s, Account a \n"
-                + "where s.Subject_id = ? and s.Account_id = a.Account_id";
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and s.status = 1";
         try {
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setInt(1, subjectId);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 ssId = rs.getInt("SubjectStatus_id");
                 status = rs.getBoolean("status");
                 createdDate = rs.getDate("createdDate");
@@ -94,5 +94,20 @@ public class SubjectStatusDAO extends DBContext {
             Logger.getLogger(SubjectStatusDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ss;
+    }
+
+    public void RemoveStudent(int accountId, int subjectId) {
+        String sql = "UPDATE [dbo].[SubjectStatus]\n"
+                + "   SET [status] = 'False'\n"
+                + " WHERE Subject_id = ? and Account_id = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, subjectId);
+            ps.setInt(2, accountId);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(SubjectStatusDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }

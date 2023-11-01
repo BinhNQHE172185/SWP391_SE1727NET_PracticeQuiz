@@ -4,8 +4,13 @@
  */
 package Controller;
 
-import Model.*;
-import DAO.*;
+import DAO.AccountDAO;
+import DAO.SubjectDAO;
+import DAO.SubjectStatusDAO;
+import Model.Account;
+import Model.Expert;
+import Model.Subject;
+import Model.SubjectStatus;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,8 +25,8 @@ import java.util.List;
  *
  * @author QUYBINH
  */
-@WebServlet(name = "ExpertStudentShowList", urlPatterns = {"/ExpertStudentShowList"})
-public class ExpertStudentShowList extends HttpServlet {
+@WebServlet(name = "ExpertRemoveStudent", urlPatterns = {"/ExpertRemoveStudent"})
+public class ExpertRemoveStudent extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,28 +42,24 @@ public class ExpertStudentShowList extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            try {
-                int subjectId = Integer.parseInt(request.getParameter("option"));
-                SubjectStatusDAO ssd = new SubjectStatusDAO();
-                SubjectDAO sd = new SubjectDAO();
-                AccountDAO ad = new AccountDAO();
-                HttpSession session = request.getSession();
-                Expert ex = (Expert) session.getAttribute("currExpert");
+            int accountId = Integer.parseInt(request.getParameter("accountId"));
+            SubjectStatusDAO ssd = new SubjectStatusDAO();
+            SubjectDAO sd = new SubjectDAO();
+            AccountDAO ad = new AccountDAO();
+            HttpSession session = request.getSession();
+            Expert ex = (Expert) session.getAttribute("currExpert");
+            int subjectId = (Integer) session.getAttribute("subjectId");
 
-                List<SubjectStatus> ss = ssd.getStudentListExpert(subjectId);
-                List<Account> a = ad.getStudentList(subjectId);
-                List<Subject> s = sd.getSubjectByExpert(ex.getExpertId());
-                List<Account> studentList = ad.getAllStudentByRole();
-                
-                request.setAttribute("student", studentList);
-                session.setAttribute("subjectId", subjectId); //session
-                request.setAttribute("list", s);
-                request.setAttribute("studentList", a);
-                request.setAttribute("subjectStatus", ss);
-                request.getRequestDispatcher("ExpertStudentList.jsp").forward(request, response);
-            }catch (Exception e){
-                request.getRequestDispatcher("ExpertStudentList").forward(request, response);
-            }
+            ssd.RemoveStudent(accountId, subjectId);
+            List<SubjectStatus> ss = ssd.getStudentListExpert(subjectId);
+            List<Account> a = ad.getStudentList(subjectId); //student list
+            //hien danh sach option list
+            List<Subject> s = sd.getSubjectByExpert(ex.getExpertId());
+            
+            request.setAttribute("list", s);
+            request.setAttribute("studentList", a);
+            request.setAttribute("subjectStatus", ss);
+            request.getRequestDispatcher("ExpertStudentList.jsp").forward(request, response);
         }
     }
 

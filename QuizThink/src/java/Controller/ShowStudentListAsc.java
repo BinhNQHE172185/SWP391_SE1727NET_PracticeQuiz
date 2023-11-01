@@ -4,8 +4,13 @@
  */
 package Controller;
 
-import Model.*;
-import DAO.*;
+import DAO.AccountDAO;
+import DAO.SubjectDAO;
+import DAO.SubjectStatusDAO;
+import Model.Account;
+import Model.Expert;
+import Model.Subject;
+import Model.SubjectStatus;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,8 +25,8 @@ import java.util.List;
  *
  * @author QUYBINH
  */
-@WebServlet(name = "ExpertStudentShowList", urlPatterns = {"/ExpertStudentShowList"})
-public class ExpertStudentShowList extends HttpServlet {
+@WebServlet(name = "ShowStudentListAsc", urlPatterns = {"/ShowStudentListAsc"})
+public class ShowStudentListAsc extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,20 +43,20 @@ public class ExpertStudentShowList extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             try {
-                int subjectId = Integer.parseInt(request.getParameter("option"));
                 SubjectStatusDAO ssd = new SubjectStatusDAO();
                 SubjectDAO sd = new SubjectDAO();
                 AccountDAO ad = new AccountDAO();
                 HttpSession session = request.getSession();
                 Expert ex = (Expert) session.getAttribute("currExpert");
+                int subjectId = (Integer) session.getAttribute("subjectId");
 
                 List<SubjectStatus> ss = ssd.getStudentListExpert(subjectId);
-                List<Account> a = ad.getStudentList(subjectId);
+                List<Account> a = ad.getStudentListByNameAsc(subjectId);
                 List<Subject> s = sd.getSubjectByExpert(ex.getExpertId());
                 List<Account> studentList = ad.getAllStudentByRole();
                 
                 request.setAttribute("student", studentList);
-                session.setAttribute("subjectId", subjectId); //session
+                session.setAttribute("subjectId", subjectId);
                 request.setAttribute("list", s);
                 request.setAttribute("studentList", a);
                 request.setAttribute("subjectStatus", ss);

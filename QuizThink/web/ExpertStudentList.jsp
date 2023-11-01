@@ -7,7 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import= "Model.*" %>
-<%@page import = "java.util.*" %>
+<%@page import= "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,6 +64,12 @@
         <% List<Subject> subject = (List<Subject>) request.getAttribute("list");%>
         <% List<SubjectStatus> subjectStatus = (List<SubjectStatus>) request.getAttribute("subjectStatus");%>
         <% List<Account> account = (List<Account>) request.getAttribute("studentList");%>
+        <% List<Account> student = (List<Account>) request.getAttribute("student");%>
+        <%
+            int subjectId = (Integer) session.getAttribute("subjectId");
+        %>
+
+
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -115,8 +121,8 @@
                             <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="#" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
-                                    <li><a href="user-profile.html">My profile</a></li>
-                                    <li><a href="../login.html">Logout</a></li>
+                                    <li><a href="ExpertProfile">My profile</a></li>
+                                    <li><a href="Logout">Logout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -158,19 +164,19 @@
                 <nav class="ttr-sidebar-navi">
                     <ul>
                         <li>
-                            <a href="Profile" class="ttr-material-button">
+                            <a href="ExpertProfile" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="fa fa-user"></i></span>
                                 <span class="ttr-label">Profile</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button">
+                            <a href="ExpertSubjectList" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
                                 <span class="ttr-label">Subject</span>
                             </a>
                         </li>
                         <li>
-                            <a href="ExpertStudentList.jsp" class="ttr-material-button">
+                            <a href="ExpertStudentList" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
                                 <span class="ttr-label">Student List</span>
                             </a>
@@ -204,7 +210,7 @@
                                     <form action="ExpertStudentShowList" class="form" onsubmit="countRows()">
                                         <div class="input-group">
                                             <select class="form-select" name="option">
-                                                <option selected>Select Subject</option>
+                                                <option>Select Subject</option>
                                                 <% if(subject!=null){%>
                                                 <%for(Subject s : subject){%>
                                                 <option value="<%=s.getSubjectId()%>"><%=s.getTitle()%></option>
@@ -228,8 +234,45 @@
                     </div>
                     <div id="Ebtn" class="col-lg-6 m-b10">
                         <div style="display: flex;justify-content: flex-end;">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add new student</button>
-                            <button type="submit" class="btn btn-success"><i class="fa fa-sort"></i> Sort By</button>
+                            <button type="button" class="btn btn-btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-plus"></i> Add new student</button>
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <form action="" method="">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalCenterTitle">Invite new Student</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="success-message" style="display:none; color: green; margin-top: 10px; margin-left: 20px;">
+                                                Invitation sent successfully!
+                                            </div>
+                                            <div class="empty-message" style="display:none; color: red; margin-top: 10px; margin-left: 20px;">
+                                                Empty!
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <input type="email" name="email" class="form-control" placeholder="Type student's email">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" onclick="showSuccessMessage()">Send invite</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-sort"></i> Sort
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="ShowStudentListAsc">By Name Asc</a>
+                                    <a class="dropdown-item" href="ShowStudentListDesc">By Name Desc</a>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -264,7 +307,7 @@
                                                         <td><%= acc.getDob() %></td>
                                                         <td><%= acc.getCreatedDate() %></td>
                                                         <td><a href="">View</a></td>
-                                                        <td><a href="">Remove</a></td>
+                                                        <td><a href="ExpertRemoveStudent?accountId=<%=acc.getAccountId()%>">Remove</a></td>
                                                     </tr>
                                                     <% } %>
                                                     <% } %>
@@ -388,6 +431,21 @@
 
                                             });
 
+        </script>
+        <script>
+            function showSuccessMessage() {
+                var emailInput = document.querySelector('input[name="email"]');
+                var successMessage = document.querySelector('.success-message');
+                var emptyMessage = document.querySelector('.empty-message');
+
+                if (emailInput && emailInput.value.trim() !== '') {
+                    successMessage.style.display = 'block';
+                    emptyMessage.style.display = 'none';
+                } else {
+                    emptyMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                }
+            }
         </script>
     </body>
 

@@ -297,7 +297,67 @@ public class AccountDAO extends DBContext {
         Date enroll;
         boolean status;
         String query = "select * from SubjectStatus s, Account a \n"
-                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1";
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, (subjectId)); // page 1 starts at index 0
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                accountId = rs.getInt("Account_id");
+                name = rs.getString("fullname");
+                gender = rs.getString("gender");
+                email = rs.getString("email");
+                Dob = rs.getDate("DOB");
+                enroll = rs.getDate("createdDate");
+                list.add(new Account(accountId, email, name, Dob, gender, enroll));
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return list;
+    }
+    public List<Account> getStudentListByNameAsc(int subjectId) {
+        List<Account> list = new ArrayList<>();
+        int accountId;
+        String name;
+        String gender;
+        String email;
+        Date Dob;
+        Date enroll;
+        boolean status;
+        String query = "select * from SubjectStatus s, Account a \n"
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1 ORDER BY a.fullname asc";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, (subjectId)); // page 1 starts at index 0
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                accountId = rs.getInt("Account_id");
+                name = rs.getString("fullname");
+                gender = rs.getString("gender");
+                email = rs.getString("email");
+                Dob = rs.getDate("DOB");
+                enroll = rs.getDate("createdDate");
+                list.add(new Account(accountId, email, name, Dob, gender, enroll));
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return list;
+    }
+    public List<Account> getStudentListByNameDesc(int subjectId) {
+        List<Account> list = new ArrayList<>();
+        int accountId;
+        String name;
+        String gender;
+        String email;
+        Date Dob;
+        Date enroll;
+        boolean status;
+        String query = "select * from SubjectStatus s, Account a \n"
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1 ORDER BY a.fullname desc";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -364,6 +424,36 @@ public class AccountDAO extends DBContext {
             ps = conn.prepareStatement(query);
             ps.setInt(2, (page - 1) * 15); // page 1 starts at index 0
             ps.setString(1, roleId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Account(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getDate(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getDate(10),
+                        rs.getDate(11),
+                        rs.getString(12),
+                        rs.getBoolean(13)
+                ));
+
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return list;
+    }
+    public List<Account> getAllStudentByRole() {
+        List<Account> list = new ArrayList<>();
+        String query = "select * from Account where Account_id in (select Account_id from AccountRole where role_id = 1)\n";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Account(
