@@ -25,6 +25,12 @@
         <nav class="ttr-sidebar-navi">
             <ul>
                 <li>
+                    <a href="loadmarketerporfile" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-home"></i></span>
+                        <span class="ttr-label">Your Profile</span>
+                    </a>
+                </li>
+                <li>
                     <a href="ListCustomerServlet" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-home"></i></span>
                         <span class="ttr-label">Customers</span>
