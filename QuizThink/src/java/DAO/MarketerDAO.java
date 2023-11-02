@@ -81,7 +81,7 @@ public class MarketerDAO extends DBContext {
             ps.setString(1, username);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 marketerId = rs.getInt("Marketer_id");
                 username = rs.getString("username");
                 password = rs.getString("password");
@@ -95,6 +95,50 @@ public class MarketerDAO extends DBContext {
         } catch (Exception ex) {
             Logger.getLogger(MarketerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-       return mk;
+        return mk;
+    }
+
+    public Marketer getMarketerProfile(int marketerId) {
+        Marketer mk = null;
+        String sql = "SELECT * FROM Marketer WHERE Marketer_id = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, marketerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String name = rs.getString("name");
+                String selfIntroduction = rs.getString("self-introduction");
+                String avatar = rs.getString("avatar");
+                boolean status = rs.getBoolean("status");
+                mk = new Marketer(marketerId, username, password, email, name, selfIntroduction, avatar, status);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(MarketerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mk;
+    }
+
+    public void updateMarketerProfile(String name, String email, String avatar, String selfIntroduction,int marketerId ) {
+        try {
+            String query = "UPDATE Marketer\n"
+                    + "SET email = ?,\n"
+                    + "    name = ?,\n"
+                    + "    avatar = ?,\n"
+                    + "    [self-introduction] = ?\n"
+                    + "WHERE Marketer_id = ?;";
+            Connection conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, email);
+            ps.setString(2, name);
+            ps.setString(3, avatar);
+            ps.setString(4, selfIntroduction);
+            ps.setInt(5, marketerId);
+            rs = ps.executeQuery();
+        } catch (Exception e) {
+            Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 }
