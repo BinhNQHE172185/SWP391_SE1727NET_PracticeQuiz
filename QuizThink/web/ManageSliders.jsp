@@ -280,13 +280,13 @@
         function back() {
             window.location.href = "home";
         }
-         function confirmDelete(id) {
-        var result = confirm("Are you sure?");
-        if (result) {
-            
-            window.location.href = "deleteslider?pid=" + id;
+        function confirmDelete(id) {
+            var result = confirm("Are you sure?");
+            if (result) {
+
+                window.location.href = "deleteslider?pid=" + id;
+            }
         }
-    }
     </script>
 </head>
 <body class="ttr-opened-sidebar ttr-pinned-sidebar">
@@ -338,56 +338,10 @@
         </div>
         <a href="#">
             <button type="button" class="btn btn-primary" onclick="back()">Back to Home</button>
+        </a>
 
     </div>
-    <!--                            add-->
-    <!--    <div id="addEmployeeModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="AddSlider" method="post">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Add Slider</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>ID</label>
-                                <input name="sliderId" type="text" class="form-control" required >
-                            </div>
-                            <div class="form-group">
-                                <label>Title</label>
-                                <input name="title" type="text" class="form-control" required >
-                            </div>
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input name="name" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>ImageURL</label>
-                                <input name="imageURL" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Marketer</label>
-                                <textarea name="marketerId" class="form-control" required></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Confirm">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div> -->
-
-
-
-
-
+    <div class="ttr-overlay"></div>
 
     <script src="admin/assets/js/jquery.min.js"></script>
     <script src="admin/assets/vendors/bootstrap/js/popper.min.js"></script>
