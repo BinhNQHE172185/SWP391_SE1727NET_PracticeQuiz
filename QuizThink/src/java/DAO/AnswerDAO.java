@@ -5,6 +5,7 @@ import Model.Answer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,11 +89,52 @@ public class AnswerDAO extends DBContext {
             ps.setString(2, isCorrect);
             ps.setString(3, content);
             ps.executeUpdate(); 
-        } catch (Exception e) {
-            // Handle exceptions here
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
+    //Remove Answer
+    public void removeAnswer(String answer_id){ 
+        String query ="delete from Answer \n" +
+                        "where answer_id = ?";
+         try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            
+            ps.setString(1, answer_id);
+            ps.executeUpdate(); 
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
             
+
+    // Edit answer
+    public void editAnswer(String answer_id, String isCorrect, String content){ 
+        String query = "UPDATE [Answer]\n" +
+                        "SET [isCorrect] = ?,\n" +
+                        "    [content] = ?\n" +
+                        "WHERE [Answer_id] = ?;";
+         try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            if(isCorrect.equals("correct")){
+                ps.setString(1, "1");
+            }else{
+                ps.setString(1, "0");
+            }
+            ps.setString(2, content);
+            ps.setString(3, answer_id);
+            ps.executeUpdate(); // no result ==> no need result set
+            
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         // Assuming you have a QuizDAO instance called quizDAO

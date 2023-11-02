@@ -70,20 +70,14 @@
                     
                 <c:forEach items="${answerList}" var="o">
                     <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" >
-                        <input type="hidden" name="isCorrect" value =" incorrect">
-                        <input type="hidden" name="answer_id" value="${o.answerId}">
-                        <c:if test="${o.isCorrect == 'true'}">
-                            <script>
-                                // This JavaScript code will run when the checkbox is checked
-                                var checkbox = document.querySelector('input[name="checkbox"]');
-                                var hiddenInput = document.querySelector('input[name="isCorrect"]');
-                                checkbox.checked = true; // Check the checkbox
-                                hiddenInput.value = "correct"; // Set the hidden input value to "correct"
-                            </script>
-                        </c:if>
-                        <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here" value="${o.content}">
-                        <button class="input-group-text remove-answer" onclick="removeRow(this)">
+                        <input class="form-check-input" type="checkbox" name="checkbox" value="correct" 
+                               onchange="updateCheckbox(this)" ${o.isCorrect ? 'checked' : ''}>
+                        <input type="hidden" name="isCorrect" value="${o.isCorrect ? 'correct' : 'incorrect'}">
+                        <input type="hidden" name="exist" value="${o.answerId}">
+                        <input type="hidden" name="delete" value="false">
+                        <input type="text" name="answer" class="form-control col-sm-8" 
+                               placeholder="Type answer option here" value="${o.content}">
+                        <button type="button" class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
@@ -114,7 +108,7 @@ function updateCheckbox(checkbox) {
     var isChecked = checkbox.checked;
     
     // Find the hidden input element within the same parent div
-    var hiddenInput = checkbox.parentElement.querySelector('input[type="hidden"]');
+    var hiddenInput = checkbox.parentElement.querySelector('input[name="isCorrect"]');
     
     if (isChecked) {
         // If the checkbox is checked, set the hidden input value to "correct"

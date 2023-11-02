@@ -105,7 +105,7 @@
                             <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="${expert.getAvatar()}" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
-                                    <li><a href="Profile">My profile</a></li>
+                                    <li><a href="ExpertProfile">My profile</a></li>
                                     <li><a href="Logout">Logout</a></li>
                                 </ul>
                             </div>
@@ -154,13 +154,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button">
+                            <a href="ExpertSubjectList" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
                                 <span class="ttr-label">Subject</span>
                             </a>
                         </li>
                         <li>
-                            <a href="ExpertStudentList.jsp" class="ttr-material-button">
+                            <a href="ExpertStudentList" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
                                 <span class="ttr-label">Student List</span>
                             </a>
@@ -249,12 +249,77 @@
                     </c:forEach>
                     <c:if test="${list.size() == 0}">
                         <div style="text-align: left;" class="col-lg-6 m-b10">
-                            <p>No questions found.</p>
+                            <p>No subject found.</p>
                         </div>                      
                     </c:if>
 
                     <!-- Pagination list display-->
-                    
+                    <%
+                        int currentPage = 1; // Set the current page value
+                        int noOfPages = 5; // Set the total number of pages
+                        if (request.getAttribute("currentPage") != null ){
+                             currentPage = (int) request.getAttribute("currentPage");
+                        }
+                        if (request.getAttribute("noOfPages") != null ){
+                             noOfPages = (int) request.getAttribute("noOfPages");
+                        }
+                        if (noOfPages > 1) {
+                    %>
+                    <div class="col-lg-12 m-b20">
+                        <div class="pagination-bx rounded-sm gray clearfix">
+                            <ul class="pagination">
+                                <%-- For displaying Previous link except for the 1st page --%>
+                                <% if (currentPage != 1) { %>
+                                <li class="previous">
+                                    <% if(search==null){%>
+                                    <a href="ExpertSubjectList?page=<%= currentPage - 1 %>">
+                                        <i class="ti-arrow-left"></i> Prev
+                                    </a>
+                                    <%}else{%>
+                                    <a href="ExpertSearchSubject?search=<%=search%>&page=<%= currentPage - 1 %>">
+                                        <i class="ti-arrow-left"></i> Prev
+                                    </a>
+                                    <%}%>
+                                </li>
+                                <% } %>
+
+                                <%-- For displaying pages --%>
+                                <% for (int i = 1; i <= noOfPages; i++) { %>
+                                <% if (currentPage == i) { %>
+                                <li class="active"><a><%= i %></a></li>
+                                        <% } else { %>
+                                <li>
+                                    <% if(search==null){%>
+                                    <a href="ExpertSubjectList?page=<%= i %>">
+                                        <%= i %>
+                                    </a>
+                                    <%}else{%>
+                                    <a href="ExpertSearchSubject?search=<%=search%>&page=<%= i %>">
+                                        <%= i %>
+                                    </a>
+                                    <%}%>
+                                </li>
+                                <% } %>
+                                <% } %>
+
+                                <%-- For displaying Next link --%>
+                                <% if (currentPage < noOfPages) { %>
+                                <li class="next">
+                                    <% if (search==null){%>
+                                    <a href="ExpertSubjectList?page=<%= currentPage + 1 %>">
+                                        Next <i class="ti-arrow-right"></i>
+                                    </a>
+                                    <%}else{%>
+                                    <a href="ExpertSearchSubject?search=<%=search%>&page=<%= currentPage + 1 %>">
+                                        Next <i class="ti-arrow-right"></i>
+                                    </a>
+                                    <%}%>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                    <% } %>
                     <!-- Pagination list end-->
                 </div>
         </main>

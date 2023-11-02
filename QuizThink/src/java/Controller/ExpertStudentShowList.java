@@ -4,10 +4,8 @@
  */
 package Controller;
 
-import DAO.ExpertDAO;
-import DAO.SubjectDAO;
-import Model.Expert;
-import Model.Subject;
+import Model.*;
+import DAO.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,14 +13,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
- * @author admin
+ * @author QUYBINH
  */
-@WebServlet(name = "ExpertSubjectListServlet", urlPatterns = {"/ExpertSubjectList"})
-public class ExpertSubjectListServlet extends HttpServlet {
+@WebServlet(name = "ExpertStudentShowList", urlPatterns = {"/ExpertStudentShowList"})
+public class ExpertStudentShowList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,26 +35,31 @@ public class ExpertSubjectListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int page = 1;//target page
-        int noOfPages = 1;//default no of page
-        int recordsPerPage = 6;
-        SubjectDAO dao = new SubjectDAO();
-        ExpertDAO DAO = new ExpertDAO();
-        Expert expert = DAO.getExpertByID(37);
-        List<Subject> list = dao.getSubjectByExpertPaging(37, (page - 1) * recordsPerPage, recordsPerPage);
-        if (request.getParameter("page") != null) {//restive current page if possible
-            page = Integer.parseInt(request.getParameter("page"));
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            try {
+                int subjectId = Integer.parseInt(request.getParameter("option"));
+                SubjectStatusDAO ssd = new SubjectStatusDAO();
+                SubjectDAO sd = new SubjectDAO();
+                AccountDAO ad = new AccountDAO();
+                HttpSession session = request.getSession();
+                Expert ex = (Expert) session.getAttribute("currExpert");
+                
+                List<SubjectStatus> ss = ssd.getStudentListExpert(subjectId);
+                List<Account> a = ad.getStudentList(subjectId);
+                List<Subject> s = sd.getSubjectByExpert(ex.getExpertId());
+                List<Account> studentList = ad.getAllStudentByRole();
+                
+                request.setAttribute("student", studentList);
+                session.setAttribute("subjectId", subjectId); //session
+                request.setAttribute("list", s);
+                request.setAttribute("studentList", a);
+                request.setAttribute("subjectStatus", ss);
+                request.getRequestDispatcher("ExpertStudentList.jsp").forward(request, response);
+            }catch (Exception e){
+                request.getRequestDispatcher("ExpertStudentList").forward(request, response);
+            }
         }
-        int noOfRecords = dao.getNumberOfRecordByExpertID(37);
-        noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
-        if (page > noOfPages) {
-            page = noOfPages;
-        }
-        request.setAttribute("list", list);
-        request.setAttribute("expert", expert);
-        request.setAttribute("noOfPages", noOfPages);
-        request.setAttribute("currentPage", page);
-        request.getRequestDispatcher("ExpertSunjectLists.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
