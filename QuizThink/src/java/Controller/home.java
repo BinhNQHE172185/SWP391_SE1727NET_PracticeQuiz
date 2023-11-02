@@ -69,7 +69,7 @@ public class home extends HttpServlet {
                 request.getSession().setAttribute("currExpert", expCookie);
             }
             if(mktCookie != null){
-                request.getSession().setAttribute("currMarketer", expCookie);
+                request.getSession().setAttribute("currMarketer", mktCookie);
             }
         }
         SliderDAO sliderDAO = new SliderDAO();

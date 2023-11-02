@@ -74,8 +74,8 @@
                         <li><a href="#">Welcome <%=ex.getUsername()%></a></li>
                         <li><a href="Logout">Logout</a></li>
                             <%}else{%>
-                        <li><a href="Login.jsp">Login</a></li>
-                        <li><a href="Register.jsp">Register</a></li>
+                        <li><a href="Login">Login</a></li>
+                        <li><a href="RegisterUser">Register</a></li>
                             <%}%>
                     </ul>
                 </div>
