@@ -42,6 +42,15 @@ public class Account {
         this.status = status;
     }
 
+    public Account(int accountId, String email, String fullname, Date dob, String gender, Date createDate) {
+        this.accountId = accountId;
+        this.email = email;
+        this.fullname = fullname;
+        this.dob = dob;
+        this.gender = gender;
+        this.createdDate = createDate;
+    }
+    
     public Account() {
     }
 

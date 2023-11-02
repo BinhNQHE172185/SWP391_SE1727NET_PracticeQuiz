@@ -57,6 +57,7 @@
         <link class="skin" rel="stylesheet" type="text/css" href="FrontEnd/assets/css/color/color-1.css">
         <% Account acc = (Account) request.getAttribute("Account"); %>
         <% Expert ex = (Expert) request.getAttribute("Expert"); %>
+        <% Marketer mk = (Marketer) request.getAttribute("Marketer"); %>
         <% String status = (String) request.getAttribute("status"); %>
     </head>
     <body id="bg">
@@ -103,6 +104,9 @@
                                     <%}else if(ex!=null){%>
                                     <input name="expertId" type="hidden" value="<%=ex.getExpertId()%>">
                                     <input name="email" type="hidden" value="<%=ex.getEmail()%>">
+                                    <%}else if(mk!=null){%>
+                                    <input name="marketerId" type="hidden" value="<%=mk.getMarketerID()%>">
+                                    <input name="email" type="hidden" value="<%=mk.getEmail()%>">
                                     <%}%>
                                 </div>
                                 <div class="col-lg-12 m-b30">

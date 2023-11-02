@@ -24,8 +24,14 @@
         <servlet-class>Controller.QuizSubmitServlet</servlet-class>
     </servlet>
     <servlet>
+
         <servlet-name>EditQuiz</servlet-name>
         <servlet-class>Controller.EditQuiz</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListCustomerServlet</servlet-name>
+        <servlet-class>Controller.ListCustomerServlet</servlet-class>
+
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -50,6 +56,10 @@
     <servlet-mapping>
         <servlet-name>EditQuiz</servlet-name>
         <url-pattern>/editquiz</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListCustomerServlet</servlet-name>
+        <url-pattern>/ListCustomerServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

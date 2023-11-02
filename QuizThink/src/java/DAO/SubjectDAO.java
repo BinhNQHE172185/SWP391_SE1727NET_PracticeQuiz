@@ -422,13 +422,9 @@ public class SubjectDAO extends DBContext {
         return count;
     }
 
-    
-
-
-
     public static void main(String[] args) {
         // Create an instance of the class that contains the getRecentSubject function
-         SubjectDAO dao = new SubjectDAO(); // Replace YourClassName with the actual name of your class
+        SubjectDAO dao = new SubjectDAO(); // Replace YourClassName with the actual name of your class
 
         // Call the getRecentSubject function to retrieve the list of recent subjects
         List<Subject> recentSubjects = dao.getRecentSubject(); // Replace YourClassName with the actual name of your class
@@ -448,7 +444,7 @@ public class SubjectDAO extends DBContext {
         }
     }
 
-    public void addExpertSubject(int expertID, int subjectDimensionID, String title, String imageURL, String description, Date createdDate, Date modifyDate, boolean status ) {
+    public void addExpertSubject(int expertID, int subjectDimensionID, String title, String imageURL, String description, Date createdDate, Date modifyDate, boolean status) {
         try {
             String query = "  insert into Subject(Expert_id, SubjectDimension_id, title, imageURL, [description], createdDate, modifyDate, [status])\n"
                     + "  values (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -491,7 +487,7 @@ public class SubjectDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public List<Subject> searchSubjectByExpert(int id, String titl) {
         List<Subject> listSubject = new ArrayList<>();
         try {
@@ -525,7 +521,7 @@ public class SubjectDAO extends DBContext {
         }
         return listSubject;
     }
-    
+
     public List<Subject> getSubjectByExpert(int expertID) {
         List<Subject> listSubject = new ArrayList<>();
         try {
@@ -558,9 +554,10 @@ public class SubjectDAO extends DBContext {
         }
         return listSubject;
     }
+
     public void deleteExpertSubject(int expertID, int subjectID) {
 
-        String query = "delete from Subject where Expert_id = ? and Subject_id = ? ";
+        String query = "update Subject set status = 0 where Expert_id = ? and Subject_id = ? ";
         try {
             ps = getConnection().prepareStatement(query);
             ps.setInt(1, expertID);
@@ -570,6 +567,66 @@ public class SubjectDAO extends DBContext {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public int getNumberOfRecordByExpertID(int ExpertID) {
+        String sql = "select count(*) as count from Subject, Expert \n"
+                + "where (Subject.Expert_id = Expert.Expert_id)and Expert.Expert_id = ? and Subject.status = 1";
+        int count = 0;
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(sql);
+            statement.setInt(1, ExpertID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt("count");
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public List<Subject> getSubjectByExpertPaging(int expertID, int offSet, int noOfRecords) {
+        List<Subject> listSubject = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM Subject WHERE status = 1 AND Expert_id = ? ORDER BY Subject_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, expertID);
+            ps.setInt(2, offSet);
+            ps.setInt(3, noOfRecords);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int subjectId = rs.getInt("Subject_id");
+                int expertId = rs.getInt("Expert_id");
+                int subjectDimensionId = rs.getInt("SubjectDimension_id");
+                String title = rs.getString("title");
+                String imageURL = rs.getString("imageURL");
+                int questionCount = rs.getInt("question_count");
+                int rate = rs.getInt("Rate");
+                int rateCount = rs.getInt("Rate_count");
+                int level = rs.getInt("level");
+                float requirement = rs.getFloat("requirement");
+                String description = rs.getString("description");
+                Date createdDate = rs.getDate("createdDate");
+                Date modifyDate = rs.getDate("modifyDate");
+                boolean status = rs.getBoolean("status");
+                Time duration = rs.getTime("duration");
+
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return listSubject;
     }
 
 }

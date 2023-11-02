@@ -5,8 +5,9 @@
 package Controller;
 
 import DAO.*;
-import Model.Account;
+import Model.*;
 import Model.Expert;
+import Model.Slider;
 import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,7 +45,8 @@ public class home extends HttpServlet {
         String password = null;
         ExpertDAO ed = new ExpertDAO();
         AccountDAO ad = new AccountDAO();
-
+        MarketerDAO mkd = new MarketerDAO();
+        
         if (ck != null) {
             for (Cookie cookie : ck) {
                 if (cookie.getName().equals("username")) {
@@ -55,18 +57,24 @@ public class home extends HttpServlet {
                 }
             }
         }
-
+        
         if (username != null && password != null) {
             Account accCookie = ad.getAccount(username, password);
             Expert expCookie = ed.getExpert(username, password);
+            Marketer mktCookie = mkd.getMarketer(username, password);
             if (accCookie != null) {
                 request.getSession().setAttribute("currUser", accCookie);
             }
             if (expCookie != null) {
                 request.getSession().setAttribute("currExpert", expCookie);
             }
+            if(mktCookie != null){
+                request.getSession().setAttribute("currMarketer", expCookie);
+            }
         }
-
+        SliderDAO sliderDAO = new SliderDAO();
+        List<Slider> sliders = sliderDAO.listSliders();
+        request.setAttribute("sliders", sliders);
         SubjectDAO subjectDAO = new SubjectDAO();
         List<Subject> recentSubjects = subjectDAO.getRecentSubject();
         request.setAttribute("recentSubjects", recentSubjects);
