@@ -4,26 +4,23 @@
  */
 package Controller;
 
-import DAO.ResultDAO;
-import Model.Account;
-import Model.Result;
+import DAO.*;
+import Model.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
- * @author admin
+ * @author QUYBINH
  */
-@WebServlet(name = "ListPracticedListServlet", urlPatterns = {"/ListPracticedList"})
-public class ListPracticedListServlet extends HttpServlet {
+@WebServlet(name = "ExpertStudentHistory", urlPatterns = {"/ExpertStudentHistory"})
+public class ExpertStudentHistory extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,26 +35,12 @@ public class ListPracticedListServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            Account currUser = (Account) session.getAttribute("currUser");
-            int questionId = Integer.parseInt(request.getParameter("questionId"));
-
-           // int questionId = 1;//default
-            /*
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if ("ID".equals(cookie.getName())) {
-                        // Found the "accID" cookie
-                        accID = Integer.parseInt(cookie.getValue());
-                    }
-                }
-            }
-             */
+            /* TODO output your page here. You may use following sample code. */
+            int studentId = Integer.parseInt(request.getParameter("AccountId"));
             ResultDAO dao = new ResultDAO();
-            List<Result> listResult = dao.getResultByAccountID(questionId, 1);
+            List<Result> listResult = dao.getResultByAccount(studentId);
             request.setAttribute("listResult", listResult);
-            request.getRequestDispatcher("HistoryList.jsp").forward(request, response);
+            request.getRequestDispatcher("ExpertStudentHistory.jsp").forward(request, response);
         }
     }
 

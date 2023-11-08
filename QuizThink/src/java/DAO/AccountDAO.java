@@ -67,6 +67,45 @@ public class AccountDAO extends DBContext {
         return account;
     }
 
+    public List<Account> getAllCustomer() {
+        List<Account> customerList = new ArrayList<>();
+        String sql = "SELECT * FROM Account a "
+                + "INNER JOIN AccountRole ar ON a.Account_id = ar.Account_id "
+                + "INNER JOIN Role r ON ar.role_id = r.role_id "
+                + "WHERE r.role_name = 'customer'";
+
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int accountId = rs.getInt("Account_id");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String fullname = rs.getString("fullname");
+                Date dob = rs.getDate("DOB");
+                String gender = rs.getString("gender");
+                String selfIntroduction = rs.getString("self-introduction");
+                String avatar = rs.getString("avatar");
+                Date createDate = rs.getDate("createdDate");
+                Date modifyDate = rs.getDate("modifyDate");
+                String passwordToken = rs.getString("passwordToken");
+                boolean accountStatus = rs.getBoolean("status");
+
+                Account customer = new Account(accountId, username, password, email, fullname, dob, gender, selfIntroduction, avatar, createDate, modifyDate, passwordToken, accountStatus);
+
+                customerList.add(customer);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return customerList;
+    }
+
     public Account getUsername(String username) {
         Account account = null;
         int accountId;
@@ -151,11 +190,11 @@ public class AccountDAO extends DBContext {
         String selfIntroduction;
         String sql = "select * \n"
                 + "from Account\n"
-                + "where email='"+email+"'";
+                + "where email='" + email + "'";
         try {
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 accountId = rs.getInt("Account_id");
                 username = rs.getString("username");
                 password = rs.getString("password");
@@ -174,7 +213,8 @@ public class AccountDAO extends DBContext {
             ps.close();
         } catch (Exception ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }return acc;
+        }
+        return acc;
     }
 
     public boolean checkPass(String password) {
@@ -215,20 +255,20 @@ public class AccountDAO extends DBContext {
     public void createAnyAccount(String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
         String query = "INSERT INTO [Account] ([username], [password], [email], [fullname], [DOB], [gender], [self-introduction], [avatar], [createdDate], [modifyDate], [passwordToken], [status])\n"
                 + "VALUES (?, ?, ?, ?, ?, ?, NULL, ?, ?, NULL, NULL, 1);"
-                + "DECLARE @NewAccountId INT;\n" +
-                    "SET @NewAccountId = SCOPE_IDENTITY();\n" +
-                    "DECLARE @RoleId INT;\n" +
-                    "SET @RoleId = ?;\n" +
-                    "\n" +
-                    "INSERT INTO [AccountRole] (\n" +
-                    "    [Account_id],\n" +
-                    "    [role_id]\n" +
-                    ") VALUES (\n" +
-                    "    @NewAccountId, -- Sử dụng Account_id của tài khoản mới\n" +
-                    "    @RoleId -- Sử dụng role_id của vai trò bạn muốn gán\n" +
-                    ");\n" +
-                    "\n" +
-                    "select * from AccountRole";
+                + "DECLARE @NewAccountId INT;\n"
+                + "SET @NewAccountId = SCOPE_IDENTITY();\n"
+                + "DECLARE @RoleId INT;\n"
+                + "SET @RoleId = ?;\n"
+                + "\n"
+                + "INSERT INTO [AccountRole] (\n"
+                + "    [Account_id],\n"
+                + "    [role_id]\n"
+                + ") VALUES (\n"
+                + "    @NewAccountId, -- Sử dụng Account_id của tài khoản mới\n"
+                + "    @RoleId -- Sử dụng role_id của vai trò bạn muốn gán\n"
+                + ");\n"
+                + "\n"
+                + "select * from AccountRole";
 
         try {
             conn = new DBContext().getConnection();
@@ -268,22 +308,115 @@ public class AccountDAO extends DBContext {
         }
         return 0;
     }
-    
+
     // Get number of account
     public int getNumOfAccountByRole(String roleID) {
         String query = "select COUNT(*) from Account where Account_id in (select Account_id from AccountRole where role_id = ?)";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setString(1,roleID);
+            ps.setString(1, roleID);
             rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 return rs.getInt(1);
             }
         } catch (Exception e) {
         }
         return 0;
+    }
+
+    public List<Account> getStudentList(int subjectId) {
+        List<Account> list = new ArrayList<>();
+        int accountId;
+        String name;
+        String gender;
+        String email;
+        Date Dob;
+        Date enroll;
+        boolean status;
+        String query = "select * from SubjectStatus s, Account a \n"
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, (subjectId)); // page 1 starts at index 0
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                accountId = rs.getInt("Account_id");
+                name = rs.getString("fullname");
+                gender = rs.getString("gender");
+                email = rs.getString("email");
+                Dob = rs.getDate("DOB");
+                enroll = rs.getDate("createdDate");
+                list.add(new Account(accountId, email, name, Dob, gender, enroll));
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Account> getStudentListByNameAsc(int subjectId) {
+        List<Account> list = new ArrayList<>();
+        int accountId;
+        String name;
+        String gender;
+        String email;
+        Date Dob;
+        Date enroll;
+        boolean status;
+        String query = "select * from SubjectStatus s, Account a \n"
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1 ORDER BY a.fullname asc";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, (subjectId)); // page 1 starts at index 0
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                accountId = rs.getInt("Account_id");
+                name = rs.getString("fullname");
+                gender = rs.getString("gender");
+                email = rs.getString("email");
+                Dob = rs.getDate("DOB");
+                enroll = rs.getDate("createdDate");
+                list.add(new Account(accountId, email, name, Dob, gender, enroll));
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Account> getStudentListByNameDesc(int subjectId) {
+        List<Account> list = new ArrayList<>();
+        int accountId;
+        String name;
+        String gender;
+        String email;
+        Date Dob;
+        Date enroll;
+        boolean status;
+        String query = "select * from SubjectStatus s, Account a \n"
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1 ORDER BY a.fullname desc";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, (subjectId)); // page 1 starts at index 0
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                accountId = rs.getInt("Account_id");
+                name = rs.getString("fullname");
+                gender = rs.getString("gender");
+                email = rs.getString("email");
+                Dob = rs.getDate("DOB");
+                enroll = rs.getDate("createdDate");
+                list.add(new Account(accountId, email, name, Dob, gender, enroll));
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return list;
     }
 
     //Get all account
@@ -320,17 +453,49 @@ public class AccountDAO extends DBContext {
         }
         return list;
     }
+
     //Get all account by role
     public List<Account> getAllAccountByRole(int page, String roleId) {
         List<Account> list = new ArrayList<>();
-        String query = "select * from Account where Account_id in (select Account_id from AccountRole where role_id = ?)\n" +
-                        "ORDER BY Account_id\n" +
-                        "OFFSET ? ROWS FETCH NEXT 15 ROWS ONLY";
+        String query = "select * from Account where Account_id in (select Account_id from AccountRole where role_id = ?)\n"
+                + "ORDER BY Account_id\n"
+                + "OFFSET ? ROWS FETCH NEXT 15 ROWS ONLY";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(2, (page - 1) * 15); // page 1 starts at index 0
-            ps.setString(1,roleId);
+            ps.setString(1, roleId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Account(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getDate(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getDate(10),
+                        rs.getDate(11),
+                        rs.getString(12),
+                        rs.getBoolean(13)
+                ));
+
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Account> getAllStudentByRole() {
+        List<Account> list = new ArrayList<>();
+        String query = "select * from Account where Account_id in (select Account_id from AccountRole where role_id = 1)\n";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Account(
@@ -404,22 +569,22 @@ public class AccountDAO extends DBContext {
             // For simplicity, it's omitted here.
         }
     }
-    
+
     // Edit User 
     public void editUser(int accountID, String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
-        String query = "UPDATE [Account]\n" +
-                        "SET [username] = ?,\n" +
-                        "    [password] = ?,\n" +
-                        "    [email] = ?,\n" +
-                        "    [fullname] = ?,\n" +
-                        "    [DOB] = ?,\n" +
-                        "    [gender] = ?,\n" +
-                        "    [avatar] = ?,\n" +
-                        "    [modifyDate] = ?\n" +
-                        "WHERE [account_id] = ?;"
-                        + "Update [AccountRole]\n" +
-                        "Set role_id = ?\n" +
-                        "Where Account_id = ?";
+        String query = "UPDATE [Account]\n"
+                + "SET [username] = ?,\n"
+                + "    [password] = ?,\n"
+                + "    [email] = ?,\n"
+                + "    [fullname] = ?,\n"
+                + "    [DOB] = ?,\n"
+                + "    [gender] = ?,\n"
+                + "    [avatar] = ?,\n"
+                + "    [modifyDate] = ?\n"
+                + "WHERE [account_id] = ?;"
+                + "Update [AccountRole]\n"
+                + "Set role_id = ?\n"
+                + "Where Account_id = ?";
         // Thiếu status và một vài thuộc tính khác
 
         try {
@@ -444,7 +609,6 @@ public class AccountDAO extends DBContext {
             ex.printStackTrace();
         }
     }
-    
 
 //    // Get  Account by ID
 //    public Account getAccountByID(String Account_ID) {
@@ -505,16 +669,16 @@ public class AccountDAO extends DBContext {
 
         }
     }
-    
+
     // Search account by fullname
-    public List<Account> searchAccountByName(String txtSearch){
+    public List<Account> searchAccountByName(String txtSearch) {
         List<Account> list = new ArrayList<>();
         String query = "select * from Account where fullname like ?";
-        
+
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setString(1,"%" + txtSearch + "%");
+            ps.setString(1, "%" + txtSearch + "%");
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Account(
@@ -568,18 +732,53 @@ public class AccountDAO extends DBContext {
 //        }
 //        return null;
 //    }
-    
-    public static void main(String[] args) {
+
+    public List<Account> searchCustomerByName(String name) {
+        List<Account> customerList = new ArrayList<>();
+        String sql = "SELECT * FROM Account a "
+                + "INNER JOIN AccountRole ar ON a.Account_id = ar.Account_id "
+                + "INNER JOIN Role r ON ar.role_id = r.role_id "
+                + "WHERE r.role_name = 'customer' "
+                + "AND a.fullname LIKE ?";
+
         try {
-            AccountDAO dao = new AccountDAO();
-            List<Account> list = dao.getAllAccount(1);
-            for (Account account : list) {
-                System.out.println(account);
+            Connection connection = getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + name + "%"); // Search for name containing the given input
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                // Retrieve account information from the result set and create Account objects
+                // (similar to what you did in your existing getAllCustomer method)
             }
-            Account a = dao.getAccountByID(2);
-            System.out.println(a);
-        } catch (Exception e) {
-            e.printStackTrace();
+            rs.close();
+            ps.close();
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return customerList;
+    }
+
+    public static void main(String[] args) {
+        // Create an instance of AccountDAO
+        AccountDAO accountDAO = new AccountDAO();
+
+        // Provide the name you want to search for
+        String nameToSearch = "John"; // Replace with the desired name
+
+        // Call the searchCustomerByName method to get a list of matching customers
+        List<Account> matchingCustomers = accountDAO.searchCustomerByName(nameToSearch);
+
+        // Iterate through the matching customers and print their details
+        for (Account customer : matchingCustomers) {
+            System.out.println("Customer ID: " + customer.getAccountId());
+            System.out.println("Username: " + customer.getUsername());
+            System.out.println("Full Name: " + customer.getFullname());
+            // Add more properties as needed
+            System.out.println();
         }
     }
+
 }

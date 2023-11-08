@@ -4,26 +4,24 @@
  */
 package Controller;
 
-import DAO.ResultDAO;
-import Model.Account;
-import Model.Result;
+import DAO.MarketerDAO;
+import Model.Expert;
+import Model.Marketer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  *
- * @author admin
+ * @author minhk
  */
-@WebServlet(name = "ListPracticedListServlet", urlPatterns = {"/ListPracticedList"})
-public class ListPracticedListServlet extends HttpServlet {
+@WebServlet(name = "LoadMarketerProfile", urlPatterns = {"/loadmarketerporfile"})
+public class LoadMarketerProfile extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,28 +35,16 @@ public class ListPracticedListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            Account currUser = (Account) session.getAttribute("currUser");
-            int questionId = Integer.parseInt(request.getParameter("questionId"));
-
-           // int questionId = 1;//default
-            /*
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if ("ID".equals(cookie.getName())) {
-                        // Found the "accID" cookie
-                        accID = Integer.parseInt(cookie.getValue());
-                    }
-                }
-            }
-             */
-            ResultDAO dao = new ResultDAO();
-            List<Result> listResult = dao.getResultByAccountID(questionId, 1);
-            request.setAttribute("listResult", listResult);
-            request.getRequestDispatcher("HistoryList.jsp").forward(request, response);
-        }
+        HttpSession session = request.getSession();
+        Marketer mk = (Marketer) session.getAttribute("currMarketer");
+        int marketerId=mk.getMarketerID();
+        
+        MarketerDAO marketerDAO = new MarketerDAO();
+        Marketer marketer = marketerDAO.getMarketerProfile(marketerId);
+       request.setAttribute("marketer", marketer);
+       Marketer mkt = marketerDAO.getMarketerProfile(marketerId);
+        request.setAttribute("marketer", mkt);
+        request.getRequestDispatcher("MarketerProfile.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

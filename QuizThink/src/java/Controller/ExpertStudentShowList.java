@@ -4,14 +4,12 @@
  */
 package Controller;
 
-import DAO.ResultDAO;
-import Model.Account;
-import Model.Result;
+import Model.*;
+import DAO.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,10 +18,10 @@ import java.util.List;
 
 /**
  *
- * @author admin
+ * @author QUYBINH
  */
-@WebServlet(name = "ListPracticedListServlet", urlPatterns = {"/ListPracticedList"})
-public class ListPracticedListServlet extends HttpServlet {
+@WebServlet(name = "ExpertStudentShowList", urlPatterns = {"/ExpertStudentShowList"})
+public class ExpertStudentShowList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,26 +36,29 @@ public class ListPracticedListServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            Account currUser = (Account) session.getAttribute("currUser");
-            int questionId = Integer.parseInt(request.getParameter("questionId"));
-
-           // int questionId = 1;//default
-            /*
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if ("ID".equals(cookie.getName())) {
-                        // Found the "accID" cookie
-                        accID = Integer.parseInt(cookie.getValue());
-                    }
-                }
+            /* TODO output your page here. You may use following sample code. */
+            try {
+                int subjectId = Integer.parseInt(request.getParameter("option"));
+                SubjectStatusDAO ssd = new SubjectStatusDAO();
+                SubjectDAO sd = new SubjectDAO();
+                AccountDAO ad = new AccountDAO();
+                HttpSession session = request.getSession();
+                Expert ex = (Expert) session.getAttribute("currExpert");
+                
+                List<SubjectStatus> ss = ssd.getStudentListExpert(subjectId);
+                List<Account> a = ad.getStudentList(subjectId);
+                List<Subject> s = sd.getSubjectByExpert(ex.getExpertId());
+                List<Account> studentList = ad.getAllStudentByRole();
+                
+                request.setAttribute("student", studentList);
+                session.setAttribute("subjectId", subjectId); //session
+                request.setAttribute("list", s);
+                request.setAttribute("studentList", a);
+                request.setAttribute("subjectStatus", ss);
+                request.getRequestDispatcher("ExpertStudentList.jsp").forward(request, response);
+            }catch (Exception e){
+                request.getRequestDispatcher("ExpertStudentList").forward(request, response);
             }
-             */
-            ResultDAO dao = new ResultDAO();
-            List<Result> listResult = dao.getResultByAccountID(questionId, 1);
-            request.setAttribute("listResult", listResult);
-            request.getRequestDispatcher("HistoryList.jsp").forward(request, response);
         }
     }
 

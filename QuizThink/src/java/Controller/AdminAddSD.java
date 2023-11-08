@@ -38,7 +38,7 @@ public class AdminAddSD extends HttpServlet {
         subjectDimension.setImageURL(image);
         subjectDimension.setDescription(desc);
 
-        if (request.getParameter("parentId") != null) {
+        if (request.getParameter("parentId") != null && !request.getParameter("parentId").isEmpty()) {
             subjectDimension.setParentSDId(Integer.parseInt(request.getParameter("parentId")));
         }
 

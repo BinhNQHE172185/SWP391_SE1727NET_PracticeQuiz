@@ -105,7 +105,7 @@
                             <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="${expert.getAvatar()}" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
-                                    <li><a href="Profile">My profile</a></li>
+                                    <li><a href="ExpertProfile">My profile</a></li>
                                     <li><a href="Logout">Logout</a></li>
                                 </ul>
                             </div>
@@ -154,13 +154,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button">
+                            <a href="ExpertSubjectList" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
                                 <span class="ttr-label">Subject</span>
                             </a>
                         </li>
                         <li>
-                            <a href="ExpertStudentList.jsp" class="ttr-material-button">
+                            <a href="ExpertStudentList" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
                                 <span class="ttr-label">Student List</span>
                             </a>

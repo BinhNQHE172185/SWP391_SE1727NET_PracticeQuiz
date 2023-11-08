@@ -46,7 +46,8 @@ public class ValidateOtp extends HttpServlet {
                 Account acc = ad.checkEmail(email);
                 ExpertDAO ed = new ExpertDAO();
                 Expert ex = ed.checkMail(email);
-                
+                MarketerDAO mkd = new MarketerDAO();
+                Marketer mk = mkd.checkMail(email);
                 RequestDispatcher dispatcher = null;
                 
                 if (value == otp) {
@@ -57,6 +58,8 @@ public class ValidateOtp extends HttpServlet {
                         request.setAttribute("Account", acc);
                     } else if (ex != null) {
                         request.setAttribute("Expert", ex);
+                    } else if (mk != null) {
+                        request.setAttribute("Marketer", mk);
                     }
                     dispatcher = request.getRequestDispatcher("ChangePassword.jsp");
                     dispatcher.forward(request, response);

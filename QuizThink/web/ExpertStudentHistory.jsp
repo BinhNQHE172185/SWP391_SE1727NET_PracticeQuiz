@@ -6,7 +6,9 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import = "Model.*" %>
+<%@page import = "Model.Expert" %>
+<%@page import= "Model.Question" %>
+<%@page import= "Model.Subject" %>
 <%@page import = "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -14,6 +16,13 @@
 
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:08:15 GMT -->
     <head>
+        <%
+            Expert ex = (Expert) session.getAttribute("currExpert");
+            String status = (String) request.getAttribute("status");
+            String search = (String) request.getAttribute("search");
+            Subject subject = (Subject) request.getAttribute("subject");
+            List<Question> questions = (List<Question>) request.getAttribute("questions");
+        %>
         <!-- META ============================================= -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,11 +31,11 @@
         <meta name="robots" content="" />
 
         <!-- DESCRIPTION -->
-        <meta name="description" content="EduChamp : Education HTML Template" />
+        <meta name="description" content="Quiz Think" />
 
         <!-- OG -->
-        <meta property="og:title" content="EduChamp : Education HTML Template" />
-        <meta property="og:description" content="EduChamp : Education HTML Template" />
+        <meta property="og:title" content="Quiz Think" />
+        <meta property="og:description" content="Quiz Think" />
         <meta property="og:image" content="" />
         <meta name="format-detection" content="telephone=no">
 
@@ -35,7 +44,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="admin/assets/images/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>EduChamp : Education HTML Template </title>
+        <title>Expert Profile</title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -105,10 +114,7 @@
                     <!-- header right menu start -->
                     <ul class="ttr-header-navigation">
                         <li>
-                            <a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
-                        </li>
-                        <li>
-                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="${expert.getAvatar()}" width="32" height="32"></span></a>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="<%=ex.getAvatar()%>" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
                                     <li><a href="ExpertProfile">My profile</a></li>
@@ -171,7 +177,6 @@
                                 <span class="ttr-label">Student List</span>
                             </a>
                         </li>
-
                         <li class="ttr-seperate"></li>
                     </ul>
                     <!-- sidebar menu end -->
@@ -188,57 +193,60 @@
                     <ul class="db-breadcrumb-list">
                         <li><a href="home.jsp"><i class="fa fa-home"></i>Home</a></li>
                         <li>Subject</li>
-                        <li>Add Question</li>
+                        <li>Question List</li>
                     </ul>
                 </div>	
                 <!-- Card -->
                 <div class="row">
-                    <!-- Your Profile Views Chart END-->
+                    <!-- Your Profile Views Chart -->
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
-                            <div class="wc-title">
-                                <h4>Expert profile</h4>
-                            </div>
-                            <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="ExpertUpdateProfile" method="GET">
-                                    <div class="row">
-                                        <div class="form-group col-6">
-                                            <input type="hidden" value="${expert.getExpertId()}" name="expertID">
-                                            <label class="col-form-label">Full Name</label>
-                                            <div>
-                                                <input class="form-control" type="text" value="${expert.getName()}" name="name" required="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-6">
-                                            <label class="col-form-label">Email</label>
-                                            <div>
-                                                <input class="form-control" type="email" value="${expert.getEmail()}" name="email" required="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-12">
-                                            <label class="col-form-label">Avatar</label>
-                                            <div>
-                                                <input class="form-control" type="text" value="${expert.getAvatar()}" name="image" required="">
-                                            </div>
-                                        </div>                                                                               
-                                        <div class="form-group col-12">
-                                            <label class="col-form-label">Self-description</label>
-                                            <div>
-                                                <textarea class="form-control" name="desc">${expert.getSelfIntroduction()}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button type="submit" class="btn">Update</button>
-                                            <button type="reset" class="btn-secondry">Cancel</button>
-                                        </div>
-                                        <div class="col-12" style="color: red; margin-top: 5px; font-size: 120%;">
-                                            ${status}
-                                        </div>
+                            <div class="container">
+                                <div class="row wc-title">
+                                    <div class="col-lg-1">
+                                        <h4>STT</h4>
                                     </div>
-                                </form>
+                                    <div class="col-lg-3">
+                                        <h4>Taken Date</h4>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <h4>Taken Time</h4>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <h4>Answered</h4>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <h4>Mark/10</h4>
+                                    </div>                                   
+                                </div>
+                                <div class="widget-inner">
+                                    <c:forEach items = "${listResult}" var = "o">
+                                        <div class="row card-courses-list admin-courses">
+                                            <div class="col-lg-1">
+                                                <p>1</p>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <p>${o.takenDate} </p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <p>${o.takenDuration}</p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <p>${o.quizCount}</p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <p>${o.mark}/10</p>
+                                            </div>
+                                        </div>    
+                                    </c:forEach>                                                               
+                                </div>
+                                <div class="col-12">
+                                    <button type="button" class="btn-secondry" onclick="window.history.back()">Go Back</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Your Profile Views Chart END-->
                 </div>
         </main>
         <div class="ttr-overlay"></div>
@@ -263,82 +271,82 @@
         <script src='admin/assets/vendors/calendar/moment.min.js'></script>
         <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
         <script>
-                                                $(document).ready(function () {
+                                        $(document).ready(function () {
 
-                                                    $('#calendar').fullCalendar({
-                                                        header: {
-                                                            left: 'prev,next today',
-                                                            center: 'title',
-                                                            right: 'month,agendaWeek,agendaDay,listWeek'
-                                                        },
-                                                        defaultDate: '2019-03-12',
-                                                        navLinks: true, // can click day/week names to navigate views
+                                            $('#calendar').fullCalendar({
+                                                header: {
+                                                    left: 'prev,next today',
+                                                    center: 'title',
+                                                    right: 'month,agendaWeek,agendaDay,listWeek'
+                                                },
+                                                defaultDate: '2019-03-12',
+                                                navLinks: true, // can click day/week names to navigate views
 
-                                                        weekNumbers: true,
-                                                        weekNumbersWithinDays: true,
-                                                        weekNumberCalculation: 'ISO',
+                                                weekNumbers: true,
+                                                weekNumbersWithinDays: true,
+                                                weekNumberCalculation: 'ISO',
 
-                                                        editable: true,
-                                                        eventLimit: true, // allow "more" link when too many events
-                                                        events: [
-                                                            {
-                                                                title: 'All Day Event',
-                                                                start: '2019-03-01'
-                                                            },
-                                                            {
-                                                                title: 'Long Event',
-                                                                start: '2019-03-07',
-                                                                end: '2019-03-10'
-                                                            },
-                                                            {
-                                                                id: 999,
-                                                                title: 'Repeating Event',
-                                                                start: '2019-03-09T16:00:00'
-                                                            },
-                                                            {
-                                                                id: 999,
-                                                                title: 'Repeating Event',
-                                                                start: '2019-03-16T16:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Conference',
-                                                                start: '2019-03-11',
-                                                                end: '2019-03-13'
-                                                            },
-                                                            {
-                                                                title: 'Meeting',
-                                                                start: '2019-03-12T10:30:00',
-                                                                end: '2019-03-12T12:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Lunch',
-                                                                start: '2019-03-12T12:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Meeting',
-                                                                start: '2019-03-12T14:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Happy Hour',
-                                                                start: '2019-03-12T17:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Dinner',
-                                                                start: '2019-03-12T20:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Birthday Party',
-                                                                start: '2019-03-13T07:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Click for Google',
-                                                                url: 'http://google.com/',
-                                                                start: '2019-03-28'
-                                                            }
-                                                        ]
-                                                    });
+                                                editable: true,
+                                                eventLimit: true, // allow "more" link when too many events
+                                                events: [
+                                                    {
+                                                        title: 'All Day Event',
+                                                        start: '2019-03-01'
+                                                    },
+                                                    {
+                                                        title: 'Long Event',
+                                                        start: '2019-03-07',
+                                                        end: '2019-03-10'
+                                                    },
+                                                    {
+                                                        id: 999,
+                                                        title: 'Repeating Event',
+                                                        start: '2019-03-09T16:00:00'
+                                                    },
+                                                    {
+                                                        id: 999,
+                                                        title: 'Repeating Event',
+                                                        start: '2019-03-16T16:00:00'
+                                                    },
+                                                    {
+                                                        title: 'Conference',
+                                                        start: '2019-03-11',
+                                                        end: '2019-03-13'
+                                                    },
+                                                    {
+                                                        title: 'Meeting',
+                                                        start: '2019-03-12T10:30:00',
+                                                        end: '2019-03-12T12:30:00'
+                                                    },
+                                                    {
+                                                        title: 'Lunch',
+                                                        start: '2019-03-12T12:00:00'
+                                                    },
+                                                    {
+                                                        title: 'Meeting',
+                                                        start: '2019-03-12T14:30:00'
+                                                    },
+                                                    {
+                                                        title: 'Happy Hour',
+                                                        start: '2019-03-12T17:30:00'
+                                                    },
+                                                    {
+                                                        title: 'Dinner',
+                                                        start: '2019-03-12T20:00:00'
+                                                    },
+                                                    {
+                                                        title: 'Birthday Party',
+                                                        start: '2019-03-13T07:00:00'
+                                                    },
+                                                    {
+                                                        title: 'Click for Google',
+                                                        url: 'http://google.com/',
+                                                        start: '2019-03-28'
+                                                    }
+                                                ]
+                                            });
 
-                                                });
+                                        });
 
         </script>
     </body>
