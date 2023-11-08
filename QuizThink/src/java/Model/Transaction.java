@@ -8,78 +8,78 @@ import java.sql.Date;
 
 /**
  *
- * @author QUYBINH
+ * @author admin
  */
 public class Transaction {
-    private int TransactionId;
-    private int AccountId;
-    private int MemebershipId;
-    private Date TransactionDate;
-    private String fullName;
+    private int transactionID;
+    private int accountID;
+    private int memnershipID;
+    private Date transactionDate;
+    private String fullname;
     private String email;
-    private String PaymentMethod;
-    private String NameOnCard;
-    private String cardCredit;
-    private Date ExpireDate;
-    private String CVV;
-    private Float totalMoney;
+    private String paymentMethod;
+    private String nameOnCard;
+    private String creditNumber;
+    private Date expirationDate;
+    private String cvv;
+    private float totalMoney;
 
     public Transaction() {
     }
 
-    public Transaction(int TransactionId, int AccountId, int MemebershipId, Date TransactionDate, String fullName, String email, String PaymentMethod, String NameOnCard, String cardCredit, Date ExpireDate, String CVV, Float totalMoney) {
-        this.TransactionId = TransactionId;
-        this.AccountId = AccountId;
-        this.MemebershipId = MemebershipId;
-        this.TransactionDate = TransactionDate;
-        this.fullName = fullName;
+    public Transaction(int transactionID, int accountID, int memnershipID, Date transactionDate, String fullname, String email, String paymentMethod, String nameOnCard, String creditNumber, Date expirationDate, String cvv, float totalMoney) {
+        this.transactionID = transactionID;
+        this.accountID = accountID;
+        this.memnershipID = memnershipID;
+        this.transactionDate = transactionDate;
+        this.fullname = fullname;
         this.email = email;
-        this.PaymentMethod = PaymentMethod;
-        this.NameOnCard = NameOnCard;
-        this.cardCredit = cardCredit;
-        this.ExpireDate = ExpireDate;
-        this.CVV = CVV;
+        this.paymentMethod = paymentMethod;
+        this.nameOnCard = nameOnCard;
+        this.creditNumber = creditNumber;
+        this.expirationDate = expirationDate;
+        this.cvv = cvv;
         this.totalMoney = totalMoney;
     }
 
-    public int getTransactionId() {
-        return TransactionId;
+    public int getTransactionID() {
+        return transactionID;
     }
 
-    public void setTransactionId(int TransactionId) {
-        this.TransactionId = TransactionId;
+    public void setTransactionID(int transactionID) {
+        this.transactionID = transactionID;
     }
 
-    public int getAccountId() {
-        return AccountId;
+    public int getAccountID() {
+        return accountID;
     }
 
-    public void setAccountId(int AccountId) {
-        this.AccountId = AccountId;
+    public void setAccountID(int accountID) {
+        this.accountID = accountID;
     }
 
-    public int getMemebershipId() {
-        return MemebershipId;
+    public int getMemnershipID() {
+        return memnershipID;
     }
 
-    public void setMemebershipId(int MemebershipId) {
-        this.MemebershipId = MemebershipId;
+    public void setMemnershipID(int memnershipID) {
+        this.memnershipID = memnershipID;
     }
 
     public Date getTransactionDate() {
-        return TransactionDate;
+        return transactionDate;
     }
 
-    public void setTransactionDate(Date TransactionDate) {
-        this.TransactionDate = TransactionDate;
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getEmail() {
@@ -91,53 +91,51 @@ public class Transaction {
     }
 
     public String getPaymentMethod() {
-        return PaymentMethod;
+        return paymentMethod;
     }
 
-    public void setPaymentMethod(String PaymentMethod) {
-        this.PaymentMethod = PaymentMethod;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public String getNameOnCard() {
-        return NameOnCard;
+        return nameOnCard;
     }
 
-    public void setNameOnCard(String NameOnCard) {
-        this.NameOnCard = NameOnCard;
+    public void setNameOnCard(String nameOnCard) {
+        this.nameOnCard = nameOnCard;
     }
 
-    public String getCardCredit() {
-        return cardCredit;
+    public String getCreditNumber() {
+        return creditNumber;
     }
 
-    public void setCardCredit(String cardCredit) {
-        this.cardCredit = cardCredit;
+    public void setCreditNumber(String creditNumber) {
+        this.creditNumber = creditNumber;
     }
 
-    public Date getExpireDate() {
-        return ExpireDate;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setExpireDate(Date ExpireDate) {
-        this.ExpireDate = ExpireDate;
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
-    public String getCVV() {
-        return CVV;
+    public String getCvv() {
+        return cvv;
     }
 
-    public void setCVV(String CVV) {
-        this.CVV = CVV;
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
     }
 
-    public Float getTotalMoney() {
+    public float getTotalMoney() {
         return totalMoney;
     }
 
-    public void setTotalMoney(Float totalMoney) {
+    public void setTotalMoney(float totalMoney) {
         this.totalMoney = totalMoney;
     }
-
-    
     
 }

@@ -491,7 +491,7 @@ public class SubjectDAO extends DBContext {
     public List<Subject> searchSubjectByExpert(int id, String titl) {
         List<Subject> listSubject = new ArrayList<>();
         try {
-            String query = "select * from Subject where Expert_id = ? and title like ?";
+            String query = "select * from Subject where Expert_id = ? and title like ? and status = 1";
             ps = getConnection().prepareStatement(query);
             ps.setInt(1, id);
             ps.setString(2, "%" + titl + "%");
