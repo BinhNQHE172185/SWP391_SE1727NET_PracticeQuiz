@@ -50,7 +50,7 @@
                     <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="<%=ma.getAvatar()%>" width="32" height="32"></span></a>
                     <div class="ttr-header-submenu">
                         <ul>
-                            <li><a href="MarketerProfile.jsp">My profile</a></li>                            
+                                                      
                             <li><a href="Logout">Logout</a></li>
                         </ul>
                     </div>

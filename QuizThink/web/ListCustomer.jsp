@@ -80,6 +80,16 @@
                             <div class="wc-title">
                                 <h4>List our customers</h4>
                             </div>
+                            <div class="widget courses-search-bx placeani">
+                                        <div class="form-group">
+                                            <form action="SearchSubject" method="GET"> 
+                                                <div class="input-group">
+                                                    <label for="dzName">Search customer</label>
+                                                    <input id="dzName" name="searchQuery" type="text" required class="form-control">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                             <section>
                                 <div>
                                     <section class="content">
