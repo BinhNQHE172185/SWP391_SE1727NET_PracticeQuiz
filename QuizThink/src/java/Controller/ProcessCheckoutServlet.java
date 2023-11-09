@@ -15,7 +15,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -44,42 +46,53 @@ public class ProcessCheckoutServlet extends HttpServlet {
         String payMethod = request.getParameter("paymentMethod");
         String nameOnCard = request.getParameter("nameOnCard");
         String creditNumber = request.getParameter("creditNumber");
-        String expirationDate = request.getParameter("expiration");
-        String cvv = request.getParameter("cvv");
-        
+        String expirationDate = request.getParameter("expriration");
+        String cvvNumber = request.getParameter("cvv");
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         LocalDateTime currentTime = LocalDateTime.now();
-        Date transactionDate = Date.valueOf(currentTime.toLocalDate()); 
-        Date expiration = Date.valueOf(expirationDate);
-        
-        String exp = sdf.format(expiration);
-        Date expi =Date.valueOf(exp);
-        
+        LocalDate localDate = currentTime.toLocalDate();
+        java.sql.Date transactionDate = java.sql.Date.valueOf(localDate);
+        Date expiration = null;
+        if (expirationDate != null && !expirationDate.isEmpty()) {
+            try {
+                java.util.Date parsedDate = sdf.parse(expirationDate);
+                expiration = new Date(parsedDate.getTime());
+            } catch (ParseException e) {
+                // Handle parsing error if necessary.
+            }
+        }
+
         TransactionDAO dao = new TransactionDAO();
-        if(dao.isValidFullName(fullname) != true || dao.isValidFullName(nameOnCard) != true){
-            String mess = "Invalid name" ;
-            request.setAttribute("mess", mess);
+        if (dao.isValidFullName(fullname) != true) {
+            String mess = "Invalid name";
+            request.setAttribute("mess1", mess);
+            request.setAttribute("account", currUser);
+            request.getRequestDispatcher("Checkout").include(request, response);
+        } else if (dao.isValidCardName(nameOnCard) != true) {
+            String mess = "Invalid name";
+            request.setAttribute("mess2", mess);
+            request.setAttribute("account", currUser);
             request.getRequestDispatcher("CheckOut.jsp").include(request, response);
-        }
-        if(dao.isValidCreditCard(creditNumber) != true){
-            String mess = "Invalid credit card number. Make sure you input correct credit number!" ;
-            request.setAttribute("mess", mess);
+        } else if (dao.isValidCreditCard(creditNumber) != true) {
+            String mess = "Invalid credit card number. Make sure you input correct credit number!";
+            request.setAttribute("mess3", mess);
+            request.setAttribute("account", currUser);
             request.getRequestDispatcher("CheckOut.jsp").include(request, response);
-        }
-        if(transactionDate.after(expiration)){
+        } else if (expiration != null && transactionDate.after(expiration)) {
             String mess = "Your card has expired";
-            request.setAttribute("mess", mess);
+            request.setAttribute("mess4", mess);
+            request.setAttribute("account", currUser);
             request.getRequestDispatcher("CheckOut.jsp").include(request, response);
+//        } else if (dao.isValid(cvvNumber)) {
+//            String mess = "Invalid cvv. Make sure you input correct cvv number!";
+//            request.setAttribute("mess5", mess);
+//            request.setAttribute("account", currUser);
+//            request.getRequestDispatcher("CheckOut.jsp").include(request, response);
+        } else {
+            dao.addTransaction(currUser.getAccountId(), 1, transactionDate, fullname, email, payMethod, nameOnCard, creditNumber, expiration, cvvNumber, 20);
+            response.sendRedirect("ThankYou.jsp");
         }
-        if(dao.isValidCVV(cvv)){
-            String mess = "Invalid cvv. Make sure you input correct cvv number!" ;
-            request.setAttribute("mess", mess);
-            request.getRequestDispatcher("CheckOut.jsp").include(request, response);
-        }
-        
-        dao.addTransaction(currUser.getAccountId(), 1, transactionDate, fullname, email, payMethod, nameOnCard, creditNumber, expi, cvv, 20);
-        response.sendRedirect("ThankYou.jsp");
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
