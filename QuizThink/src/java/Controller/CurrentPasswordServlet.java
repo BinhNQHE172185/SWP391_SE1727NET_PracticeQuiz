@@ -5,7 +5,9 @@
 package Controller;
 
 import DAO.AccountDAO;
+import DAO.AccountRoleDAO;
 import Model.Account;
+import Model.AccountRole;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -37,10 +39,13 @@ public class CurrentPasswordServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("currUser");
         AccountDAO dao = new AccountDAO();
+        AccountRoleDAO DAO = new AccountRoleDAO();
+        AccountRole role = DAO.getRoleByAccID(account.getAccountId());
         Account currUser = dao.getAccountByID(account.getAccountId());
         String password = currUser.getPassword();
         request.setAttribute("password", password);
         request.setAttribute("account", currUser);
+        request.setAttribute("role", role);
         request.getRequestDispatcher("ChangePasswordProfile.jsp").forward(request, response);
     }
 

@@ -104,7 +104,7 @@
                                                 <div class="pricingtable-main"> 
                                                     <div class="pricingtable-price"> 
                                                         <span class="priceing-doller">$</span>
-                                                        <span class="pricingtable-bx">10</span>
+                                                        <span class="pricingtable-bx">20</span>
                                                         <span class="pricingtable-type">1 Time payment</span>
                                                     </div>
                                                     <div class="pricingtable-title">
@@ -122,10 +122,12 @@
                                                     <li>Practice your own style</li>
                                                 </ul>
                                                 <div class="pricingtable-footer"> 
-                                                    <c:if test="${rollid == 4}">
-                                                        <p class="btn radius-xl" id="get-it-now-button">Membership already included</p>
+                                                    <c:if test="${accRole.roleId == 2}">
+                                                        <p class="btn radius-xl ">Membership already included</p>
                                                     </c:if>
-                                                    <a href="Checkout" class="btn radius-xl" id="getItNowBtn">Get It Now</a>                                                 
+                                                    <c:if test="${accRole.roleId != 2}">
+                                                        <a href="Checkout" class="btn radius-xl" id="getItNowBtn">Get It Now</a>    
+                                                    </c:if>                                                                                                 
                                                 </div>
                                             </div>
                                         </div>
@@ -285,7 +287,7 @@
         <script src="FrontEnd/assets/js/contact.js"></script>
         <script src='FrontEnd/assets/vendors/switcher/switcher.js'></script>
         <script>
-            
+
         </script>
     </body>
 

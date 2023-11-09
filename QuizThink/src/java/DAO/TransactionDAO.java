@@ -101,9 +101,18 @@ public class TransactionDAO extends DBContext {
             e.printStackTrace();
         }
     }
-
-    public void updateAccountRole(int accID) {
-
+    
+    public void updateAccountRole(int roleID, int accID){
+        try {
+            String query = "update AccountRole set role_id = ? where Account_id = ?";
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, roleID);
+            ps.setInt(2, accID);          
+            ps.executeQuery();
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

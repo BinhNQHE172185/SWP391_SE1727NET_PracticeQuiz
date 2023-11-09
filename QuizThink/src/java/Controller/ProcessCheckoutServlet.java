@@ -91,6 +91,7 @@ public class ProcessCheckoutServlet extends HttpServlet {
 //            request.getRequestDispatcher("CheckOut.jsp").include(request, response);
         } else {
             dao.addTransaction(currUser.getAccountId(), 1, transactionDate, fullname, email, payMethod, nameOnCard, creditNumber, expiration, cvvNumber, 20);
+            dao.updateAccountRole(2, currUser.getAccountId());
             response.sendRedirect("ThankYou.jsp");
         }
     }
