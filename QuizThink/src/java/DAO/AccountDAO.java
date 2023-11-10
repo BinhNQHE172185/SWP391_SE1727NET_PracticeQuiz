@@ -66,7 +66,23 @@ public class AccountDAO extends DBContext {
         }
         return account;
     }
-
+    
+    public int checkRole(int accountId){
+        int role=0;
+        String sql = "Select role_id from AccountRole where Account_id = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                role = rs.getInt("role_id");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return role;
+    }
+    
     public List<Account> getAllCustomer() {
         List<Account> customerList = new ArrayList<>();
         String sql = "SELECT * FROM Account a "

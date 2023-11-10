@@ -49,6 +49,12 @@
                         <span class="ttr-label">Add new Slider</span>
                     </a>
                 </li>
+                <li>
+                    <a href="MarketerTransactionList" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-home"></i></span>
+                        <span class="ttr-label">Transaction</span>
+                    </a>
+                </li>
                 <li class="ttr-seperate"></li>
             </ul>
             <!-- sidebar menu end -->

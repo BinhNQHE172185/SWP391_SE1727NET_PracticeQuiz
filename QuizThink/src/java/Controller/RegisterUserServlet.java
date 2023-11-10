@@ -97,5 +97,8 @@ public class RegisterUserServlet extends HttpServlet {
             }
         }
     }
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("Register.jsp").forward(request, response);
+    }
 }

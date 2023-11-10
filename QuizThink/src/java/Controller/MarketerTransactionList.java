@@ -4,16 +4,12 @@
  */
 package Controller;
 
-import DAO.*;
 import Model.*;
-import Model.Expert;
-import Model.Slider;
-import Model.Subject;
+import DAO.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,8 +20,8 @@ import java.util.List;
  *
  * @author QUYBINH
  */
-@WebServlet(name = "home", urlPatterns = {"/home"})
-public class home extends HttpServlet {
+@WebServlet(name = "MarketerTransactionList", urlPatterns = {"/MarketerTransactionList"})
+public class MarketerTransactionList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,47 +35,15 @@ public class home extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        Cookie[] ck = request.getCookies();
-        String username = null;
-        String password = null;
-        ExpertDAO ed = new ExpertDAO();
-        AccountDAO ad = new AccountDAO();
-        MarketerDAO mkd = new MarketerDAO();
-        
-        if (ck != null) {
-            for (Cookie cookie : ck) {
-                if (cookie.getName().equals("username")) {
-                    username = cookie.getValue();
-                }
-                if (cookie.getName().equals("password")) {
-                    password = cookie.getValue();
-                }
-            }
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            
+            TransactionDAO td = new TransactionDAO();
+            List<Transaction> list = td.getTransaction();
+            
+            request.setAttribute("TransList", list);
+            request.getRequestDispatcher("MarketerTransactionList.jsp").forward(request, response);
         }
-        
-        if (username != null && password != null) {
-            Account accCookie = ad.getAccount(username, password);
-            Expert expCookie = ed.getExpert(username, password);
-            Marketer mktCookie = mkd.getMarketer(username, password);
-            if (accCookie != null) {
-                request.getSession().setAttribute("currUser", accCookie);
-            }
-            if (expCookie != null) {
-                request.getSession().setAttribute("currExpert", expCookie);
-            }
-            if(mktCookie != null){
-                request.getSession().setAttribute("currMarketer", mktCookie);
-            }
-        }
-        SliderDAO sliderDAO = new SliderDAO();
-        List<Slider> sliders = sliderDAO.listSliders();
-        request.setAttribute("sliders", sliders);
-        SubjectDAO subjectDAO = new SubjectDAO();
-        List<Subject> recentSubjects = subjectDAO.getRecentSubject();
-        request.setAttribute("recentSubjects", recentSubjects);
-
-        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
