@@ -71,7 +71,7 @@ public class ProcessCheckoutServlet extends HttpServlet {
             request.setAttribute("mess", mess);
             request.getRequestDispatcher("CheckOut.jsp").include(request, response);
         }
-        if(dao.isValidCVV(cvv)){
+        if(dao.isValid(cvv)){
             String mess = "Invalid cvv. Make sure you input correct cvv number!" ;
             request.setAttribute("mess", mess);
             request.getRequestDispatcher("CheckOut.jsp").include(request, response);
