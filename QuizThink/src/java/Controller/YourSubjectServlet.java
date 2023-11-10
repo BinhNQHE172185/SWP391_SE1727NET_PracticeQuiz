@@ -5,8 +5,10 @@
 package Controller;
 
 import DAO.AccountDAO;
+import DAO.AccountRoleDAO;
 import DAO.SubjectDAO;
 import Model.Account;
+import Model.AccountRole;
 import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,10 +44,13 @@ public class YourSubjectServlet extends HttpServlet {
         Account currUser = (Account) session.getAttribute("currUser");
         SubjectDAO dao = new SubjectDAO();
         AccountDAO DAO = new AccountDAO();
+        AccountRoleDAO roleDAO = new AccountRoleDAO();
+        AccountRole role = roleDAO.getRoleByAccID(currUser.getAccountId());
         Account account = DAO.getAccountByID(currUser.getAccountId());
         List<Subject> listSubject = dao.getRegistedSubject(currUser.getAccountId());
         request.setAttribute("listSubjects", listSubject);
         request.setAttribute("account", account);
+        request.setAttribute("role", role);
         request.getRequestDispatcher("RegisteredSubject.jsp").forward(request, response);
 
     }

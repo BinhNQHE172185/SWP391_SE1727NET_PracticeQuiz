@@ -319,6 +319,7 @@
                                                 <h3>Personal Details</h3>
                                             </div>
                                         </div>
+                                        <div class="user-avatar"> <img src="path/to/avatar.jpg" alt="User Avatar" class="avatar-image"> </div>
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Full Name</label>
                                             <div class="col-sm-7">
@@ -354,13 +355,13 @@
                                                 <span class="help">Tell something about yourself.</span>
                                             </div>
                                         </div>
-<!--                                    <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Avatar</label>
-                                            <div class="col-sm-7">
-                                                <input class="form-control" type="text" name="introduction" value="">
-                                                <span class="help"></span>
-                                            </div>
-                                        </div>-->
+                                        <!--                                    <div class="form-group row">
+                                                                                    <label class="col-sm-2 col-form-label">Avatar</label>
+                                                                                    <div class="col-sm-7">
+                                                                                        <input class="form-control" type="text" name="introduction" value="">
+                                                                                        <span class="help"></span>
+                                                                                    </div>
+                                                                                </div>-->
                                         <div class="seperator"></div>
                                     </div>
                                     <div class="">

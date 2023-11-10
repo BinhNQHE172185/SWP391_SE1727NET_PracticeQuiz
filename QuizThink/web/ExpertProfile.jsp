@@ -59,7 +59,38 @@
         <link rel="stylesheet" type="text/css" href="admin/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
+        <style>
+            .user-avatar {
 
+                margin-bottom: 20px;
+            }
+
+            .avatar-image {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+            }
+
+            .username {
+                font-size: 24px;
+                margin-left: 20px;
+                font-weight: bold;
+                margin-top: 10px;
+                margin-bottom: 15px;
+                position: absolute;
+                left: 150px;
+                top: 100px;
+            }
+
+            .user-title {
+                font-size: 14px;
+                color: #777;
+                position: absolute;
+                left: 170px;
+                top: 140px;
+                margin-top: 5px;
+            }
+        </style>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -200,6 +231,11 @@
                                 <h4>Expert profile</h4>
                             </div>
                             <div class="widget-inner">
+                                <div class="user-avatar"> 
+                                    <img src="${expert.getAvatar()}" alt="avatar" class="avatar-image">
+                                    <span class="username">${expert.getUsername()}</span>
+                                    <div class="user-title">Expert</div>
+                                </div>
                                 <form class="edit-profile m-b30" action="ExpertUpdateProfile" method="GET">
                                     <div class="row">
                                         <div class="form-group col-6">
@@ -263,82 +299,82 @@
         <script src='admin/assets/vendors/calendar/moment.min.js'></script>
         <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
         <script>
-                                                $(document).ready(function () {
+            $(document).ready(function () {
 
-                                                    $('#calendar').fullCalendar({
-                                                        header: {
-                                                            left: 'prev,next today',
-                                                            center: 'title',
-                                                            right: 'month,agendaWeek,agendaDay,listWeek'
-                                                        },
-                                                        defaultDate: '2019-03-12',
-                                                        navLinks: true, // can click day/week names to navigate views
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay,listWeek'
+                    },
+                    defaultDate: '2019-03-12',
+                    navLinks: true, // can click day/week names to navigate views
 
-                                                        weekNumbers: true,
-                                                        weekNumbersWithinDays: true,
-                                                        weekNumberCalculation: 'ISO',
+                    weekNumbers: true,
+                    weekNumbersWithinDays: true,
+                    weekNumberCalculation: 'ISO',
 
-                                                        editable: true,
-                                                        eventLimit: true, // allow "more" link when too many events
-                                                        events: [
-                                                            {
-                                                                title: 'All Day Event',
-                                                                start: '2019-03-01'
-                                                            },
-                                                            {
-                                                                title: 'Long Event',
-                                                                start: '2019-03-07',
-                                                                end: '2019-03-10'
-                                                            },
-                                                            {
-                                                                id: 999,
-                                                                title: 'Repeating Event',
-                                                                start: '2019-03-09T16:00:00'
-                                                            },
-                                                            {
-                                                                id: 999,
-                                                                title: 'Repeating Event',
-                                                                start: '2019-03-16T16:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Conference',
-                                                                start: '2019-03-11',
-                                                                end: '2019-03-13'
-                                                            },
-                                                            {
-                                                                title: 'Meeting',
-                                                                start: '2019-03-12T10:30:00',
-                                                                end: '2019-03-12T12:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Lunch',
-                                                                start: '2019-03-12T12:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Meeting',
-                                                                start: '2019-03-12T14:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Happy Hour',
-                                                                start: '2019-03-12T17:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Dinner',
-                                                                start: '2019-03-12T20:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Birthday Party',
-                                                                start: '2019-03-13T07:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Click for Google',
-                                                                url: 'http://google.com/',
-                                                                start: '2019-03-28'
-                                                            }
-                                                        ]
-                                                    });
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: [
+                        {
+                            title: 'All Day Event',
+                            start: '2019-03-01'
+                        },
+                        {
+                            title: 'Long Event',
+                            start: '2019-03-07',
+                            end: '2019-03-10'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2019-03-09T16:00:00'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2019-03-16T16:00:00'
+                        },
+                        {
+                            title: 'Conference',
+                            start: '2019-03-11',
+                            end: '2019-03-13'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2019-03-12T10:30:00',
+                            end: '2019-03-12T12:30:00'
+                        },
+                        {
+                            title: 'Lunch',
+                            start: '2019-03-12T12:00:00'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2019-03-12T14:30:00'
+                        },
+                        {
+                            title: 'Happy Hour',
+                            start: '2019-03-12T17:30:00'
+                        },
+                        {
+                            title: 'Dinner',
+                            start: '2019-03-12T20:00:00'
+                        },
+                        {
+                            title: 'Birthday Party',
+                            start: '2019-03-13T07:00:00'
+                        },
+                        {
+                            title: 'Click for Google',
+                            url: 'http://google.com/',
+                            start: '2019-03-28'
+                        }
+                    ]
+                });
 
-                                                });
+            });
 
         </script>
     </body>
