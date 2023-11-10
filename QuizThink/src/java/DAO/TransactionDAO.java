@@ -24,8 +24,9 @@ public class TransactionDAO extends DBContext {
 
     private PreparedStatement ps;
     private ResultSet rs;
+    private static final Pattern CVV_PATTERN = Pattern.compile("^[0-9]{3,4}$");
 
-    public static boolean isValidFullName(String fullName) {
+    public boolean isValidFullName(String fullName) {
         // Define a regular expression pattern for a full name with multiple surnames
         String regex = "^[A-Z][a-z]*(\\s[A-Z][a-z]*)+$";
 
@@ -39,7 +40,21 @@ public class TransactionDAO extends DBContext {
         return matcher.matches();
     }
 
-    public static boolean isValidCreditCard(String number) {
+    public boolean isValidCardName(String fullName) {
+        // Define a regular expression pattern for a full name with multiple surnames
+        String regex = "^[A-Z][A-Za-z]*(\\s[A-Z][A-Za-z]*)+$";
+
+        // Compile the regular expression pattern
+        Pattern pattern = Pattern.compile(regex);
+
+        // Create a Matcher object
+        Matcher matcher = pattern.matcher(fullName);
+
+        // Check if the input matches the pattern
+        return matcher.matches();
+    }
+
+    public boolean isValidCreditCard(String number) {
         int[] digits = new int[number.length()];
         for (int i = 0; i < number.length(); i++) {
             digits[i] = Character.getNumericValue(number.charAt(i));
@@ -61,17 +76,11 @@ public class TransactionDAO extends DBContext {
         return (sum % 10) == 0;
     }
 
-    public static boolean isValidCVV(String cvv) {
-        if (cvv == null || (cvv.length() != 3 && cvv.length() != 4)) {
+    public boolean isValid(String cvv) {
+        if (cvv == null) {
             return false;
         }
-        for (int i = 0; i < cvv.length(); i++) {
-            if (!Character.isDigit(cvv.charAt(i))) {
-                return false;
-            }
-        }
-
-        return true; // CVV is valid.
+        return CVV_PATTERN.matcher(cvv).matches();
     }
 
     public void addTransaction(int accID, int memID, Date tranDate, String fullname, String email, String payMethod, String nameOnCard, String creditNumber, Date expiration, String cvv, float totalMoney) {
@@ -93,12 +102,9 @@ public class TransactionDAO extends DBContext {
             ps.setFloat(11, totalMoney);
             ps.executeQuery();
         } catch (Exception e) {
-
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
         }
-    }
-
-    public void updateAccountRole(int accID) {
-
     }
 
     public List<Transaction> getTransaction() {
@@ -138,23 +144,28 @@ public class TransactionDAO extends DBContext {
             Logger.getLogger(TransactionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return tran;
+      
+    public void updateAccountRole(int roleID, int accID){
+        try {
+            String query = "update AccountRole set role_id = ? where Account_id = ?";
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, roleID);
+            ps.setInt(2, accID);          
+            ps.executeQuery();
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
-        String name = "Dung Bui Ngoc";
-        String cardNumber = "1234567890123456";
-        String cvv = "1232";
+        String name = "BUI NGOC DUNG";
+        String cardNumber = "1234567890123452";
+        String cvv = "321";
         TransactionDAO dao = new TransactionDAO();
-        boolean isName = dao.isValidFullName(name);
+        boolean isName = dao.isValidCardName(name);
         System.out.println(isName);
-        boolean isCard = isValidCreditCard(cardNumber);
-        System.out.println(isCard);
-        String creditCardNumber = "1234567890123452";
-        if (isValidCreditCard(creditCardNumber)) {
-            System.out.println("Valid credit card number");
-        } else {
-            System.out.println("Invalid credit card number");
-        }
-        System.out.println(isValidCVV(cvv));
+        boolean isCvv = dao.isValid(cvv);
+        System.out.println(isCvv);
     }
 }
