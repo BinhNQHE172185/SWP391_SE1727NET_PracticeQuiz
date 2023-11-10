@@ -104,10 +104,7 @@
                                         <div class="profile-info">
                                             <h4>${account.getUsername()}</h4>
                                             <span>${account.getEmail()}</span>
-                                            <c:if test="${role.roleId == 2}">
-                                                <p style="margin-top: 15px; color: red;">Membership included</p>
-                                            </c:if>                                                                                       
-                                        </div>                                           
+                                        </div>
                                         <div class="profile-social">
                                             <ul class="list-inline m-a0">
                                                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -170,13 +167,6 @@
                                                             <input type="radio" name="gender" value="female"/>Female
                                                             <input type="radio" name="gender" value="others"/>Others
                                                             <span class="help"></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Avatar(Image URL)</label>
-                                                        <div class="col-12 col-sm-9 col-md-9 col-lg-7">
-                                                            <input class="form-control" type="text" name="avatar" value="${account.avatar}">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">

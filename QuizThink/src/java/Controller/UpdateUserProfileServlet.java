@@ -41,10 +41,9 @@ public class UpdateUserProfileServlet extends HttpServlet {
         String email = request.getParameter("email");
         String gender = request.getParameter("gender");
         String dob = request.getParameter("dob");
-        String avatar = request.getParameter("avatar");
         String introduction = request.getParameter("introduction");
         AccountDAO dao = new AccountDAO();
-        dao.updateProfile(fullname, email, dob, gender, avatar, introduction, currUser.getAccountId());
+        dao.updateProfile(fullname, email, dob, gender, introduction, currUser.getAccountId());
         response.sendRedirect("Profile");
         }
     

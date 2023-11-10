@@ -144,7 +144,7 @@ public class TransactionDAO extends DBContext {
             Logger.getLogger(TransactionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return tran;
-      
+    }
     public void updateAccountRole(int roleID, int accID){
         try {
             String query = "update AccountRole set role_id = ? where Account_id = ?";

@@ -96,10 +96,6 @@
             .btn-back:hover {
                 background: #c82333;
             }
-            
-            small.text-danger {
-                color: red;
-            }
         </style>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
@@ -143,7 +139,6 @@
                                 <div class="input-group">                                    
                                     <input type="text" class="form-control" id="fullname" placeholder="Your Name" value="${account.fullname}" name="fullname" required="">
                                     <div class="invalid-feedback" style="width: 100%;"> Your name is required. </div>
-                                    <small class="text-danger">${mess1}</small>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -156,17 +151,17 @@
                             <div class="d-block my-3">
                                 <div class="custom-control custom-radio">
                                     <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked=""
-                                           required="" value="Credit card">
+                                           required="">
                                     <label class="custom-control-label" for="credit">Credit card</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input id="debit" name="paymentMethod" type="radio" class="custom-control-input"
-                                           required="" value="Debit card">
+                                           required="">
                                     <label class="custom-control-label" for="debit">Debit card</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input"
-                                           required="" value="PayPal">
+                                           required="">
                                     <label class="custom-control-label" for="paypal">PayPal</label>
                                 </div>
                             </div>
@@ -174,13 +169,13 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="cc-name">Name on card</label>
                                     <input type="text" class="form-control" id="cc-name" name="nameOnCard" placeholder="" required="">
-                                    <small class="text-danger">${mess2}</small>
+                                    <small class="text-muted">${mess}</small>
                                     <div class="invalid-feedback"> Name on card is required </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="cc-number">Credit card number</label>
                                     <input type="text" class="form-control" id="cc-number" name="creditNumber" placeholder="" required="">
-                                    <small class="text-danger">${mess3}</small>
+                                    <small class="text-muted">${mess}</small>
                                     <div class="invalid-feedback"> Credit card number is required </div>
                                 </div>
                             </div>
@@ -188,13 +183,13 @@
                                 <div class="col-md-3 mb-3">
                                     <label for="cc-expiration">Expiration</label>
                                     <input type="date" class="form-control" id="cc-expiration" name="expriration" placeholder="" required="">
-                                    <small class="text-danger">${mess4}</small>
+                                    <small class="text-muted">${mess}</small>
                                     <div class="invalid-feedback"> Expiration date required </div>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="cc-cvv">CVV</label>
                                     <input type="text" class="form-control" id="cc-cvv" name="cvv" placeholder="" required="">
-                                    <small class="text-danger">${mess5}</small>
+                                    <small class="text-muted">${mess}</small>
                                     <div class="invalid-feedback"> Security code required </div>
                                 </div>
                             </div>

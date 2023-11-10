@@ -130,12 +130,10 @@
                                                     <li>Practice your own style</li>
                                                 </ul>
                                                 <div class="pricingtable-footer"> 
-                                                    <c:if test="${accRole.roleId == 2}">
-                                                        <p class="btn radius-xl ">Membership already included</p>
+                                                    <c:if test="${rollid == 4}">
+                                                        <p class="btn radius-xl" id="get-it-now-button">Membership already included</p>
                                                     </c:if>
-                                                    <c:if test="${accRole.roleId != 2}">
-                                                        <a href="Checkout" class="btn radius-xl" id="getItNowBtn">Get It Now</a>    
-                                                    </c:if>                                                                                                 
+                                                    <a href="Checkout" class="btn radius-xl" id="getItNowBtn">Get It Now</a>                                                 
                                                 </div>
                                             </div>
                                         </div>
