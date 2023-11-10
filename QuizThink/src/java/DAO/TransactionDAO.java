@@ -5,9 +5,14 @@
 package DAO;
 
 import DAL.DBContext;
+import Model.Transaction;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,26 +79,65 @@ public class TransactionDAO extends DBContext {
             String query = " insert into [Transaction]\n"
                     + "(Account_id, Membership_id, Transaction_date, Fullname, Email, Payment_method, Name_on_card, Card_credit_number, Expiration, CVV, Total_money)\n"
                     + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-             ps = getConnection().prepareStatement(query);
-             ps.setInt(1, accID);
-             ps.setInt(2, memID);
-             ps.setDate(3, tranDate);
-             ps.setString(4, fullname);
-             ps.setString(5, email);
-             ps.setString(6, payMethod);
-             ps.setString(7, nameOnCard);
-             ps.setString(8, creditNumber);
-             ps.setDate(9, expiration);
-             ps.setString(10, cvv);
-             ps.setFloat(11, totalMoney);
-             ps.executeQuery();
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, accID);
+            ps.setInt(2, memID);
+            ps.setDate(3, tranDate);
+            ps.setString(4, fullname);
+            ps.setString(5, email);
+            ps.setString(6, payMethod);
+            ps.setString(7, nameOnCard);
+            ps.setString(8, creditNumber);
+            ps.setDate(9, expiration);
+            ps.setString(10, cvv);
+            ps.setFloat(11, totalMoney);
+            ps.executeQuery();
         } catch (Exception e) {
 
         }
     }
-    
-    public void updateAccountRole(int accID){
-        
+
+    public void updateAccountRole(int accID) {
+
+    }
+
+    public List<Transaction> getTransaction() {
+        List<Transaction> tran = new ArrayList<>();
+        String sql = "Select * from [dbo].[Transaction]";
+        int TransactionId;
+        int AccountId;
+        int MemebershipId;
+        Date TransactionDate;
+        String fullName;
+        String email;
+        String PaymentMethod;
+        String NameOnCard;
+        String cardCredit;
+        Date ExpireDate;
+        String CVV;
+        Float totalMoney;
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                TransactionId = rs.getInt("Transaction_id");
+                AccountId = rs.getInt("Account_id");
+                MemebershipId = rs.getInt("Membership_id");
+                TransactionDate = rs.getDate("Transaction_date");
+                fullName = rs.getString("Fullname");
+                email = rs.getString("Email");
+                PaymentMethod = rs.getString("Payment_method");
+                NameOnCard = rs.getString("Name_on_card");
+                cardCredit = rs.getString("Card_credit_number");
+                CVV = rs.getString("CVV");
+                ExpireDate = rs.getDate("Expiration");
+                totalMoney = rs.getFloat("Total_money");
+                tran.add(new Transaction(TransactionId, AccountId, MemebershipId, TransactionDate, fullName, email, PaymentMethod, NameOnCard, cardCredit, ExpireDate, CVV, totalMoney));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TransactionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tran;
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,6 @@
 <%@page import = "Model.Account" %>
 <%@page import = "Model.Expert" %>
+<%@page import = "DAO.*" %>
 <%@page import = "java.util.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
@@ -55,6 +56,7 @@
     <%
         Account acc = (Account) session.getAttribute("currUser");
         Expert ex = (Expert) session.getAttribute("currExpert");
+        AccountDAO ad = new AccountDAO();
     %>
     <div class="top-bar">
         <div class="container">
@@ -146,7 +148,13 @@
                         <li><a href="about.jsp">About us </a>
 
                         </li>
+                        <% if(acc!=null){ %>
+                        <% int role = ad.checkRole(acc.getAccountId()); %>
+                        <% if(role==1){ %>
+                        <li><a href="MembershipPage">Upgrade Premium</a>
 
+                        </li>
+                        <%}}%>
                     </ul>
 
                 </div>

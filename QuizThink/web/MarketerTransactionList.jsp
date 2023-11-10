@@ -111,7 +111,7 @@
                                                                 <% for(int i=0; i<tran.size(); i++) { %>
                                                                 <tr>
                                                                     <td><%= i+1 %></td>
-                                                                    <td><%= tran.get(i).getFullName() %></td>
+                                                                    <td><%= tran.get(i).getFullname() %></td>
                                                                     <td><%= tran.get(i).getEmail() %></td>
                                                                     <td><%= new java.text.SimpleDateFormat("dd-MM-yyyy").format(tran.get(i).getTransactionDate()) %></td>
                                                                     <td><%= tran.get(i).getPaymentMethod() %></td>

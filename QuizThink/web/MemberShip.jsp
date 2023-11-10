@@ -3,7 +3,9 @@
     Created on : Oct 9, 2023, 1:37:52 PM
     Author     : admin
 --%>
-
+<%@page import = "Model.*" %>
+<%@page import = "DAO.*" %>
+<%@page import = "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -57,6 +59,10 @@
         <style>
 
         </style>
+
+        <%
+            List<Membership> list = (List<Membership>) request.getAttribute("list");
+        %>
     </head>
     <body id="bg">
         <div class="page-wraper">
@@ -96,6 +102,8 @@
                                     <p>Flex your mental muscles! Join the Quiz Think Membership and get access to thousands of trivia questions to test your knowledge across every topic. Improve your quiz skills today!</p>
                                 </div>
                             </div>
+                            <% if(list!=null) {%>
+                            <% for (Membership m : list) {%>
                             <div class="pricingtable-row">
                                 <div class="row justify-content-center">
                                     <div class="col-lg-6 m-b40">
@@ -104,7 +112,7 @@
                                                 <div class="pricingtable-main"> 
                                                     <div class="pricingtable-price"> 
                                                         <span class="priceing-doller">$</span>
-                                                        <span class="pricingtable-bx">10</span>
+                                                        <span class="pricingtable-bx"><%=m.getPrice()%></span>
                                                         <span class="pricingtable-type">1 Time payment</span>
                                                     </div>
                                                     <div class="pricingtable-title">
@@ -132,6 +140,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <%}}%>
                         </div>
                     </div>
                     <!-- Our Services ==== -->
@@ -285,7 +294,7 @@
         <script src="FrontEnd/assets/js/contact.js"></script>
         <script src='FrontEnd/assets/vendors/switcher/switcher.js'></script>
         <script>
-            
+
         </script>
     </body>
 
