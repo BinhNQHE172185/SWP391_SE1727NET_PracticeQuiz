@@ -160,6 +160,9 @@
                                         <div class="profile-info">
                                             <h4>${account.getUsername()}</h4>
                                             <span>${account.getEmail()}</span>
+                                            <c:if test="${role.roleId == 2}">
+                                                <p style="margin-top: 15px; color: red;">Membership included</p>
+                                            </c:if>
                                         </div>
                                         <div class="profile-social">
                                             <ul class="list-inline m-a0">

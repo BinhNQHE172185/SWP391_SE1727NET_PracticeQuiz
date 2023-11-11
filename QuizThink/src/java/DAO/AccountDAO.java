@@ -66,15 +66,15 @@ public class AccountDAO extends DBContext {
         }
         return account;
     }
-    
-    public int checkRole(int accountId){
-        int role=0;
+
+    public int checkRole(int accountId) {
+        int role = 0;
         String sql = "Select role_id from AccountRole where Account_id = ?";
         try {
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setInt(1, accountId);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 role = rs.getInt("role_id");
             }
         } catch (Exception ex) {
@@ -82,7 +82,7 @@ public class AccountDAO extends DBContext {
         }
         return role;
     }
-    
+
     public List<Account> getAllCustomer() {
         List<Account> customerList = new ArrayList<>();
         String sql = "SELECT * FROM Account a "
@@ -656,8 +656,8 @@ public class AccountDAO extends DBContext {
 //        }
 //        return null;
 //    }
-    public void updateProfile(String fullname, String email, String dob, String gender, String introduction, int accountID) {
-        String query = "update Account set fullname = ?, email = ?, DOB = ?, gender = ?, [self-introduction] = ? where Account_id =?";
+    public void updateProfile(String fullname, String email, String dob, String gender, String avatar, String introduction, int accountID) {
+        String query = "update Account set fullname = ?, email = ?, DOB = ?, gender = ?, avatar = ?, [self-introduction] = ? where Account_id =?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -665,8 +665,9 @@ public class AccountDAO extends DBContext {
             ps.setString(2, email);
             ps.setString(3, dob);
             ps.setString(4, gender);
-            ps.setString(5, introduction);
-            ps.setInt(6, accountID);
+            ps.setString(5, avatar);
+            ps.setString(6, introduction);
+            ps.setInt(7, accountID);
             rs = ps.executeQuery();
         } catch (Exception e) {
 

@@ -21,10 +21,14 @@
         </header>
 
         <div class="main-content">
-            <i class="fa fa-check main-content__checkmark" id="checkmark"></i>
-            <p class="main-content__body" data-lead-id="main-content-body">Thanks a bunch for filling that out. It means a lot to us, just like you do! We really appreciate you giving us a moment of your time today. Thanks for being you.</p>
+            <i class="fa fa-check main-content__checkmark" style="color:#4c1864;" id="checkmark"></i>
+            <p class="main-content__body" data-lead-id="main-content-body">
+                "Thank you for upgrading! We appreciate your continued support and trust in our service. As a valued member, you now have access to exclusive features and benefits that will enhance your experience with us. We're so glad to have you as part of our community."
+            </p>
         </div>
-
+        <div>
+            <a style="margin-top: 70px; display: inline-block; padding: 10px 15px; background-color: #f7b205; color: #4c1864; border-radius: 4px; text-decoration: none; font-style: inherit" 
+               class="main-content__body" data-lead-id="main-content-body" href="home">Back to home</a>
         <footer class="site-footer" id="footer">
             <p class="site-footer__fineprint" id="fineprint">Copyright ©2014 | All Rights Reserved</p>
         </footer>

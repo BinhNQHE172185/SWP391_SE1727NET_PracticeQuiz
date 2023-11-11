@@ -5,6 +5,7 @@
 package Controller;
 
 import DAO.AccountDAO;
+import DAO.AccountRoleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import Model.Account;
+import Model.AccountRole;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
 
@@ -38,8 +40,11 @@ public class ProfileServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account currUser = (Account) session.getAttribute("currUser");
         AccountDAO dao = new AccountDAO();
+        AccountRoleDAO DAO = new AccountRoleDAO();
         Account account = dao.getAccountByID(currUser.getAccountId());
+        AccountRole accountRole = DAO.getRoleByAccID(currUser.getAccountId());
         request.setAttribute("account", account);
+        request.setAttribute("role", accountRole);
         request.getRequestDispatcher("UserProfile.jsp").forward(request, response);
     }
 

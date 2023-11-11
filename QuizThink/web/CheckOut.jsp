@@ -150,17 +150,17 @@
                             <h4 class="mb-3">Payment</h4>
                             <div class="d-block my-3">
                                 <div class="custom-control custom-radio">
-                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked=""
+                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" value="Credit card"
                                            required="">
                                     <label class="custom-control-label" for="credit">Credit card</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input"
+                                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" value="Debit card"
                                            required="">
                                     <label class="custom-control-label" for="debit">Debit card</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input"
+                                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" value="PayPal"
                                            required="">
                                     <label class="custom-control-label" for="paypal">PayPal</label>
                                 </div>
@@ -169,13 +169,13 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="cc-name">Name on card</label>
                                     <input type="text" class="form-control" id="cc-name" name="nameOnCard" placeholder="" required="">
-                                    <small class="text-muted">${mess}</small>
+                                    <small class="text-muted">${mess2}</small>
                                     <div class="invalid-feedback"> Name on card is required </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="cc-number">Credit card number</label>
                                     <input type="text" class="form-control" id="cc-number" name="creditNumber" placeholder="" required="">
-                                    <small class="text-muted">${mess}</small>
+                                    <small class="text-muted">${mess3}</small>
                                     <div class="invalid-feedback"> Credit card number is required </div>
                                 </div>
                             </div>
@@ -183,13 +183,13 @@
                                 <div class="col-md-3 mb-3">
                                     <label for="cc-expiration">Expiration</label>
                                     <input type="date" class="form-control" id="cc-expiration" name="expriration" placeholder="" required="">
-                                    <small class="text-muted">${mess}</small>
+                                    <small class="text-muted">${mess4}</small>
                                     <div class="invalid-feedback"> Expiration date required </div>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="cc-cvv">CVV</label>
                                     <input type="text" class="form-control" id="cc-cvv" name="cvv" placeholder="" required="">
-                                    <small class="text-muted">${mess}</small>
+                                    <small class="text-muted">${mess5}</small>
                                     <div class="invalid-feedback"> Security code required </div>
                                 </div>
                             </div>
