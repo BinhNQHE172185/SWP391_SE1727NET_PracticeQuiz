@@ -50,75 +50,228 @@
 	<link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
 	<link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
         <link rel="stylesheet" type="text/css" href="admin/assets/css/add-quiz.css">
+        <style>
+            .answercheckbox {
+                margin-left: 4em;
+                margin-top: 0.5em;
+                width: 2em;
+                height: 2em;
+            }
+            .answerradio{
+                margin-left: 4em;
+                margin-top: 0.5em;
+                width: 2em;
+                height: 2em;
+            }
+            .answerinput {
+                margin-left: 120px; 
+                margin-right: 30px; 
+                border: none;
+                border-bottom: 1px solid grey;
+                outline: none;
+            }
+            .form-control.answerinput {
+                font-size: 14px;
+              }
+            .form-control.answerinput::placeholder {
+                font-size: 14px;
+              }
+            
+            .typeRadio {
+                margin-left: 20px; 
+                margin-right: 20px; 
+            }
+            .question-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 3px rgba(1, 1, 1, 1);
+            margin-bottom: 20px;
+            }
+            .card.p-4.mb-3{
+                background-color: #E0DADF
+            }
+            
+        </style>
     </head>
     <body>
     <jsp:include page="Dashboard_header.jsp"></jsp:include>  
     <main class="ttr-wrapper">
-        <form action="createquiz" method="POST">
+        <form onsubmit="return validateForm()" action="createquiz" method="POST">
             <div class="container">
         <!-- Question and Answers -->
         <div class="mb-4">
-            <h2>Create new Quiz </h2>
-            <label class="form-label">Question: </label>
-                <div class="mb-3">
-                    <label for="questionText" class="form-label">Quiz No.</label>
-                    <input type="text" name="content" class="form-control" id="questionText" placeholder="Type quiz here">
+                <h2>Create new Quiz</h2>
+                <div class="card p-4">
+                <div class="row mb-3" >
+                    <div class="col-sm-1 ">
+                         <label>Type:</label>
+                     </div>
+                     <div>
+                         <input class="form-check-input" type="radio" name="quizType" value="0" checked onchange="updateCheckboxes()">
+                     </div>
+                     <div class="col-sm-3">
+                         <label class="form-check-label">Multiple correct answers</label>
+                     </div>
+                     <div >
+                         <input class="form-check-input" type="radio" name="quizType" value="1" onchange="updateCheckboxes()">
+                     </div>
+                     <div class="col-sm-3">
+                         <label class="form-check-label">One correct answer</label>
+                     </div>
+                 </div>
+                    <hr>
+                    <label class="form-label">Question: </label>
+                     <div class="question-card mb-3">
+                         <input type="text" name="content" class="form-control answerinput" id="questionText" placeholder="Type your quiz content here" style="margin-left: 0px; border-bottom: none">
+                     </div>
                 </div>
-
-                <div class="mb-3">
+            
+                </br>
+                <div class=" card p-4 mb-3">
                     <label class="form-label">Answers</label>
-                    <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" >
+                    <div class="question-card form-check input-group mb-3">
+                        <input class="form-check-input answercheckbox" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" >
+                        <input class="form-check-input answerradio" type="radio" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" >
+                        
                         <input type="hidden" name="isCorrect" value =" incorrect">
-                        <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
+                        <input type="text" name="answer" class="form-control col-sm-8 answerinput" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
-                    <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)">
+                    <div class=" question-card form-check input-group mb-3">
+                        <input class="form-check-input answercheckbox" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" >
+                        <input class="form-check-input answerradio" type="radio" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" >
+                        
                         <input type="hidden" name="isCorrect" value =" incorrect">
-                        <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
+                        <input type="text" name="answer" class="form-control col-sm-8 answerinput" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
-                    <div class="form-check input-group mb-3 ">
-                        <input class="form-check-input" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)">
+                    <div class="question-card form-check input-group mb-3 ">
+                        <input class="form-check-input answercheckbox " type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)">
+                        <input class="form-check-input answerradio" type="radio" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" >
+                        
                         <input type="hidden" name="isCorrect" value =" incorrect">
-                        <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
+                        <input type="text" name="answer" class="form-control col-sm-8 answerinput" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
-                    <div class="form-check input-group mb-3">
-                        <input class="form-check-input" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)">
+                    <div class="question-card form-check input-group mb-3">
+                        <input class="form-check-input answercheckbox" type="checkbox" name="checkbox" value="incorrect" onchange="updateCheckbox(this)">
+                        <input class="form-check-input answerradio" type="radio" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" >
+                        
                         <input type="hidden" name="isCorrect" value =" incorrect">
-                        <input type="text" name="answer" class="form-control col-sm-8" placeholder="Type answer option here">
+                        <input type="text" name="answer" class="form-control col-sm-8 answerinput" placeholder="Type answer option here">
                         <button class="input-group-text remove-answer" onclick="removeRow(this)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
 
                 </div >
-                <div class="form-check input-group mb-3 " id="description-explaination" style="display: none">
-                    <label class="form-label">Description or Explaination for correct answers</label>
-                    <div>
-                        <textarea name="description" class="form-control col-sm-8"> </textarea>
+                <div class="card p-4 form-check input-group mb-3 " id="description-explaination" style="display: none; background-color: #E0DADF">
+                    <div class="question-card">
+                        <label class="form-label answerinput">Description or Explaination for correct answers</label>
+                        <div>
+                            <textarea name="description" class="form-control col-sm-8 answerinput"> </textarea>
+                        </div>
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary add-answer" onclick="addRow()">Add Answer</button>
-            <button type="button" class="btn btn-primary add-answer" onclick="addDescription()">Add Description</button>
+                <button type="button" class="btn btn-primary add-answer" onclick="addDescription()">Add Description</button>  
             </div>
         </div>
-
+          
         <!-- Add Question Button -->
         <button type="submit" class="btn btn-primary" id="addQuestion">Save Quiz</button>
         <button type="reset" class="btn btn-primary" id="addQuestion">Reset</button>
         </form>
     </main>
 </body>
+<script>
+        function updateCheckboxes() {
+            var quizType = document.querySelector('input[name="quizType"]:checked').value;
+            var checkboxes = document.querySelectorAll('.answercheckbox');
+            var radioInputs = document.querySelectorAll('.answerradio');
+            var hiddenInput;
+            
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].style.display = (quizType === '0') ? 'block' : 'none';
+                checkboxes[i].checked = false;
+                hiddenInput = checkboxes[i].parentElement.querySelector('input[type="hidden"]');
+                hiddenInput.value = "incorrect";
+            }
+            for (var i = 0; i < radioInputs.length; i++) {
+                radioInputs[i].style.display = (quizType === '1') ? 'block' : 'none';
+                radioInputs[i].checked = false;
+                hiddenInput = radioInputs[i].parentElement.querySelector('input[type="hidden"]');
+                hiddenInput.value = "incorrect";
+            }
+        }
+        updateCheckboxes();
+ </script>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var radioButtons = document.getElementsByName('quizType');
+            var answerCheckboxes = document.querySelectorAll('input[name="checkbox"]');
+            function updateTextVisibility() {
+                var selectedValue = document.querySelector('.answercheckbox').value;
+                for (var i = 0; i < answerCheckboxes.length; i++) {
+                    if (selectedValue === '0') {
+                        answerCheckboxes.style.display = 'block';
+                    } else if (selectedValue === '1') {
+                        answerCheckboxes.style.display = 'none';
+                    }
+                }
+            }
 
+            // Initial setup
+            updateTextVisibility();
+
+            // Add event listener to radio buttons
+            for (var i = 0; i < radioButtons.length; i++) {
+                radioButtons[i].addEventListener('change', updateTextVisibility);
+            }
+        });
+    </script>
+<script>
+        function validateForm() {
+            var questionTextValue = document.getElementById('questionText').value.trim();
+            if (questionTextValue === '') {
+                alert('Please fill in the question text');
+                return false;
+            }
+
+            var answerInputs = document.querySelectorAll('.answerinput');
+
+            for (var i = 0; i < answerInputs.length; i++) {
+                var answerInputValue = answerInputs[i].value.trim();
+
+                if (answerInputValue === '') {
+                    alert('Please fill in all answer options');
+                    return false;
+                }
+            }
+            var checkboxInputs = document.querySelectorAll('.answercheckbox');
+            var atLeastOneSelected = false;
+            for (var i = 0; i < checkboxInputs.length; i++) {
+                if (checkboxInputs[i].checked) {
+                    atLeastOneSelected = true;
+                    break;
+                }
+            }
+
+            if (!atLeastOneSelected) {
+                alert('Please select at least one correct answer');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 <script>
 
 function updateCheckbox(checkbox) {
