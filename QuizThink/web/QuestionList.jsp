@@ -74,7 +74,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(FrontEnd/assets/images/banner/banner3.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white"><%= subject.getTitle() %></h1>
+                            <h1 class="text-white">Subject: <%= subject.getTitle() %></h1>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                 <div class="breadcrumb-row">
                     <div class="container">
                         <ul class="list-inline">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="home">Home</a></li>
                                 <%
                                 List<SubjectDimension> parentSubjectDimensions = (List<SubjectDimension>) request.getAttribute("parentSubjectDimensions");
                                 if (parentSubjectDimensions != null) {
@@ -93,7 +93,7 @@
                             }
                         }
                                 %>
-                            <li><%= subject.getTitle() %></li>
+                            <li><a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>"><%= subject.getTitle() %></a></li>
                         </ul>
                     </div>
                 </div>

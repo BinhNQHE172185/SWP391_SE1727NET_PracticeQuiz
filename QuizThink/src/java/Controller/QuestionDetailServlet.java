@@ -17,6 +17,7 @@ import Model.QuestionStatus;
 import Model.Quiz;
 import Model.Result;
 import Model.Subject;
+import Model.SubjectDimension;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -80,7 +81,11 @@ public class QuestionDetailServlet extends HttpServlet {
                 List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
                 request.setAttribute("answers" + quiz.getQuizId(), answers);
             }
-
+            
+            GetParentSubjectDimensionTitle getParentSubjectDimensionTitle = new GetParentSubjectDimensionTitle();
+            List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subject.getSubjectId());
+            
+            request.setAttribute("parentSubjectDimensions", parentSubjectDimensions);
             request.setAttribute("subject", subject);
             request.setAttribute("question", question);
             request.setAttribute("questionStatus", questionStatus);
