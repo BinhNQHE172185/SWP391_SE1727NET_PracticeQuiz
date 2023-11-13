@@ -214,30 +214,6 @@
         updateCheckboxes();
  </script>
 <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var radioButtons = document.getElementsByName('quizType');
-            var answerCheckboxes = document.querySelectorAll('input[name="checkbox"]');
-            function updateTextVisibility() {
-                var selectedValue = document.querySelector('.answercheckbox').value;
-                for (var i = 0; i < answerCheckboxes.length; i++) {
-                    if (selectedValue === '0') {
-                        answerCheckboxes.style.display = 'block';
-                    } else if (selectedValue === '1') {
-                        answerCheckboxes.style.display = 'none';
-                    }
-                }
-            }
-
-            // Initial setup
-            updateTextVisibility();
-
-            // Add event listener to radio buttons
-            for (var i = 0; i < radioButtons.length; i++) {
-                radioButtons[i].addEventListener('change', updateTextVisibility);
-            }
-        });
-    </script>
-<script>
         function validateForm() {
             var questionTextValue = document.getElementById('questionText').value.trim();
             if (questionTextValue === '') {
