@@ -50,7 +50,7 @@ public class ExpertQuestionListServlet extends HttpServlet {
             Expert ex = (Expert) session.getAttribute("currExpert");
 
             int expertID = ex.getExpertId();
-            int subjectId = 10;
+            int subjectId = Integer.parseInt(request.getParameter(("subjectId")));
             //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 
             Subject subject = subjectDAO.getSubjectById(subjectId);
