@@ -5,6 +5,7 @@
 package DAO;
 
 import DAL.DBContext;
+import Model.RegisteredSubject;
 import Model.Subject;
 import Model.SubjectStatus;
 import java.sql.Date;
@@ -629,4 +630,106 @@ public class SubjectDAO extends DBContext {
         return listSubject;
     }
 
+    public List<RegisteredSubject> getRegisteredSubject(int id) {
+        List<RegisteredSubject> listSubject = new ArrayList<>();
+        try {
+            String query = "SELECT\n"
+                    + "  s.Subject_id,\n"
+                    + "  ss.Account_id,\n"
+                    + "  s.title AS subjectTitle,\n"
+                    + "  s.imageURL AS subjectImage, \n"
+                    + "  s.description AS subjectDescription,\n"
+                    + "  e.username AS expertUsername,\n"
+                    + "  e.avatar AS expertImage,\n"
+                    + "  sd.title AS subjectDimensionTitle,\n"
+                    + "  COUNT(q.Question_id) AS questionCount\n"
+                    + "FROM SubjectStatus ss\n"
+                    + "INNER JOIN Subject s ON ss.Subject_id = s.Subject_id\n"
+                    + "INNER JOIN Expert e ON s.Expert_id = e.Expert_id  \n"
+                    + "INNER JOIN SubjectDimension sd ON s.SubjectDimension_id = sd.SubjectDimension_id\n"
+                    + "LEFT JOIN Question q ON s.Subject_id = q.Subject_id\n"
+                    + "WHERE ss.Account_id = ?\n"
+                    + "GROUP BY\n"
+                    + "  s.Subject_id,\n"
+                    + "  ss.Account_id,\n"
+                    + "  s.title,\n"
+                    + "  s.imageURL,\n"
+                    + "  s.description,\n"
+                    + "  e.username,\n"
+                    + "  sd.title,\n"
+                    + "  e.avatar";
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int subjectID = rs.getInt(1);
+                int accountID = rs.getInt(2);
+                String subjectTitle = rs.getString(3);
+                String image = rs.getString(4);
+                String desc = rs.getString(5);
+                String expert = rs.getString(6);
+                String avatar = rs.getString(7);
+                String dimension = rs.getString(8);
+                int count = rs.getInt(9);
+
+                listSubject.add(new RegisteredSubject(subjectID, accountID, subjectTitle, image, desc, expert, avatar, dimension, count));
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return listSubject;
+    }
+
+    public List<RegisteredSubject> searchRegisteredSubject(int id, String search) {
+        List<RegisteredSubject> listSubject = new ArrayList<>();
+        try {
+            String query = "SELECT\n"
+                    + "  s.Subject_id,\n"
+                    + "  ss.Account_id,\n"
+                    + "  s.title AS subjectTitle,\n"
+                    + "  s.imageURL AS subjectImage, \n"
+                    + "  s.description AS subjectDescription,\n"
+                    + "  e.username AS expertUsername,\n"
+                    + "  e.avatar AS expertImage,\n"
+                    + "  sd.title AS subjectDimensionTitle,\n"
+                    + "  COUNT(q.Question_id) AS questionCount\n"
+                    + "FROM SubjectStatus ss\n"
+                    + "INNER JOIN Subject s ON ss.Subject_id = s.Subject_id\n"
+                    + "INNER JOIN Expert e ON s.Expert_id = e.Expert_id  \n"
+                    + "INNER JOIN SubjectDimension sd ON s.SubjectDimension_id = sd.SubjectDimension_id\n"
+                    + "LEFT JOIN Question q ON s.Subject_id = q.Subject_id\n"
+                    + "WHERE ss.Account_id = ? and s.title like ?\n"
+                    + "GROUP BY\n"
+                    + "  s.Subject_id,\n"
+                    + "  ss.Account_id,\n"
+                    + "  s.title,\n"
+                    + "  s.imageURL,\n"
+                    + "  s.description,\n"
+                    + "  e.username,\n"
+                    + "  sd.title,\n"
+                    + "  e.avatar";
+            ps = getConnection().prepareStatement(query);
+            ps.setInt(1, id);
+            ps.setString(2, "%" + search + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int subjectID = rs.getInt(1);
+                int accountID = rs.getInt(2);
+                String subjectTitle = rs.getString(3);
+                String image = rs.getString(4);
+                String desc = rs.getString(5);
+                String expert = rs.getString(6);
+                String avatar = rs.getString(7);
+                String dimension = rs.getString(8);
+                int count = rs.getInt(9);
+
+                listSubject.add(new RegisteredSubject(subjectID, accountID, subjectTitle, image, desc, expert, avatar, dimension, count));
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return listSubject;
+    }
 }
