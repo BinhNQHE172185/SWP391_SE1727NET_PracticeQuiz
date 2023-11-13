@@ -134,7 +134,7 @@
             <div class="ttr-sidebar-wrapper content-scroll">
                 <!-- side menu logo start -->
                 <div class="ttr-sidebar-logo">
-                    <a href="#"><img alt="" src="FrontEnd\assets\images\Logo1-Purple.png" width="180" height="45"></a>
+                    <a href="home"><img alt="" src="FrontEnd\assets\images\Logo1-Purple.png" width="180" height="45"></a>
                     <!-- <div class="ttr-sidebar-pin-button" title="Pin/Unpin Menu">
                             <i class="material-icons ttr-fixed-icon">gps_fixed</i>
                             <i class="material-icons ttr-not-fixed-icon">gps_not_fixed</i>
@@ -179,7 +179,7 @@
             <div class="container-fluid">
                 <div class="db-breadcrumb">
                     <ul class="db-breadcrumb-list">
-                        <li><a href="home.jsp"><i class="fa fa-home"></i>Home</a></li>
+                        <li><a href="home"><i class="fa fa-home"></i>Home</a></li>
                         <li>Subject</li>
                     </ul>
                 </div>	
