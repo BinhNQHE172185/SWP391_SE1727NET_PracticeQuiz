@@ -4,8 +4,11 @@
  */
 package Controller;
 
+import DAO.AccountRoleDAO;
 import DAO.SubjectDAO;
 import Model.Account;
+import Model.AccountRole;
+import Model.RegisteredSubject;
 import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,9 +43,13 @@ public class SearchRegistedSubjectServlet extends HttpServlet {
         Account currUser = (Account) session.getAttribute("currUser");
         String searchContent = request.getParameter("search");
         SubjectDAO dao = new SubjectDAO();
-        List<Subject> listSubject = dao.getRegistedSubjectByName(currUser.getAccountId(), searchContent);
+        AccountRoleDAO DAO = new AccountRoleDAO();
+        AccountRole role = DAO.getRoleByAccID(currUser.getAccountId());
+        List<RegisteredSubject> listSubject = dao.searchRegisteredSubject(currUser.getAccountId(), searchContent);
         request.setAttribute("listSubjects", listSubject);
         request.setAttribute("searchContent", searchContent);
+        request.setAttribute("account", currUser);
+        request.setAttribute("role", role);
         request.getRequestDispatcher("RegisteredSubject.jsp").forward(request, response);
     }
 

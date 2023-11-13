@@ -15,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -40,9 +41,11 @@ public class ExpertSubjectListServlet extends HttpServlet {
         int noOfPages = 1;//default no of page
         int recordsPerPage = 6;
         SubjectDAO dao = new SubjectDAO();
+        HttpSession session = request.getSession();
+        Expert ex = (Expert) session.getAttribute("currExpert");
         ExpertDAO DAO = new ExpertDAO();
-        Expert expert = DAO.getExpertByID(37);
-        List<Subject> list = dao.getSubjectByExpertPaging(37, (page - 1) * recordsPerPage, recordsPerPage);
+        Expert expert = DAO.getExpertByID(ex.getExpertId());
+        List<Subject> list = dao.getSubjectByExpertPaging(ex.getExpertId(), (page - 1) * recordsPerPage, recordsPerPage);
         if (request.getParameter("page") != null) {//restive current page if possible
             page = Integer.parseInt(request.getParameter("page"));
         }
