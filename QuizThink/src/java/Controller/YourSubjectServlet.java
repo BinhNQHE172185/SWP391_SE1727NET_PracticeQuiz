@@ -6,9 +6,11 @@ package Controller;
 
 import DAO.AccountDAO;
 import DAO.AccountRoleDAO;
+import DAO.ExpertDAO;
 import DAO.SubjectDAO;
 import Model.Account;
 import Model.AccountRole;
+import Model.RegisteredSubject;
 import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,7 +21,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -41,13 +45,17 @@ public class YourSubjectServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        Map<Integer, String> expert = new HashMap<>();
         Account currUser = (Account) session.getAttribute("currUser");
         SubjectDAO dao = new SubjectDAO();
         AccountDAO DAO = new AccountDAO();
         AccountRoleDAO roleDAO = new AccountRoleDAO();
+        ExpertDAO expertDAO = new ExpertDAO();
+        
+        
         AccountRole role = roleDAO.getRoleByAccID(currUser.getAccountId());
         Account account = DAO.getAccountByID(currUser.getAccountId());
-        List<Subject> listSubject = dao.getRegistedSubject(currUser.getAccountId());
+        List<RegisteredSubject> listSubject = dao.getRegisteredSubject(currUser.getAccountId());
         request.setAttribute("listSubjects", listSubject);
         request.setAttribute("account", account);
         request.setAttribute("role", role);

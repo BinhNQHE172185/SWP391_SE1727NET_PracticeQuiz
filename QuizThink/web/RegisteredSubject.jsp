@@ -215,30 +215,31 @@
                                                                 <p style="font:bold; margin-left: 10px; ">There is no subject</p>
                                                             </div>
                                                         </c:if>
-                                                        <c:forEach items = "${listSubjects}" var = "o">
-                                                            <div class="widget-inner">
+                                                        <div class="widget-inner">
+                                                            <c:forEach items = "${listSubjects}" var = "o">
                                                                 <div class="card-courses-list admin-courses">
                                                                     <div class="card-courses-media">
-                                                                        <img src="${o.imageURL}" alt=""/>
+                                                                        <img src="${o.image}" alt=""/>
+                                                                       
                                                                     </div>
                                                                     <div class="card-courses-full-dec">
                                                                         <div class="card-courses-title">
-                                                                            <h4>${o.title}</h4>
+                                                                            <h4><a href="subjectdetail?pid=${o.subjectId}">${o.subjectTitle}</a></h4>
                                                                         </div>
                                                                         <div class="card-courses-list-bx">
                                                                             <ul class="card-courses-view">
                                                                                 <li class="card-courses-user">
                                                                                     <div class="card-courses-user-pic">
-                                                                                        <img src="admin/assets/images/testimonials/pic3.jpg" alt=""/>
+                                                                                        <img src="${o.expertAvatar}" alt=""/>
                                                                                     </div>
                                                                                     <div class="card-courses-user-info">
-                                                                                        <h5>Teacher</h5>
-                                                                                        <h4>Keny White</h4>
+                                                                                        <h5>Expert</h5>
+                                                                                        <h4>${o.expert}</h4>
                                                                                     </div>
                                                                                 </li>
                                                                                 <li class="card-courses-categories">
-                                                                                    <h5>3 Categories</h5>
-                                                                                    <h4>Backend</h4>
+                                                                                    <h5>Dimension</h5>
+                                                                                    <h4>${o.subjectDimension}</h4>
                                                                                 </li>
                                                                                 <li class="card-courses-review">
                                                                                     <h5>3 Review</h5>
@@ -261,15 +262,14 @@
                                                                                 <p>${o.description} </p>	
                                                                             </div>
                                                                             <div class="col-md-12">
-                                                                                <a href="#" class="btn green radius-xl outline">View</a>
+                                                                                <a href="QuestionListServlet?subjectId=${o.subjectId}" class="btn green radius-xl outline">View</a>
                                                                                 <a href="cancel?id=${o.subjectId}" class="btn red outline radius-xl ">Cancel</a>
                                                                             </div>
                                                                         </div>
-
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </c:forEach>
+                                                            </c:forEach>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <!-- Your Profile Views Chart END-->

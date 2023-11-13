@@ -119,11 +119,11 @@
                                         <div class="profile-tabnav">
                                             <ul class="nav nav-tabs">
                                                 <li class="nav-item">
-                                                    <a class="nav-link active" href="YourSubject"><i
+                                                    <a class="nav-link" href="YourSubject"><i
                                                             class="ti-book"></i>Courses</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="Profile"><i
+                                                    <a class="nav-link active" href="Profile"><i
                                                             class="ti-pencil-alt"></i>Edit Profile</a>
                                                 </li>
                                                 <li class="nav-item">
