@@ -151,7 +151,7 @@
                         <% if(acc != null && ad.checkRole(acc.getAccountId()) == 1) { %>
                         <!-- User is logged in and has role 1 (premium) -->
                         <li><a href="MembershipPage">Upgrade Premium</a></li>
-                            <% } else if (acc == null) { %>
+                            <% } else if (acc == null && ex == null) { %>
                         <!-- User is not logged in -->
                         <li><a href="Login">Upgrade Premium</a></li>
                         <!-- Add more logic or links as needed for non-logged-in users -->
