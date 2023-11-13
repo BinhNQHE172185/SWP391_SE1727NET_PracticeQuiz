@@ -54,15 +54,17 @@
 <body>
     <jsp:include page="Dashboard_header.jsp"></jsp:include>  
     <main class="ttr-wrapper">
-        <form action="createquiz" method="POST">
+        <form action="editquiz" method="POST">
+            
             <div class="container">
         <!-- Question and Answers -->
         <div class="mb-4">
-            <h2>Create new Quiz </h2>
+            <h2>Edit Quiz </h2>
             <label class="form-label">Question: </label>
                 <div class="mb-3">
                     <label for="questionText" class="form-label">Quiz No.</label>
                     <input type="text" name="content" class="form-control" id="questionText" placeholder="Type quiz here" value="${quiz.content}">
+                <input type="hidden" name="quiz_Id" value="${quiz.quizId}">
                 </div>
 
                 <div class="mb-3">
@@ -86,11 +88,11 @@
                 <div class="form-check input-group mb-3 " id="description-explaination" style="display: none">
                     <label class="form-label">Description or Explaination for correct answers</label>
                     <div>
-                        <textarea name="description" class="form-control col-sm-8"> </textarea>
+                        <textarea name="description" class="form-control col-sm-8">${quiz.description} </textarea>
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary add-answer" onclick="addRow()">Add Answer</button>
-            <button type="button" class="btn btn-primary add-answer" onclick="addDescription()">Add Description</button>
+            <button type="button" class="btn btn-primary add-answer" onclick="addDescription()">Description</button>
             </div>
         </div>
 
@@ -128,8 +130,16 @@ function updateCheckbox(checkbox) {
     
     function removeRow(button){
         var rows = document.querySelectorAll('.form-check.input-group.mb-3');
-        if(rows.length >2){
-           var row = button.parentElement; // get the element contain button
+        var currentRow = document.querySelector('.form-check.input-group.mb-3');
+        var exist = currentRow.querySelector('input[name="exist"]');
+        var row = button.parentElement; // get the element contain button
+        var deleteStatus = row.querySelector('input[name="delete"]');
+        
+        if(exist.value !== 'none'){
+            deleteStatus.value = 'true';
+            row.style.display = "none";
+        }
+        if(exist.value === 'none' && rows.length >2){
             row.remove(); 
         }
     }
@@ -149,22 +159,30 @@ function updateCheckbox(checkbox) {
 <script>
     function addRow(){
         var rows = document.querySelectorAll('.form-check.input-group.mb-3');
-        if(rows.length < 8){
+        var count = 0;
+        rows.forEach(function(row) {
+            if (row.style.display !== "none") {
+                count++;
+            }
+        });
+        if(count < 8){
             var originalRow = document.querySelector('.form-check.input-group.mb-3');
             var newRow = originalRow.cloneNode(true);
-            console.log("Số dòng hiện tại: " + rows.length);
+            console.log("Số dòng hiện tại: " + count);
             
             var newCheckbox = newRow.querySelector('input[type="checkbox"]');
-            
+            var checkExist = newRow.querySelector('input[name="exist"]').value = 'none';
+            var isCorrect = newRow.querySelector('input[name="isCorrect"]').value = 'incorrect';
             newCheckbox.checked = false;
             newCheckbox.onchange = function() {
                 updateCheckbox(newCheckbox);
             };
             
-            newRow.querySelector('input[type="text"]').value = '';
+             newRow.querySelector('input[type="text"]').value = null;
+            newRow.style.display = "flex";
             originalRow.parentElement.appendChild(newRow);
         }
-        else if (rows.length >= 8){
+        else if (count >= 8){
             alert("Số dòng đã đạt tối đa.");
         }
     }

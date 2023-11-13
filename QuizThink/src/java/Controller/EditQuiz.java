@@ -92,7 +92,7 @@ public class EditQuiz extends HttpServlet {
             if(isExist[i].equals("none") && isDelete[i].equals("false")){
                 if(answerArray[i] != ""){
                     if(isCorrectArray[i].equals("correct")){
-                    answerDAO.addAnswer(quiz_id, "1", answerArray[i]);    
+                        answerDAO.addAnswer(quiz_id, "1", answerArray[i]);    
                     }else{
                         answerDAO.addAnswer(quiz_id, "0", answerArray[i]);
                     }
