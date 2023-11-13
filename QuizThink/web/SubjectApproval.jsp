@@ -105,12 +105,12 @@
 												<h5>Numbers of Question </h5>
                                                                                                 <h4>${o.questionCount}</h4>
 											</li>
-											<li class="card-courses-stats">
-												<a href="#" class="btn button-sm green radius-xl">Pending</a>
+                                                                                        <li class="card-courses-categories">
+												<h5>LEVEL </h5>
+                                                                                                <h4>${o.level}</h4>
 											</li>
 											<li class="card-courses-stats">
-												<del>LEVEL</del>
-												<h5 class="text-primary">${o.level}</h5>
+												<a href="#" class="btn button-sm green radius-xl">Pending</a>
 											</li>
 										</ul>
 									</div>
@@ -122,6 +122,7 @@
 										<div class="col-md-12">
                                                                                     <form action="approve" method="POST">
                                                                                         <input type="hidden" name="SubjectID" value="${o.subjectId}">
+                                                                                        <button  onclick="window.open('https://Google.com', '_blank')" type="button" class="btn radius-xl outline">Preview&EditSubject</button>
                                                                                         <button type="submit" class="btn green radius-xl outline" >Approve</button>
                                                                                     </form>
 											
