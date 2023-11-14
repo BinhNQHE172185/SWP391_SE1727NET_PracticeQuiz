@@ -276,11 +276,24 @@ public class SubjectDAO extends DBContext {
             // Handle exceptions here
         }
     }
+    
+    public void denySubjects(String subjectId) {
+        String query = "UPDATE [Subject]\n"
+                + "SET [status] = 0\n"
+                + "WHERE [Subject_id] = ?;";
+        try {
+            ps = getConnection().prepareStatement(query);
+            ps.setString(1, subjectId);
+            ps.executeUpdate(); // no result ==> no need result set
+        } catch (Exception e) {
+            // Handle exceptions here
+        }
+    }
 
     public List<Subject> getNotApproveSubjects() {
         List<Subject> list = new ArrayList<>();
         try {
-            String query = "select * from Subject where status = 0";
+            String query = "select * from Subject where status IS NULL";
             ps = getConnection().prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
