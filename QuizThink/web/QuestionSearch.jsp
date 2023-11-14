@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Model.Question" %>
 <%@ page import="Model.Subject" %>
-
+<%@ page import="Model.SubjectDimension" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,7 +73,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(FrontEnd/assets/images/banner/banner3.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white"><%= subject.getTitle() %></h1>
+                            <h1 class="text-white">Subject: <%= subject.getTitle() %></h1>
                         </div>
                     </div>
                 </div>
@@ -81,11 +81,18 @@
                 <div class="breadcrumb-row">
                     <div class="container">
                         <ul class="list-inline">
-                            <li><a href="#">Home</a></li>
-                            <li>Science</li>
-                            <li>Computer science</li>
-                            <li>Software Engineering</li>
-                            <li><%= subject.getTitle() %></li>
+                            <li><a href="home">Home</a></li>
+                                <%
+                                List<SubjectDimension> parentSubjectDimensions = (List<SubjectDimension>) request.getAttribute("parentSubjectDimensions");
+                                if (parentSubjectDimensions != null) {
+                                    for (SubjectDimension subjectDimension : parentSubjectDimensions) {
+                                %>
+                            <li><%= subjectDimension.getTitle() %></li>
+                                <%
+                            }
+                        }
+                                %>
+                            <li><a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>"><%= subject.getTitle() %></a></li>
                         </ul>
                     </div>
                 </div>
@@ -103,6 +110,7 @@
                                                 <div class="input-group">
                                                     <label for="dzName">Search Question</label>
                                                     <input id="dzName" name="searchQuery" type="text" required class="form-control">
+                                                    <input type="hidden" name="subjectId" value="<%= subject.getSubjectId() %>">
                                                 </div>
                                             </form>
                                         </div>

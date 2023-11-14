@@ -151,10 +151,10 @@
                                         <div class="row">
                                             <div class="col-md-12 col-lg-4">
                                                 <ul class="course-features">
-                                                    <li><i class="ti-book"></i> <span class="label">Questions</span> <span class="value">${subjectdetail.questionCount}</span></li>
+                                                    <li><i class="ti-book"></i> <span class="label">Questions</span> <span class="value"></span></li>
                                                     <li><i class="ti-help-alt"></i> <span class="label">Requirement</span> <span class="value">${subjectdetail.requirement}%</span></li>
                                                     <li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
-                                                    <li><i class="ti-stats-up"></i> <span class="label">Rate</span> <span class="value">${subjectdetail.rate}</span></li>
+                                                    <li><i class="ti-stats-up"></i> <span class="label">Rate</span> <span class="value"></span></li>
                                                     <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
 
 
@@ -162,7 +162,7 @@
                                             </div>
                                             <div class="col-md-12 col-lg-8">
                                                 <h5 class="m-b5">Course Description</h5>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                                                <p>${subjectdetail.description}%</p>
 
                                             </div>
                                         </div>
