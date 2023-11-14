@@ -183,4 +183,47 @@ public class MarketerDAO extends DBContext {
 
         }
     }
+    
+    //Get all account
+    public List<Marketer> getAllMarketer() {
+        List<Marketer> list = new ArrayList<>();
+            String query = "SELECT * FROM Marketer";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query); // page 1 starts at index 0
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Marketer(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getBoolean(8)
+                ));
+
+            }
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    public int getNumOfMarketer() {
+        String query = "select COUNT(*) from Marketer";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return 0;
+    }
 }

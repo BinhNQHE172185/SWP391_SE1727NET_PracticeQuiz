@@ -70,8 +70,15 @@ public class ApproveServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         SubjectDAO dao = new SubjectDAO();
+        String st = request.getParameter("State");
         String subjectId = request.getParameter("SubjectID");
-        dao.ApproveSubject(subjectId);
+        int state = Integer.parseInt(st);
+        if(state == 1){
+            dao.ApproveSubject(subjectId);
+        }else{
+            dao.denySubjects(subjectId);
+        }
+        
         response.sendRedirect("approvesubject");
     }
 
