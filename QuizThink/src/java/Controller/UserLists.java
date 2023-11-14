@@ -6,9 +6,11 @@
 package Controller;
 
 import DAO.AccountDAO;
+import DAO.ExpertDAO;
 import DAO.MarketerDAO;
 import DAO.RoleDAO;
 import Model.Account;
+import Model.Expert;
 import Model.Marketer;
 import Model.Role;
 import java.io.IOException;
@@ -82,7 +84,10 @@ public class UserLists extends HttpServlet {
         MarketerDAO Mdao = new MarketerDAO();
         List<Marketer> listMarketer = new ArrayList<>();
         listMarketer = Mdao.getAllMarketer();
-        
+        //-----------------------------------Expert-----------------------------------
+        ExpertDAO Edao = new ExpertDAO();
+        List<Expert> listExpert = new ArrayList<>();
+        listExpert = Edao.getAllExpert();
         
         // ----------------Account------------------
         request.setAttribute("selectedRole", roleId);
@@ -92,6 +97,8 @@ public class UserLists extends HttpServlet {
         request.setAttribute("listAccount", listAccount);
         // ----------------Marketer------------------
         request.setAttribute("listMarketer", listMarketer);
+        // ----------------Expert------------------
+        request.setAttribute("listExpert", listExpert);
         
         request.getRequestDispatcher("UserLists.jsp").forward(request, response);
         

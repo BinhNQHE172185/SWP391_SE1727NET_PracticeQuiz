@@ -99,7 +99,7 @@
                             <select id="typeAccount" name="typeAccount" onchange="handleTypeChange()">
                                 <option value="0">Customer</option>
                                 <option value="1">Marketer</option>
-                                <option value="">Expert</option>
+                                <option value="2">Expert</option>
                             </select>   
                     </td>
                     <td>
@@ -176,6 +176,31 @@
 
                     </tbody>
                 </table>
+                <table id="expert-table" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Avatar</th>
+                            <th>Full name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expert">
+                        <c:forEach items="${listExpert}" var="o" varStatus="status">
+                            <tr class="clickable-row expert" data-href="edituser?accountId=${o.expertId}">
+                                <td>${o.expertId}</td>
+                                <td><img src="${o.avatar}" alt="alt" style="width: 120px; height: 100px;"/></td>
+                                <td>${o.name}</td>
+                                <td>${o.username}</td>
+                                <td>${o.email}</td>
+                                <td>${o.status}</td>
+                            </tr>
+                        </c:forEach>
+
+                    </tbody>
+                </table>
                 </div>
                 <!-- /.box-body -->
               </div>
@@ -189,6 +214,11 @@
                         <li <c:if test="${i == currentPage}">class="active"</c:if>><a data-param="page" data-value="${i}" onclick="handleLinkClick(event, this)">${i}</a></li>
                     </c:forEach>
                 </ul>
+            </div>
+          <div class="pagination" id="pagination" style="display: none">
+              <button class="btn" onclick="prevPage()"><</button>
+                <span id="currentPage" class="pagination" style="margin-left: 10px;margin-right: 10px;">1</span>
+                <button class="btn" onclick="nextPage()">></button>
             </div>
         </section>
         <!-- /.content -->
@@ -213,7 +243,47 @@
     <script src='admin/assets/vendors/calendar/moment.min.js'></script>
     <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
     
+<script>
+    var itemsPerPage = 5; // Set the number of items per page
+    var currentPage = 1;
 
+    function showPage(pageNumber) {
+        var rows = document.getElementsByClassName('expert');
+        var start = (pageNumber - 1) * itemsPerPage;
+        var end = start + itemsPerPage;
+
+        for (var i = 0; i < rows.length; i++) {
+            if (i >= start && i < end) {
+                rows[i].style.display = 'table-row';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+
+    function prevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            updatePagination();
+        }
+    }
+
+    function nextPage() {
+        var rows = document.getElementsByClassName('expert');
+        if (currentPage < Math.ceil(rows.length / itemsPerPage)) {
+            currentPage++;
+            updatePagination();
+        }
+    }
+
+    function updatePagination() {
+        document.getElementById('currentPage').innerText = currentPage;
+        showPage(currentPage);
+    }
+
+    // Initial setup
+    showPage(currentPage);
+</script>
     
 <script>
     function handleTypeChange() {
@@ -223,20 +293,25 @@
         // Get references to the tables
         var table1 = document.getElementById("user-table");
         var table2 = document.getElementById("marketer-table");
+        var table3 = document.getElementById("expert-table");
         var pagin1 = document.getElementById("pagination-user");
-        var pagin2 = document.getElementById("pagination-marketer");
 
         // Check the selected value and adjust the display property of tables
         if (selectedValue === "0") { // Customer
             table1.style.display = "table";
             pagin1.style.display = "flex";
             table2.style.display = "none";
-            pagin2.style.display = "none";
+            table3.style.display = "none";
         } else if (selectedValue === "1") { // Marketer
             table1.style.display = "none";
             pagin1.style.display = "none";
             table2.style.display = "table";
-            pagin2.style.display = "flex";
+            table3.style.display = "none";
+        } else if (selectedValue === "2") { // Marketer
+            table1.style.display = "none";
+            pagin1.style.display = "none";
+            table2.style.display = "none";
+            table3.style.display = "table";
         }
     }
 
