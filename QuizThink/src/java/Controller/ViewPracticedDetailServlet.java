@@ -48,7 +48,6 @@ public class ViewPracticedDetailServlet extends HttpServlet {
         ResultDAO resultDao = new ResultDAO();
         AnswerDAO answerDao = new AnswerDAO();
         int resultId = Integer.parseInt(request.getParameter("resultId"));
-        //Result rs = resultDao.getResultByID("5");
 
         Result rs = resultDao.getResultByID(resultId);
         List<Quiz> listQuiz = quizDao.getQuizzesByQuestionId(rs.getQuestionId());
