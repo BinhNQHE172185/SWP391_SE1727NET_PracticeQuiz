@@ -92,7 +92,15 @@
                                 <c:forEach items="${listRole}" var="o">
                                     <option value="${o.roleID}" <c:if test="${selectedRole == o.roleID}">selected="selected" </c:if> >${o.roleName}</option>
                                 </c:forEach>
-                            </select>
+                            </select>   
+                    </td>
+                    <td>
+                            <label for="typeAccount">Choose a Role</label>
+                            <select id="typeAccount" name="typeAccount" onchange="handleTypeChange()">
+                                <option value="0">Customer</option>
+                                <option value="1">Marketer</option>
+                                <option value="2">Expert</option>
+                            </select>   
                     </td>
                     <td>
                         <label for="category"></label>
@@ -110,7 +118,7 @@
               <div class="box">
                 <!-- /.box-header -->
                 <div class="box-body">
-                  <table id="example2" class="table table-bordered table-hover">
+                  <table id="user-table" class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -126,7 +134,7 @@
                         </tr>
                     </thead>
                     <tbody id="userdata">
-                        <c:forEach items="${listAccount}" var="o" varStatus="status">
+                        <c:forEach items="${listAccount}" var="o" varStatus="status" >
                             <tr class="clickable-row" data-href="edituser?accountId=${o.accountId}">
                                 <td>${o.accountId}</td>
                                 <td><img src="${o.avatar}" alt="alt" style="width: 120px; height: 100px;"/></td>
@@ -142,7 +150,57 @@
                         </c:forEach>
 
                     </tbody>
-                  </table>
+                </table>
+                <table id="marketer-table" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Avatar</th>
+                            <th>Full name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marketer">
+                        <c:forEach items="${listMarketer}" var="o" varStatus="status">
+                            <tr class="clickable-row" data-href="edituser?accountId=${o.marketerID}">
+                                <td>${o.marketerID}</td>
+                                <td><img src="${o.avatar}" alt="alt" style="width: 120px; height: 100px;"/></td>
+                                <td>${o.name}</td>
+                                <td>${o.username}</td>
+                                <td>${o.email}</td>
+                                <td>${o.status}</td>
+                            </tr>
+                        </c:forEach>
+
+                    </tbody>
+                </table>
+                <table id="expert-table" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Avatar</th>
+                            <th>Full name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expert">
+                        <c:forEach items="${listExpert}" var="o" varStatus="status">
+                            <tr class="clickable-row expert" data-href="edituser?accountId=${o.expertId}">
+                                <td>${o.expertId}</td>
+                                <td><img src="${o.avatar}" alt="alt" style="width: 120px; height: 100px;"/></td>
+                                <td>${o.name}</td>
+                                <td>${o.username}</td>
+                                <td>${o.email}</td>
+                                <td>${o.status}</td>
+                            </tr>
+                        </c:forEach>
+
+                    </tbody>
+                </table>
                 </div>
                 <!-- /.box-body -->
               </div>
@@ -151,11 +209,16 @@
           </div>
           <!-- /.row -->
             <div >
-                <ul class="pagination">	
+                <ul class="pagination" id="pagination-user">	
                     <c:forEach begin="1" end="${lastPage}" var="i">
                         <li <c:if test="${i == currentPage}">class="active"</c:if>><a data-param="page" data-value="${i}" onclick="handleLinkClick(event, this)">${i}</a></li>
                     </c:forEach>
                 </ul>
+            </div>
+          <div class="pagination" id="pagination" style="display: none">
+              <button class="btn" onclick="prevPage()"><</button>
+                <span id="currentPage" class="pagination" style="margin-left: 10px;margin-right: 10px;">1</span>
+                <button class="btn" onclick="nextPage()">></button>
             </div>
         </section>
         <!-- /.content -->
@@ -180,18 +243,82 @@
     <script src='admin/assets/vendors/calendar/moment.min.js'></script>
     <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
     
+<script>
+    var itemsPerPage = 5; // Set the number of items per page
+    var currentPage = 1;
+
+    function showPage(pageNumber) {
+        var rows = document.getElementsByClassName('expert');
+        var start = (pageNumber - 1) * itemsPerPage;
+        var end = start + itemsPerPage;
+
+        for (var i = 0; i < rows.length; i++) {
+            if (i >= start && i < end) {
+                rows[i].style.display = 'table-row';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+
+    function prevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            updatePagination();
+        }
+    }
+
+    function nextPage() {
+        var rows = document.getElementsByClassName('expert');
+        if (currentPage < Math.ceil(rows.length / itemsPerPage)) {
+            currentPage++;
+            updatePagination();
+        }
+    }
+
+    function updatePagination() {
+        document.getElementById('currentPage').innerText = currentPage;
+        showPage(currentPage);
+    }
+
+    // Initial setup
+    showPage(currentPage);
+</script>
     
 <script>
-    // Double click row
-    document.addEventListener("DOMContentLoaded", function () {
-        var rows = document.querySelectorAll(".clickable-row");
+    function handleTypeChange() {
+        // Get the selected value from the select element
+        var selectedValue = document.getElementById("typeAccount").value;
 
-        rows.forEach(function (row) {
-            row.addEventListener("dblclick", function () {
-                window.location.href = row.getAttribute("data-href");
-            });
-        });
-    });
+        // Get references to the tables
+        var table1 = document.getElementById("user-table");
+        var table2 = document.getElementById("marketer-table");
+        var table3 = document.getElementById("expert-table");
+        var pagin1 = document.getElementById("pagination-user");
+
+        // Check the selected value and adjust the display property of tables
+        if (selectedValue === "0") { // Customer
+            table1.style.display = "table";
+            pagin1.style.display = "flex";
+            table2.style.display = "none";
+            table3.style.display = "none";
+        } else if (selectedValue === "1") { // Marketer
+            table1.style.display = "none";
+            pagin1.style.display = "none";
+            table2.style.display = "table";
+            table3.style.display = "none";
+        } else if (selectedValue === "2") { // Marketer
+            table1.style.display = "none";
+            pagin1.style.display = "none";
+            table2.style.display = "none";
+            table3.style.display = "table";
+        }
+    }
+
+    // Attach the handleTypeChange function to the change event of the select element
+
+    // Initially call the function to set the initial display based on the default selected option
+    handleTypeChange();
 </script>
 <script>
     // Tạo một hàm để đếm số hàng
@@ -220,7 +347,8 @@
             let param = link.getAttribute('data-param');
             let value = link.getAttribute('data-value');
             let newHref;
-            if (currentURL.indexOf('role') !== -1 && currentURL.indexOf('page') === -1) {
+            if(currentURL.indexOf('pageM') === -1 ){
+                if (currentURL.indexOf('role') !== -1 && currentURL.indexOf('page') === -1) {
                 newHref = currentURL + '&' + param + '=' + value;
             }else if(currentURL.indexOf('role') === -1 && currentURL.indexOf('page') === -1){
                 newHref = '/QuizThink/userlists?' + param + '=' + value;  
@@ -229,8 +357,10 @@
                 newHref = url.toString();
             }
             window.location.href = newHref;
+            }
           }
     </script>
+
     <script>
         function redirectToURL(selectElement) {
             var selectedOption = selectElement.value; // Lấy giá trị của option đã chọn
