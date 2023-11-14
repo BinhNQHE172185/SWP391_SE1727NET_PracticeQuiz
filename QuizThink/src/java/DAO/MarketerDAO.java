@@ -185,15 +185,12 @@ public class MarketerDAO extends DBContext {
     }
     
     //Get all account
-    public List<Marketer> getAllMarketer(int page) {
+    public List<Marketer> getAllMarketer() {
         List<Marketer> list = new ArrayList<>();
-            String query = "SELECT * FROM Marketer\n" +
-                    "ORDER BY Marketer_id"
-                + "OFFSET ? ROWS FETCH NEXT 15 ROWS ONLY";
+            String query = "SELECT * FROM Marketer";
         try {
             conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, (page - 1) * 15); // page 1 starts at index 0
+            ps = conn.prepareStatement(query); // page 1 starts at index 0
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Marketer(
@@ -208,9 +205,25 @@ public class MarketerDAO extends DBContext {
                 ));
 
             }
-        } catch (Exception e) {
-            //e.printStackTrace();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
         }
         return list;
+    }
+    public int getNumOfMarketer() {
+        String query = "select COUNT(*) from Marketer";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return 0;
     }
 }

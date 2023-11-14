@@ -6,8 +6,10 @@
 package Controller;
 
 import DAO.AccountDAO;
+import DAO.MarketerDAO;
 import DAO.RoleDAO;
 import Model.Account;
+import Model.Marketer;
 import Model.Role;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,6 +38,9 @@ public class UserLists extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        
+        //-----------------------------------Account-----------------------------------
         AccountDAO dao = new AccountDAO();
         RoleDAO RDAO = new RoleDAO();
         
@@ -71,12 +76,26 @@ public class UserLists extends HttpServlet {
             listAccount = dao.searchAccountByName(textSearch);
         }
         
+        
+        
+        //-----------------------------------Marketer-----------------------------------
+        MarketerDAO Mdao = new MarketerDAO();
+        List<Marketer> listMarketer = new ArrayList<>();
+        listMarketer = Mdao.getAllMarketer();
+        
+        
+        // ----------------Account------------------
         request.setAttribute("selectedRole", roleId);
         request.setAttribute("listRole", listRole);
         request.setAttribute("currentPage", page);
         request.setAttribute("lastPage", lastPage); 
         request.setAttribute("listAccount", listAccount);
+        // ----------------Marketer------------------
+        request.setAttribute("listMarketer", listMarketer);
+        
         request.getRequestDispatcher("UserLists.jsp").forward(request, response);
+        
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
