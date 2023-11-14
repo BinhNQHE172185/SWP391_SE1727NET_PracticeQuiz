@@ -113,32 +113,31 @@
                   <table id="example2" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Account ID</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Gender</th>
+                            <th>ID</th>
                             <th>Avatar</th>
                             <th>Full name</th>
-                            <th>Date of Birth</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>DOB</th>
+                            <th>Role</th>
                             <th>Create Date</th>
-                            <th>Modify Date</th>
-                            
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody id="userdata">
                         <c:forEach items="${listAccount}" var="o" varStatus="status">
-                            <tr>
+                            <tr class="clickable-row" data-href="edituser?accountId=${o.accountId}">
                                 <td>${o.accountId}</td>
-                                <td><a href="edituser?accountId=${o.accountId}">${o.username}</a></td>
-                                <td>${o.email}</td>
-                                <td>${o.status}</td>
-                                <td>${o.gender}</td>
-                                <td>${o.avatar}</td>
+                                <td><img src="${o.avatar}" alt="alt" style="width: 120px; height: 100px;"/></td>
                                 <td>${o.fullname}</td>
+                                <td>${o.username}</td>
+                                <td>${o.email}</td>
+                                <td>${o.gender}</td>
+                                <td>${o.dob}</td>
                                 <td>${o.dob}</td>
                                 <td>${o.createdDate}</td>
-                                <td>${o.modifyDate}</td>
+                                <td>${o.status}</td>
                             </tr>
                         </c:forEach>
 
@@ -181,7 +180,20 @@
     <script src='admin/assets/vendors/calendar/moment.min.js'></script>
     <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
     
-    <script>
+    
+<script>
+    // Double click row
+    document.addEventListener("DOMContentLoaded", function () {
+        var rows = document.querySelectorAll(".clickable-row");
+
+        rows.forEach(function (row) {
+            row.addEventListener("dblclick", function () {
+                window.location.href = row.getAttribute("data-href");
+            });
+        });
+    });
+</script>
+<script>
     // Tạo một hàm để đếm số hàng
     function countRows() {
         var rowCount = table.getElementsByTagName("tr").length - 2;
@@ -196,7 +208,7 @@
     // Gọi hàm countRows() khi trang tải lại
     window.onload = function() {
         countRows();
-    }
+    };
 </script>
     
     <script>

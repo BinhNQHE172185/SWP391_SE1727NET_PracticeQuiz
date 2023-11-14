@@ -144,10 +144,14 @@
 									</div>
 									<div class="form-group row">
 										<label class="col-sm-2 col-form-label">Avatar</label>
-										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="text" name="avatar" value="${account.avatar}">
-										</div>
+                                                                                <div class="col-sm-7">
+                                                                                    <input class="form-control" type="text" name="avatar" id="avatarInput" value="${account.avatar}">
+                                                                                </div>
 									</div>  
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-2 col-form-label">Preview</label>
+                                                                                    <img class="col-sm-7" id="avatarPreview" src="${account.avatar}" alt="Avatar Preview" style="max-width: 200px; max-height: 200px; border: #000">
+                                                                                </div>
                                                                         <div class="form-group row">
 										<label class="col-sm-2 col-form-label">Status</label>
 										<div class="col-sm-7">
@@ -163,6 +167,7 @@
 											<div class="col-sm-5">
 												<button type="submit" class="btn">Save changes</button>
 												<button type="reset" class="btn-secondry">Cancel</button>
+                                                                                                <button type="button" class="btn btn-danger" style="background-color: red; color: white ">Ban this Account</button>
 											</div>
                                                                                         
 										</div>
@@ -197,6 +202,14 @@
 <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
 
 <!-- <script src='assets/vendors/switcher/switcher.js'></script> -->
+<script>
+                            // JavaScript to update the image preview when the avatar input changes
+                            document.getElementById('avatarInput').addEventListener('input', function () {
+                                var avatarPreview = document.getElementById('avatarPreview');
+                                avatarPreview.src = this.value;
+                            });
+                        </script>
+
 <script>
   $(document).ready(function() {
 

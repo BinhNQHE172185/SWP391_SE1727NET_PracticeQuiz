@@ -92,10 +92,10 @@
 										</div>
 									</div>
                                                                         <div class="form-group row">
-										<label class="col-sm-2 col-form-label">Email</label>
-										<div class="col-sm-7">
-											<input class="form-control" type="email" name="email" placeholder="Input Email">
-										</div>
+                                                                            <label class="col-sm-2 col-form-label">Email</label>
+                                                                            <div class="col-sm-7">
+                                                                                    <input class="form-control" type="email" name="email" placeholder="Input Email">
+                                                                            </div>
 									</div>
                                                                         <div class="form-group row">
                                                                             <label class="col-sm-2 col-form-label">Role</label>
