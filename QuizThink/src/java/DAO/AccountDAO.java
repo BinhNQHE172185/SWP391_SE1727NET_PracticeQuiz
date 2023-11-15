@@ -85,10 +85,9 @@ public class AccountDAO extends DBContext {
 
     public List<Account> getAllCustomer() {
         List<Account> customerList = new ArrayList<>();
-        String sql = "SELECT * FROM Account a "
-                + "INNER JOIN AccountRole ar ON a.Account_id = ar.Account_id "
-                + "INNER JOIN Role r ON ar.role_id = r.role_id "
-                + "WHERE r.role_name = 'customer'";
+        String sql = "SELECT a.*\n"
+                + "FROM Account a\n"
+                + "INNER JOIN [Transaction] s ON a.Account_id = s.Account_id ";
 
         try {
             PreparedStatement ps = getConnection().prepareStatement(sql);
@@ -184,6 +183,24 @@ public class AccountDAO extends DBContext {
             LocalDateTime currentTime = LocalDateTime.now();
             Date creDate = Date.valueOf(currentTime.toLocalDate());
             ps.setDate(4, creDate);
+            ps.executeUpdate();
+
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setRole(int accountID, int Role) {
+        String sql = "INSERT INTO [dbo].[AccountRole]\n"
+                + "           ([Account_id]\n"
+                + "           ,[role_id])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?)";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, accountID);
+            ps.setInt(2, Role);
             ps.executeUpdate();
 
         } catch (Exception ex) {

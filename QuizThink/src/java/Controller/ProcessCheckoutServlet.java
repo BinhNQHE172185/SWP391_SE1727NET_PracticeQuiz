@@ -4,8 +4,11 @@
  */
 package Controller;
 
+import DAO.MembershipDAO;
 import DAO.TransactionDAO;
 import Model.Account;
+import Model.Membership;
+import Model.Transaction;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -48,6 +51,7 @@ public class ProcessCheckoutServlet extends HttpServlet {
         String creditNumber = request.getParameter("creditNumber");
         String expirationDate = request.getParameter("expriration");
         String cvv = request.getParameter("cvv");
+        int memId = Integer.parseInt(request.getParameter("memID"));
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         LocalDateTime currentTime = LocalDateTime.now();
@@ -64,6 +68,10 @@ public class ProcessCheckoutServlet extends HttpServlet {
         }
 
         TransactionDAO dao = new TransactionDAO();
+        MembershipDAO md = new MembershipDAO();
+        
+        Membership mem = md.getMembershipByID(memId);
+        
         if (dao.isValidFullName(fullname) != true) {
             String mess = "Invalid name";
             request.setAttribute("account", currUser);
@@ -86,7 +94,7 @@ public class ProcessCheckoutServlet extends HttpServlet {
             request.setAttribute("account", currUser);
             request.getRequestDispatcher("CheckOut.jsp").include(request, response);
         } else {
-            dao.addTransaction(currUser.getAccountId(), 1, transactionDate, fullname, email, payMethod, nameOnCard, creditNumber, expiration, cvv, 20);
+            dao.addTransaction(currUser.getAccountId(), 1, transactionDate, fullname, email, payMethod, nameOnCard, creditNumber, expiration, cvv, mem.getPrice());
             dao.updateAccountRole(2, currUser.getAccountId());
             response.sendRedirect("ThankYou.jsp");
         }

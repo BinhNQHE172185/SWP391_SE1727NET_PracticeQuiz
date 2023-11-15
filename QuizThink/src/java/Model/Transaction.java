@@ -42,6 +42,20 @@ public class Transaction {
         this.totalMoney = totalMoney;
     }
 
+    public Transaction(int accountID, int memnershipID, Date transactionDate, String fullname, String email, String paymentMethod, String nameOnCard, String creditNumber, Date expirationDate, String cvv, float totalMoney) {
+        this.accountID = accountID;
+        this.memnershipID = memnershipID;
+        this.transactionDate = transactionDate;
+        this.fullname = fullname;
+        this.email = email;
+        this.paymentMethod = paymentMethod;
+        this.nameOnCard = nameOnCard;
+        this.creditNumber = creditNumber;
+        this.expirationDate = expirationDate;
+        this.cvv = cvv;
+        this.totalMoney = totalMoney;
+    }
+
     public int getTransactionID() {
         return transactionID;
     }

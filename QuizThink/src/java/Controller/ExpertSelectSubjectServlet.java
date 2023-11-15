@@ -4,10 +4,10 @@
  */
 package Controller;
 
+import DAO.ExpertDAO;
 import DAO.SubjectDAO;
-import DAO.SubjectDimensionDAO;
 import Model.Expert;
-import Model.SubjectDimension;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,16 +16,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  *
- * @author admin
+ * @author QUYBINH
  */
-@WebServlet(name = "ExpertAddSubjectServlet", urlPatterns = {"/ExpertAddSubject"})
-public class ExpertAddSubjectServlet extends HttpServlet {
+@WebServlet(name = "ExpertSelectSubjectServlet", urlPatterns = {"/ExpertSelectSubject"})
+public class ExpertSelectSubjectServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,21 +37,38 @@ public class ExpertAddSubjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String title = request.getParameter("title");
-        String dimension = request.getParameter("dimension");
-        int subjectDimensionID = Integer.valueOf(dimension);
-        String imageURL = request.getParameter("imageURL");
-        String desc = request.getParameter("desc");
-        LocalDateTime currentTime = LocalDateTime.now();
-        Date modifyDate = Date.valueOf(currentTime.toLocalDate());
-        Date createdDate = Date.valueOf(currentTime.toLocalDate());
-        HttpSession session = request.getSession();
-        Expert ex = (Expert) session.getAttribute("currExpert");
-        SubjectDAO dao = new SubjectDAO();
-
-        dao.addExpertSubject(ex.getExpertId(), subjectDimensionID, title, imageURL, desc, createdDate, modifyDate);
-
-        response.sendRedirect("ExpertSubjectList");
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            int page = 1;//target page
+            int noOfPages = 1;//default no of page
+            int recordsPerPage = 6;
+            String status = request.getParameter("status");
+            boolean s = true;
+            if(status.equals("Pending")){
+                s = false;
+            }else if(status.equals("Approved")){
+                s = true;
+            }
+            SubjectDAO dao = new SubjectDAO();
+            HttpSession session = request.getSession();
+            Expert ex = (Expert) session.getAttribute("currExpert");
+            ExpertDAO DAO = new ExpertDAO();
+            Expert expert = DAO.getExpertByID(ex.getExpertId());
+            if (request.getParameter("page") != null) {//restive current page if possible
+                page = Integer.parseInt(request.getParameter("page"));
+            }
+            int noOfRecords = dao.getNumberOfRecordByExpertIDandStatus(ex.getExpertId(), s);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+            if (page > noOfPages) {
+                page = noOfPages;
+            }
+            List<Subject> list = dao.getSubjectByExpertPagingByStatus(ex.getExpertId(), (page - 1) * recordsPerPage, recordsPerPage, s);
+            request.setAttribute("list", list);
+            request.setAttribute("expert", expert);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+            request.getRequestDispatcher("ExpertSunjectLists.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -68,10 +83,7 @@ public class ExpertAddSubjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SubjectDimensionDAO dao = new SubjectDimensionDAO();
-        List<SubjectDimension> listDimension = dao.getAllSubjectDimension();
-        request.setAttribute("listDimension", listDimension);
-        request.getRequestDispatcher("ExpertAddSubject.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

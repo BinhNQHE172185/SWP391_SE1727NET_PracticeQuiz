@@ -25,6 +25,7 @@ public class TransactionDAO extends DBContext {
     private PreparedStatement ps;
     private ResultSet rs;
     private static final Pattern CVV_PATTERN = Pattern.compile("^[0-9]{3,4}$");
+    private static final Pattern CREDIT_CARD_PATTERN = Pattern.compile("^\\d{13,16}$");
 
     public boolean isValidFullName(String fullName) {
         // Define a regular expression pattern for a full name with multiple surnames
@@ -54,26 +55,8 @@ public class TransactionDAO extends DBContext {
         return matcher.matches();
     }
 
-    public boolean isValidCreditCard(String number) {
-        int[] digits = new int[number.length()];
-        for (int i = 0; i < number.length(); i++) {
-            digits[i] = Character.getNumericValue(number.charAt(i));
-        }
-
-        for (int i = digits.length - 2; i >= 0; i -= 2) {
-            int doubleDigit = digits[i] * 2;
-            if (doubleDigit > 9) {
-                doubleDigit -= 9;
-            }
-            digits[i] = doubleDigit;
-        }
-
-        int sum = 0;
-        for (int digit : digits) {
-            sum += digit;
-        }
-
-        return (sum % 10) == 0;
+    public boolean isValidCreditCard(String cardNumber) {
+        return CREDIT_CARD_PATTERN.matcher(cardNumber).matches();
     }
 
     public boolean isValid(String cvv) {

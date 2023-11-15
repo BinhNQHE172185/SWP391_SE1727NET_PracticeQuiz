@@ -127,37 +127,37 @@
                                     %>
                                 </div>
                                 <%}%>
-                                <div class="form-group col-lg-6 m-b30">
-                                    <div class="custom-control custom-checkbox">
+                                <div class="form-group col-lg-6 m-b30" style="visibility: hidden;">
+                                     <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="customControlAutosizing" name="expert">
                                     <label class="custom-control-label" for="customControlAutosizing">I am a teacher</label>
                                 </div>
-                                </div>
-                                <div class="col-lg-12 m-b30">
-                                    <button name="submit" type="submit" value="Submit" class="btn button-md">Sign Up</button>
-                                </div>
                             </div>
-                        </form>
+                            <div class="col-lg-12 m-b30">
+                                <button name="submit" type="submit" value="Submit" class="btn button-md">Sign Up</button>
+                            </div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- External JavaScripts -->
-        <script src="FrontEnd/assets/js/jquery.min.js"></script>
-        <script src="FrontEnd/assets/vendors/bootstrap/js/popper.min.js"></script>
-        <script src="FrontEnd/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-        <script src="FrontEnd/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-        <script src="FrontEnd/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-        <script src="FrontEnd/assets/vendors/magnific-popup/magnific-popup.js"></script>
-        <script src="FrontEnd/assets/vendors/counter/waypoints-min.js"></script>
-        <script src="FrontEnd/assets/vendors/counter/counterup.min.js"></script>
-        <script src="FrontEnd/assets/vendors/imagesloaded/imagesloaded.js"></script>
-        <script src="FrontEnd/assets/vendors/masonry/masonry.js"></script>
-        <script src="FrontEnd/assets/vendors/masonry/filter.js"></script>
-        <script src="FrontEnd/assets/vendors/owl-carousel/owl.carousel.js"></script>
-        <script src="FrontEnd/assets/js/functions.js"></script>
-        <script src="FrontEnd/assets/js/contact.js"></script>
-    </body>
+    </div>
+    <!-- External JavaScripts -->
+    <script src="FrontEnd/assets/js/jquery.min.js"></script>
+    <script src="FrontEnd/assets/vendors/bootstrap/js/popper.min.js"></script>
+    <script src="FrontEnd/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="FrontEnd/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="FrontEnd/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+    <script src="FrontEnd/assets/vendors/magnific-popup/magnific-popup.js"></script>
+    <script src="FrontEnd/assets/vendors/counter/waypoints-min.js"></script>
+    <script src="FrontEnd/assets/vendors/counter/counterup.min.js"></script>
+    <script src="FrontEnd/assets/vendors/imagesloaded/imagesloaded.js"></script>
+    <script src="FrontEnd/assets/vendors/masonry/masonry.js"></script>
+    <script src="FrontEnd/assets/vendors/masonry/filter.js"></script>
+    <script src="FrontEnd/assets/vendors/owl-carousel/owl.carousel.js"></script>
+    <script src="FrontEnd/assets/js/functions.js"></script>
+    <script src="FrontEnd/assets/js/contact.js"></script>
+</body>
 
 </html>
 

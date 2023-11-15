@@ -85,7 +85,7 @@
                 <div class="breadcrumb-row">
                     <div class="container">
                         <ul class="list-inline">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="home">Home</a></li>
                             <li>Membership</li>
                         </ul>
                     </div>
@@ -133,10 +133,9 @@
                                                     <c:if test="${accRole.roleId == 2}">
                                                         <p class="btn radius-xl ">Membership already included</p>
                                                     </c:if>
-                                                    <c:if test="${accRole.roleId != 2}">
-                                                        <a href="Checkout" class="btn radius-xl" id="getItNowBtn">Get It Now</a>    
+                                                    <c:if test="${accRole.roleId == 1}">
                                                     </c:if>   
-                                                    <a href="Checkout" class="btn radius-xl" id="getItNowBtn">Get It Now</a>                                                 
+                                                    <a href="Checkout?id=<%=m.getMembershipID()%>" class="btn radius-xl" id="getItNowBtn">Get It Now</a>                                                 
                                                 </div>
                                             </div>
                                         </div>
