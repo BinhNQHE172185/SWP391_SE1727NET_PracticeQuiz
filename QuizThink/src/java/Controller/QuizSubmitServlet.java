@@ -115,7 +115,7 @@ public class QuizSubmitServlet extends HttpServlet {
                 }
 
                 List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
-                float totalQuizCount = question.getQuizCount();
+                int totalQuizCount = quizzes.size();
                 float quizCount = 0;
                 for (Quiz quizz : quizzes) {
                     int correctChoiceCount = 0;
@@ -133,7 +133,7 @@ public class QuizSubmitServlet extends HttpServlet {
                 float mark = (quizCount / totalQuizCount) * 10;
 
                 ResultDAO resultDAO = new ResultDAO();
-                Result result = new Result(questionId, currUser.getAccountId(), setToString(selectedChoicesSet), new Date(System.currentTimeMillis()), timeTaken, question.getDuration(), mark, question.getQuizCount());
+                Result result = new Result(questionId, currUser.getAccountId(), setToString(selectedChoicesSet), new Date(System.currentTimeMillis()), timeTaken, question.getDuration(), mark, totalQuizCount);
                 int resultId = resultDAO.addResult(result);
 
                 session.removeAttribute("questionStatusUpdated");//force client to update status 
