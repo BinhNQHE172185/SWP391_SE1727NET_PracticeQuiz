@@ -217,11 +217,11 @@
 
                             <div class="dropdown">
                                 <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-sort"></i> Sort
+                                    <i class="fa fa-sort"></i> Select
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="">By Name Asc</a>
-                                    <a class="dropdown-item" href="">By Name Desc</a>
+                                    <a class="dropdown-item" href="ExpertSelectSubject?status=Pending">Pending</a>
+                                    <a class="dropdown-item" href="ExpertSelectSubject?status=Approved">Approved</a>
                                 </div>
                             </div>
                         </div>

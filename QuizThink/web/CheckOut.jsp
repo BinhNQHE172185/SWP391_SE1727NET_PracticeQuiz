@@ -122,12 +122,12 @@
                                     <h6 class="my-0">Membership</h6>
                                     <small class="text-muted">Update your account level</small>
                                 </div>
-                                <span class="text-muted">$20</span>
+                                <span class="text-muted">$ ${mem.price}</span>
                             </li>
                             <div class="divider"></div>
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Total (USD)</span>
-                                <strong>$20</strong>
+                                <strong> $ ${mem.price}</strong>
                             </li>
                         </ul>
                     </div>
@@ -135,10 +135,14 @@
                         <h4 class="mb-3">Payment information</h4>
                         <form class="needs-validation" action="ProcessCheckout" method="post">
                             <div class="mb-3">
+                                <div> 
+                                    <input type="hidden" value="${mem.membershipID}" name="memID">
+                                </div>
                                 <label for="fullname">Fullname</label>
                                 <div class="input-group">                                    
                                     <input type="text" class="form-control" id="fullname" placeholder="Your Name" value="${account.fullname}" name="fullname" required="">
                                     <div class="invalid-feedback" style="width: 100%;"> Your name is required. </div>
+                                    <small class="text-muted">${mess1}</small>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -193,6 +197,7 @@
                                     <div class="invalid-feedback"> Security code required </div>
                                 </div>
                             </div>
+
                             <hr class="mb-4">
                             <button class="btn-checkout" type="submit" style="margin-bottom: 100px;">Continue to checkout</button>
                             <a class="btn-back" href="home">Back to home page</a>

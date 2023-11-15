@@ -55,6 +55,12 @@
                         <span class="ttr-label">Transaction</span>
                     </a>
                 </li>
+                <li>
+                    <a href="MembershipManagement" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-home"></i></span>
+                        <span class="ttr-label">Membership</span>
+                    </a>
+                </li>
                 <li class="ttr-seperate"></li>
             </ul>
             <!-- sidebar menu end -->

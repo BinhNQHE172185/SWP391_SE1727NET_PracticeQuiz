@@ -60,9 +60,10 @@ public class SubjectDetail extends HttpServlet {
         request.setAttribute("ss", ss);
         
         SubjectStatusDAO dao = new SubjectStatusDAO();
+        if(currUser!=null){
         SubjectStatus status = dao.getSubjectStatus(currUser.getAccountId(), subjectId);
         request.setAttribute("status", status);
-        
+        }
         request.getRequestDispatcher("SubjectDetail.jsp").forward(request, response);
     }
 
