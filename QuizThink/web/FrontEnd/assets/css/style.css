@@ -1231,6 +1231,9 @@
         display: block !important;
     }
 }
+.d-flex{
+    flex-wrap: wrap;
+}
 /*blog post half iamge*/
 .blog-md .ttr-post-media {
     width: 350px;

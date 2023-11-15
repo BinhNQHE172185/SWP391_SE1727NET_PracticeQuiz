@@ -32,10 +32,9 @@ public class EditQuiz extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-//        String quiz_id = request.getParameter("quiz_id");
-//        int quiz_ID = Integer.parseInt(quiz_id);
-        String quiz_id = "287";
-        int quiz_ID = 287;
+        String quiz_id = request.getParameter("quizID");
+        int quiz_ID = Integer.parseInt(quiz_id);
+        
         QuizDAO quizDAO = new QuizDAO();
         AnswerDAO answerDAO = new AnswerDAO();
         
@@ -75,13 +74,14 @@ public class EditQuiz extends HttpServlet {
         
         //String question_id = request.getParameter("question_Id"); // GET PARAM form jsp
         //String question_id = "5";
+        
         String quiz_Id = request.getParameter("quiz_Id");
         int quiz_id = Integer.parseInt(quiz_Id);
         String description = request.getParameter("description");
         if(description == null){
             description = "null";
         }
-        String type = "1";
+        String type = request.getParameter("quizType");
         String content = request.getParameter("content"); // CONTENT of quiz
         String[] isExist = request.getParameterValues("exist"); // LIST Exist
         String[] isDelete = request.getParameterValues("delete"); // LIST Exist

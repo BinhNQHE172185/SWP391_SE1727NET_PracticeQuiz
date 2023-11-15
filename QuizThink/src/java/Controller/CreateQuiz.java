@@ -31,9 +31,8 @@ public class CreateQuiz extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // String quiz_id = request.getParameter("quiz_Id"); // GET QUIZ_ID form quiz list
-        
-        // request.setAttribute("quiz_id", quiz_id); // day quiz_id
+        String questionId = request.getParameter("questionId");
+        request.setAttribute("questionId", questionId); // day quiz_id
         request.getRequestDispatcher("CreateQuiz.jsp").forward(request, response);
         
     } 
@@ -50,6 +49,7 @@ public class CreateQuiz extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
+        
     } 
 
     /** 
@@ -63,14 +63,12 @@ public class CreateQuiz extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
-        //String question_id = request.getParameter("question_Id"); // GET PARAM form jsp
-        String question_id = "5";
-        
+        String question_id = request.getParameter("questionId");
         String description = request.getParameter("description");
         if(description == null){
             description = "null";
         }
-        String type = "1";
+        String type = request.getParameter("quizType");
         String content = request.getParameter("content"); // CONTENT of quiz
         String[] answerArray = request.getParameterValues("answer"); // LIST ANSWER
         String[] isCorrectArray = request.getParameterValues("isCorrect"); //Is correct

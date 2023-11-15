@@ -193,7 +193,7 @@ public class QuizDAO extends DBContext {
                ps.setString(4, description); 
             }
              System.out.println("hello");
-            ps.execute(); // no result ==> no need result set
+            ps.execute();
             
            
                 rs = ps.getGeneratedKeys();

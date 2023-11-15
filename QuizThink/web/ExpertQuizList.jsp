@@ -211,7 +211,10 @@
                 <div class="row">
                     <div style="text-align: left;" class="col-lg-6 m-b10">
                         <h3>Quiz List</h3>
-                    </div>                 
+                    </div>
+                    <div style="text-align: right;" class="col-lg-6 m-b10">
+                        <a class="btn green" href="createquiz?questionId=<%= question.getQuestionId() %>">+ Add Quiz</a></button
+                    </div>   
                 </div>
                 <div class="row">
                     <!-- Your Profile Views Chart END-->
@@ -243,6 +246,7 @@
                                     <div class="col-md-12 col-lg-12 col-sm-12 text-left m-t20">
                                         <span>Explanation: <%= quiz.getDescription() %></span>
                                     </div>
+
                                 </div>
                                 <div class="col-md-6 col-lg-6 col-sm-6 cours-more-info">
                                     <div class="review col-md-12 col-lg-12 col-sm-12">
@@ -270,6 +274,11 @@
                                             %>
                                         </ul>
                                     </div>
+                                </div>
+
+                                <div class="col-md-12 col-lg-12 col-sm-12 text-left m-t20">
+                                    <a class="btn m-b10 yellow" href="editquiz?quizID=<%= quiz.getQuizId() %>">Edit Quiz</a>
+                                    <a class="btn m-b10 red" href="url">Remove Quiz</a>
                                 </div>
                             </div>
                         </div>
