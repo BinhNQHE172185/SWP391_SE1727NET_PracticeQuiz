@@ -207,9 +207,14 @@
                     </div>
                     <div id="Ebtn" class="col-lg-6 m-b10">
                         <div style="display: flex;justify-content: flex-end;">
-                            <a href="ListSubjectDimension" class="btn btn-success">
-                                <i class="fa fa-plus"></i> Add new Subject
-                            </a>
+                            <form action="ExpertAddSubject" method="GET">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fa fa-plus"></i> Add new Subject
+                                    </button>
+                                </div>
+                            </form>
+
                             <div class="dropdown">
                                 <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-sort"></i> Sort
