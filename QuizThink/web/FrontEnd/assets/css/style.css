@@ -3216,10 +3216,10 @@ input[type="checkbox"] {
     display: flex;
     flex-direction: column;
     position: fixed;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-left: 5px;
-    margin-top: 20px;
     height: 80%;
+    overflow: auto;
 }
 #quiz-nav button{
     margin: 5px;
