@@ -5,7 +5,10 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@page import= "Model.*" %>
+<%@page import = "java.util.*" %>
+<%@page import= "java.text.SimpleDateFormat" %>
+<%@page import= "java.util.Date" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,7 +60,7 @@
         <link rel="stylesheet" type="text/css" href="admin/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
-
+        <% List<Transaction> tran = (List<Transaction>) request.getAttribute("TransList");%>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -70,7 +73,7 @@
                     <h4 class="breadcrumb-title">Customers</h4>
                     <ul class="db-breadcrumb-list">
                         <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
-                        <li>List customers</li>
+                        <li>List transaction</li>
                     </ul>
                 </div>	
                 <div class="row">
@@ -78,18 +81,8 @@
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>List our customers</h4>
+                                <h4>List transaction</h4>
                             </div>
-                            <div class="widget courses-search-bx placeani">
-                                        <div class="form-group">
-                                            <form action="SearchSubject" method="GET"> 
-                                                <div class="input-group">
-                                                    <label for="dzName">Search customer</label>
-                                                    <input id="dzName" name="searchQuery" type="text" required class="form-control">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
                             <section>
                                 <div>
                                     <section class="content">
@@ -101,26 +94,31 @@
                                                         <table id="example2" class="table table-bordered table-hover">
                                                             <thead>
                                                                 <tr>
+                                                                    <th>#</th>
                                                                     <th>Full Name</th>
                                                                     <th>Email</th>
-                                                                    <th>Gender</th>
-                                                                    <th>Avatar</th>
-                                                                    <th>Date of Birth</th>
+                                                                    <th>Transaction Date</th>
+                                                                    <th>Payment Method</th>
+                                                                    <th>Total Money</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="userdata">
-                                                                <c:if test="${customerList == null}">
-                                                                <div> no data found</div>
-                                                            </c:if>
-                                                            <c:forEach var="c" items="${customerList}">
+                                                                <% if(tran == null || tran.isEmpty()) { %>
                                                                 <tr>
-                                                                    <td>${c.fullname}</td>
-                                                                    <td>${c.email}</td>
-                                                                    <td>${c.gender}</td>
-                                                                    <td>${c.avatar}</td>
-                                                                    <td>${c.dob}</td>
+                                                                    <td colspan="6">No data found</td>
                                                                 </tr>
-                                                            </c:forEach>
+                                                                <% } else { %>
+                                                                <% for(int i=0; i<tran.size(); i++) { %>
+                                                                <tr>
+                                                                    <td><%= i+1 %></td>
+                                                                    <td><%= tran.get(i).getFullname() %></td>
+                                                                    <td><%= tran.get(i).getEmail() %></td>
+                                                                    <td><%= new java.text.SimpleDateFormat("dd-MM-yyyy").format(tran.get(i).getTransactionDate()) %></td>
+                                                                    <td><%= tran.get(i).getPaymentMethod() %></td>
+                                                                    <td><%= tran.get(i).getTotalMoney() %></td>
+                                                                </tr>
+                                                                <% } %>
+                                                                <% } %>
                                                             </tbody>                                            
                                                         </table>
                                                     </div>

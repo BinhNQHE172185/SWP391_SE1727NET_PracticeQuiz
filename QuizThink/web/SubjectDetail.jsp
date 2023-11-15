@@ -90,7 +90,10 @@
                                     <div class="course-detail-bx">
 
                                         <div class="course-buy-now text-center">
-                                            <a href="#" class="btn radius-xl text-uppercase">Enroll now</a>
+                                            <form action="SubjectRegisterServlet" method="post">
+                                                <input type="hidden" name="subjectId" value="${subjectdetail.subjectId}">
+                                                <button type="submit" class="btn radius-xl text-uppercase">Enroll now</button>
+                                            </form>
                                         </div>
                                         <div class="teacher-bx">
                                             <div class="teacher-info">

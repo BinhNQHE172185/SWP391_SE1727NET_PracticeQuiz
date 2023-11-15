@@ -40,9 +40,9 @@ public class ListPracticedListServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             Account currUser = (Account) session.getAttribute("currUser");
-            //int questionId = Integer.parseInt(request.getParameter("questionId"));
+            int questionId = Integer.parseInt(request.getParameter("questionId"));
 
-            int questionId = 1;//default
+           // int questionId = 1;//default
             /*
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {

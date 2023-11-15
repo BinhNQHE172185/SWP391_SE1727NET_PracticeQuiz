@@ -5,6 +5,7 @@
 package Controller;
 
 import DAO.AnswerDAO;
+import DAO.ExpertDAO;
 import DAO.QuestionDAO;
 import DAO.QuestionStatusDAO;
 import DAO.QuizDAO;
@@ -12,11 +13,13 @@ import DAO.ResultDAO;
 import DAO.SubjectDAO;
 import Model.Account;
 import Model.Answer;
+import Model.Expert;
 import Model.Question;
 import Model.QuestionStatus;
 import Model.Quiz;
 import Model.Result;
 import Model.Subject;
+import Model.SubjectDimension;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -55,12 +58,15 @@ public class QuestionDetailServlet extends HttpServlet {
             QuizDAO quizDAO = new QuizDAO();
             AnswerDAO answerDAO = new AnswerDAO();
             QuestionStatusDAO questionStatusDAO = new QuestionStatusDAO();
+            ExpertDAO expertDAO = new ExpertDAO();
 
             Question question = questionDAO.getQuestionById(questionId);
             Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
-
+            
+            if (currUser != null){
             updateQuestionStatus(question, currUser);
-
+            }
+            
             QuestionStatus questionStatus = questionStatusDAO.getQuestionStatusByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
 
             int page = 1; // target page
@@ -80,10 +86,17 @@ public class QuestionDetailServlet extends HttpServlet {
                 List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
                 request.setAttribute("answers" + quiz.getQuizId(), answers);
             }
+            Expert expert = expertDAO.getExpertByID(question.getExpertId());
 
+            GetParentSubjectDimensionTitle getParentSubjectDimensionTitle = new GetParentSubjectDimensionTitle();
+            List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subject.getSubjectId());
+            
+            request.setAttribute("expert", expert.getName());
+            request.setAttribute("parentSubjectDimensions", parentSubjectDimensions);
             request.setAttribute("subject", subject);
             request.setAttribute("question", question);
             request.setAttribute("questionStatus", questionStatus);
+            request.setAttribute("quizCount", noOfRecords);
             request.setAttribute("quizzes", quizzes);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
@@ -95,11 +108,13 @@ public class QuestionDetailServlet extends HttpServlet {
         QuestionStatusDAO questionStatusDAO = new QuestionStatusDAO();
         ResultDAO resultDAO = new ResultDAO();
         QuestionStatus questionStatus = questionStatusDAO.getQuestionStatusByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
-        if (!questionStatus.isStatus()) {
-            Result result = resultDAO.getHighestMarkResultByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
-            if (result != null) {
-                if ((result.getMark() * 10) >= question.getRequirement()) {
-                    questionStatusDAO.updateQuestionStatusToTrue(questionStatus.getQuestionStatusId());
+        if (questionStatus != null) {
+            if (!questionStatus.isStatus()) {
+                Result result = resultDAO.getHighestMarkResultByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
+                if (result != null) {
+                    if ((result.getMark() * 10) >= question.getRequirement()) {
+                        questionStatusDAO.updateQuestionStatusToTrue(questionStatus.getQuestionStatusId());
+                    }
                 }
             }
         }

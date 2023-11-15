@@ -10,6 +10,12 @@
 <%@page import= "Model.Question" %>
 <%@page import= "Model.Subject" %>
 <%@page import = "java.util.*" %>
+<%@ page import="Model.Answer" %>
+<%@ page import="Model.Quiz" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Model.Subject" %>
+<%@ page import="Model.SubjectDimension" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,10 +24,8 @@
     <head>
         <%
             Expert ex = (Expert) session.getAttribute("currExpert");
-            String status = (String) request.getAttribute("status");
-            String search = (String) request.getAttribute("search");
             Subject subject = (Subject) request.getAttribute("subject");
-            List<Question> questions = (List<Question>) request.getAttribute("questions");
+            Question question = (Question)request.getAttribute("question");
         %>
         <!-- META ============================================= -->
         <meta charset="utf-8">
@@ -66,6 +70,7 @@
 
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="admin/assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
 
@@ -113,6 +118,9 @@
                 <div class="ttr-header-right ttr-with-seperator">
                     <!-- header right menu start -->
                     <ul class="ttr-header-navigation">
+                        <%
+                            if (ex != null){
+                        %>
                         <li>
                             <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="<%=ex.getAvatar()%>" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
@@ -122,6 +130,9 @@
                                 </ul>
                             </div>
                         </li>
+                        <%
+                            }
+                        %>
                     </ul>
                     <!-- header right menu end -->
                 </div>
@@ -198,55 +209,80 @@
                 </div>	
                 <!-- Card -->
                 <div class="row">
-                    <!-- Your Profile Views Chart -->
-                    <div class="col-lg-12 m-b30">
-                        <div class="widget-box">
-                            <div class="container">
-                                <div class="row wc-title">
-                                    <div class="col-lg-1">
-                                        <h4>STT</h4>
+                    <div style="text-align: left;" class="col-lg-6 m-b10">
+                        <h3>Quiz List</h3>
+                    </div>                 
+                </div>
+                <div class="row">
+                    <!-- Your Profile Views Chart END-->
+                    <!-- Quiz list display-->
+                    <%
+                    List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
+
+                    if (quizzes != null && !quizzes.isEmpty()) {
+                        for (Quiz quiz : quizzes) {
+                    %>
+                    <div class="col-md-12 col-lg-12 col-sm-12 m-b20">
+                        <div class="cours-bx">
+                            <div class="d-flex" id="quiz<%= quiz.getQuizId() %>">
+                                <div class="info-bx col-md-6 col-lg-6 col-sm-6 text-left border-right">
+                                    <div class="col-md-12 col-lg-12 col-sm-12 text-left border-bottom">
+                                        <h5><%= quiz.getContent() %></h5>
+                                        <%
+                                        if (quiz.getType() == 0) {
+                                        %>
+                                        <span>Select all that apply</span>
+                                        <%
+                                        } else {
+                                        %>
+                                        <span>Select <%= quiz.getType() %> that apply</span>
+                                        <%
+                                        }
+                                        %>
                                     </div>
-                                    <div class="col-lg-3">
-                                        <h4>Taken Date</h4>
+                                    <div class="col-md-12 col-lg-12 col-sm-12 text-left m-t20">
+                                        <span>Explanation: <%= quiz.getDescription() %></span>
                                     </div>
-                                    <div class="col-lg-2">
-                                        <h4>Taken Time</h4>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <h4>Answered</h4>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <h4>Mark/10</h4>
-                                    </div>                                   
                                 </div>
-                                <div class="widget-inner">
-                                    <c:forEach items = "${listResult}" var = "o">
-                                        <div class="row card-courses-list admin-courses">
-                                            <div class="col-lg-1">
-                                                <p>1</p>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <p>${o.takenDate} </p>
-                                            </div>
-                                            <div class="col-lg-2">
-                                                <p>${o.takenDuration}</p>
-                                            </div>
-                                            <div class="col-lg-2">
-                                                <p>${o.quizCount}</p>
-                                            </div>
-                                            <div class="col-lg-2">
-                                                <p>${o.mark}/10</p>
-                                            </div>
-                                        </div>    
-                                    </c:forEach>                                                               
-                                </div>
-                                <div class="col-12">
-                                    <button type="button" class="btn-secondry" onclick="window.history.back()">Go Back</button>
+                                <div class="col-md-6 col-lg-6 col-sm-6 cours-more-info">
+                                    <div class="review col-md-12 col-lg-12 col-sm-12">
+                                        <ul class="option">
+                                            <%
+                                            List<Answer> answers = (List<Answer>) request.getAttribute("answers" + quiz.getQuizId());
+                                                                
+                                            if (answers != null && !answers.isEmpty()) {
+                                                for (Answer answer : answers) {
+                                            %>
+                                            <li class="<%= answer.isCorrect() %>">
+                                                <input type="checkbox" name="quiz<%= quiz.getQuizId() %>" id="choice<%= answer.getAnswerId() %>"
+                                                       onclick="toggleEffect(this,<%= quiz.getType() %>)">
+                                                <label class = "answer-containser" for="choice<%= answer.getAnswerId() %>">
+                                                    <h5><%= answer.getContent() %></h5>
+                                                </label>
+                                            </li>
+                                            <%
+                                                }
+                                            } else {
+                                            %>
+                                            <p>No answer found.</p>
+                                            <%
+                                            }
+                                            %>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Your Profile Views Chart END-->
+                    <%
+                        }
+                    } else {
+                    %>
+                    <p>No quizzes found.</p>
+                    <%
+                    }
+                    %>
+                    <!-- Quiz list display END-->
                 </div>
         </main>
         <div class="ttr-overlay"></div>
@@ -271,82 +307,82 @@
         <script src='admin/assets/vendors/calendar/moment.min.js'></script>
         <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
         <script>
-                                        $(document).ready(function () {
+                                                           $(document).ready(function () {
 
-                                            $('#calendar').fullCalendar({
-                                                header: {
-                                                    left: 'prev,next today',
-                                                    center: 'title',
-                                                    right: 'month,agendaWeek,agendaDay,listWeek'
-                                                },
-                                                defaultDate: '2019-03-12',
-                                                navLinks: true, // can click day/week names to navigate views
+                                                               $('#calendar').fullCalendar({
+                                                                   header: {
+                                                                       left: 'prev,next today',
+                                                                       center: 'title',
+                                                                       right: 'month,agendaWeek,agendaDay,listWeek'
+                                                                   },
+                                                                   defaultDate: '2019-03-12',
+                                                                   navLinks: true, // can click day/week names to navigate views
 
-                                                weekNumbers: true,
-                                                weekNumbersWithinDays: true,
-                                                weekNumberCalculation: 'ISO',
+                                                                   weekNumbers: true,
+                                                                   weekNumbersWithinDays: true,
+                                                                   weekNumberCalculation: 'ISO',
 
-                                                editable: true,
-                                                eventLimit: true, // allow "more" link when too many events
-                                                events: [
-                                                    {
-                                                        title: 'All Day Event',
-                                                        start: '2019-03-01'
-                                                    },
-                                                    {
-                                                        title: 'Long Event',
-                                                        start: '2019-03-07',
-                                                        end: '2019-03-10'
-                                                    },
-                                                    {
-                                                        id: 999,
-                                                        title: 'Repeating Event',
-                                                        start: '2019-03-09T16:00:00'
-                                                    },
-                                                    {
-                                                        id: 999,
-                                                        title: 'Repeating Event',
-                                                        start: '2019-03-16T16:00:00'
-                                                    },
-                                                    {
-                                                        title: 'Conference',
-                                                        start: '2019-03-11',
-                                                        end: '2019-03-13'
-                                                    },
-                                                    {
-                                                        title: 'Meeting',
-                                                        start: '2019-03-12T10:30:00',
-                                                        end: '2019-03-12T12:30:00'
-                                                    },
-                                                    {
-                                                        title: 'Lunch',
-                                                        start: '2019-03-12T12:00:00'
-                                                    },
-                                                    {
-                                                        title: 'Meeting',
-                                                        start: '2019-03-12T14:30:00'
-                                                    },
-                                                    {
-                                                        title: 'Happy Hour',
-                                                        start: '2019-03-12T17:30:00'
-                                                    },
-                                                    {
-                                                        title: 'Dinner',
-                                                        start: '2019-03-12T20:00:00'
-                                                    },
-                                                    {
-                                                        title: 'Birthday Party',
-                                                        start: '2019-03-13T07:00:00'
-                                                    },
-                                                    {
-                                                        title: 'Click for Google',
-                                                        url: 'http://google.com/',
-                                                        start: '2019-03-28'
-                                                    }
-                                                ]
-                                            });
+                                                                   editable: true,
+                                                                   eventLimit: true, // allow "more" link when too many events
+                                                                   events: [
+                                                                       {
+                                                                           title: 'All Day Event',
+                                                                           start: '2019-03-01'
+                                                                       },
+                                                                       {
+                                                                           title: 'Long Event',
+                                                                           start: '2019-03-07',
+                                                                           end: '2019-03-10'
+                                                                       },
+                                                                       {
+                                                                           id: 999,
+                                                                           title: 'Repeating Event',
+                                                                           start: '2019-03-09T16:00:00'
+                                                                       },
+                                                                       {
+                                                                           id: 999,
+                                                                           title: 'Repeating Event',
+                                                                           start: '2019-03-16T16:00:00'
+                                                                       },
+                                                                       {
+                                                                           title: 'Conference',
+                                                                           start: '2019-03-11',
+                                                                           end: '2019-03-13'
+                                                                       },
+                                                                       {
+                                                                           title: 'Meeting',
+                                                                           start: '2019-03-12T10:30:00',
+                                                                           end: '2019-03-12T12:30:00'
+                                                                       },
+                                                                       {
+                                                                           title: 'Lunch',
+                                                                           start: '2019-03-12T12:00:00'
+                                                                       },
+                                                                       {
+                                                                           title: 'Meeting',
+                                                                           start: '2019-03-12T14:30:00'
+                                                                       },
+                                                                       {
+                                                                           title: 'Happy Hour',
+                                                                           start: '2019-03-12T17:30:00'
+                                                                       },
+                                                                       {
+                                                                           title: 'Dinner',
+                                                                           start: '2019-03-12T20:00:00'
+                                                                       },
+                                                                       {
+                                                                           title: 'Birthday Party',
+                                                                           start: '2019-03-13T07:00:00'
+                                                                       },
+                                                                       {
+                                                                           title: 'Click for Google',
+                                                                           url: 'http://google.com/',
+                                                                           start: '2019-03-28'
+                                                                       }
+                                                                   ]
+                                                               });
 
-                                        });
+                                                           });
 
         </script>
     </body>

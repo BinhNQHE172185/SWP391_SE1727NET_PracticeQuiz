@@ -18,7 +18,6 @@ public class Question {
     private int expertId;
     private String title;
     private String imageURL;
-    private int quizCount;
     private String description;
     private float requirement;
     private Date createdDate;
@@ -29,13 +28,12 @@ public class Question {
     public Question() {
     }
 
-    public Question(int questionId, int subjectId, int expertId, String title, String imageURL, int quizCount, String description, float requirement, Date createdDate, Date modifyDate, boolean status, Time duration) {
+    public Question(int questionId, int subjectId, int expertId, String title, String imageURL, String description, float requirement, Date createdDate, Date modifyDate, boolean status, Time duration) {
         this.questionId = questionId;
         this.subjectId = subjectId;
         this.expertId = expertId;
         this.title = title;
         this.imageURL = imageURL;
-        this.quizCount = quizCount;
         this.description = description;
         this.requirement = requirement;
         this.createdDate = createdDate;
@@ -82,14 +80,6 @@ public class Question {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
-    }
-
-    public int getQuizCount() {
-        return quizCount;
-    }
-
-    public void setQuizCount(int quizCount) {
-        this.quizCount = quizCount;
     }
 
     public String getDescription() {

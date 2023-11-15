@@ -134,7 +134,7 @@
             <div class="ttr-sidebar-wrapper content-scroll">
                 <!-- side menu logo start -->
                 <div class="ttr-sidebar-logo">
-                    <a href="#"><img alt="" src="FrontEnd\assets\images\Logo1-Purple.png" width="180" height="45"></a>
+                    <a href="home"><img alt="" src="FrontEnd\assets\images\Logo1-Purple.png" width="180" height="45"></a>
                     <!-- <div class="ttr-sidebar-pin-button" title="Pin/Unpin Menu">
                             <i class="material-icons ttr-fixed-icon">gps_fixed</i>
                             <i class="material-icons ttr-not-fixed-icon">gps_not_fixed</i>
@@ -179,7 +179,7 @@
             <div class="container-fluid">
                 <div class="db-breadcrumb">
                     <ul class="db-breadcrumb-list">
-                        <li><a href="home.jsp"><i class="fa fa-home"></i>Home</a></li>
+                        <li><a href="home"><i class="fa fa-home"></i>Home</a></li>
                         <li>Subject</li>
                     </ul>
                 </div>	
@@ -208,7 +208,7 @@
                     <div id="Ebtn" class="col-lg-6 m-b10">
                         <div style="display: flex;justify-content: flex-end;">
                             <a href="ListSubjectDimension" class="btn btn-success">
-                                <i class="fa fa-plus"></i> Add new question
+                                <i class="fa fa-plus"></i> Add new Subject
                             </a>
                             <div class="dropdown">
                                 <button class="btn btn-success" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -226,7 +226,7 @@
                     <!-- Your Profile Views Chart END-->
                     <c:forEach items="${list}" var="o">
                         <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-                            <a href="">
+                            <a href="ExpertQuestionList?subjectId=${o.subjectId}">
                                 <div class="cours-bx">
                                     <div class="info-bx text-center question-image">
                                         <img src="${o.imageURL}" alt="" />

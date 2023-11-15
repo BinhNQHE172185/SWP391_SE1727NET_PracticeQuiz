@@ -5,9 +5,12 @@
 package Controller;
 
 import DAO.AccountDAO;
+import DAO.AccountRoleDAO;
 import DAO.ExpertDAO;
 import DAO.QuizDAO;
 import DAO.SubjectDAO;
+import Model.Account;
+import Model.AccountRole;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +18,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -35,6 +39,13 @@ public class StatisticMembershipServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        Account currUser = (Account) session.getAttribute("currUser");
+        if (currUser != null) {
+            AccountRoleDAO dao = new AccountRoleDAO();
+            AccountRole accRole = dao.getRoleByAccID(currUser.getAccountId());
+            request.setAttribute("accRole", accRole);
+        }
         AccountDAO accDao = new AccountDAO();
         SubjectDAO subDao = new SubjectDAO();
         ExpertDAO exDao = new ExpertDAO();
