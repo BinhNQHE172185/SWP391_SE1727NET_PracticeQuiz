@@ -126,6 +126,7 @@
                      <div class="question-card mb-3">
                          <input type="text" name="content" class="form-control answerinput" id="questionText" placeholder="Type your quiz content here" style="margin-left: 0px; border-bottom: none" value="${quiz.content}">
                          <input type="hidden" name="quiz_Id" value="${quiz.quizId}">    
+                         <input type="hidden" name="questionId" value="${questionId}"> 
                     </div>
                 </div>
             

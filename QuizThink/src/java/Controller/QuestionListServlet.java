@@ -54,15 +54,15 @@ public class QuestionListServlet extends HttpServlet {
             QuestionDAO questionDAO = new QuestionDAO();
             QuestionStatusDAO questionStatusDAO = new QuestionStatusDAO();
 
-            int subjectId = 1;
-            //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+            //int subjectId = 1;
+            int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 
             Subject subject = subjectDAO.getSubjectById(subjectId);
 
             GetParentSubjectDimensionTitle getParentSubjectDimensionTitle = new GetParentSubjectDimensionTitle();
             List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subjectId);
 
-            if (session.getAttribute("questionStatusUpdated") == null) {//run once every session or when manually cleared
+            if (session.getAttribute("questionStatusUpdated") == null && currUser != null) {//run once every session or when manually cleared
                 updateQuestionStatusInSubject(subject, currUser);
                 session.setAttribute("questionStatusUpdated", true);//run once
             }
@@ -75,9 +75,13 @@ public class QuestionListServlet extends HttpServlet {
 
             List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId, (page - 1) * recordsPerPage, recordsPerPage);
             for (Question question : questions) {
-                QuestionStatus questionStatus = questionStatusDAO.getQuestionStatusByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
-                boolean status = (questionStatus != null && questionStatus.isStatus());
+                boolean status = false;
+                if (currUser != null) {
+                    QuestionStatus questionStatus = questionStatusDAO.getQuestionStatusByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
+                     status = (questionStatus != null && questionStatus.isStatus());
+                }
                 request.setAttribute("questionStatus" + question.getQuestionId(), status);
+
             }
             request.setAttribute("parentSubjectDimensions", parentSubjectDimensions);
             request.setAttribute("subject", subject);

@@ -4,6 +4,7 @@
     Author     : minhk
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,13 +89,40 @@
                             <div class="row d-flex flex-row-reverse">
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
+                                        <% if(session.getAttribute("currExpert") !=null){ %>
+                                        <a href="QuestionListServlet?subjectId=${subjectdetail.subjectId}" >
 
+                                            <button type="button" class="btn radius-xl text-uppercase">View Question</button>
+                                        </a>
+
+                                        <% } %>
+                                        <% if(session.getAttribute("currExpert") ==null){ %>
                                         <div class="course-buy-now text-center">
-                                            <form action="SubjectRegisterServlet" method="post">
-                                                <input type="hidden" name="subjectId" value="${subjectdetail.subjectId}">
+                                            <% if(session.getAttribute("currUser") == null){ %>
+                                            <a href="Login" >
+
                                                 <button type="submit" class="btn radius-xl text-uppercase">Enroll now</button>
+                                            </a>
+                                            <%}
+                                            %>
+                                            <% if (session.getAttribute("currUser") != null) { %>
+
+                                            <form action="SubjectRegisterServlet" method="get">
+                                                <input type="hidden" name="subjectId" value="${subjectdetail.subjectId}">
+                                                <c:if test="${status == null}">
+                                                    <button type="submit" class="btn radius-xl text-uppercase">Enroll now</button>
+                                                </c:if>
+                                                <c:if test="${status != null}">
+                                                    <p class="btn radius-xl text-uppercase">Enrolled</p>
+                                                    <a href="QuestionListServlet?subjectId=${subjectdetail.subjectId}" >
+
+                                                        <button type="button" class="btn radius-xl text-uppercase">View Question</button>
+                                                    </a>
+                                                </c:if>
                                             </form>
+                                            <%} %>
                                         </div>
+                                        <% } %>
                                         <div class="teacher-bx">
                                             <div class="teacher-info">
                                                 <div class="teacher-thumb">
@@ -107,19 +135,10 @@
                                             </div>
                                         </div>
                                         <div class="cours-more-info">
-                                            <div class="review">
-                                                <span>3 Review</span>
-                                                <ul class="cours-star">
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                            </div>
+
                                             <div class="price categories">
                                                 <span>Categories</span>
-                                                <h5 class="text-primary">Frontend</h5>
+                                                <h5 class="text-primary">${ss.title}</h5>
                                             </div>
                                         </div>
                                         <div class="course-info-list scroll-page">
@@ -151,10 +170,10 @@
                                         <div class="row">
                                             <div class="col-md-12 col-lg-4">
                                                 <ul class="course-features">
-                                                    <li><i class="ti-book"></i> <span class="label">Questions</span> <span class="value">${subjectdetail.questionCount}</span></li>
+                                                    <li><i class="ti-book"></i> <span class="label">Questions</span> <span class="value"></span></li>
                                                     <li><i class="ti-help-alt"></i> <span class="label">Requirement</span> <span class="value">${subjectdetail.requirement}%</span></li>
                                                     <li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
-                                                    <li><i class="ti-stats-up"></i> <span class="label">Rate</span> <span class="value">${subjectdetail.rate}</span></li>
+
                                                     <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
 
 
@@ -162,27 +181,14 @@
                                             </div>
                                             <div class="col-md-12 col-lg-8">
                                                 <h5 class="m-b5">Course Description</h5>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                                                <p>${subjectdetail.description}</p>
 
                                             </div>
                                         </div>
                                     </div>
 
 
-                                    <div class="" id="reviews">
-                                        <h4>Reviews</h4>
-                                        <div class="all-review">
-                                            <h2 class="rating-type">3</h2>
-                                            <ul class="cours-star">
-                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                            </ul>
-                                            <span>3 Rating</span>
-                                        </div>
-                                    </div>
+
 
                                 </div>
 

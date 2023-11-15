@@ -174,6 +174,22 @@ public class QuizDAO extends DBContext {
         return 0;
     }
     
+    public boolean removeQuiz(String quizId) {
+        String query = "DELETE from Answer where Quiz_id = ?\n" +
+                        "DELETE from Quiz where Quiz_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, quizId);
+            ps.setString(2, quizId);
+            ps.executeUpdate(); 
+            return true;
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
     
     // Add quiz temp
     public void addQuiz(String question_id, String type, String content, String description, String[] isCorrectList, String[] contents){ 
@@ -193,7 +209,7 @@ public class QuizDAO extends DBContext {
                ps.setString(4, description); 
             }
              System.out.println("hello");
-            ps.execute(); // no result ==> no need result set
+            ps.execute();
             
            
                 rs = ps.getGeneratedKeys();

@@ -39,18 +39,13 @@ public class SubjectDAO extends DBContext {
                 int subjectDimensionId = rs.getInt("SubjectDimension_id");
                 String title = rs.getString("title");
                 String imageURL = rs.getString("imageURL");
-                int questionCount = rs.getInt("question_count");
-                int rate = rs.getInt("Rate");
-                int rateCount = rs.getInt("Rate_count");
-                int level = rs.getInt("level");
                 float requirement = rs.getFloat("requirement");
                 String description = rs.getString("description");
                 Date createdDate = rs.getDate("createdDate");
                 Date modifyDate = rs.getDate("modifyDate");
                 boolean status = rs.getBoolean("status");
-                Time duration = rs.getTime("duration");
 
-                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, requirement, description, createdDate, modifyDate, status));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
@@ -118,18 +113,19 @@ public class SubjectDAO extends DBContext {
         try {
             PreparedStatement statement = getConnection().prepareStatement(sql);
             statement.setInt(1, subjectId);
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet rs = statement.executeQuery();
 
-            if (resultSet.next()) {
-                int expertId = resultSet.getInt("Expert_id");
-                int subjectDimensionId = resultSet.getInt("SubjectDimension_id");
-                String title = resultSet.getString("title");
-                String imageURL = resultSet.getString("imageURL");
-                float requirement = resultSet.getFloat("requirement");
-                String description = resultSet.getString("description");
-                Date createdDate = resultSet.getDate("createdDate");
-                Date modifyDate = resultSet.getDate("modifyDate");
-                boolean status = resultSet.getBoolean("status");
+            if (rs.next()) {
+                subjectId = rs.getInt("Subject_id");
+                int expertId = rs.getInt("Expert_id");
+                int subjectDimensionId = rs.getInt("SubjectDimension_id");
+                String title = rs.getString("title");
+                String imageURL = rs.getString("imageURL");
+                float requirement = rs.getFloat("requirement");
+                String description = rs.getString("description");
+                Date createdDate = rs.getDate("createdDate");
+                Date modifyDate = rs.getDate("modifyDate");
+                boolean status = rs.getBoolean("status");
 
                 subject = new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, requirement, description, createdDate, modifyDate, status);
             }
@@ -154,18 +150,13 @@ public class SubjectDAO extends DBContext {
                 int subjectDimensionId = rs.getInt("SubjectDimension_id");
                 String title = rs.getString("title");
                 String imageURL = rs.getString("imageURL");
-                int questionCount = rs.getInt("question_count");
-                int rate = rs.getInt("Rate");
-                int rateCount = rs.getInt("Rate_count");
-                int level = rs.getInt("level");
                 float requirement = rs.getFloat("requirement");
                 String description = rs.getString("description");
                 Date createdDate = rs.getDate("createdDate");
                 Date modifyDate = rs.getDate("modifyDate");
                 boolean status = rs.getBoolean("status");
-                Time duration = rs.getTime("duration");
 
-                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, requirement, description, createdDate, modifyDate, status));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
@@ -187,18 +178,13 @@ public class SubjectDAO extends DBContext {
                 int subjectDimensionId = rs.getInt("SubjectDimension_id");
                 String title = rs.getString("title");
                 String imageURL = rs.getString("imageURL");
-                int questionCount = rs.getInt("question_count");
-                int rate = rs.getInt("Rate");
-                int rateCount = rs.getInt("Rate_count");
-                int level = rs.getInt("level");
                 float requirement = rs.getFloat("requirement");
                 String description = rs.getString("description");
                 Date createdDate = rs.getDate("createdDate");
                 Date modifyDate = rs.getDate("modifyDate");
                 boolean status = rs.getBoolean("status");
-                Time duration = rs.getTime("duration");
 
-                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, requirement, description, createdDate, modifyDate, status));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
@@ -221,18 +207,13 @@ public class SubjectDAO extends DBContext {
                 int subjectDimensionId = rs.getInt("SubjectDimension_id");
                 String title = rs.getString("title");
                 String imageURL = rs.getString("imageURL");
-                int questionCount = rs.getInt("question_count");
-                int rate = rs.getInt("Rate");
-                int rateCount = rs.getInt("Rate_count");
-                int level = rs.getInt("level");
                 float requirement = rs.getFloat("requirement");
                 String description = rs.getString("description");
                 Date createdDate = rs.getDate("createdDate");
                 Date modifyDate = rs.getDate("modifyDate");
                 boolean status = rs.getBoolean("status");
-                Time duration = rs.getTime("duration");
 
-                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, requirement, description, createdDate, modifyDate, status));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
@@ -267,32 +248,37 @@ public class SubjectDAO extends DBContext {
             // Handle exceptions here
         }
     }
-
+    public void denySubjects(String subjectId) {
+        String query = "UPDATE [Subject]\n"
+                + "SET [status] = 0\n"
+                + "WHERE [Subject_id] = ?;";
+        try {
+            ps = getConnection().prepareStatement(query);
+            ps.setString(1, subjectId);
+            ps.executeUpdate(); // no result ==> no need result set
+        } catch (Exception e) {
+            // Handle exceptions here
+        }
+    }
     public List<Subject> getNotApproveSubjects() {
         List<Subject> list = new ArrayList<>();
         try {
-            String query = "select * from Subject where status = 0";
+            String query = "select * from Subject where status IS NULL";
             ps = getConnection().prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Subject(
-                        rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getInt(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getInt(6),
-                        rs.getInt(7),
-                        rs.getInt(8),
-                        rs.getInt(9),
-                        rs.getFloat(10),
-                        rs.getString(11),
-                        rs.getDate(12),
-                        rs.getDate(13),
-                        rs.getBoolean(14),
-                        rs.getTime(15)
-                ));
+                int subjectId = rs.getInt("Subject_id");
+                int expertId = rs.getInt("Expert_id");
+                int subjectDimensionId = rs.getInt("SubjectDimension_id");
+                String title = rs.getString("title");
+                String imageURL = rs.getString("imageURL");
+                float requirement = rs.getFloat("requirement");
+                String description = rs.getString("description");
+                Date createdDate = rs.getDate("createdDate");
+                Date modifyDate = rs.getDate("modifyDate");
+                boolean status = rs.getBoolean("status");
 
+                list.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, requirement, description, createdDate, modifyDate, status));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
@@ -332,18 +318,13 @@ public class SubjectDAO extends DBContext {
                 int subjectDimensionId = rs.getInt("SubjectDimension_id");
                 String title = rs.getString("title");
                 String imageURL = rs.getString("imageURL");
-                int questionCount = rs.getInt("question_count");
-                int rate = rs.getInt("Rate");
-                int rateCount = rs.getInt("Rate_count");
-                int level = rs.getInt("level");
                 float requirement = rs.getFloat("requirement");
                 String description = rs.getString("description");
                 Date createdDate = rs.getDate("createdDate");
                 Date modifyDate = rs.getDate("modifyDate");
                 boolean status = rs.getBoolean("status");
-                Time duration = rs.getTime("duration");
 
-                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, requirement, description, createdDate, modifyDate, status));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
@@ -371,18 +352,13 @@ public class SubjectDAO extends DBContext {
                 int subjectDimensionId = rs.getInt("SubjectDimension_id");
                 String title = rs.getString("title");
                 String imageURL = rs.getString("imageURL");
-                int questionCount = rs.getInt("question_count");
-                int rate = rs.getInt("Rate");
-                int rateCount = rs.getInt("Rate_count");
-                int level = rs.getInt("level");
                 float requirement = rs.getFloat("requirement");
                 String description = rs.getString("description");
                 Date createdDate = rs.getDate("createdDate");
                 Date modifyDate = rs.getDate("modifyDate");
                 boolean status = rs.getBoolean("status");
-                Time duration = rs.getTime("duration");
 
-                searchResults.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+                searchResults.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, requirement, description, createdDate, modifyDate, status));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());
@@ -411,28 +387,6 @@ public class SubjectDAO extends DBContext {
         }
 
         return count;
-    }
-
-    public static void main(String[] args) {
-        // Create an instance of the class that contains the getRecentSubject function
-        SubjectDAO dao = new SubjectDAO(); // Replace YourClassName with the actual name of your class
-
-        // Call the getRecentSubject function to retrieve the list of recent subjects
-        List<Subject> recentSubjects = dao.getRecentSubject(); // Replace YourClassName with the actual name of your class
-
-        // Check if any subjects were retrieved
-        if (recentSubjects.isEmpty()) {
-            System.out.println("No recent subjects found.");
-        } else {
-            // Iterate through the list of recent subjects and print their details
-            for (Subject subject : recentSubjects) {
-                System.out.println("Subject ID: " + subject.getSubjectId());
-                System.out.println("Title: " + subject.getTitle());
-                System.out.println("Description: " + subject.getDescription());
-                System.out.println("Created Date: " + subject.getCreatedDate());
-                System.out.println("--------------------------------------------------------");
-            }
-        }
     }
 
     public void addExpertSubject(int expertID, int subjectDimensionID, String title, String imageURL, String description, Date createdDate, Date modifyDate, boolean status) {
@@ -493,18 +447,13 @@ public class SubjectDAO extends DBContext {
                 int subjectDimensionId = rs.getInt("SubjectDimension_id");
                 String title = rs.getString("title");
                 String imageURL = rs.getString("imageURL");
-                int questionCount = rs.getInt("question_count");
-                int rate = rs.getInt("Rate");
-                int rateCount = rs.getInt("Rate_count");
-                int level = rs.getInt("level");
                 float requirement = rs.getFloat("requirement");
                 String description = rs.getString("description");
                 Date createdDate = rs.getDate("createdDate");
                 Date modifyDate = rs.getDate("modifyDate");
                 boolean status = rs.getBoolean("status");
-                Time duration = rs.getTime("duration");
 
-                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, questionCount, rate, rateCount, level, requirement, description, createdDate, modifyDate, status, duration));
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, requirement, description, createdDate, modifyDate, status));
             }
         } catch (Exception e) {
             System.err.println("An error occurred while executing the query: " + e.getMessage());

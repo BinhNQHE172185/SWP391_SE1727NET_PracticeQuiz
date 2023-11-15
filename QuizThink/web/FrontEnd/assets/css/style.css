@@ -1231,6 +1231,9 @@
         display: block !important;
     }
 }
+.d-flex{
+    flex-wrap: wrap;
+}
 /*blog post half iamge*/
 .blog-md .ttr-post-media {
     width: 350px;
@@ -3216,10 +3219,10 @@ input[type="checkbox"] {
     display: flex;
     flex-direction: column;
     position: fixed;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-left: 5px;
-    margin-top: 20px;
     height: 80%;
+    overflow: auto;
 }
 #quiz-nav button{
     margin: 5px;

@@ -9,8 +9,10 @@ import Model.Expert;
 import Model.Marketer;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -66,7 +68,95 @@ public class MarketerDAO extends DBContext {
 
         return marketer;
     }
+    
+    public Marketer getMarketerByID(int marketerId) {
+        int marketerID;
+        String username;
+        String password;
+        String email;
+        String name;
+        String selfIntroduction;
+        String avatar;
+        boolean status;
+        Marketer ex = null;
+        String sql = "select * from Marketer where [Marketer_id] = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, marketerId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                marketerID = rs.getInt("Marketer_id");
+                username = rs.getString("username");
+                password = rs.getString("password");
+                email = rs.getString("email");
+                name = rs.getString("name");
+                selfIntroduction = rs.getString("self-introduction");
+                avatar = rs.getString("avatar");
+                status = rs.getBoolean("status");
+                ex = new Marketer(marketerID, username, password, email, name, selfIntroduction, avatar, status);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return ex;
+    }
+    
+    public void BanAccount(int accountID){
+        String query = "UPDATE [Marketer] SET [Status] = 0 where [Marketer_id] = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, accountID);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
+    public void UnbanAccount(int accountID){
+        String query = "UPDATE [Marketer] SET [Status] = 1 where [Marketer_id] = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, accountID);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
 
+
+    // Edit User 
+    public void editUser(int accountID, String username, String password, String email, String avatar, String fullname, String selfIntroduction) {
+        String query = "UPDATE [Marketer]\n" +
+                        "SET [username] = ?,\n" +
+                        "    [password] = ?,\n" +
+                        "    [email] = ?,\n" +
+                        "    [name] = ?,\n" +
+                        "    [avatar] = ?,\n" +
+                        "	[self-introduction] = ?\n" +
+                        "WHERE [Marketer_id] = ?";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            ps.setString(4, fullname);
+            ps.setString(5, avatar);
+            ps.setString(6, selfIntroduction);
+            ps.setInt(7, accountID);
+            ps.executeUpdate(); // no result ==> no need result set
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
     public Marketer getMarketer(String username, String password) {
         Marketer mk = null;
         int marketerId;
@@ -182,5 +272,46 @@ public class MarketerDAO extends DBContext {
         } catch (Exception e) {
 
         }
+    }
+    public List<Marketer> getAllMarketer() {
+        List<Marketer> list = new ArrayList<>();
+            String query = "SELECT * FROM Marketer";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query); // page 1 starts at index 0
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Marketer(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getBoolean(8)
+                ));
+
+            }
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    public int getNumOfMarketer() {
+        String query = "select COUNT(*) from Marketer";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return 0;
     }
 }
