@@ -44,6 +44,7 @@ public class SubjectDimensionDAO extends DBContext {
         }
         return list;
     }
+    
 
     public SubjectDimension getSubjectDimensionByID(int id) {
         String query = "select * from SubjectDimension where SubjectDimension_id = ?";
@@ -67,6 +68,35 @@ public class SubjectDimensionDAO extends DBContext {
         }
         return subjectDimension;
     }
+    public SubjectDimension getSubjectDimensionBySubject(int id) {
+    String query = "SELECT SubjectDimension.* " +
+                   "FROM Subject " +
+                   "INNER JOIN SubjectDimension ON Subject.SubjectDimension_id = SubjectDimension.SubjectDimension_id " +
+                   "WHERE Subject.Subject_id = ?";
+    SubjectDimension subjectDimension = null;
+
+    try {
+        PreparedStatement statement = getConnection().prepareStatement(query);
+        statement.setInt(1, id);
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            int subjectDimensionId = resultSet.getInt("SubjectDimension_id");
+            int parentSDId = resultSet.getInt("ParentSD_id");
+            String title = resultSet.getString("title");
+            String imageURL = resultSet.getString("imageURL");
+            String description = resultSet.getString("description");
+
+            subjectDimension = new SubjectDimension(subjectDimensionId, parentSDId, title, imageURL, description);
+        }
+    } catch (Exception ex) {
+        System.err.println("An error occurred while executing the query: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+
+    return subjectDimension;
+}
+
 
     public SubjectDimension getParentSubjectDimension(int parentSDId) {
         String query = "SELECT * FROM SubjectDimension WHERE SubjectDimension_id = (SELECT ParentSD_id FROM SubjectDimension WHERE SubjectDimension_id = ?)";

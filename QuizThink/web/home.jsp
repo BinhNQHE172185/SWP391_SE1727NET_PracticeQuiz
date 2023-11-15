@@ -269,7 +269,7 @@
                                                 <i class="fa fa-book text-primary"></i>
                                             </div>
                                             <h4><a href="#">Learn Courses Online</a></h4>
-                                            <a href="courses.jsp" class="btn radius-xl">View More</a>
+                                            <a href="SubjectList" class="btn radius-xl">View More</a>
                                         </div>
                                     </div>
                                 </div>
