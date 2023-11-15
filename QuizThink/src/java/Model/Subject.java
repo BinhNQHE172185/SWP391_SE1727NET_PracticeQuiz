@@ -49,6 +49,19 @@ public class Subject {
         this.duration = duration;
     }
 
+    public Subject(int subjectId, int expertId, int subjectDimensionId, String title, String imageURL, float requirement, String description, Date createdDate, Date modifyDate, boolean status) {
+        this.subjectId = subjectId;
+        this.expertId = expertId;
+        this.subjectDimensionId = subjectDimensionId;
+        this.title = title;
+        this.imageURL = imageURL;
+        this.requirement = requirement;
+        this.description = description;
+        this.createdDate = createdDate;
+        this.modifyDate = modifyDate;
+        this.status = status;
+    }
+    
     public int getSubjectId() {
         return subjectId;
     }
