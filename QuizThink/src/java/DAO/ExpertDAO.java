@@ -10,6 +10,8 @@ import Model.Marketer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +20,7 @@ import java.util.logging.Logger;
  * @author admin
  */
 public class ExpertDAO extends DBContext {
-
+    Connection conn = null;
     PreparedStatement ps;
     ResultSet rs;
 
@@ -307,7 +309,6 @@ public class ExpertDAO extends DBContext {
         }
         return false;
     }
-
     
     public List<Expert> getAllExpert() {
         List<Expert> list = new ArrayList<>();
@@ -390,7 +391,6 @@ public class ExpertDAO extends DBContext {
             ex.printStackTrace();
         }
     }
-
 
     public static void main(String[] args) {
         ExpertDAO dao = new ExpertDAO();
