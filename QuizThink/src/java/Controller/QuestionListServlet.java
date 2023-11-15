@@ -83,6 +83,8 @@ public class QuestionListServlet extends HttpServlet {
                 request.setAttribute("questionStatus" + question.getQuestionId(), status);
 
             }
+            List<Subject> recentSubjects = subjectDAO.getRecentSubject();
+            request.setAttribute("recentSubjects", recentSubjects);
             request.setAttribute("parentSubjectDimensions", parentSubjectDimensions);
             request.setAttribute("subject", subject);
             request.setAttribute("questions", questions);
