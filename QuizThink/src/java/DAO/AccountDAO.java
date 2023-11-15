@@ -66,6 +66,22 @@ public class AccountDAO extends DBContext {
         }
         return account;
     }
+    
+    public int countMember(){
+        int size=0;
+        String sql = "Select COUNT (*) as c from  Account";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                size = rs.getInt("c");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return size;
+    } 
 
     public int checkRole(int accountId) {
         int role = 0;

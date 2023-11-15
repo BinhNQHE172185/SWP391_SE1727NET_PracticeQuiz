@@ -145,7 +145,7 @@
                         <li class="add-mega-menu"><a href="SubjectList">Our Courses</a>
 
                         </li>
-                        <li><a href="about.jsp">About us </a>
+                        <li><a href="Aboutus">About us </a>
 
                         </li>
                         <% if(acc != null && ad.checkRole(acc.getAccountId()) == 1) { %>

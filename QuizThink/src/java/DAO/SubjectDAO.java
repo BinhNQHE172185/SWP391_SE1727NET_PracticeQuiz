@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -104,6 +106,22 @@ public class SubjectDAO extends DBContext {
             e.printStackTrace();
         }
         return listSubject;
+    }
+
+    public int countSubject() {
+        int size = 0;
+        String sql = "Select COUNT (*) as c from  Subject";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                size = rs.getInt("c");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return size;
     }
 
     public Subject getSubjectById(int subjectId) {
@@ -248,6 +266,7 @@ public class SubjectDAO extends DBContext {
             // Handle exceptions here
         }
     }
+
     public void denySubjects(String subjectId) {
         String query = "UPDATE [Subject]\n"
                 + "SET [status] = 0\n"
@@ -260,6 +279,7 @@ public class SubjectDAO extends DBContext {
             // Handle exceptions here
         }
     }
+
     public List<Subject> getNotApproveSubjects() {
         List<Subject> list = new ArrayList<>();
         try {
