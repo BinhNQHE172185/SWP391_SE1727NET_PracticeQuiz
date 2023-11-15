@@ -385,7 +385,7 @@ public class AccountDAO extends DBContext {
         Date enroll;
         boolean status;
         String query = "select * from SubjectStatus s, Account a \n"
-                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1";
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -416,7 +416,7 @@ public class AccountDAO extends DBContext {
         Date enroll;
         boolean status;
         String query = "select * from SubjectStatus s, Account a \n"
-                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1 ORDER BY a.fullname asc";
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 ORDER BY a.fullname asc";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -447,7 +447,7 @@ public class AccountDAO extends DBContext {
         Date enroll;
         boolean status;
         String query = "select * from SubjectStatus s, Account a \n"
-                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1 ORDER BY a.fullname desc";
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 ORDER BY a.fullname desc";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);

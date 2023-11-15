@@ -77,7 +77,7 @@ public class SubjectStatusDAO extends DBContext {
         Date createdDate;
         int AccountId;
         String sql = "select * from SubjectStatus s, Account a \n"
-                + "where s.Subject_id = ? and s.Account_id = a.Account_id and s.status = 1";
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1";
         try {
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setInt(1, subjectId);
