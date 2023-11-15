@@ -181,13 +181,11 @@
                         </tr>
                     </table>
 
-                    <div class="question-box">
-                        <c:set var="i" value="0"/>
+                    <div class="question-box">                      
                         <c:forEach items = "${listQuiz}" var = "o" >
                             <div class="question">
                                 ${o.content}
                             </div>
-
                             <div class="answers">
                                 <c:set var="answerList" value="${answerMap[o.quizId]}"/>                                                        
                                 <c:forEach var="answer" items="${answerList}">   
@@ -197,16 +195,12 @@
                                             <c:set var="checked" value="true"/> 
                                         </c:if>
                                     </c:forEach>
-                                    <input type="radio" name="question_${o.quizId}" ${checked ? 'checked' : ''} disabled
-                                           class="${checked && answer.isCorrect() ? 'correct' : 'incorrect'}"> ${answer.content} <br>
-
+                                    <input type="radio" name="question_${o.quizId}" ${checked ? 'checked' : ''} disabled > ${answer.content} <br>
                                     <c:if test="${answer.isCorrect() == true}">
                                         <c:set var="correctAnswer" value="${answer}"/>
                                     </c:if>
                                 </c:forEach>                              
-
                             </div>
-
                             <div class="explanation">
                                 <p style="margin-bottom: 1px;">Correct Answer:<span class="underline"> ${correctAnswer.content}</span> </p>
                                 <p>Explain: ${o.description}</p>
@@ -216,7 +210,6 @@
                    <button class="submit-btn" onclick="window.history.back()">Back to list practiced</button>
                 </div>
                 <!-- contact area END -->
-
             </div>
             <!-- Content END-->
             <!-- Footer ==== -->
@@ -247,5 +240,4 @@
             lastExplanation.style.marginBottom = '0';
         </script>
     </body>
-
 </html>
