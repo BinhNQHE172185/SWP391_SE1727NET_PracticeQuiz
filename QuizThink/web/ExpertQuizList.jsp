@@ -277,8 +277,8 @@
                                 </div>
 
                                 <div class="col-md-12 col-lg-12 col-sm-12 text-left m-t20">
-                                    <a class="btn m-b10 yellow" href="editquiz?quizID=<%= quiz.getQuizId() %>">Edit Quiz</a>
-                                    <a class="btn m-b10 red" href="url">Remove Quiz</a>
+                                    <a class="btn m-b10 yellow" href="editquiz?questionId=<%= question.getQuestionId() %>&quizID=<%= quiz.getQuizId() %>">Edit Quiz</a>
+                                    <a class="btn m-b10 red" href="#" onclick="confirmAndRemove(<%= question.getQuestionId() %>, <%= quiz.getQuizId() %>)">Remove Quiz</a>
                                 </div>
                             </div>
                         </div>
