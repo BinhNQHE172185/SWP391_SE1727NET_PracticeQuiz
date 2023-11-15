@@ -170,7 +170,6 @@
                                                     </div>
                                                     <div class="info-bx text-center">
                                                         <h5><%= question.getTitle() %></h5>
-                                                        <span><%= question.getQuizCount() %> quiz</span>
                                                     </div>
                                                     <div class="cours-more-info">
                                                         <div class="review">
