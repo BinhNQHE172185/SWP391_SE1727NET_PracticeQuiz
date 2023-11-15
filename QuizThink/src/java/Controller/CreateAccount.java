@@ -156,8 +156,13 @@ public class CreateAccount extends HttpServlet {
             } else if (!DAO.UsernameExist(username)) {
                 request.setAttribute("notice", usernameMessage);
             } else {
-                boolean result = DAO.addAccount(username, password, email, fullname, DOB, gender, selfIntroduction, avatar,true);
-                request.setAttribute("notice", notice);
+                int newAccountId = DAO.addAccount(username, password, email, fullname, DOB, gender, selfIntroduction, avatar, true);
+                if (newAccountId == 0) {
+                    request.setAttribute("notice", "Error, Failed to add new account" + newAccountId);
+                } else {
+                    roleDAO.createAccountRole(newAccountId, 1);
+                    request.setAttribute("notice", notice);
+                }
             }
             request.getRequestDispatcher("CreateUser.jsp").forward(request, response);
         }

@@ -41,12 +41,12 @@ public class RoleDAO extends DBContext{
         return list;
     }
     
-    public int getRoleByAccountID( String account_id){
+    public int getRoleByAccountID(int account_id){
         String query = "SELECT role_id FROM AccountRole where Account_id = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setString(1, account_id);
+            ps.setInt(1, account_id);
             rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt(1);
@@ -57,6 +57,28 @@ public class RoleDAO extends DBContext{
         }
         return 0;
     }
+    public void createAccountRole(int accountId, int role_id) {
+    String insertQuery = "INSERT INTO AccountRole (Account_id, role_id) VALUES (?, ?)";
+
+    try {
+        conn = new DBContext().getConnection();
+        PreparedStatement statement = conn.prepareStatement(insertQuery);
+        statement.setInt(1, accountId);
+        // Set the appropriate role ID for the new AccountRole
+        // Replace 123 with the desired role ID value
+        statement.setInt(2, role_id); // Replace 123 with the desired role ID value
+
+        int rowsAffected = statement.executeUpdate();
+        if (rowsAffected > 0) {
+            System.out.println("AccountRole created successfully.");
+        }
+
+        statement.close();
+    } catch (Exception ex) {
+        System.err.println("An error occurred while executing the query: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+}
     
     public static void main(String[] args) {
         try {

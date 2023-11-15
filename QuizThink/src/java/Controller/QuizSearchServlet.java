@@ -12,6 +12,7 @@ import Model.Answer;
 import Model.Question;
 import Model.Quiz;
 import Model.Subject;
+import Model.SubjectDimension;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -46,6 +47,10 @@ public class QuizSearchServlet extends HttpServlet {
             int questionId = Integer.parseInt(request.getParameter("questionId"));
             Question question = questionDAO.getQuestionById(questionId);
             Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
+            
+            GetParentSubjectDimensionTitle getParentSubjectDimensionTitle = new GetParentSubjectDimensionTitle();
+            List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subject.getSubjectId());
+
 
             if (request.getParameter("page") != null) {
                 page = Integer.parseInt(request.getParameter("page"));
@@ -65,6 +70,7 @@ public class QuizSearchServlet extends HttpServlet {
 
             List<Subject> recentSubjects = subjectDAO.getRecentSubject();
             request.setAttribute("recentSubjects", recentSubjects);
+            request.setAttribute("parentSubjectDimensions", parentSubjectDimensions);
             request.setAttribute("subject", subject);
             request.setAttribute("question", question);
             request.setAttribute("quizzes", quizzes);
