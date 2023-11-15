@@ -47,7 +47,7 @@ public class ExpertAddSubjectServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Expert ex = (Expert) session.getAttribute("currExpert");
         SubjectDAO dao = new SubjectDAO();
-        dao.addExpertSubject(37, subjectDimensionID, title, imageURL, desc, createdDate, modifyDate, false);
+        dao.addExpertSubject(ex.getExpertId(), subjectDimensionID, title, imageURL, desc, createdDate, modifyDate);
         response.sendRedirect("ExpertSubjectList");
     }
 

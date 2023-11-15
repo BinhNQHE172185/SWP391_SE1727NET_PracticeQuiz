@@ -20,10 +20,10 @@ import java.util.List;
 
 /**
  *
- * @author admin
+ * @author QUYBINH
  */
-@WebServlet(name = "ExpertSubjectListServlet", urlPatterns = {"/ExpertSubjectList"})
-public class ExpertSubjectListServlet extends HttpServlet {
+@WebServlet(name = "ExpertSelectSubjectServlet", urlPatterns = {"/ExpertSelectSubject"})
+public class ExpertSelectSubjectServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,28 +37,38 @@ public class ExpertSubjectListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int page = 1;//target page
-        int noOfPages = 1;//default no of page
-        int recordsPerPage = 6;
-        SubjectDAO dao = new SubjectDAO();
-        HttpSession session = request.getSession();
-        Expert ex = (Expert) session.getAttribute("currExpert");
-        ExpertDAO DAO = new ExpertDAO();
-        Expert expert = DAO.getExpertByID(ex.getExpertId());
-        if (request.getParameter("page") != null) {//restive current page if possible
-            page = Integer.parseInt(request.getParameter("page"));
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            int page = 1;//target page
+            int noOfPages = 1;//default no of page
+            int recordsPerPage = 6;
+            String status = request.getParameter("status");
+            boolean s = true;
+            if(status.equals("Pending")){
+                s = false;
+            }else if(status.equals("Approved")){
+                s = true;
+            }
+            SubjectDAO dao = new SubjectDAO();
+            HttpSession session = request.getSession();
+            Expert ex = (Expert) session.getAttribute("currExpert");
+            ExpertDAO DAO = new ExpertDAO();
+            Expert expert = DAO.getExpertByID(ex.getExpertId());
+            if (request.getParameter("page") != null) {//restive current page if possible
+                page = Integer.parseInt(request.getParameter("page"));
+            }
+            int noOfRecords = dao.getNumberOfRecordByExpertIDandStatus(ex.getExpertId(), s);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+            if (page > noOfPages) {
+                page = noOfPages;
+            }
+            List<Subject> list = dao.getSubjectByExpertPagingByStatus(ex.getExpertId(), (page - 1) * recordsPerPage, recordsPerPage, s);
+            request.setAttribute("list", list);
+            request.setAttribute("expert", expert);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+            request.getRequestDispatcher("ExpertSunjectLists.jsp").forward(request, response);
         }
-        int noOfRecords = dao.getNumberOfRecordByExpertID(ex.getExpertId());
-        noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
-        if (page > noOfPages) {
-            page = noOfPages;
-        }
-        List<Subject> list = dao.getSubjectByExpertPaging(ex.getExpertId(), (page - 1) * recordsPerPage, recordsPerPage);
-        request.setAttribute("list", list);
-        request.setAttribute("expert", expert);
-        request.setAttribute("noOfPages", noOfPages);
-        request.setAttribute("currentPage", page);
-        request.getRequestDispatcher("ExpertSunjectLists.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
