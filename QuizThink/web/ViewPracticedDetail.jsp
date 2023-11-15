@@ -91,8 +91,6 @@
                 margin: 20px auto;
                 width: 300px;
                 align-items: center;
-                background-color: #4c1864;
-                color: white;
             }
 
             .explanation {
@@ -189,14 +187,12 @@
                             </div>
 
                             <div class="answers">
-                                <c:set var="answerList" value="${answerMap[o.quizId]}"/>                                                        
-                                <c:forEach var="answer" items="${answerList}">   
-                                    <c:set var="checked" value="false"/>
-                                    <c:forEach items="${selectedAnswers}" var="selectedAnswer">
-                                        <c:if test="${answer.answerId == selectedAnswer}">
-                                            <c:set var="checked" value="true"/> 
-                                        </c:if>
-                                    </c:forEach>
+
+                                <c:set var="answerList" value="${answerMap[o.quizId]}"/>
+                                <c:set var="selectedChoices" value="${intArray[i]}"/>                             
+
+                                <c:forEach var="answer" items="${answerList}">     
+                                    <c:set var="checked" value="${selectedChoices == answer.answerId}"/>
                                     <input type="radio" name="question_${o.quizId}" ${checked ? 'checked' : ''} disabled
                                            class="${checked && answer.isCorrect() ? 'correct' : 'incorrect'}"> ${answer.content} <br>
 
@@ -215,7 +211,7 @@
                         </c:forEach>
                     </div>
 
-                    <Button class="submit-btn" onclick="window.history.back()">Back to list practiced</button>
+                    <a class="submit-btn" href="">Back to practiced list</a>
                 </div>
                 <!-- contact area END -->
 
@@ -346,10 +342,10 @@
         <script src="FrontEnd/assets/js/contact.js"></script>
         <script src='FrontEnd/assets/vendors/switcher/switcher.js'></script>
         <script>
-                        // JavaScript to remove margin  
-                        const explanations = document.querySelectorAll('.explanation');
-                        const lastExplanation = explanations[explanations.length - 1];
-                        lastExplanation.style.marginBottom = '0';
+            // JavaScript to remove margin  
+            const explanations = document.querySelectorAll('.explanation');
+            const lastExplanation = explanations[explanations.length - 1];
+            lastExplanation.style.marginBottom = '0';
         </script>
     </body>
 

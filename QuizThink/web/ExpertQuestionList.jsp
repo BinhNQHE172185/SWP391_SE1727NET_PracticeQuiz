@@ -244,14 +244,13 @@
                              for (Question question : questions) {
                     %>
                     <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-                        <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>">
+                        <a href="ExpertQuizList?questionId=<%= question.getQuestionId() %>">
                             <div class="cours-bx">
                                 <div class="info-bx text-center question-image">
                                     <img src="<%= question.getImageURL() %>" alt="" />
                                 </div>
                                 <div class="info-bx text-center">
                                     <h5><%= question.getTitle() %></h5>
-                                    <span><%= question.getQuizCount() %> quiz</span>
                                 </div>
                                 <div class="cours-more-info">
                                     <div class="review" style="text-align: center;">

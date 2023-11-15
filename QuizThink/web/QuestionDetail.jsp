@@ -11,7 +11,6 @@
 <%@ page import="Model.Question" %>
 <%@ page import="Model.QuestionStatus" %>
 <%@ page import="Model.Subject" %>
-<%@ page import="Model.SubjectDimension" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 
@@ -83,13 +82,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(FrontEnd/assets/images/banner/banner3.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <%
-                                if (question != null) {
-                            %>
-                            <h1 class="text-white">Question: <%= question.getTitle() %></h1>
-                            <%
-                                }
-                            %>
+                            <h1 class="text-white"><%= subject.getTitle() %></h1>
                         </div>
                     </div>
                 </div>
@@ -97,19 +90,11 @@
                 <div class="breadcrumb-row">
                     <div class="container">
                         <ul class="list-inline">
-                            <li><a href="home">Home</a></li>
-                                <%
-                                List<SubjectDimension> parentSubjectDimensions = (List<SubjectDimension>) request.getAttribute("parentSubjectDimensions");
-                                if (parentSubjectDimensions != null) {
-                                    for (SubjectDimension subjectDimension : parentSubjectDimensions) {
-                                %>
-                            <li><%= subjectDimension.getTitle() %></li>
-                                <%
-                            }
-                        }
-                                %>
-                            <li><a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>"><%= subject.getTitle() %></a></li>
-                            <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>"><%= question.getTitle() %></a></li>
+                            <li><a href="#">Home</a></li>
+                            <li>Science</li>
+                            <li>Computer science</li>
+                            <li>Software Engineering</li>
+                            <li><%= subject.getTitle() %></li>
                         </ul>
                     </div>
                 </div>
@@ -172,18 +157,11 @@
                                     <div class="breadcrumb-row">
                                         <div class="container">
                                             <ul class="list-inline">
-                                                <li><a href="home">Home</a></li>
-                                                    <%
-                                                    if (parentSubjectDimensions != null) {
-                                                        for (SubjectDimension subjectDimension : parentSubjectDimensions) {
-                                                    %>
-                                                <li><%= subjectDimension.getTitle() %></li>
-                                                    <%
-                                                }
-                                            }
-                                                    %>
-                                                <li><a href="QuestionListServlet?subjectId=<%= subject.getSubjectId() %>"><%= subject.getTitle() %></a></li>
-                                                <a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>"><%= question.getTitle() %></a></li>
+                                                <li><a href="#">Home</a></li>
+                                                <li>Science</li>
+                                                <li>Computer science</li>
+                                                <li>Software Engineering</li>
+                                                <li><%= subject.getTitle() %></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -225,7 +203,7 @@
                                                 </div>
                                                 <!-- The Exam Popup END-->
                                                 <div class="info-bx text-left detail">
-                                                    <h5><%= question.getTitle() %></h5>
+                                                    <h5><%= question.getTitle() %><%= question.getQuestionId() %></h5>
                                                     <br>
                                                     <%
                                                     if (author != null) {

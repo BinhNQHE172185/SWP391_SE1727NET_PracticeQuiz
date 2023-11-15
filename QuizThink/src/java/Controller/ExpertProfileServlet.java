@@ -37,7 +37,7 @@ public class ExpertProfileServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Expert ex = (Expert) session.getAttribute("currExpert");
         ExpertDAO dao = new ExpertDAO();
-        Expert expert = dao.getExpertByID(ex.getExpertId());
+        Expert expert = dao.getExpertByID(37);
         request.setAttribute("expert", expert);
         request.getRequestDispatcher("ExpertProfile.jsp").forward(request, response);
     }

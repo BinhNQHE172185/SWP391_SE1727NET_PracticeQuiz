@@ -15,7 +15,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -37,13 +36,11 @@ public class ExpertSearchSubjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        Expert ex = (Expert) session.getAttribute("currExpert");
         String search = request.getParameter("search");
         SubjectDAO dao = new SubjectDAO();
         ExpertDAO DAO = new ExpertDAO();
-        Expert expert = DAO.getExpertByID(ex.getExpertId());
-        List<Subject> list = dao.searchSubjectByExpert(ex.getExpertId(), search);
+        Expert expert = DAO.getExpertByID(37);
+        List<Subject> list = dao.searchSubjectByExpert(37, search);
         request.setAttribute("list", list);
         request.setAttribute("search", search);
         request.setAttribute("expert", expert);

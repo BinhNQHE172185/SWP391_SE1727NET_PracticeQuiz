@@ -38,11 +38,24 @@ public class ListPracticedListServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-//            HttpSession session = request.getSession();
-//            Account currUser = (Account) session.getAttribute("currUser");
-//            int questionId = Integer.parseInt(request.getParameter("questionId"));
+            HttpSession session = request.getSession();
+            Account currUser = (Account) session.getAttribute("currUser");
+            int questionId = Integer.parseInt(request.getParameter("questionId"));
+
+           // int questionId = 1;//default
+            /*
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("ID".equals(cookie.getName())) {
+                        // Found the "accID" cookie
+                        accID = Integer.parseInt(cookie.getValue());
+                    }
+                }
+            }
+             */
             ResultDAO dao = new ResultDAO();
-            List<Result> listResult = dao.getResultByAccountID(2, 2);
+            List<Result> listResult = dao.getResultByAccountID(questionId, 1);
             request.setAttribute("listResult", listResult);
             request.getRequestDispatcher("HistoryList.jsp").forward(request, response);
         }
