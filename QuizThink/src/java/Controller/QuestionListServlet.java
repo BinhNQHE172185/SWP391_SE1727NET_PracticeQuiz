@@ -60,7 +60,7 @@ public class QuestionListServlet extends HttpServlet {
             Subject subject = subjectDAO.getSubjectById(subjectId);
 
             GetParentSubjectDimensionTitle getParentSubjectDimensionTitle = new GetParentSubjectDimensionTitle();
-            List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subject.getSubjectId());
+            List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subjectId);
 
             if (session.getAttribute("questionStatusUpdated") == null) {//run once every session or when manually cleared
                 updateQuestionStatusInSubject(subject, currUser);

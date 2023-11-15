@@ -119,17 +119,11 @@
 											<h6 class="m-b10">Course Description</h6>
                                                                                         <p>${o.description}</p>
                                                                                 </div>
-										<div class="col-md-12 row">
-                                                                                    <button  onclick="window.open('https://Google.com', '_blank')" type="button" class="btn gray outline" style="margin-right: 10px;">Preview&EditSubject</button>
+										<div class="col-md-12">
                                                                                     <form action="approve" method="POST">
-                                                                                        <input type="hidden" name="SubjectID" value="${o.subjectId}" >
-                                                                                        <input type="hidden" name="State" value="1">
-                                                                                        <button type="submit" class="btn green outline" style="margin-right: 10px;">Approve</button>
-                                                                                    </form>
-                                                                                    <form id="approvalForm" action="approve" method="POST" >
                                                                                         <input type="hidden" name="SubjectID" value="${o.subjectId}">
-                                                                                        <input type="hidden" name="State" value="0">
-                                                                                        <button type="submit" id="deny" class="btn red outline" >Deny</button>
+                                                                                        <button  onclick="window.open('https://Google.com', '_blank')" type="button" class="btn radius-xl outline">Preview&EditSubject</button>
+                                                                                        <button type="submit" class="btn green radius-xl outline" >Approve</button>
                                                                                     </form>
 											
 <!--											<a href="#" class="btn red outline radius-xl ">Cancel</a>-->
@@ -168,14 +162,6 @@
         <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
 
         <!-- <script src='assets/vendors/switcher/switcher.js'></script> -->
-        
-        
-<script>
-    document.getElementById('approvalForm').onsubmit = function() {
-        var confirmDeny = confirm("Are you sure you want to deny this Subject?");
-        return confirmDeny;
-    };
-</script>
     <script>
       $(document).ready(function() {
 

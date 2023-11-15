@@ -10,8 +10,6 @@ import Model.Marketer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +18,7 @@ import java.util.logging.Logger;
  * @author admin
  */
 public class ExpertDAO extends DBContext {
-    Connection conn = null;
+
     PreparedStatement ps;
     ResultSet rs;
 
@@ -308,33 +306,6 @@ public class ExpertDAO extends DBContext {
             return true;
         }
         return false;
-    }
-    
-    public List<Expert> getAllExpert() {
-        List<Expert> list = new ArrayList<>();
-            String query = "SELECT * FROM Expert";
-        try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query); // page 1 starts at index 0
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(new Expert(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6),
-                        rs.getString(7),
-                        rs.getBoolean(8)
-                ));
-
-            }
-        } catch (Exception ex) {
-            System.err.println("An error occurred while executing the query: " + ex.getMessage());
-            ex.printStackTrace();
-        }
-        return list;
     }
 
     public static void main(String[] args) {

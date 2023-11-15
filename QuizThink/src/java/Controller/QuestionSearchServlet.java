@@ -8,7 +8,6 @@ import DAO.QuestionDAO;
 import DAO.SubjectDAO;
 import Model.Question;
 import Model.Subject;
-import Model.SubjectDimension;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -60,11 +59,6 @@ public class QuestionSearchServlet extends HttpServlet {
             noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
 
             List<Question> questions = questionDAO.searchQuestionsBySubjectId(subjectId, searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
-            
-            GetParentSubjectDimensionTitle getParentSubjectDimensionTitle = new GetParentSubjectDimensionTitle();
-            List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subject.getSubjectId());
-            
-            request.setAttribute("parentSubjectDimensions", parentSubjectDimensions);
             request.setAttribute("subject", subject);
             request.setAttribute("questions", questions);
             request.setAttribute("noOfPages", noOfPages);

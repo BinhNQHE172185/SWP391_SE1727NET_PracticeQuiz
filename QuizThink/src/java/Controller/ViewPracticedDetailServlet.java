@@ -17,7 +17,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -48,7 +47,8 @@ public class ViewPracticedDetailServlet extends HttpServlet {
         ResultDAO resultDao = new ResultDAO();
         AnswerDAO answerDao = new AnswerDAO();
         int resultId = Integer.parseInt(request.getParameter("resultId"));
-
+        //Result rs = resultDao.getResultByID("5");
+        
         Result rs = resultDao.getResultByID(resultId);
         List<Quiz> listQuiz = quizDao.getQuizzesByQuestionId(rs.getQuestionId());
         for (Quiz quiz : listQuiz) {
@@ -59,25 +59,21 @@ public class ViewPracticedDetailServlet extends HttpServlet {
         }
 
         String selected = rs.getSelectedChoice();
-        try {
-            String[] selectedChoices = selected.replaceAll("[\\[\\]\"]", "").split(", ");
-            List<Integer> selectedAnswers = new ArrayList<>();
-            for (String s : selectedChoices) {
-                selectedAnswers.add(Integer.parseInt(s.trim()));
-            }
-            request.setAttribute("selectedAnswers", selectedAnswers);
-        } catch (NumberFormatException e) {
-            List<Integer> selectedAnswers = new ArrayList<>();
-            request.setAttribute("selectedAnswers", selectedAnswers);
-        }
+        String[] selectedChoices = selected.replaceAll("[\\[\\]\"]", "").split(", ");
+        int[] intArray = new int[selectedChoices.length];
 
-//        int[] intArray = new int[selectedChoices.length];
-//        for (int i = 0; i < selectedChoices.length; i++) {
-//            intArray[i] = Integer.parseInt(selectedChoices[i]);
+        for (int i = 0; i < selectedChoices.length; i++) {
+            intArray[i] = Integer.parseInt(selectedChoices[i]);
+        }
+//        Set<String> selectedChoicesSet = new HashSet<>();
+//        for (String selectedChoice : selectedChoices) {
+//            selectedChoicesSet.add((selectedChoice));
 //        }
+
         request.setAttribute("listQuiz", listQuiz);
         request.setAttribute("rs", rs);
         request.setAttribute("answerMap", answerMap);
+        request.setAttribute("intArray", intArray);
         request.getRequestDispatcher("ViewPracticedDetail.jsp").forward(request, response);
 
     }
