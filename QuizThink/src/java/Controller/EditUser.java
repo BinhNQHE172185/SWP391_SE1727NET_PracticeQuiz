@@ -246,7 +246,6 @@ public class EditUser extends HttpServlet {
             String avatar = request.getParameter("avatar");
             String fullname = request.getParameter("fullname");
             String DOB = request.getParameter("DOB");
-            String address = request.getParameter("address");
             String phonenumber = request.getParameter("phonenumber");
 
             
@@ -267,7 +266,7 @@ public class EditUser extends HttpServlet {
                 if (unban.equals("true")) {
                     DAO.UnbanAccount(accountID);
                 }
-                DAO.editUser(accountID, username, password, email, status, gender, avatar, fullname, DOB, address, phonenumber);
+                DAO.editUser(accountID, username, password, email, status, gender, avatar, fullname, DOB);
                 request.setAttribute("notice", notice);
             }
             Account account = DAO.getAccountByID(Integer.parseInt(accID));

@@ -5,7 +5,9 @@
 package Controller;
 
 import DAO.SubjectDAO;
+import DAO.SubjectDimensionDAO;
 import Model.Expert;
+import Model.SubjectDimension;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  *
@@ -47,7 +50,7 @@ public class ExpertAddSubjectServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Expert ex = (Expert) session.getAttribute("currExpert");
         SubjectDAO dao = new SubjectDAO();
-        dao.addExpertSubject(37, subjectDimensionID, title, imageURL, desc, createdDate, modifyDate, false);
+        dao.addExpertSubject(ex.getExpertId(), subjectDimensionID, title, imageURL, desc, createdDate, modifyDate, false);
         response.sendRedirect("ExpertSubjectList");
     }
 
@@ -63,7 +66,10 @@ public class ExpertAddSubjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        SubjectDimensionDAO dao = new SubjectDimensionDAO();
+        List<SubjectDimension> listDimension = dao.getAllSubjectDimension();
+        request.setAttribute("listDimension", listDimension);
+        request.getRequestDispatcher("ExpertAddSubject.jsp").forward(request, response);
     }
 
     /**
