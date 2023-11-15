@@ -68,7 +68,7 @@ public class MarketerDAO extends DBContext {
 
         return marketer;
     }
-    
+
     public Marketer getMarketerByID(int marketerId) {
         int marketerID;
         String username;
@@ -102,8 +102,8 @@ public class MarketerDAO extends DBContext {
         }
         return ex;
     }
-    
-    public void BanAccount(int accountID){
+
+    public void BanAccount(int accountID) {
         String query = "UPDATE [Marketer] SET [Status] = 0 where [Marketer_id] = ?";
         try {
             conn = new DBContext().getConnection();
@@ -115,8 +115,8 @@ public class MarketerDAO extends DBContext {
             ex.printStackTrace();
         }
     }
-    
-    public void UnbanAccount(int accountID){
+
+    public void UnbanAccount(int accountID) {
         String query = "UPDATE [Marketer] SET [Status] = 1 where [Marketer_id] = ?";
         try {
             conn = new DBContext().getConnection();
@@ -129,17 +129,16 @@ public class MarketerDAO extends DBContext {
         }
     }
 
-
     // Edit User 
     public void editUser(int accountID, String username, String password, String email, String avatar, String fullname, String selfIntroduction) {
-        String query = "UPDATE [Marketer]\n" +
-                        "SET [username] = ?,\n" +
-                        "    [password] = ?,\n" +
-                        "    [email] = ?,\n" +
-                        "    [name] = ?,\n" +
-                        "    [avatar] = ?,\n" +
-                        "	[self-introduction] = ?\n" +
-                        "WHERE [Marketer_id] = ?";
+        String query = "UPDATE [Marketer]\n"
+                + "SET [username] = ?,\n"
+                + "    [password] = ?,\n"
+                + "    [email] = ?,\n"
+                + "    [name] = ?,\n"
+                + "    [avatar] = ?,\n"
+                + "	[self-introduction] = ?\n"
+                + "WHERE [Marketer_id] = ?";
 
         try {
             conn = new DBContext().getConnection();
@@ -157,6 +156,7 @@ public class MarketerDAO extends DBContext {
             ex.printStackTrace();
         }
     }
+
     public Marketer getMarketer(String username, String password) {
         Marketer mk = null;
         int marketerId;
@@ -211,7 +211,7 @@ public class MarketerDAO extends DBContext {
         return mk;
     }
 
-    public void updateMarketerProfile(String name, String email, String avatar, String selfIntroduction,int marketerId ) {
+    public void updateMarketerProfile(String name, String email, String avatar, String selfIntroduction, int marketerId) {
         try {
             String query = "UPDATE Marketer\n"
                     + "SET email = ?,\n"
@@ -231,6 +231,7 @@ public class MarketerDAO extends DBContext {
             Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, e);
         }
     }
+
     public Marketer checkMail(String email) {
         Marketer mk = null;
         int marketerId;
@@ -245,7 +246,7 @@ public class MarketerDAO extends DBContext {
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 marketerId = rs.getInt("Marketer_id");
                 username = rs.getString("username");
                 password = rs.getString("password");
@@ -259,8 +260,9 @@ public class MarketerDAO extends DBContext {
         } catch (Exception ex) {
             Logger.getLogger(MarketerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-       return mk;
+        return mk;
     }
+
     public void updatePassword(String password, String MarketerId) {
         String query = "update Marketer set password = ? where Marketer_id =?";
         try {
@@ -273,9 +275,10 @@ public class MarketerDAO extends DBContext {
 
         }
     }
+
     public List<Marketer> getAllMarketer() {
         List<Marketer> list = new ArrayList<>();
-            String query = "SELECT * FROM Marketer";
+        String query = "SELECT * FROM Marketer";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query); // page 1 starts at index 0
@@ -299,6 +302,7 @@ public class MarketerDAO extends DBContext {
         }
         return list;
     }
+
     public int getNumOfMarketer() {
         String query = "select COUNT(*) from Marketer";
         try {
@@ -313,5 +317,33 @@ public class MarketerDAO extends DBContext {
             ex.printStackTrace();
         }
         return 0;
+    }
+
+    public boolean addMarketer(
+            String username,
+            String password,
+            String email,
+            String name,
+            String selfIntroduction,
+            String avatar,
+            boolean status
+    ) {
+        String sql = "INSERT INTO Marketer (username, password, email, name, [self-introduction], avatar, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            ps.setString(4, name);
+            ps.setString(5, selfIntroduction);
+            ps.setString(6, avatar);
+            ps.setBoolean(7, status);
+            int rowsAffected = ps.executeUpdate();
+            ps.close();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
     }
 }

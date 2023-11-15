@@ -20,6 +20,7 @@ import java.util.logging.Logger;
  * @author admin
  */
 public class ExpertDAO extends DBContext {
+
     Connection conn = null;
     PreparedStatement ps;
     ResultSet rs;
@@ -214,6 +215,7 @@ public class ExpertDAO extends DBContext {
         }
         return ex;
     }
+
     public Expert getExpertByUsername(String username) {
         int expertId;
         String password;
@@ -246,6 +248,7 @@ public class ExpertDAO extends DBContext {
         }
         return ex;
     }
+
     public Expert getExpertByEmail(String email) {
         int expertId;
         String password;
@@ -300,7 +303,7 @@ public class ExpertDAO extends DBContext {
             Logger.getLogger(ExpertDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public boolean UsernameExist(String username) {
         Expert ac;
         ac = getExpertByUsername(username);
@@ -309,10 +312,10 @@ public class ExpertDAO extends DBContext {
         }
         return false;
     }
-    
+
     public List<Expert> getAllExpert() {
         List<Expert> list = new ArrayList<>();
-            String query = "SELECT * FROM Expert";
+        String query = "SELECT * FROM Expert";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query); // page 1 starts at index 0
@@ -336,8 +339,8 @@ public class ExpertDAO extends DBContext {
         }
         return list;
     }
-    
-    public void BanAccount(int accountID){
+
+    public void BanAccount(int accountID) {
         String query = "UPDATE [Expert] SET [Status] = 0 where [Expert_id] = ?";
         try {
             conn = new DBContext().getConnection();
@@ -349,8 +352,8 @@ public class ExpertDAO extends DBContext {
             ex.printStackTrace();
         }
     }
-    
-    public void UnbanAccount(int accountID){
+
+    public void UnbanAccount(int accountID) {
         String query = "UPDATE [Expert] SET [Status] = 1 where [Expert_id] = ?";
         try {
             conn = new DBContext().getConnection();
@@ -363,17 +366,16 @@ public class ExpertDAO extends DBContext {
         }
     }
 
-
     // Edit User 
     public void editUser(int accountID, String username, String password, String email, String avatar, String fullname, String selfIntroduction) {
-        String query = "UPDATE [Expert]\n" +
-                        "SET [username] = ?,\n" +
-                        "    [password] = ?,\n" +
-                        "    [email] = ?,\n" +
-                        "    [name] = ?,\n" +
-                        "    [avatar] = ?,\n" +
-                        "	[self-introduction] = ?\n" +
-                        "WHERE [Expert_id] = ?";
+        String query = "UPDATE [Expert]\n"
+                + "SET [username] = ?,\n"
+                + "    [password] = ?,\n"
+                + "    [email] = ?,\n"
+                + "    [name] = ?,\n"
+                + "    [avatar] = ?,\n"
+                + "	[self-introduction] = ?\n"
+                + "WHERE [Expert_id] = ?";
 
         try {
             conn = new DBContext().getConnection();
@@ -389,6 +391,35 @@ public class ExpertDAO extends DBContext {
         } catch (Exception ex) {
             System.err.println("An error occurred while executing the query: " + ex.getMessage());
             ex.printStackTrace();
+        }
+    }
+
+    public boolean addExpert(
+            String username,
+            String password,
+            String email,
+            String name,
+            String selfIntroduction,
+            String avatar,
+            boolean status
+    ) {
+        String sql = "INSERT INTO Expert (username, password, email, name, [self-introduction], avatar, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            ps.setString(4, name);
+            ps.setString(5, selfIntroduction);
+            ps.setString(6, avatar);
+            ps.setBoolean(7, status);
+            int rowsAffected = ps.executeUpdate();
+            ps.close();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
     }
 
