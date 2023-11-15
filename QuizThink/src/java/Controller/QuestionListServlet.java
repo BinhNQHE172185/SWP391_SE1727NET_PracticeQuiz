@@ -93,13 +93,15 @@ public class QuestionListServlet extends HttpServlet {
         QuestionStatusDAO questionStatusDAO = new QuestionStatusDAO();
         ResultDAO resultDAO = new ResultDAO();
         List<QuestionStatus> questionStatuses = questionStatusDAO.getQuestionStatusListBySubjectIdAndUserId(subject.getSubjectId(), currUser.getAccountId());
-        for (QuestionStatus questionStatus : questionStatuses) {
-            if (!questionStatus.isStatus()) {
-                Question question = questionDAO.getQuestionById(questionStatus.getQuestionId());
-                Result result = resultDAO.getHighestMarkResultByQuestionIdAndAccountId(questionStatus.getQuestionId(), currUser.getAccountId());
-                if (result != null) {
-                    if ((result.getMark() * 10) >= question.getRequirement()) {
-                        questionStatusDAO.updateQuestionStatusToTrue(questionStatus.getQuestionStatusId());
+        if (!questionStatuses.isEmpty()) {
+            for (QuestionStatus questionStatus : questionStatuses) {
+                if (!questionStatus.isStatus()) {
+                    Question question = questionDAO.getQuestionById(questionStatus.getQuestionId());
+                    Result result = resultDAO.getHighestMarkResultByQuestionIdAndAccountId(questionStatus.getQuestionId(), currUser.getAccountId());
+                    if (result != null) {
+                        if ((result.getMark() * 10) >= question.getRequirement()) {
+                            questionStatusDAO.updateQuestionStatusToTrue(questionStatus.getQuestionStatusId());
+                        }
                     }
                 }
             }
