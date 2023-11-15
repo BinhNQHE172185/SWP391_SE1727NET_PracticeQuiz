@@ -42,33 +42,64 @@ public class SubjectListServlet extends HttpServlet {
             int recordsPerPage = 6;
             SubjectDAO subjectDAO = new SubjectDAO();
 
-            if (request.getParameter("page") != null) {
+            if (request.getParameter("subjectDimensionId") != null) {
                 // Retrieve the page number from the request if available
-                page = Integer.parseInt(request.getParameter("page"));
-            }
+                int subjectDimensionId = Integer.parseInt(request.getParameter("subjectDimensionId"));
+                if (request.getParameter("page") != null) {
+                    // Retrieve the page number from the request if available
+                    page = Integer.parseInt(request.getParameter("page"));
+                }
 
-            if (request.getParameter("noOfPages") != null) {
-                // Retrieve the noOfPages from the request if available
-                noOfPages = Integer.parseInt(request.getParameter("noOfPages"));
+                if (request.getParameter("noOfPages") != null) {
+                    // Retrieve the noOfPages from the request if available
+                    noOfPages = Integer.parseInt(request.getParameter("noOfPages"));
+                } else {
+                    // Calculate the number of pages based on the total number of subjects
+                    int noOfRecords = subjectDAO.getNumberOfRecordsBySubjectDimensionId(subjectDimensionId);
+                    noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+                }
+                SubjectDimensionDAO dao = new SubjectDimensionDAO();
+                List<SubjectDimension> listDimension = dao.getAllSubjectDimension();
+                List<Subject> recentSubjects = subjectDAO.getRecentSubject();
+
+                // Retrieve subjects for the current page
+                List<Subject> subjects = subjectDAO.getSubjectsBySubjectDimensionId(subjectDimensionId, (page - 1) * recordsPerPage, recordsPerPage);
+                // Set the attributes for the request
+                request.setAttribute("subjectDimensionId", subjectDimensionId);
+                request.setAttribute("subjects", subjects);
+                request.setAttribute("noOfPages", noOfPages);
+                request.setAttribute("currentPage", page);
+                request.setAttribute("listDimension", listDimension);
+                request.setAttribute("recentSubjects", recentSubjects);
             } else {
-                // Calculate the number of pages based on the total number of subjects
-                int noOfRecords = subjectDAO.getNumberOfRecords();
-                noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+
+                if (request.getParameter("page") != null) {
+                    // Retrieve the page number from the request if available
+                    page = Integer.parseInt(request.getParameter("page"));
+                }
+
+                if (request.getParameter("noOfPages") != null) {
+                    // Retrieve the noOfPages from the request if available
+                    noOfPages = Integer.parseInt(request.getParameter("noOfPages"));
+                } else {
+                    // Calculate the number of pages based on the total number of subjects
+                    int noOfRecords = subjectDAO.getNumberOfRecords();
+                    noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+                }
+                SubjectDimensionDAO dao = new SubjectDimensionDAO();
+                List<SubjectDimension> listDimension = dao.getAllSubjectDimension();
+                List<Subject> recentSubjects = subjectDAO.getRecentSubject();
+
+                // Retrieve subjects for the current page
+                List<Subject> subjects = subjectDAO.getAllSubjects((page - 1) * recordsPerPage, recordsPerPage);
+                // Set the attributes for the request
+                request.setAttribute("subjects", subjects);
+                request.setAttribute("noOfPages", noOfPages);
+                request.setAttribute("currentPage", page);
+                request.setAttribute("listDimension", listDimension);
+                request.setAttribute("recentSubjects", recentSubjects);
             }
-            SubjectDimensionDAO dao = new SubjectDimensionDAO();
-            List<SubjectDimension> listDimension = dao.getAllSubjectDimension();
-            List<Subject> recentSubjects = subjectDAO.getRecentSubject();
-        
 
-            // Retrieve subjects for the current page
-            List<Subject> subjects = subjectDAO.getAllSubjects((page - 1) * recordsPerPage, recordsPerPage);
-
-            // Set the attributes for the request
-            request.setAttribute("subjects", subjects);
-            request.setAttribute("noOfPages", noOfPages);
-            request.setAttribute("currentPage", page);
-            request.setAttribute("listDimension", listDimension);
-            request.setAttribute("recentSubjects", recentSubjects);
             // Forward the request to the appropriate JSP for displaying subjects
             request.getRequestDispatcher("courses.jsp").forward(request, response);
         }
