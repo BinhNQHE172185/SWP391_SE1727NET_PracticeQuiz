@@ -62,11 +62,11 @@ public class QuestionDetailServlet extends HttpServlet {
 
             Question question = questionDAO.getQuestionById(questionId);
             Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
-            
-            if (currUser != null){
-            updateQuestionStatus(question, currUser);
+
+            if (currUser != null) {
+                updateQuestionStatus(question, currUser);
             }
-            
+
             QuestionStatus questionStatus = questionStatusDAO.getQuestionStatusByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
 
             int page = 1; // target page
@@ -90,7 +90,9 @@ public class QuestionDetailServlet extends HttpServlet {
 
             GetParentSubjectDimensionTitle getParentSubjectDimensionTitle = new GetParentSubjectDimensionTitle();
             List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subject.getSubjectId());
-            
+
+            List<Subject> recentSubjects = subjectDAO.getRecentSubject();
+            request.setAttribute("recentSubjects", recentSubjects);
             request.setAttribute("expert", expert.getName());
             request.setAttribute("parentSubjectDimensions", parentSubjectDimensions);
             request.setAttribute("subject", subject);
