@@ -569,9 +569,35 @@ public List<Account> getAllCustomer() {
             // For simplicity, it's omitted here.
         }
     }
+    public void BanAccount(int accountID){
+        String query = "UPDATE [Account] SET [Status] = 0 where [account_id] = ? ";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, accountID);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
+    public void UnbanAccount(int accountID){
+        String query = "UPDATE [Account] SET [Status] = 1 where [account_id] = ? ";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, accountID);
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
 
     // Edit User 
-    public void editUser(int accountID, String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber, int roleId) {
+    public void editUser(int accountID, String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber) {
         String query = "UPDATE [Account]\n"
                 + "SET [username] = ?,\n"
                 + "    [password] = ?,\n"
@@ -581,11 +607,7 @@ public List<Account> getAllCustomer() {
                 + "    [gender] = ?,\n"
                 + "    [avatar] = ?,\n"
                 + "    [modifyDate] = ?\n"
-                + "WHERE [account_id] = ?;"
-                + "Update [AccountRole]\n"
-                + "Set role_id = ?\n"
-                + "Where Account_id = ?";
-        // Thiếu status và một vài thuộc tính khác
+                + "WHERE [account_id] = ?";
 
         try {
             conn = new DBContext().getConnection();
@@ -601,8 +623,6 @@ public List<Account> getAllCustomer() {
             Date modifyDate = Date.valueOf(currentTime.toLocalDate());
             ps.setDate(8, modifyDate);
             ps.setInt(9, accountID);
-            ps.setInt(10, roleId);
-            ps.setInt(11, accountID);
             ps.executeUpdate(); // no result ==> no need result set
         } catch (Exception ex) {
             System.err.println("An error occurred while executing the query: " + ex.getMessage());
