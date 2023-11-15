@@ -70,6 +70,8 @@
 					<div class="widget-box">
 						<div class="wc-title">
                                                     <h4>Edit User</h4>
+                                                    <c:if test="${not empty usernameMessage}"><p style="color: red; font-size: 12px;">${usernameMessage}</p></c:if>
+                                                    <c:if test="${not empty emailMessage}"><p style="color: red; font-size: 12px;">${emailMessage}</p></c:if>
 						</div>
 						<div class="widget-inner">
                                                     <!-- HAVE EXPERT -->
@@ -85,6 +87,8 @@
                                                                             <label class="col-sm-2 col-form-label">UserName</label>
                                                                             <div class="col-sm-7">
                                                                                 <input class="form-control" type="text" name="username" value="${expert.username}">
+                                                                                <input class="form-control" type="hidden" name="existUsername" value="${existUsername}">
+                                                                                <input class="form-control" type="hidden" name="existEmail" value="${existEmail}">
                                                                                 <input class="form-control" type="hidden" name="expertId" value="${expert.expertId}">
                                                                             </div>
                                                                     </div>
@@ -169,6 +173,8 @@
                                                                             <label class="col-sm-2 col-form-label">UserName</label>
                                                                             <div class="col-sm-7">
                                                                                 <input class="form-control" type="text" name="username" value="${marketer.username}">
+                                                                                <input class="form-control" type="hidden" name="existUsername" value="${existUsername}">
+                                                                                <input class="form-control" type="hidden" name="existEmail" value="${existEmail}">
                                                                             <!-- comment --><input class="form-control" type="hidden" name="accountID" value="${marketer.marketerID}">
                                                                             </div>
                                                                     </div>
@@ -242,7 +248,7 @@
                                                     
                                                     <!-- HAVE ACCOUNT -->
                                                     <c:if test="${not empty account.accountId}"> 
-                                                        <form class="edit-profile m-b30" id="approvalForm" action="edituser" method="POST">
+                                                        <form class="edit-profile m-b30" id="approvalForm" action="edituser" method="POST" onsubmit="return validateForm()">
                                                             <div class="">
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-10  ml-auto">
@@ -252,7 +258,9 @@
                                                                 <div class="form-group row">
                                                                         <label class="col-sm-2 col-form-label">UserName</label>
                                                                         <div class="col-sm-7">
-                                                                            <input class="form-control" type="text" name="username" value="${account.username}">
+                                                                            <input class="form-control" type="text" id="usernameInput" name="username" value="${account.username}">
+                                                                            <input class="form-control" type="hidden" name="existUsername" value="${existUsername}">
+                                                                            <input class="form-control" type="hidden" name="existEmail" value="${existEmail}">
                                                                         <!-- comment --><input class="form-control" type="hidden" name="accountID" value="${account.accountId}">
                                                                         </div>
                                                                 </div>
@@ -273,7 +281,7 @@
                                                                 <div class="form-group row">
                                                                         <label class="col-sm-2 col-form-label">Email</label>
                                                                         <div class="col-sm-7">
-                                                                                <input class="form-control" type="email" name="email" placeholder="Input Email" value="${account.email}">
+                                                                            <input class="form-control" id="emailInput" type="email" name="email" placeholder="Input Email" value="${account.email}">
                                                                         </div>
                                                                 </div>
 
@@ -324,7 +332,7 @@
                                                                                         <div class="col-sm-2">
                                                                                         </div>
                                                                                         <div class="col-sm-5">
-                                                                                                <button type="submit" class="btn" onclick="confirmBan()">Save changes</button>
+                                                                                                <button type="submit" class="btn">Save changes</button>
                                                                                                 <input type="hidden" name="Ban" value="false">
                                                                                                 <input type="hidden" name="Unban" value="false">
                                                                                                 <button type="button" class="btn btn-danger" id="banBtn" style="background-color: red; color: white ;<c:if test="${not account.status}"> display: none</c:if> ">Ban this Account</button>
@@ -365,7 +373,30 @@
 <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
 
 <!-- <script src='assets/vendors/switcher/switcher.js'></script> -->
-
+<script>
+    function validateForm() {
+        var username = document.getElementById('usernameInput').value;
+        var password = document.getElementById('password').value;
+        var email = document.getElementById('emailInput').value;
+        if (!username || !password || !email) {
+            alert("Please fill in all fields");
+            return false;
+        }
+        if (!/^[a-zA-Z0-9]+$/.test(username) || /\s/.test(username)) {
+            alert("Username must not include special characters or spaces");
+            return false;
+        }
+        if (password.length < 6 || password.length > 30 || /\s/.test(password)) {
+            alert("Password must be between 6 and 30 characters and must not include spaces");
+            return false;
+        }
+        if (/\s/.test(email)) {
+            alert("Email must not include spaces");
+            return false;
+        }
+        return true;
+    }
+</script>
 <script>
     function confirmAndSubmit(action) {
         var confirmation = confirm("Are you sure you want to " + action + " this account?");
@@ -417,12 +448,6 @@ document.getElementById('approvalForm').addEventListener('submit', function(even
     });
 </script>
 
-<script>
-document.getElementById('approvalForm').onsubmit = function() {
-        var confirmDeny = confirm("Are you sure you want to Save Changes?");
-        return confirmDeny;
-    };
-</script>
 
 <script>
     // JavaScript to update the image preview when the avatar input changes

@@ -48,12 +48,20 @@ public class EditUser extends HttpServlet {
         String a = request.getParameter("accountId");
         String m = request.getParameter("marketerID");
         String e = request.getParameter("expertId");
+        String username = request.getParameter("username");
         
         if(a != null){
             
             int acc = Integer.parseInt(a);
             int acc_role = roleDAO.getRoleByAccountID(a);
             Account account = accDAO.getAccountByID(acc);
+            
+            String existEmail = account.getEmail();
+            String existUsername = account.getUsername();
+            
+            request.setAttribute("existEmail", existEmail);
+            request.setAttribute("existUsername", existUsername);
+            
             request.setAttribute("account", account);
             request.setAttribute("acc_role", acc_role);
             
@@ -65,6 +73,13 @@ public class EditUser extends HttpServlet {
             int mar = Integer.parseInt(m);
             Marketer marketer = marDAO.getMarketerByID(mar);
             List<Role> listRole = roleDAO.getAllRole();
+            
+            String existEmail = marketer.getEmail();
+            String existUsername = marketer.getUsername();
+            
+            request.setAttribute("existEmail", existEmail);
+            request.setAttribute("existUsername", existUsername);
+            
             request.setAttribute("listRole", listRole);
             request.setAttribute("marketer", marketer);
             request.getRequestDispatcher("EditUser.jsp").forward(request, response);
@@ -73,6 +88,13 @@ public class EditUser extends HttpServlet {
             int exp = Integer.parseInt(e);
             Expert expert = expDAO.getExpertByID(exp);
             List<Role> listRole = roleDAO.getAllRole();
+            
+            String existEmail = expert.getEmail();
+            String existUsername = expert.getUsername();
+            
+            request.setAttribute("existEmail", existEmail);
+            request.setAttribute("existUsername", existUsername);
+            
             request.setAttribute("listRole", listRole);
             request.setAttribute("expert", expert);
             request.getRequestDispatcher("EditUser.jsp").forward(request, response);
@@ -107,6 +129,12 @@ public class EditUser extends HttpServlet {
         ExpertDAO expDAO = new ExpertDAO();
         MarketerDAO marketDAO = new MarketerDAO();
         
+        String existEmail = request.getParameter("existEmail");
+        String existUsername = request.getParameter("existUsername");
+            
+        String emailMessage = "Email already exist. Try another email";
+        String usernameMessage = "Username already exist. Try another one";
+        
         //----------------------------Marketer TABLE----------------------------
         String markID = request.getParameter("marketerID");
         if(markID != null){
@@ -116,7 +144,9 @@ public class EditUser extends HttpServlet {
             String email = request.getParameter("email");
             String avatar = request.getParameter("avatar");
             String name = request.getParameter("fullname");
-            String selfIntroduction = request.getParameter("self-introduction"); 
+            String selfIntroduction = request.getParameter("self-introduction");
+            
+            //
             marketDAO.editUser(marketerID, username, password, email, avatar, name, selfIntroduction);
             // Ban Unban 
             String ban = request.getParameter("Ban");
@@ -140,6 +170,7 @@ public class EditUser extends HttpServlet {
             String avatar = request.getParameter("avatar");
             String name = request.getParameter("fullname");
             String selfIntroduction = request.getParameter("self-introduction"); 
+            
             expDAO.editUser(expertID, username, password, email, avatar, name, selfIntroduction);
             // Ban Unban 
             String ban = request.getParameter("Ban");
@@ -150,10 +181,12 @@ public class EditUser extends HttpServlet {
             if(unban.equals("true")){
                 expDAO.UnbanAccount(expertID);
             }
+            
             response.sendRedirect("userlists");
         }
         //----------------------------ACCOUNT TABLE----------------------------
         String accID = request.getParameter("accountID");
+        // addition
         if(accID != null){
             int accountID = Integer.parseInt(accID);
             String username = request.getParameter("username");
@@ -166,8 +199,6 @@ public class EditUser extends HttpServlet {
             String DOB = request.getParameter("DOB");
             String address = request.getParameter("address");
             String phonenumber = request.getParameter("phonenumber");
-
-
             // Ban Unban 
             String ban = request.getParameter("Ban");
             String unban = request.getParameter("Unban");
@@ -177,9 +208,6 @@ public class EditUser extends HttpServlet {
             if(unban.equals("true")){
                 DAO.UnbanAccount(accountID);
             }
-
-
-
             DAO.editUser(accountID, username, password, email, status, gender, avatar, fullname, DOB, address, phonenumber);
             //response.sendRedirect("/Front%20End/Admin/Dashboard.jsp");
             response.sendRedirect("userlists");
