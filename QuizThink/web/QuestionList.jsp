@@ -82,18 +82,18 @@
                 <div class="breadcrumb-row">
                     <div class="container">
                         <ul class="list-inline">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="home">Home</a></li>
                                 <%
                                 List<SubjectDimension> parentSubjectDimensions = (List<SubjectDimension>) request.getAttribute("parentSubjectDimensions");
                                 if (parentSubjectDimensions != null) {
                                     for (SubjectDimension subjectDimension : parentSubjectDimensions) {
                                 %>
-                            <li><%= subjectDimension.getTitle() %></li>
+                            <li><a href="SubjectList?subjectDimensionId=<%= subjectDimension.getSubjectDimensionId() %>"><%= subjectDimension.getTitle() %></a></li>
                                 <%
                             }
                         }
                                 %>
-                            <li><%= subject.getTitle() %></li>
+                            <li><a href="subjectdetail?pid=<%= subject.getSubjectId() %>"><%= subject.getTitle() %></a></li>
                         </ul>
                     </div>
                 </div>

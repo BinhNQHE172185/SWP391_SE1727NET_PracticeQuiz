@@ -93,13 +93,13 @@
                                 if (parentSubjectDimensions != null) {
                                     for (SubjectDimension subjectDimension : parentSubjectDimensions) {
                                 %>
-                            <li><%= subjectDimension.getTitle() %></li>
+                            <li><a href="SubjectList?subjectDimensionId=<%= subjectDimension.getSubjectDimensionId() %>"><%= subjectDimension.getTitle() %></a></li>
                                 <%
                             }
                         }
                                 %>
-                            <li><%= subject.getTitle() %></li>
-                            <li><%= question.getTitle() %></li>
+                            <li><a href="subjectdetail?pid=<%= subject.getSubjectId() %>"><%= subject.getTitle() %></a></li>
+                            <li><a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>"><%= question.getTitle() %></a></li>
                         </ul>
                     </div>
                 </div>
@@ -154,13 +154,13 @@
                                                     if (parentSubjectDimensions != null) {
                                                         for (SubjectDimension subjectDimension : parentSubjectDimensions) {
                                                     %>
-                                                <li><%= subjectDimension.getTitle() %></li>
+                                                <li><a href="SubjectList?subjectDimensionId=<%= subjectDimension.getSubjectDimensionId() %>"><%= subjectDimension.getTitle() %></a></li>
                                                     <%
                                                 }
                                             }
                                                     %>
-                                                <li><%= subject.getTitle() %></li>
-                                                <li><%= question.getTitle() %></li>
+                                                <li><a href="subjectdetail?pid=<%= subject.getSubjectId() %>"><%= subject.getTitle() %></a></li>
+                                                <li><a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>"><%= question.getTitle() %></a></li>
                                             </ul>
                                         </div>
                                     </div>

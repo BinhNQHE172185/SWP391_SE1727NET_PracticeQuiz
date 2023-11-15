@@ -77,6 +77,8 @@
                 QuestionStatus questionStatus = (QuestionStatus)request.getAttribute("questionStatus");
                 int quizCount = (int) request.getAttribute("quizCount");
                 String author = (String) request.getAttribute("expert");
+                Account acc = (Account) session.getAttribute("currUser");
+                boolean accountStatus = (boolean) request.getAttribute("accountStatus");
             %>
             <div class="page-content bg-white">
                 <!-- inner page banner -->
@@ -97,13 +99,13 @@
                                 if (parentSubjectDimensions != null) {
                                     for (SubjectDimension subjectDimension : parentSubjectDimensions) {
                                 %>
-                            <li><%= subjectDimension.getTitle() %></li>
+                            <li><a href="SubjectList?subjectDimensionId=<%= subjectDimension.getSubjectDimensionId() %>"><%= subjectDimension.getTitle() %></a></li>
                                 <%
                             }
                         }
                                 %>
-                            <li><%= subject.getTitle() %></li>
-                            <li><%= question.getTitle() %></li>
+                            <li><a href="subjectdetail?pid=<%= subject.getSubjectId() %>"><%= subject.getTitle() %></a></li>
+                            <li><a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>"><%= question.getTitle() %></a></li>
                         </ul>
                     </div>
                 </div>
@@ -159,13 +161,13 @@
                                                     if (parentSubjectDimensions != null) {
                                                         for (SubjectDimension subjectDimension : parentSubjectDimensions) {
                                                     %>
-                                                <li><%= subjectDimension.getTitle() %></li>
+                                                <li><a href="SubjectList?subjectDimensionId=<%= subjectDimension.getSubjectDimensionId() %>"><%= subjectDimension.getTitle() %></a></li>
                                                     <%
                                                 }
                                             }
                                                     %>
-                                                <li><%= subject.getTitle() %></li>
-                                                <li><%= question.getTitle() %></li>
+                                                <li><a href="subjectdetail?pid=<%= subject.getSubjectId() %>"><%= subject.getTitle() %></a></li>
+                                                <li><a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>"><%= question.getTitle() %></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -181,7 +183,6 @@
                                                     <img src="<%= question.getImageURL() %>" alt="" />
                                                 </div>
                                                 <div class="col-md-6 col-lg-6 col-sm-12 info-bx text-left d-flex align-items-center flex-column question-navigation">
-                                                    <button class="submit-btn detail"><h4>Learn quiz</h4></button>
                                                     <button class="submit-btn detail" onclick="showExamPopup()"><h4>New exam</h4></button>
                                                     <form action="ListPracticedList" method="post">
                                                         <input type="hidden" name="questionId" value="<%= question.getQuestionId() %>">
@@ -199,15 +200,23 @@
                                                         <h5>Higher than <%= question.getRequirement() %>% to pass</h5>
 
                                                         <!-- Add exam information here -->
+                                                        <% if(accountStatus){ %>
                                                         <form class = "text-center m-t20" action="QuizHandleServlet" method="POST">
                                                             <input type="hidden" name="questionId" value="<%= question.getQuestionId() %>">
                                                             <button type="submit" class="submit-btn detail">Start Exam</button>
                                                         </form>
+                                                        <% } 
+                                                        else{
+                                                        %>
+                                                        <div class = "text-center m-t20">
+                                                            <a class="text-center m-t20" href="MembershipPage">Upgrade Premium to do exam</a>
+                                                        </div>
+                                                        <%}%>
                                                     </div>
                                                 </div>
                                                 <!-- The Exam Popup END-->
                                                 <div class="info-bx text-left detail">
-                                                    <h5><%= question.getTitle() %><%= question.getQuestionId() %></h5>
+                                                    <h5><%= question.getTitle() %></h5>
                                                     <br>
                                                     <%
                                                     if (author != null) {
