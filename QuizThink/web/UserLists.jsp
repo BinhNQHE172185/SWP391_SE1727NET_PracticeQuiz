@@ -189,7 +189,9 @@
 
                     </tbody>
                 </table>
+
                   </table>
+
                 </div>
                 <!-- /.box-body -->
               </div>
@@ -287,7 +289,6 @@
     // Initial setup
     showPage(currentPage);
 </script>
-    
     
 <script>
     // Double click row
