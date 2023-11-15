@@ -13,7 +13,8 @@ public class Membership {
     private float price;
     private float discount;
     private String description;
-
+    private String title;
+    
     public Membership() {
     }
 
@@ -24,6 +25,22 @@ public class Membership {
         this.description = description;
     }
 
+    public Membership(int membershipID, float price, float discount, String description, String title) {
+        this.membershipID = membershipID;
+        this.price = price;
+        this.discount = discount;
+        this.description = description;
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     public int getMembershipID() {
         return membershipID;
     }
