@@ -119,12 +119,13 @@
                      <div class="col-sm-3">
                          <label class="form-check-label">One correct answer</label>
                      </div>
-                 </div>
+                </div>
                     <hr>
-                    <label class="form-label">Question: </label>
-                     <div class="question-card mb-3">
-                         <input type="text" name="content" class="form-control answerinput" id="questionText" placeholder="Type your quiz content here" style="margin-left: 0px; border-bottom: none">
-                     </div>
+                    <label class="form-label">Question: ${questionId}</label>
+                    <input type="hidden" name="questionId" value="${questionId}">
+                    <div class="question-card mb-3">
+                        <input type="text" name="content" class="form-control answerinput" id="questionText" placeholder="Type your quiz content here" style="margin-left: 0px; border-bottom: none">
+                    </div>
                 </div>
             
                 </br>
