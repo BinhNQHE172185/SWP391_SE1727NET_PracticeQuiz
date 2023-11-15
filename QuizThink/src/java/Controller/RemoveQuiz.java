@@ -26,8 +26,8 @@ import java.util.List;
  *
  * @author Dell
  */
-@WebServlet(name="CreateQuiz", urlPatterns={"/createquiz"})
-public class CreateQuiz extends HttpServlet {
+@WebServlet(name="RemoveQuiz", urlPatterns={"/removequiz"})
+public class RemoveQuiz extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -39,9 +39,36 @@ public class CreateQuiz extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String questionId = request.getParameter("questionId");
-        request.setAttribute("questionId", questionId); // day quiz_id
-        request.getRequestDispatcher("CreateQuiz.jsp").forward(request, response);
+        
+        QuizDAO dao = new QuizDAO();
+        String quiz_Id = request.getParameter("quizID");
+        boolean status = dao.removeQuiz(quiz_Id);
+        String successMessage = "";
+        if(status){
+             successMessage = "Remove successfully !";
+        }
+        
+        QuizDAO quizDAO = new QuizDAO();
+            QuestionDAO questionDAO = new QuestionDAO();
+            SubjectDAO subjectDAO = new SubjectDAO();
+            AnswerDAO answerDAO = new AnswerDAO();
+
+            int questionId = Integer.parseInt(request.getParameter("questionId"));
+            Question question = questionDAO.getQuestionById(questionId);
+            Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
+
+            List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
+            
+            for (Quiz quiz : quizzes) {
+                List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
+                request.setAttribute("answers" + quiz.getQuizId(), answers);
+            }
+            
+            request.setAttribute("successMessage", successMessage);
+            request.setAttribute("subject", subject);
+            request.setAttribute("question", question);
+            request.setAttribute("quizzes", quizzes);
+            request.getRequestDispatcher("ExpertQuizList.jsp").forward(request, response);
         
     } 
 
@@ -57,7 +84,6 @@ public class CreateQuiz extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
-        
     } 
 
     /** 
@@ -70,39 +96,7 @@ public class CreateQuiz extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-        String question_id = request.getParameter("questionId");
-        String description = request.getParameter("description");
-        if(description == null){
-            description = "null";
-        }
-        String type = request.getParameter("quizType");
-        String content = request.getParameter("content"); // CONTENT of quiz
-        String[] answerArray = request.getParameterValues("answer"); // LIST ANSWER
-        String[] isCorrectArray = request.getParameterValues("isCorrect"); //Is correct
-        
-        QuizDAO dao = new QuizDAO();
-        dao.addQuiz(question_id, type, content, description, isCorrectArray, answerArray);
-        QuizDAO quizDAO = new QuizDAO();
-        QuestionDAO questionDAO = new QuestionDAO();
-        SubjectDAO subjectDAO = new SubjectDAO();
-        AnswerDAO answerDAO = new AnswerDAO();
-
-        int questionId = Integer.parseInt(request.getParameter("questionId"));
-        Question question = questionDAO.getQuestionById(questionId);
-        Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
-
-        List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
-
-        for (Quiz quiz : quizzes) {
-            List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
-            request.setAttribute("answers" + quiz.getQuizId(), answers);
-        }
-
-        request.setAttribute("subject", subject);
-        request.setAttribute("question", question);
-        request.setAttribute("quizzes", quizzes);
-        request.getRequestDispatcher("ExpertQuizList.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /** 

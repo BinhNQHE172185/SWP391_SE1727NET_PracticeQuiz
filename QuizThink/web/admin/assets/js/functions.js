@@ -7,6 +7,15 @@ Theme Version:	1.0.0
 ***
 ***
 */
+
+// Ask before remove
+function confirmAndRemove(questionId, quizId) {
+        var confirmation = confirm("Are you sure you want to remove this quiz?");
+        if (confirmation) {
+            window.location.href = "removequiz?questionId=" + questionId + "&quizID=" + quizId;
+        }
+}
+
 (function($) {
 	
 		'use strict';

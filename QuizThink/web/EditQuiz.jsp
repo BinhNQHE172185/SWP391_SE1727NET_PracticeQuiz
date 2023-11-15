@@ -1,57 +1,70 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import = "Model.Expert" %>
+<%@page import= "Model.Question" %>
+<%@page import= "Model.Subject" %>
+<%@page import = "java.util.*" %>
+<%@ page import="Model.Answer" %>
+<%@ page import="Model.Quiz" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Model.Subject" %>
+<%@ page import="Model.SubjectDimension" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
+        <%
+            Expert ex = (Expert) session.getAttribute("currExpert");
+        %>
         <!-- META ============================================= -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="keywords" content="" />
-	<meta name="author" content="" />
-	<meta name="robots" content="" />
-	
-	<!-- DESCRIPTION -->
-	<meta name="description" content="EduChamp : Education HTML Template" />
-	
-	<!-- OG -->
-	<meta property="og:title" content="EduChamp : Education HTML Template" />
-	<meta property="og:description" content="EduChamp : Education HTML Template" />
-	<meta property="og:image" content="" />
-	<meta name="format-detection" content="telephone=no">
-	
-	<!-- FAVICONS ICON ============================================= -->
-	<link rel="icon" href="../error-404.html" type="image/x-icon" />
-	<link rel="shortcut icon" type="image/x-icon" href="admin/assets/images/favicon.png" />
-	
-	<!-- PAGE TITLE HERE ============================================= -->
-	<title>EduChamp : Education HTML Template </title>
-	
-	<!-- MOBILE SPECIFIC ============================================= -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<!--[if lt IE 9]>
-	<script src="assets/js/html5shiv.min.js"></script>
-	<script src="assets/js/respond.min.js"></script>
-	<![endif]-->
-	
-	<!-- All PLUGINS CSS ============================================= -->
-	<link rel="stylesheet" type="text/css" href="admin/assets/css/assets.css">
-	<link rel="stylesheet" type="text/css" href="admin/assets/vendors/calendar/fullcalendar.css">
-	
-	<!-- TYPOGRAPHY ============================================= -->
-	<link rel="stylesheet" type="text/css" href="admin/assets/css/typography.css">
-	
-	<!-- SHORTCODES ============================================= -->
-	<link rel="stylesheet" type="text/css" href="admin/assets/css/shortcodes/shortcodes.css">
-	
-	<!-- STYLESHEETS ============================================= -->
-	<link rel="stylesheet" type="text/css" href="admin/assets/css/style.css">
-	<link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
-	<link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
-        <link rel="stylesheet" type="text/css" href="admin/assets/css/add-quiz.css">
-    </head>
-    <style>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="keywords" content="" />
+        <meta name="author" content="" />
+        <meta name="robots" content="" />
+
+        <!-- DESCRIPTION -->
+        <meta name="description" content="Quiz Think" />
+
+        <!-- OG -->
+        <meta property="og:title" content="Quiz Think" />
+        <meta property="og:description" content="Quiz Think" />
+        <meta property="og:image" content="" />
+        <meta name="format-detection" content="telephone=no">
+
+        <!-- FAVICONS ICON ============================================= -->
+        <link rel="icon" href="../error-404.html" type="image/x-icon" />
+        <link rel="shortcut icon" type="image/x-icon" href="admin/assets/images/favicon.png" />
+
+        <!-- PAGE TITLE HERE ============================================= -->
+        <title>Expert Profile</title>
+
+        <!-- MOBILE SPECIFIC ============================================= -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- All PLUGINS CSS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="admin/assets/css/assets.css">
+        <link rel="stylesheet" type="text/css" href="admin/assets/vendors/calendar/fullcalendar.css">
+
+        <!-- TYPOGRAPHY ============================================= -->
+        <link rel="stylesheet" type="text/css" href="admin/assets/css/typography.css">
+
+        <!-- SHORTCODES ============================================= -->
+        <link rel="stylesheet" type="text/css" href="admin/assets/css/shortcodes/shortcodes.css">
+
+        <!-- STYLESHEETS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="admin/assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
+        <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
+        
+        <style>
             .answercheckbox {
                 margin-left: 4em;
                 margin-top: 0.5em;
@@ -94,8 +107,128 @@
             }
             
         </style>
-<body>
-    <jsp:include page="Dashboard_header.jsp"></jsp:include>  
+    </head>
+    
+<body body class="ttr-opened-sidebar ttr-pinned-sidebar">
+    <!-- header start -->
+        <header class="ttr-header">
+            <div class="ttr-header-wrapper">
+                <!--sidebar menu toggler start -->
+                <div class="ttr-toggle-sidebar ttr-material-button">
+                    <i class="ti-close ttr-open-icon"></i>
+                    <i class="ti-menu ttr-close-icon"></i>
+                </div>
+                <!--sidebar menu toggler end -->
+                <!--logo start -->
+                <div class="ttr-logo-box">
+                    <div>
+                        <a href="home" class="ttr-logo">
+                            <img class="ttr-logo-mobile" alt="" src="FrontEnd\assets\images\Logo1.png" width="30" height="30">
+                            <img class="ttr-logo-desktop" alt="" src="FrontEnd\assets\images\Logo1.png" width="160" height="27">
+                        </a>
+                    </div>
+                </div>
+                <!--logo end -->
+                <div class="ttr-header-menu">
+                    <!-- header left menu start -->
+                    <ul class="ttr-header-navigation">
+                        <li>
+                            <a href="home" class="ttr-material-button ttr-submenu-toggle">HOME</a>
+                        </li>
+                        <li>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
+                            <div class="ttr-header-submenu">
+                                <ul>
+                                    <li><a href="../courses.html">Our Courses</a></li>
+                                    <li><a href="../event.html">New Event</a></li>
+                                    <li><a href="../membership.html">Membership</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- header left menu end -->
+                </div>
+                <div class="ttr-header-right ttr-with-seperator">
+                    <!-- header right menu start -->
+                    <ul class="ttr-header-navigation">
+                        <%
+                            if (ex != null){
+                        %>
+                        <li>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="<%=ex.getAvatar()%>" width="32" height="32"></span></a>
+                            <div class="ttr-header-submenu">
+                                <ul>
+                                    <li><a href="ExpertProfile">My profile</a></li>
+                                    <li><a href="Logout">Logout</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <%
+                            }
+                        %>
+                    </ul>
+                    <!-- header right menu end -->
+                </div>
+                <!--header search panel start -->
+                <div class="ttr-search-bar">
+                    <form class="ttr-search-form">
+                        <div class="ttr-search-input-wrapper">
+                            <input type="text" name="qq" placeholder="search something..." class="ttr-search-input">
+                            <button type="submit" name="search" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
+                        </div>
+                        <span class="ttr-search-close ttr-search-toggle">
+                            <i class="ti-close"></i>
+                        </span>
+                    </form>
+                </div>
+                <!--header search panel end -->
+            </div>
+        </header>
+        <!-- header end -->
+        <!-- Left sidebar menu start -->
+        <div class="ttr-sidebar">
+            <div class="ttr-sidebar-wrapper content-scroll">
+                <!-- side menu logo start -->
+                <div class="ttr-sidebar-logo">
+                    <a href="#"><img alt="" src="FrontEnd\assets\images\Logo1-Purple.png" width="180" height="45"></a>
+                    <!-- <div class="ttr-sidebar-pin-button" title="Pin/Unpin Menu">
+                            <i class="material-icons ttr-fixed-icon">gps_fixed</i>
+                            <i class="material-icons ttr-not-fixed-icon">gps_not_fixed</i>
+                    </div> -->
+                    <div class="ttr-sidebar-toggle-button">
+                        <i class="ti-arrow-left"></i>
+                    </div>
+                </div>
+                <!-- side menu logo end -->
+                <!-- sidebar menu start -->
+                <nav class="ttr-sidebar-navi">
+                    <ul>
+                        <li>
+                            <a href="ExpertProfile" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="fa fa-user"></i></span>
+                                <span class="ttr-label">Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ExpertSubjectList" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-book"></i></span>
+                                <span class="ttr-label">Subject</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ExpertStudentList" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
+                                <span class="ttr-label">Student List</span>
+                            </a>
+                        </li>
+                        <li class="ttr-seperate"></li>
+                    </ul>
+                    <!-- sidebar menu end -->
+                </nav>
+                <!-- sidebar menu end -->
+            </div>
+        </div>
+        <!-- Left sidebar menu end -->
     <main class="ttr-wrapper">
         <form action="editquiz" method="POST">
             
@@ -126,6 +259,7 @@
                      <div class="question-card mb-3">
                          <input type="text" name="content" class="form-control answerinput" id="questionText" placeholder="Type your quiz content here" style="margin-left: 0px; border-bottom: none" value="${quiz.content}">
                          <input type="hidden" name="quiz_Id" value="${quiz.quizId}">    
+                         <input type="hidden" name="questionId" value="${questionId}"> 
                     </div>
                 </div>
             
@@ -167,6 +301,7 @@
         <button type="reset" class="btn btn-primary" id="addQuestion">Reset</button>
         </form>
     </main>
+    <div class="ttr-overlay"></div>
 </body>
 
 <script>
@@ -304,4 +439,23 @@ function updateCheckbox(checkbox) {
         }
     }
 </script>
+<!-- External JavaScripts -->
+        <script src="admin/assets/js/jquery.min.js"></script>
+        <script src="admin/assets/vendors/bootstrap/js/popper.min.js"></script>
+        <script src="admin/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+        <script src="admin/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+        <script src="admin/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+        <script src="admin/assets/vendors/magnific-popup/magnific-popup.js"></script>
+        <script src="admin/assets/vendors/counter/waypoints-min.js"></script>
+        <script src="admin/assets/vendors/counter/counterup.min.js"></script>
+        <script src="admin/assets/vendors/imagesloaded/imagesloaded.js"></script>
+        <script src="admin/assets/vendors/masonry/masonry.js"></script>
+        <script src="admin/assets/vendors/masonry/filter.js"></script>
+        <script src="admin/assets/vendors/owl-carousel/owl.carousel.js"></script>
+        <script src='admin/assets/vendors/scroll/scrollbar.min.js'></script>
+        <script src="admin/assets/js/functions.js"></script>
+        <script src="admin/assets/vendors/chart/chart.min.js"></script>
+        <script src="admin/assets/js/admin.js"></script>
+        <script src='admin/assets/vendors/calendar/moment.min.js'></script>
+        <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
 </html>

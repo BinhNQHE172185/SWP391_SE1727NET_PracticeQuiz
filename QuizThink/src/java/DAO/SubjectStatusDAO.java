@@ -112,6 +112,29 @@ public class SubjectStatusDAO extends DBContext {
 
     }
 
+    public SubjectStatus getSubjectStatus(int subjectId, int accId) {
+
+        String sql = " select * from SubjectStatus where Subject_id = ? and Account_id = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, subjectId);
+            ps.setInt(2, accId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new SubjectStatus(rs.getInt("Subject_id"),
+                        rs.getInt("Subject_id"),
+                        rs.getInt("Account_id"),
+                        rs.getBoolean("status"),
+                        rs.getDate("createdDate"));
+            }
+            ps.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(SubjectStatusDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public void insertStudent(int accountId, int subjectId) {
         LocalDateTime currentTime = LocalDateTime.now();
         Date createdDate = Date.valueOf(currentTime.toLocalDate());
@@ -134,5 +157,11 @@ public class SubjectStatusDAO extends DBContext {
         } catch (Exception ex) {
             Logger.getLogger(SubjectStatusDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void main(String[] arg) {
+        SubjectStatusDAO stdao = new SubjectStatusDAO();
+        SubjectStatus check = stdao.getSubjectStatus(1, 1);
+        System.out.println(check != null);
     }
 }
