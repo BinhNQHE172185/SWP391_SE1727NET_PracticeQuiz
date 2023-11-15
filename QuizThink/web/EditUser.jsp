@@ -69,111 +69,274 @@
 				<div class="col-lg-12 m-b30">
 					<div class="widget-box">
 						<div class="wc-title">
-							<h4>Edit User</h4>
+                                                    <h4>Edit User</h4>
 						</div>
 						<div class="widget-inner">
-                                                    <form class="edit-profile m-b30" action="edituser" method="POST">
-								<div class="">
-                                                                        <div class="form-group row">
-                                                                            <div class="col-sm-10  ml-auto">
-                                                                                    <h3>1. Account</h3>
-                                                                            </div>
-									</div>
-                                                                        <div class="form-group row">
-										<label class="col-sm-2 col-form-label">UserName</label>
-										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="text" name="username" value="${account.username}">
-                                                                                <!-- comment --><input class="form-control" type="hidden" name="accountID" value="${account.accountId}">
-										</div>
-									</div>
-                                                                        <div class="form-group row">
-										<label class="col-sm-2 col-form-label">Password</label>
-										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="password" name="password" value="${account.password}">
-										</div>
-									</div>
-                                                                        <div class="form-group row">
-										<label class="col-sm-2 col-form-label">Email</label>
-										<div class="col-sm-7">
-											<input class="form-control" type="email" name="email" placeholder="Input Email" value="${account.email}">
-										</div>
-									</div>
-                                                                        <div class="form-group row">
-                                                                            <label class="col-sm-2 col-form-label">Role</label>
-                                                                            <div class="col-sm-7">
-                                                                                
-<!--                                                                                <input type="radio" id="customerRole" name="role" value="1">
-                                                                                <label class="col-sm-2 col-form-label" for="customerRole">Customer</label><br>-->
-                                                                                <select name="role">
-                                                                                    <c:forEach items = "${listRole}" var="o" varStatus="status">
-                                                                                        <option value="${o.roleID}">${o.roleName}</option>
-                                                                                    </c:forEach>
-                                                                                </select>
-                                                                            </div>
+                                                    <!-- HAVE EXPERT -->
+                                                    <c:if test="${not empty expert.expertId}">
+                                                        <form class="edit-profile m-b30" id="approvalForm" action="edituser" method="POST">
+                                                            <div class="">
+                                                                    <div class="form-group row">
+                                                                        <div class="col-sm-10  ml-auto">
+                                                                                <h3>1. Account</h3>
                                                                         </div>
-                                                                            
-									<div class="form-group row">
-                                                                            <div class="col-sm-10  ml-auto">
-                                                                                <h3>2. Personal Details</h3>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">UserName</label>
+                                                                            <div class="col-sm-7">
+                                                                                <input class="form-control" type="text" name="username" value="${expert.username}">
+                                                                                <input class="form-control" type="hidden" name="expertId" value="${expert.expertId}">
                                                                             </div>
-									</div>
-									<div class="form-group row">
-										<label class="col-sm-2 col-form-label">Full Name</label>
-										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="text" name="fullname" value="${account.fullname}">
-										</div>
-									</div>
-                                                                        <c:set var="male" value="Male"/>
-                                                                        <c:set var="female" value="Female"/>    
-                                                                            
-									<div class="form-group row">
-										<label class="col-sm-2 col-form-label">Gender</label>
-										<div class="col-sm-7">
-                                                                                    <input type="radio" id="saleRole" name="gender" value="Male" <c:if test="${account.gender eq male}"> checked="true" </c:if> >
-                                                                                    <label class="col-sm-2 col-form-label" for="saleRole">Male</label><br>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Password</label>
+                                                                            <div class="col-sm-7">
+                                                                                <input class="form-control" id="password" type="password" name="password" value="${expert.password}">
+                                                                            </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Re-enter Password</label>
+                                                                            <div class="col-sm-7">
+                                                                                <input class="form-control" id="rePassword" type="password" name="re-password" value="${expert.password}">
+                                                                                <p class="error-message" id="passwordError" style="color: red; font-size: 10px;"></p>
+                                                                            </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Email</label>
+                                                                            <div class="col-sm-7">
+                                                                                    <input class="form-control" type="email" name="email" placeholder="Input Email" value="${expert.email}">
+                                                                            </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <div class="col-sm-10  ml-auto">
+                                                                            <h3>2. Personal Details</h3>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Full Name</label>
+                                                                            <div class="col-sm-7">
+                                                                                <input class="form-control" type="text" name="fullname" value="${expert.name}">
+                                                                            </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Avatar</label>
+                                                                            <div class="col-sm-7">
+                                                                                <input class="form-control" type="text" name="avatar" id="avatarInput" value="${expert.avatar}">
+                                                                            </div>
+                                                                    </div>  
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-2 col-form-label">Preview</label>
+                                                                        <img class="col-sm-7" id="avatarPreview" src="${expert.avatar}" alt="Avatar Preview" style="max-width: 200px; max-height: 200px; border: #000">
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Self-Introduction</label>
+                                                                            <div class="col-sm-7">
+                                                                                <textarea class="form-control" name="self-introduction">${expert.selfIntroduction}</textarea>
+                                                                            </div>
+                                                                    </div>        
+                                                                    
+                                                            </div>
+                                                            <div class="">
+                                                                    <div class="">
+                                                                            <div class="row">
+                                                                                    <div class="col-sm-2">
+                                                                                    </div>
+                                                                                    <div class="col-sm-5">
+                                                                                        <button type="submit" class="btn" onclick="confirmBan()">Save changes</button>
+                                                                                        <input type="hidden" name="Ban" value="false">
+                                                                                        <input type="hidden" name="Unban" value="false">
+                                                                                        <button type="button" class="btn btn-danger" id="banBtn" style="background-color: red; color: white ;<c:if test="${not expert.status}"> display: none</c:if> ">Ban this Account</button>
+                                                                                        <button type="button" class="btn btn-danger" id="unbanBtn"style="background-color: red; color: white;<c:if test="${expert.status}"> display: none</c:if> ">Unban this Account</button>
+                                                                                    </div>
 
-                                                                                    <input type="radio" id="membershipRole" name="gender" value="Female" <c:if test="${account.gender eq female}"> checked="true" </c:if> >
-                                                                                    <label class="col-sm-2 col-form-label" for="membershipRole">Female</label><br>
-										</div>
-									</div>
-									<div class="form-group row">
-										<label class="col-sm-2 col-form-label">DOB</label>
-										<div class="col-sm-7">
-                                                                                    <input class="form-control" type="date" name="DOB" value="${account.dob}">
-										</div>
-									</div>
-									<div class="form-group row">
-										<label class="col-sm-2 col-form-label">Avatar</label>
-                                                                                <div class="col-sm-7">
-                                                                                    <input class="form-control" type="text" name="avatar" id="avatarInput" value="${account.avatar}">
-                                                                                </div>
-									</div>  
-                                                                                <div class="form-group row">
-                                                                                    <label class="col-sm-2 col-form-label">Preview</label>
-                                                                                    <img class="col-sm-7" id="avatarPreview" src="${account.avatar}" alt="Avatar Preview" style="max-width: 200px; max-height: 200px; border: #000">
-                                                                                </div>
+                                                                            </div>
+                                                                    </div>
+                                                            </div>
+                                                        </form>
+                                                    </c:if>
+                                                    
+                                                    <!-- HAVE MARKETER -->
+                                                    
+                                                    <c:if test="${not empty marketer.marketerID}">
+                                                        <form class="edit-profile m-b30" id="approvalForm" action="edituser" method="POST">
+                                                            <div class="">
+                                                                    <div class="form-group row">
+                                                                        <div class="col-sm-10  ml-auto">
+                                                                                <h3>1. Account</h3>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">UserName</label>
+                                                                            <div class="col-sm-7">
+                                                                                <input class="form-control" type="text" name="username" value="${marketer.username}">
+                                                                            <!-- comment --><input class="form-control" type="hidden" name="accountID" value="${marketer.marketerID}">
+                                                                            </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Password</label>
+                                                                            <div class="col-sm-7">
+                                                                                <input class="form-control" id="password" type="password" name="password" value="${marketer.password}">
+                                                                            </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Re-enter Password</label>
+                                                                            <div class="col-sm-7">
+                                                                                <input class="form-control" id="rePassword" type="password" name="re-password" value="${marketer.password}">
+                                                                                <p class="error-message" id="passwordError" style="color: red; font-size: 10px;"></p>
+                                                                            </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Email</label>
+                                                                            <div class="col-sm-7">
+                                                                                    <input class="form-control" type="email" name="email" placeholder="Input Email" value="${marketer.email}">
+                                                                            </div>
+                                                                    </div>
+
+                                                                    <div class="form-group row">
+                                                                        <div class="col-sm-10  ml-auto">
+                                                                            <h3>2. Personal Details</h3>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Full Name</label>
+                                                                            <div class="col-sm-7">
+                                                                                <input class="form-control" type="text" name="fullname" value="${marketer.name}">
+                                                                            </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Avatar</label>
+                                                                            <div class="col-sm-7">
+                                                                                <input class="form-control" type="text" name="avatar" id="avatarInput" value="${marketer.avatar}">
+                                                                            </div>
+                                                                    </div>  
+                                                                    <div class="form-group row">
+                                                                        <label class="col-sm-2 col-form-label">Preview</label>
+                                                                        <img class="col-sm-7" id="avatarPreview" src="${marketer.avatar}" alt="Avatar Preview" style="max-width: 200px; max-height: 200px; border: #000">
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                            <label class="col-sm-2 col-form-label">Self-Introduction</label>
+                                                                            <div class="col-sm-7">
+                                                                                <textarea class="form-control" name="self-introduction">${marketer.selfIntroduction}</textarea>
+                                                                            </div>
+                                                                    </div>        
+                                                                    
+                                                            </div>
+                                                            <div class="">
+                                                                    <div class="">
+                                                                            <div class="row">
+                                                                                    <div class="col-sm-2">
+                                                                                    </div>
+                                                                                    <div class="col-sm-5">
+                                                                                        <button type="submit" class="btn" onclick="confirmBan()">Save changes</button>
+                                                                                        <input type="hidden" name="Ban" value="false">
+                                                                                        <input type="hidden" name="Unban" value="false">
+                                                                                        <button type="button" class="btn btn-danger" id="banBtn" style="background-color: red; color: white ;<c:if test="${not marketer.status}"> display: none</c:if> ">Ban this Account</button>
+                                                                                        <button type="button" class="btn btn-danger" id="unbanBtn"style="background-color: red; color: white;<c:if test="${marketer.status}"> display: none</c:if> ">Unban this Account</button>
+                                                                                    </div>
+
+                                                                            </div>
+                                                                    </div>
+                                                            </div>
+                                                        </form>
+                                                    </c:if>
+                                                    
+                                                    <!-- HAVE ACCOUNT -->
+                                                    <c:if test="${not empty account.accountId}"> 
+                                                        <form class="edit-profile m-b30" id="approvalForm" action="edituser" method="POST">
+                                                            <div class="">
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-10  ml-auto">
+                                                                            <h3>1. Account</h3>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                        <label class="col-sm-2 col-form-label">UserName</label>
+                                                                        <div class="col-sm-7">
+                                                                            <input class="form-control" type="text" name="username" value="${account.username}">
+                                                                        <!-- comment --><input class="form-control" type="hidden" name="accountID" value="${account.accountId}">
+                                                                        </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                        <label class="col-sm-2 col-form-label">Password</label>
+                                                                        <div class="col-sm-7">
+                                                                            <input class="form-control" id="password" type="password" name="password" value="${account.password}">
+                                                                        </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                        <label class="col-sm-2 col-form-label">Re-enter Password</label>
+                                                                        <div class="col-sm-7">
+                                                                            <input class="form-control" id="rePassword" type="password" name="re-password" value="${account.password}">
+                                                                            <p class="error-message" id="passwordError" style="color: red; font-size: 10px;"></p>
+                                                                        </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                        <label class="col-sm-2 col-form-label">Email</label>
+                                                                        <div class="col-sm-7">
+                                                                                <input class="form-control" type="email" name="email" placeholder="Input Email" value="${account.email}">
+                                                                        </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-10  ml-auto">
+                                                                        <h3>2. Personal Details</h3>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                        <label class="col-sm-2 col-form-label">Full Name</label>
+                                                                        <div class="col-sm-7">
+                                                                            <input class="form-control" type="text" name="fullname" value="${account.fullname}">
+                                                                        </div>
+                                                                </div>
+                                                                <c:set var="male" value="Male"/>
+                                                                <c:set var="female" value="Female"/>    
+
+                                                                <div class="form-group row">
+                                                                        <label class="col-sm-2 col-form-label">Gender</label>
+                                                                        <div class="col-sm-7">
+                                                                            <input type="radio" id="saleRole" name="gender" value="Male" <c:if test="${account.gender eq male}"> checked="true" </c:if> >
+                                                                            <label class="col-sm-2 col-form-label" for="saleRole">Male</label><br>
+
+                                                                            <input type="radio" id="membershipRole" name="gender" value="Female" <c:if test="${account.gender eq female}"> checked="true" </c:if> >
+                                                                            <label class="col-sm-2 col-form-label" for="membershipRole">Female</label><br>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                        <label class="col-sm-2 col-form-label">DOB</label>
+                                                                        <div class="col-sm-7">
+                                                                            <input class="form-control" type="date" name="DOB" value="${account.dob}">
+                                                                        </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                        <label class="col-sm-2 col-form-label">Avatar</label>
+                                                                        <div class="col-sm-7">
+                                                                            <input class="form-control" type="text" name="avatar" id="avatarInput" value="${account.avatar}">
+                                                                        </div>
+                                                                </div>  
                                                                         <div class="form-group row">
-										<label class="col-sm-2 col-form-label">Status</label>
-										<div class="col-sm-7">
-											<input class="form-control" type="text" name="status" value="${account.status}" >
-										</div>
-									</div>
-								</div>
-								<div class="">
-									<div class="">
-										<div class="row">
-											<div class="col-sm-2">
-											</div>
-											<div class="col-sm-5">
-												<button type="submit" class="btn">Save changes</button>
-												<button type="reset" class="btn-secondry">Cancel</button>
-                                                                                                <button type="button" class="btn btn-danger" style="background-color: red; color: white ">Ban this Account</button>
-											</div>
-                                                                                        
-										</div>
-									</div>
-								</div>
-							</form>
+                                                                            <label class="col-sm-2 col-form-label">Preview</label>
+                                                                            <img class="col-sm-7" id="avatarPreview" src="${account.avatar}" alt="Avatar Preview" style="max-width: 200px; max-height: 200px; border: #000">
+                                                                        </div>
+                                                                </div>
+                                                                <div class="">
+                                                                        <div class="">
+                                                                                <div class="row">
+                                                                                        <div class="col-sm-2">
+                                                                                        </div>
+                                                                                        <div class="col-sm-5">
+                                                                                                <button type="submit" class="btn" onclick="confirmBan()">Save changes</button>
+                                                                                                <input type="hidden" name="Ban" value="false">
+                                                                                                <input type="hidden" name="Unban" value="false">
+                                                                                                <button type="button" class="btn btn-danger" id="banBtn" style="background-color: red; color: white ;<c:if test="${not account.status}"> display: none</c:if> ">Ban this Account</button>
+                                                                                                <button type="button" class="btn btn-danger" id="unbanBtn"style="background-color: red; color: white;<c:if test="${account.status}"> display: none</c:if> ">Unban this Account</button>
+                                                                                        </div>
+
+                                                                                </div>
+                                                                        </div>
+                                                                </div>
+                                                        </form>
+                                                    </c:if>
+                                                    
 						</div>
 					</div>
 				</div>
@@ -202,13 +365,72 @@
 <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
 
 <!-- <script src='assets/vendors/switcher/switcher.js'></script> -->
+
 <script>
-                            // JavaScript to update the image preview when the avatar input changes
-                            document.getElementById('avatarInput').addEventListener('input', function () {
-                                var avatarPreview = document.getElementById('avatarPreview');
-                                avatarPreview.src = this.value;
-                            });
-                        </script>
+    function confirmAndSubmit(action) {
+        var confirmation = confirm("Are you sure you want to " + action + " this account?");
+        if (confirmation) {
+            if (action === "Ban") {
+                document.getElementsByName('Ban')[0].value = 'true';
+            } else if (action === "Unban") {
+                document.getElementsByName('Unban')[0].value = 'true';
+            }
+            document.getElementById('approvalForm').submit();
+        }
+    }
+
+    document.getElementById('banBtn').addEventListener('click', function () {
+        confirmAndSubmit('Ban');
+    });
+
+    document.getElementById('unbanBtn').addEventListener('click', function () {
+        confirmAndSubmit('Unban');
+    });
+</script>
+<script>
+document.getElementById('approvalForm').addEventListener('submit', function(event) {
+  var password = document.getElementById('password').value;
+  var rePassword = document.getElementById('rePassword').value;
+  var errorElement = document.getElementById('passwordError');
+
+  if (password !== rePassword) {
+    errorElement.textContent = 'Passwords do not match';
+    alert('Passwords do not match');
+    event.preventDefault();
+    // Prevent form submission
+  } else {
+    errorElement.textContent = ''; // Clear the error message
+  }
+});
+</script>
+<script>
+    document.getElementById('rePassword').addEventListener('input', function() {
+      var password = document.getElementById('password').value;
+      var rePassword = this.value;
+      var errorElement = document.getElementById('passwordError');
+
+      if (password === rePassword) {
+        errorElement.textContent = ''; // Clear the error message
+      } else {
+        errorElement.textContent = 'Passwords do not match';
+      }
+    });
+</script>
+
+<script>
+document.getElementById('approvalForm').onsubmit = function() {
+        var confirmDeny = confirm("Are you sure you want to Save Changes?");
+        return confirmDeny;
+    };
+</script>
+
+<script>
+    // JavaScript to update the image preview when the avatar input changes
+    document.getElementById('avatarInput').addEventListener('input', function () {
+        var avatarPreview = document.getElementById('avatarPreview');
+        avatarPreview.src = this.value;
+    });
+</script>
 
 <script>
   $(document).ready(function() {

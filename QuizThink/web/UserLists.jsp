@@ -120,9 +120,7 @@
                             <th>Email</th>
                             <th>Gender</th>
                             <th>DOB</th>
-                            <th>Role</th>
                             <th>Create Date</th>
-                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody id="userdata">
@@ -135,14 +133,66 @@
                                 <td>${o.email}</td>
                                 <td>${o.gender}</td>
                                 <td>${o.dob}</td>
-                                <td>${o.dob}</td>
                                 <td>${o.createdDate}</td>
+                            </tr>
+                        </c:forEach>
+
+                    </tbody>
+
+                </table>
+                <table id="marketer-table" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Avatar</th>
+                            <th>Full name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marketer">
+                        <c:forEach items="${listMarketer}" var="o" varStatus="status">
+                            <tr class="clickable-row" data-href="edituser?marketerID=${o.marketerID}">
+                                <td>${o.marketerID}</td>
+                                <td><img src="${o.avatar}" alt="alt" style="width: 120px; height: 100px;"/></td>
+                                <td>${o.name}</td>
+                                <td>${o.username}</td>
+                                <td>${o.email}</td>
                                 <td>${o.status}</td>
                             </tr>
                         </c:forEach>
 
                     </tbody>
+                </table>
+                <table id="expert-table" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Avatar</th>
+                            <th>Full name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expert">
+                        <c:forEach items="${listExpert}" var="o" varStatus="status">
+                            <tr class="clickable-row expert" data-href="edituser?expertId=${o.expertId}">
+                                <td>${o.expertId}</td>
+                                <td><img src="${o.avatar}" alt="alt" style="width: 120px; height: 100px;"/></td>
+                                <td>${o.name}</td>
+                                <td>${o.username}</td>
+                                <td>${o.email}</td>
+                                <td>${o.status}</td>
+                            </tr>
+                        </c:forEach>
+
+                    </tbody>
+                </table>
+
                   </table>
+
                 </div>
                 <!-- /.box-body -->
               </div>
@@ -157,6 +207,12 @@
                     </c:forEach>
                 </ul>
             </div>
+            <div class="pagination" id="pagination" style="display: none">
+                <button class="btn" onclick="prevPage()"><</button>
+                  <span id="currentPage" class="pagination" style="margin-left: 10px;margin-right: 10px;">1</span>
+                  <button class="btn" onclick="nextPage()">></button>
+            </div>
+
         </section>
         <!-- /.content -->
     </main>
@@ -179,7 +235,64 @@
     <script src="admin/assets/js/admin.js"></script>
     <script src='admin/assets/vendors/calendar/moment.min.js'></script>
     <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
-    
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var rows = document.querySelectorAll('.clickable-row');
+
+        rows.forEach(function(row) {
+            row.addEventListener('dblclick', function() {
+                var url = this.getAttribute('data-href');
+                if (url) {
+                    window.location.href = url;
+                }
+            });
+        });
+    });
+</script>
+<script>
+    var itemsPerPage = 5; // Set the number of items per page
+    var currentPage = 1;
+
+    function showPage(pageNumber) {
+        var rows = document.getElementsByClassName('expert');
+        var start = (pageNumber - 1) * itemsPerPage;
+        var end = start + itemsPerPage;
+
+        for (var i = 0; i < rows.length; i++) {
+            if (i >= start && i < end) {
+                rows[i].style.display = 'table-row';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+
+    function prevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            updatePagination();
+        }
+    }
+
+    function nextPage() {
+        var rows = document.getElementsByClassName('expert');
+        if (currentPage < Math.ceil(rows.length / itemsPerPage)) {
+            currentPage++;
+            updatePagination();
+        }
+    }
+
+    function updatePagination() {
+        document.getElementById('currentPage').innerText = currentPage;
+        showPage(currentPage);
+    }
+
+    // Initial setup
+    showPage(currentPage);
+</script>
+
     
 <script>
     // Double click row

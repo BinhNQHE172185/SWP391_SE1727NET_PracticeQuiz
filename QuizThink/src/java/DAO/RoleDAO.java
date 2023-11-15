@@ -21,7 +21,6 @@ public class RoleDAO extends DBContext{
     PreparedStatement ps = null;
     ResultSet rs = null;
     
-    //Get all account
     public List<Role> getAllRole() {
         List<Role> list = new ArrayList<>();
         String query = "SELECT * FROM Role";
@@ -42,9 +41,28 @@ public class RoleDAO extends DBContext{
         return list;
     }
     
+    public int getRoleByAccountID( String account_id){
+        String query = "SELECT role_id FROM AccountRole where Account_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, account_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            System.err.println("An error occurred while executing the query: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+    
     public static void main(String[] args) {
         try {
+            
             RoleDAO dao = new RoleDAO();
+            System.out.println();
             List<Role> list = dao.getAllRole();
             for (Role role : list) {
                 System.out.println(role);
