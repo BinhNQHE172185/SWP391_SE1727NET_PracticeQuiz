@@ -93,6 +93,8 @@ public class RegisterUserServlet extends HttpServlet {
                 request.getRequestDispatcher("Register.jsp").include(request, response);
             } else {
                 ad.RegisterAcc(username, password, email);
+                Account account = ad.getAccount(username, password);
+                ad.setRole(account.getAccountId(), 1);
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             }
         }

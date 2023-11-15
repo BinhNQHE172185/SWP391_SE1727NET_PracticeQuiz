@@ -4,10 +4,8 @@
  */
 package Controller;
 
-import DAO.SubjectDAO;
-import DAO.SubjectDimensionDAO;
-import Model.Expert;
-import Model.SubjectDimension;
+import DAO.MembershipDAO;
+import Model.Membership;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,17 +13,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  *
- * @author admin
+ * @author QUYBINH
  */
-@WebServlet(name = "ExpertAddSubjectServlet", urlPatterns = {"/ExpertAddSubject"})
-public class ExpertAddSubjectServlet extends HttpServlet {
+@WebServlet(name = "DeleteMembershipServlet", urlPatterns = {"/DeleteMembership"})
+public class DeleteMembershipServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,21 +34,18 @@ public class ExpertAddSubjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String title = request.getParameter("title");
-        String dimension = request.getParameter("dimension");
-        int subjectDimensionID = Integer.valueOf(dimension);
-        String imageURL = request.getParameter("imageURL");
-        String desc = request.getParameter("desc");
-        LocalDateTime currentTime = LocalDateTime.now();
-        Date modifyDate = Date.valueOf(currentTime.toLocalDate());
-        Date createdDate = Date.valueOf(currentTime.toLocalDate());
-        HttpSession session = request.getSession();
-        Expert ex = (Expert) session.getAttribute("currExpert");
-        SubjectDAO dao = new SubjectDAO();
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            int id = Integer.parseInt(request.getParameter("id"));
+            MembershipDAO md = new MembershipDAO();
 
-        dao.addExpertSubject(ex.getExpertId(), subjectDimensionID, title, imageURL, desc, createdDate, modifyDate);
+            md.DeteleMembership(id);
 
-        response.sendRedirect("ExpertSubjectList");
+            List<Membership> mem = md.getMembership();
+
+            request.setAttribute("MemList", mem);
+            request.getRequestDispatcher("MarketerMembership.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -68,10 +60,7 @@ public class ExpertAddSubjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SubjectDimensionDAO dao = new SubjectDimensionDAO();
-        List<SubjectDimension> listDimension = dao.getAllSubjectDimension();
-        request.setAttribute("listDimension", listDimension);
-        request.getRequestDispatcher("ExpertAddSubject.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
