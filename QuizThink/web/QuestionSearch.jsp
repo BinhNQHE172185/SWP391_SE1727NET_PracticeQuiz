@@ -3,10 +3,11 @@
     Created on : Sep 20, 2023, 2:49:12 PM
     Author     : kimdi
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Model.Question" %>
 <%@ page import="Model.Subject" %>
+<%@ page import="Model.SubjectDimension" %>
 
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
@@ -82,9 +83,16 @@
                     <div class="container">
                         <ul class="list-inline">
                             <li><a href="#">Home</a></li>
-                            <li>Science</li>
-                            <li>Computer science</li>
-                            <li>Software Engineering</li>
+                                <%
+                                List<SubjectDimension> parentSubjectDimensions = (List<SubjectDimension>) request.getAttribute("parentSubjectDimensions");
+                                if (parentSubjectDimensions != null) {
+                                    for (SubjectDimension subjectDimension : parentSubjectDimensions) {
+                                %>
+                            <li><%= subjectDimension.getTitle() %></li>
+                                <%
+                            }
+                        }
+                                %>
                             <li><%= subject.getTitle() %></li>
                         </ul>
                     </div>
@@ -111,35 +119,21 @@
                                         <a href="#"><img src="FrontEnd/assets/images/adv/adv.jpg" alt=""/></a>
                                     </div>
                                     <div class="widget recent-posts-entry widget-courses">
-                                        <h5 class="widget-title style-1">Recent Subject</h5>
-                                        <div class="widget-post-bx">
-                                            <div class="widget-post clearfix">
-                                                <div class="ttr-post-media"> <img src="FrontEnd/assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
-                                                <div class="ttr-post-info">
-                                                    <div class="ttr-post-header">
-                                                        <h6 class="post-title"><a href="#">Introduction EduChamp</a></h6>
-                                                    </div>
-                                                    <div class="ttr-post-meta">
-                                                        <ul>
-                                                            <li class="review">03 Questions</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="widget-post clearfix">
-                                                <div class="ttr-post-media"> <img src="FrontEnd/assets/images/blog/recent-blog/pic3.jpg" width="200" height="160" alt=""> </div>
-                                                <div class="ttr-post-info">
-                                                    <div class="ttr-post-header">
-                                                        <h6 class="post-title"><a href="#">English For Tommorow</a></h6>
-                                                    </div>
-                                                    <div class="ttr-post-meta">
-                                                        <ul>
-                                                            <li class="review">07 Questions</li>
-                                                        </ul>
+                                        <h5 class="widget-title style-1">Recent Courses</h5>
+                                        <c:forEach items="${recentSubjects}" var="r" varStatus="loopStatus">
+                                            <c:if test="${loopStatus.index < 3}">
+                                                <div class="widget-post-bx">
+                                                    <div class="widget-post clearfix">
+                                                        <div class="ttr-post-media"> <img src="${r.imageURL}" width="200" height="143" alt=""> </div>
+                                                        <div class="ttr-post-info">
+                                                            <div class="ttr-post-header">
+                                                                <h6 class="post-title"><a href="subjectdetail?pid=${r.subjectId}">${r.title}</a></h6>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </c:if>
+                                        </c:forEach>
                                     </div>
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-sm-12">
@@ -166,7 +160,6 @@
                                                     </div>
                                                     <div class="info-bx text-center">
                                                         <h5><%= question.getTitle() %></h5>
-                                                        <span><%= question.getQuizCount() %> quiz</span>
                                                     </div>
                                                     <div class="cours-more-info">
                                                         <div class="review">

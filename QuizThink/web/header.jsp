@@ -108,7 +108,9 @@
                             <div class="dropdown-content">
                                 <a href="Profile">My profile</a>
                                 <a href="YourSubject">My courses</a>
-
+                                <% if(acc != null && ad.checkRole(acc.getAccountId()) == 3) { %>
+                                    <a href="userlists">Management</a>
+                                <% } %>
                             </div>
                         </div>
                         <%}else if(ex!=null){%>

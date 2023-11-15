@@ -45,7 +45,7 @@ public class QuestionSearchServlet extends HttpServlet {
             String searchQuery = "";
             SubjectDAO subjectDAO = new SubjectDAO();
             QuestionDAO questionDAO = new QuestionDAO();
-            
+
             int subjectId = Integer.parseInt(request.getParameter("subjectId"));
 
             Subject subject = subjectDAO.getSubjectById(subjectId);
@@ -59,11 +59,14 @@ public class QuestionSearchServlet extends HttpServlet {
             noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
 
             List<Question> questions = questionDAO.searchQuestionsBySubjectId(subjectId, searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
+
+            List<Subject> recentSubjects = subjectDAO.getRecentSubject();
+            request.setAttribute("recentSubjects", recentSubjects);
             request.setAttribute("subject", subject);
             request.setAttribute("questions", questions);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
-            request.setAttribute("searchQuery",searchQuery);
+            request.setAttribute("searchQuery", searchQuery);
             request.getRequestDispatcher("QuestionSearch.jsp").forward(request, response);
         }
     }

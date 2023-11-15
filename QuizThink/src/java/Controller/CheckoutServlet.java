@@ -4,7 +4,9 @@
  */
 package Controller;
 
+import DAO.MembershipDAO;
 import Model.Account;
+import Model.Membership;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -34,9 +36,13 @@ public class CheckoutServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        int id = Integer.parseInt(request.getParameter("id"));
+        MembershipDAO md = new MembershipDAO();
         Account currUser = (Account) session.getAttribute("currUser");
         if (currUser != null) {
+            Membership mem = md.getMembershipByID(id);
             request.setAttribute("account", currUser);
+            request.setAttribute("mem", mem);
             request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
         } else {
             response.sendRedirect("Login.jsp");

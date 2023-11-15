@@ -106,14 +106,11 @@
                     <!-- header right menu start -->
                     <ul class="ttr-header-navigation">
                         <li>
-                            <a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
-                        </li>
-                        <li>
                             <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="#" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
-                                    <li><a href="user-profile.html">My profile</a></li>
-                                    <li><a href="../login.html">Logout</a></li>
+                                    <li><a href="ExpertProfile">My profile</a></li>
+                                    <li><a href="Logout">Logout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -121,17 +118,6 @@
                     <!-- header right menu end -->
                 </div>
                 <!--header search panel start -->
-                <div class="ttr-search-bar">
-                    <form class="ttr-search-form">
-                        <div class="ttr-search-input-wrapper">
-                            <input type="text" name="qq" placeholder="search something..." class="ttr-search-input">
-                            <button type="submit" name="search" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
-                        </div>
-                        <span class="ttr-search-close ttr-search-toggle">
-                            <i class="ti-close"></i>
-                        </span>
-                    </form>
-                </div>
                 <!--header search panel end -->
             </div>
         </header>
@@ -161,13 +147,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button">
+                            <a href="ExpertSubjectList" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
                                 <span class="ttr-label">Subject</span>
                             </a>
                         </li>
                         <li>
-                            <a href="ExpertStudentList.jsp" class="ttr-material-button">
+                            <a href="ExpertStudentList" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
                                 <span class="ttr-label">Student List</span>
                             </a>

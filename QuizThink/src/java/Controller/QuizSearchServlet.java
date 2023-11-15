@@ -57,12 +57,14 @@ public class QuizSearchServlet extends HttpServlet {
             noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
 
             List<Quiz> quizzes = quizDAO.searchQuizzesByQuestionId(questionId, searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
-            
+
             for (Quiz quiz : quizzes) {
                 List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
                 request.setAttribute("answers" + quiz.getQuizId(), answers);
             }
-            
+
+            List<Subject> recentSubjects = subjectDAO.getRecentSubject();
+            request.setAttribute("recentSubjects", recentSubjects);
             request.setAttribute("subject", subject);
             request.setAttribute("question", question);
             request.setAttribute("quizzes", quizzes);

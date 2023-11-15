@@ -2,12 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package Controller;
 
+import DAO.AnswerDAO;
+import DAO.QuestionDAO;
+import DAO.QuizDAO;
 import DAO.SubjectDAO;
-import DAO.SubjectDimensionDAO;
-import Model.Expert;
-import Model.SubjectDimension;
+import Model.Answer;
+import Model.Question;
+import Model.Quiz;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,51 +20,61 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  *
- * @author admin
+ * @author Dell
  */
-@WebServlet(name = "ExpertAddSubjectServlet", urlPatterns = {"/ExpertAddSubject"})
-public class ExpertAddSubjectServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="RemoveQuiz", urlPatterns={"/removequiz"})
+public class RemoveQuiz extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String title = request.getParameter("title");
-        String dimension = request.getParameter("dimension");
-        int subjectDimensionID = Integer.valueOf(dimension);
-        String imageURL = request.getParameter("imageURL");
-        String desc = request.getParameter("desc");
-        LocalDateTime currentTime = LocalDateTime.now();
-        Date modifyDate = Date.valueOf(currentTime.toLocalDate());
-        Date createdDate = Date.valueOf(currentTime.toLocalDate());
-        HttpSession session = request.getSession();
-        Expert ex = (Expert) session.getAttribute("currExpert");
-        SubjectDAO dao = new SubjectDAO();
+        
+        QuizDAO dao = new QuizDAO();
+        String quiz_Id = request.getParameter("quizID");
+        boolean status = dao.removeQuiz(quiz_Id);
+        String successMessage = "";
+        if(status){
+             successMessage = "Remove successfully !";
+        }
+        
+        QuizDAO quizDAO = new QuizDAO();
+            QuestionDAO questionDAO = new QuestionDAO();
+            SubjectDAO subjectDAO = new SubjectDAO();
+            AnswerDAO answerDAO = new AnswerDAO();
 
-        dao.addExpertSubject(ex.getExpertId(), subjectDimensionID, title, imageURL, desc, createdDate, modifyDate);
+            int questionId = Integer.parseInt(request.getParameter("questionId"));
+            Question question = questionDAO.getQuestionById(questionId);
+            Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
 
-        response.sendRedirect("ExpertSubjectList");
-    }
+            List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
+            
+            for (Quiz quiz : quizzes) {
+                List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
+                request.setAttribute("answers" + quiz.getQuizId(), answers);
+            }
+            
+            request.setAttribute("successMessage", successMessage);
+            request.setAttribute("subject", subject);
+            request.setAttribute("question", question);
+            request.setAttribute("quizzes", quizzes);
+            request.getRequestDispatcher("ExpertQuizList.jsp").forward(request, response);
+        
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -67,16 +82,12 @@ public class ExpertAddSubjectServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        SubjectDimensionDAO dao = new SubjectDimensionDAO();
-        List<SubjectDimension> listDimension = dao.getAllSubjectDimension();
-        request.setAttribute("listDimension", listDimension);
-        request.getRequestDispatcher("ExpertAddSubject.jsp").forward(request, response);
-    }
+    throws ServletException, IOException {
+        processRequest(request, response);
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -84,13 +95,12 @@ public class ExpertAddSubjectServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

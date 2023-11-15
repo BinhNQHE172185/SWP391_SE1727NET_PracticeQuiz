@@ -410,6 +410,35 @@ public class ExpertDAO extends DBContext {
         }
     }
 
+    public boolean addExpert(
+            String username,
+            String password,
+            String email,
+            String name,
+            String selfIntroduction,
+            String avatar,
+            boolean status
+    ) {
+        String sql = "INSERT INTO Expert (username, password, email, name, [self-introduction], avatar, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            ps.setString(4, name);
+            ps.setString(5, selfIntroduction);
+            ps.setString(6, avatar);
+            ps.setBoolean(7, status);
+            int rowsAffected = ps.executeUpdate();
+            ps.close();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         ExpertDAO dao = new ExpertDAO();
         Expert ex = dao.getExpertByID(37);

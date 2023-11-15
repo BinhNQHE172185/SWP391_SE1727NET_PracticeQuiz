@@ -101,10 +101,9 @@ public class AccountDAO extends DBContext {
 
     public List<Account> getAllCustomer() {
         List<Account> customerList = new ArrayList<>();
-        String sql = "SELECT * FROM Account a "
-                + "INNER JOIN AccountRole ar ON a.Account_id = ar.Account_id "
-                + "INNER JOIN Role r ON ar.role_id = r.role_id "
-                + "WHERE r.role_name = 'customer'";
+        String sql = "SELECT a.*\n"
+                + "FROM Account a\n"
+                + "INNER JOIN [Transaction] s ON a.Account_id = s.Account_id ";
 
         try {
             PreparedStatement ps = getConnection().prepareStatement(sql);
@@ -200,6 +199,24 @@ public class AccountDAO extends DBContext {
             LocalDateTime currentTime = LocalDateTime.now();
             Date creDate = Date.valueOf(currentTime.toLocalDate());
             ps.setDate(4, creDate);
+            ps.executeUpdate();
+
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setRole(int accountID, int Role) {
+        String sql = "INSERT INTO [dbo].[AccountRole]\n"
+                + "           ([Account_id]\n"
+                + "           ,[role_id])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?)";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, accountID);
+            ps.setInt(2, Role);
             ps.executeUpdate();
 
         } catch (Exception ex) {
@@ -601,7 +618,8 @@ public class AccountDAO extends DBContext {
             // For simplicity, it's omitted here.
         }
     }
-    public void BanAccount(int accountID){
+
+    public void BanAccount(int accountID) {
         String query = "UPDATE [Account] SET [Status] = 0 where [account_id] = ? ";
         try {
             conn = new DBContext().getConnection();
@@ -613,8 +631,8 @@ public class AccountDAO extends DBContext {
             ex.printStackTrace();
         }
     }
-    
-    public void UnbanAccount(int accountID){
+
+    public void UnbanAccount(int accountID) {
         String query = "UPDATE [Account] SET [Status] = 1 where [account_id] = ? ";
         try {
             conn = new DBContext().getConnection();
@@ -627,9 +645,8 @@ public class AccountDAO extends DBContext {
         }
     }
 
-
     // Edit User 
-    public void editUser(int accountID, String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB, String address, String phonenumber) {
+    public void editUser(int accountID, String username, String password, String email, String status, String gender, String avatar, String fullname, String DOB) {
         String query = "UPDATE [Account]\n"
                 + "SET [username] = ?,\n"
                 + "    [password] = ?,\n"
@@ -812,6 +829,45 @@ public class AccountDAO extends DBContext {
         }
 
         return customerList;
+    }
+
+    public boolean addAccount(
+            String username,
+            String password,
+            String email,
+            String fullname,
+            String dob,
+            String gender,
+            String selfIntroduction,
+            String avatar,
+            boolean status
+    ) {
+        String sql = "INSERT INTO Account (username, password, email, fullname, DOB, gender, [self-introduction], avatar, createdDate, modifyDate, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            ps.setString(4, fullname);
+            ps.setString(5, dob);
+            ps.setString(6, gender);
+            ps.setString(7, selfIntroduction);
+            ps.setString(8, avatar);
+            LocalDateTime currentTime = LocalDateTime.now();
+            Date modifyDate = Date.valueOf(currentTime.toLocalDate());
+            ps.setDate(9, modifyDate);
+            ps.setDate(10, modifyDate);
+            ps.setBoolean(11, status);
+            int rowsAffected = ps.executeUpdate();
+            ps.close();
+            conn.close();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            // Handle or log the exception
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static void main(String[] args) {

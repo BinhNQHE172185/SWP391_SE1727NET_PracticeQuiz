@@ -45,15 +45,15 @@ public class ExpertSubjectListServlet extends HttpServlet {
         Expert ex = (Expert) session.getAttribute("currExpert");
         ExpertDAO DAO = new ExpertDAO();
         Expert expert = DAO.getExpertByID(ex.getExpertId());
-        List<Subject> list = dao.getSubjectByExpertPaging(ex.getExpertId(), (page - 1) * recordsPerPage, recordsPerPage);
         if (request.getParameter("page") != null) {//restive current page if possible
             page = Integer.parseInt(request.getParameter("page"));
         }
-        int noOfRecords = dao.getNumberOfRecordByExpertID(37);
+        int noOfRecords = dao.getNumberOfRecordByExpertID(ex.getExpertId());
         noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
         if (page > noOfPages) {
             page = noOfPages;
         }
+        List<Subject> list = dao.getSubjectByExpertPaging(ex.getExpertId(), (page - 1) * recordsPerPage, recordsPerPage);
         request.setAttribute("list", list);
         request.setAttribute("expert", expert);
         request.setAttribute("noOfPages", noOfPages);

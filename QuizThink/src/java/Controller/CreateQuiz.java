@@ -5,7 +5,14 @@
 
 package Controller;
 
+import DAO.AnswerDAO;
+import DAO.QuestionDAO;
 import DAO.QuizDAO;
+import DAO.SubjectDAO;
+import Model.Answer;
+import Model.Question;
+import Model.Quiz;
+import Model.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +20,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
@@ -31,9 +39,8 @@ public class CreateQuiz extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // String quiz_id = request.getParameter("quiz_Id"); // GET QUIZ_ID form quiz list
-        
-        // request.setAttribute("quiz_id", quiz_id); // day quiz_id
+        String questionId = request.getParameter("questionId");
+        request.setAttribute("questionId", questionId); // day quiz_id
         request.getRequestDispatcher("CreateQuiz.jsp").forward(request, response);
         
     } 
@@ -50,6 +57,7 @@ public class CreateQuiz extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
+        
     } 
 
     /** 
@@ -63,32 +71,38 @@ public class CreateQuiz extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
-        //String question_id = request.getParameter("question_Id"); // GET PARAM form jsp
-        String question_id = "5";
-        
+        String question_id = request.getParameter("questionId");
         String description = request.getParameter("description");
         if(description == null){
             description = "null";
         }
-        String type = "1";
+        String type = request.getParameter("quizType");
         String content = request.getParameter("content"); // CONTENT of quiz
         String[] answerArray = request.getParameterValues("answer"); // LIST ANSWER
         String[] isCorrectArray = request.getParameterValues("isCorrect"); //Is correct
         
         QuizDAO dao = new QuizDAO();
         dao.addQuiz(question_id, type, content, description, isCorrectArray, answerArray);
-        response.sendRedirect("CreateQuiz.jsp");
-        System.out.println("Array 1:");
-        for (int i = 0; i < answerArray.length; i++) {
-            System.out.println(answerArray[i]);
+        QuizDAO quizDAO = new QuizDAO();
+        QuestionDAO questionDAO = new QuestionDAO();
+        SubjectDAO subjectDAO = new SubjectDAO();
+        AnswerDAO answerDAO = new AnswerDAO();
+
+        int questionId = Integer.parseInt(request.getParameter("questionId"));
+        Question question = questionDAO.getQuestionById(questionId);
+        Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
+
+        List<Quiz> quizzes = quizDAO.getQuizzesByQuestionId(questionId);
+
+        for (Quiz quiz : quizzes) {
+            List<Answer> answers = answerDAO.getAnswersByQuizId(quiz.getQuizId());
+            request.setAttribute("answers" + quiz.getQuizId(), answers);
         }
 
-        // Print the contents of array2
-        System.out.println("Array 2:");
-        for (int i = 0; i < isCorrectArray.length; i++) {
-            System.out.println(isCorrectArray[i]);
-        }
-        
+        request.setAttribute("subject", subject);
+        request.setAttribute("question", question);
+        request.setAttribute("quizzes", quizzes);
+        request.getRequestDispatcher("ExpertQuizList.jsp").forward(request, response);
     }
 
     /** 
