@@ -104,6 +104,9 @@
                                         <div class="profile-info">
                                             <h4>${account.getUsername()}</h4>
                                             <span>${account.getEmail()}</span>
+                                             <c:if test="${role.roleId == 2}">
+                                                <p style="margin-top: 15px; color: red;">Membership included</p>
+                                            </c:if>     
                                         </div>
                                         <div class="profile-social">
                                             <ul class="list-inline m-a0">
@@ -116,7 +119,7 @@
                                         <div class="profile-tabnav">
                                             <ul class="nav nav-tabs">
                                                 <li class="nav-item">
-                                                    <a class="nav-link active" href="YourSubject"><i
+                                                    <a class="nav-link" href="YourSubject"><i
                                                             class="ti-book"></i>Courses</a>
                                                 </li>
                                                 <li class="nav-item">
@@ -124,7 +127,7 @@
                                                             class="ti-pencil-alt"></i>Edit Profile</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="CurrentPassword"><i
+                                                    <a class="nav-link active" href="CurrentPassword"><i
                                                             class="ti-lock"></i>Change Password</a>
                                                 </li>
                                             </ul>

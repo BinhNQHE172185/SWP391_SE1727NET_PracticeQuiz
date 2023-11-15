@@ -92,15 +92,7 @@
                                 <c:forEach items="${listRole}" var="o">
                                     <option value="${o.roleID}" <c:if test="${selectedRole == o.roleID}">selected="selected" </c:if> >${o.roleName}</option>
                                 </c:forEach>
-                            </select>   
-                    </td>
-                    <td>
-                            <label for="typeAccount">Choose a Role</label>
-                            <select id="typeAccount" name="typeAccount" onchange="handleTypeChange()">
-                                <option value="0">Customer</option>
-                                <option value="1">Marketer</option>
-                                <option value="2">Expert</option>
-                            </select>   
+                            </select>
                     </td>
                     <td>
                         <label for="category"></label>
@@ -118,7 +110,7 @@
               <div class="box">
                 <!-- /.box-header -->
                 <div class="box-body">
-                  <table id="user-table" class="table table-bordered table-hover">
+                  <table id="example2" class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -132,7 +124,7 @@
                         </tr>
                     </thead>
                     <tbody id="userdata">
-                        <c:forEach items="${listAccount}" var="o" varStatus="status" >
+                        <c:forEach items="${listAccount}" var="o" varStatus="status">
                             <tr class="clickable-row" data-href="edituser?accountId=${o.accountId}">
                                 <td>${o.accountId}</td>
                                 <td><img src="${o.avatar}" alt="alt" style="width: 120px; height: 100px;"/></td>
@@ -146,6 +138,7 @@
                         </c:forEach>
 
                     </tbody>
+
                 </table>
                 <table id="marketer-table" class="table table-bordered table-hover">
                     <thead>
@@ -197,6 +190,9 @@
 
                     </tbody>
                 </table>
+
+                  </table>
+
                 </div>
                 <!-- /.box-body -->
               </div>
@@ -205,7 +201,7 @@
           </div>
           <!-- /.row -->
             <div >
-                <ul class="pagination" id="pagination-user">	
+                <ul class="pagination">	
                     <c:forEach begin="1" end="${lastPage}" var="i">
                         <li <c:if test="${i == currentPage}">class="active"</c:if>><a data-param="page" data-value="${i}" onclick="handleLinkClick(event, this)">${i}</a></li>
                     </c:forEach>
@@ -216,6 +212,7 @@
                   <span id="currentPage" class="pagination" style="margin-left: 10px;margin-right: 10px;">1</span>
                   <button class="btn" onclick="nextPage()">></button>
             </div>
+
         </section>
         <!-- /.content -->
     </main>
@@ -238,6 +235,7 @@
     <script src="admin/assets/js/admin.js"></script>
     <script src='admin/assets/vendors/calendar/moment.min.js'></script>
     <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -294,41 +292,19 @@
     // Initial setup
     showPage(currentPage);
 </script>
+
     
 <script>
-    function handleTypeChange() {
-        // Get the selected value from the select element
-        var selectedValue = document.getElementById("typeAccount").value;
+    // Double click row
+    document.addEventListener("DOMContentLoaded", function () {
+        var rows = document.querySelectorAll(".clickable-row");
 
-        // Get references to the tables
-        var table1 = document.getElementById("user-table");
-        var table2 = document.getElementById("marketer-table");
-        var table3 = document.getElementById("expert-table");
-        var pagin1 = document.getElementById("pagination-user");
-
-        // Check the selected value and adjust the display property of tables
-        if (selectedValue === "0") { // Customer
-            table1.style.display = "table";
-            pagin1.style.display = "flex";
-            table2.style.display = "none";
-            table3.style.display = "none";
-        } else if (selectedValue === "1") { // Marketer
-            table1.style.display = "none";
-            pagin1.style.display = "none";
-            table2.style.display = "table";
-            table3.style.display = "none";
-        } else if (selectedValue === "2") { // Marketer
-            table1.style.display = "none";
-            pagin1.style.display = "none";
-            table2.style.display = "none";
-            table3.style.display = "table";
-        }
-    }
-
-    // Attach the handleTypeChange function to the change event of the select element
-
-    // Initially call the function to set the initial display based on the default selected option
-    handleTypeChange();
+        rows.forEach(function (row) {
+            row.addEventListener("dblclick", function () {
+                window.location.href = row.getAttribute("data-href");
+            });
+        });
+    });
 </script>
 <script>
     // Tạo một hàm để đếm số hàng
@@ -357,8 +333,7 @@
             let param = link.getAttribute('data-param');
             let value = link.getAttribute('data-value');
             let newHref;
-            if(currentURL.indexOf('pageM') === -1 ){
-                if (currentURL.indexOf('role') !== -1 && currentURL.indexOf('page') === -1) {
+            if (currentURL.indexOf('role') !== -1 && currentURL.indexOf('page') === -1) {
                 newHref = currentURL + '&' + param + '=' + value;
             }else if(currentURL.indexOf('role') === -1 && currentURL.indexOf('page') === -1){
                 newHref = '/QuizThink/userlists?' + param + '=' + value;  
@@ -367,10 +342,8 @@
                 newHref = url.toString();
             }
             window.location.href = newHref;
-            }
           }
     </script>
-
     <script>
         function redirectToURL(selectElement) {
             var selectedOption = selectElement.value; // Lấy giá trị của option đã chọn

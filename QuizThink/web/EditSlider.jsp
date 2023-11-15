@@ -301,10 +301,7 @@
             </div>
             <div class="modal-body">
                 <form action="updateslider" method="post">
-                    <div class="form-group">
-                        <label>ID</label>
-                        <input value="${slider.sliderId}" name="sliderId" type="text" class="form-control" required>
-                    </div>
+                    
                     <div class="form-group">
                         <label>Title</label>
                         <input value="${slider.title}" name="title" type="text" class="form-control" required>

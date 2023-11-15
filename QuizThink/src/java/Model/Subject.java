@@ -17,36 +17,26 @@ public class Subject {
     private int subjectDimensionId;
     private String title;
     private String imageURL;
-    private int questionCount;
-    private int rate;
-    private int rateCount;
-    private int level;
     private float requirement;
     private String description;
     private Date createdDate;
     private Date modifyDate;
     private boolean status;
-    private Time duration;
 
     public Subject() {
     }
 
-    public Subject(int subjectId, int expertId, int subjectDimensionId, String title, String imageURL, int questionCount, int rate, int rateCount, int level, float requirement, String description, Date createdDate, Date modifyDate, boolean status, Time duration) {
+    public Subject(int subjectId, int expertId, int subjectDimensionId, String title, String imageURL, float requirement, String description, Date createdDate, Date modifyDate, boolean status) {
         this.subjectId = subjectId;
         this.expertId = expertId;
         this.subjectDimensionId = subjectDimensionId;
         this.title = title;
         this.imageURL = imageURL;
-        this.questionCount = questionCount;
-        this.rate = rate;
-        this.rateCount = rateCount;
-        this.level = level;
         this.requirement = requirement;
         this.description = description;
         this.createdDate = createdDate;
         this.modifyDate = modifyDate;
         this.status = status;
-        this.duration = duration;
     }
 
     public int getSubjectId() {
@@ -89,37 +79,6 @@ public class Subject {
         this.imageURL = imageURL;
     }
 
-    public int getQuestionCount() {
-        return questionCount;
-    }
-
-    public void setQuestionCount(int questionCount) {
-        this.questionCount = questionCount;
-    }
-
-    public int getRate() {
-        return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
-    }
-
-    public int getRateCount() {
-        return rateCount;
-    }
-
-    public void setRateCount(int rateCount) {
-        this.rateCount = rateCount;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
 
     public float getRequirement() {
         return requirement;
@@ -161,15 +120,4 @@ public class Subject {
     public void setStatus(boolean status) {
         this.status = status;
     }
-
-    public Time getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Time duration) {
-        this.duration = duration;
-    }
-    
-    
-
 }

@@ -74,6 +74,8 @@
                 Subject subject = (Subject) request.getAttribute("subject");
                 Question question = (Question)request.getAttribute("question");
                 QuestionStatus questionStatus = (QuestionStatus)request.getAttribute("questionStatus");
+                int quizCount = (int) request.getAttribute("quizCount");
+                String author = (String) request.getAttribute("expert");
             %>
             <div class="page-content bg-white">
                 <!-- inner page banner -->
@@ -188,7 +190,7 @@
                                                     <div class="exam-popup-content">
                                                         <button class="submit-btn quit" onclick="closeExamPopup()">X</button>
                                                         <h3>Exam Information</h3>
-                                                        <h5><%= question.getQuizCount() %> quiz</h5>
+                                                        <h5><%= quizCount %> quiz</h5>
                                                         <h5>Duration: <%= question.getDuration() %></h5>
                                                         <h5>Higher than <%= question.getRequirement() %>% to pass</h5>
 
@@ -203,7 +205,14 @@
                                                 <div class="info-bx text-left detail">
                                                     <h5><%= question.getTitle() %><%= question.getQuestionId() %></h5>
                                                     <br>
-                                                    <span><%= question.getQuizCount() %> quiz</span>
+                                                    <%
+                                                    if (author != null) {
+                                                    %>
+                                                    <h5>Author: <%= author %></h5>
+                                                    <br>
+                                                    <%}
+                                                    %>
+                                                    <span><%= quizCount %> quiz</span>
                                                     <br>
                                                     <span>Duration: <%= question.getDuration() %></span>
                                                     <br>

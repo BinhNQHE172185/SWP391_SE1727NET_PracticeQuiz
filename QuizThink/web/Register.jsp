@@ -65,13 +65,13 @@
             <div id="loading-icon-bx"></div>
             <div class="account-form">
                 <div class="account-head" style="background-image:url(FrontEnd/assets/images/background/bg2.jpg);">
-                    <a href="home.jsp"><img src="FrontEnd/assets/images/Logo2.png" alt=""></a>
+                    <a href="home"><img src="FrontEnd/assets/images/Logo2.png" alt=""></a>
                 </div>
                 <div class="account-form-inner">
                     <div class="account-container">
                         <div class="heading-bx left">
                             <h2 class="title-head">Sign Up <span>Now</span></h2>
-                            <p>Login Your Account <a href="Login.jsp">Click here</a></p>
+                            <p>Login Your Account <a href="Login">Click here</a></p>
                         </div>	
                         <form class="contact-bx" action="RegisterUser" method="Post">
                             <div class="row placeani">

@@ -120,7 +120,7 @@
                         <c:when test="${not empty SDlist}">
                             <c:forEach var="subjectDimension" items="${SDlist}">
                                 <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-                                    <a href="SDDetailServlet?subjectDimensionId=${subjectDimension.subjectDimensionId}">
+                                    <a href="<%--SDDetailServlet?subjectDimensionId=${subjectDimension.subjectDimensionId} --%>">
                                         <div class="cours-bx">
                                             <div class="info-bx text-center question-image">
                                                 <img src="${subjectDimension.imageURL}" alt="" />

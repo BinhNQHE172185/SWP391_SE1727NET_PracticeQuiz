@@ -71,13 +71,20 @@
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <!-- Header Top ==== -->
-            <header class="header rs-nav">
-                <div class="sticky-header navbar-expand-lg">
+            <style>
+                .custom-sticky-header {
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                }
+            </style>
+            <header class="custom-sticky-header header rs-nav">
+                <div class="navbar-expand-lg">
                     <div class="menu-bar clearfix">
                         <div class="container clearfix">
                             <!-- Header Logo ==== -->
                             <div class="menu-logo">
-                                <a href="index.html"><img src="FrontEnd/assets/images/logo.png" alt></a>
+                                <a href="home.jsp"><img src="FrontEnd/assets/images/Logo1-Purple.png" alt=""></a>
                             </div>
                             <!-- Mobile Nav Button ==== -->
                             <button class="navbar-toggler collapsed menuicon justify-content-end"
@@ -88,15 +95,6 @@
                                 <span></span>
                                 <span></span>
                             </button>
-                            <!-- Search Box ==== -->
-                            <div class="nav-search-bar">
-                                <form action="#">
-                                    <input name="search" value type="text" class="form-control"
-                                           placeholder="Type to search">
-                                    <span><i class="ti-search"></i></span>
-                                </form>
-                                <span id="search-remove"><i class="ti-close"></i></span>
-                            </div>
                             <!-- Navigation Menu ==== -->
                             <div class="menu-links navbar-collapse collapse justify-content-start"
                                  id="menuDropdown">
@@ -121,7 +119,7 @@
                                         }
                                         if (question != null) {
                                         %>
-                                        <h4>/<%= question.getQuizCount() %></h4>
+                                        <h4>/<%= quizzes.size() %></h4>
                                         <%
                                             }
                                         %>
@@ -143,23 +141,23 @@
                             <!-- Navigation Menu END ==== -->
                         </div>
                     </div>
+                    <!-- Quiz nav -->
+                    <div id="quiz-nav">
+                        <%
+                            if (quizzes != null && !quizzes.isEmpty()) {
+                                for (int i = 1; i <= quizzes.size(); i++) {
+                                    Quiz quiz = quizzes.get(i-1);
+                        %>
+                        <button id = "quiz-nav-btn-quiz<%= quiz.getQuizId() %>" onclick="scrollToQuiz(<%= quiz.getQuizId() %>)"><%= i %></button>
+                        <%
+                            }
+                        }
+                        %>
+                    </div>
+                    <!-- Quiz nav END-->
                 </div>
             </header>
             <!-- header END ==== -->
-            <!-- Quiz nav -->
-            <div id="quiz-nav">
-                <%
-                    if (quizzes != null && !quizzes.isEmpty()) {
-                        for (int i = 1; i <= quizzes.size(); i++) {
-                            Quiz quiz = quizzes.get(i-1);
-                %>
-                <button id = "quiz-nav-btn-quiz<%= quiz.getQuizId() %>" onclick="scrollToQuiz(<%= quiz.getQuizId() %>)"><%= i %></button>
-                <%
-                    }
-                }
-                %>
-            </div>
-            <!-- Quiz nav END-->
             <!-- Quiz -->
             <div class="page-content bg-white">
                 <div class="content-block">

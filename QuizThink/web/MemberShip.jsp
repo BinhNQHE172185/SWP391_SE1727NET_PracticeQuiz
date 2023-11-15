@@ -3,7 +3,9 @@
     Created on : Oct 9, 2023, 1:37:52 PM
     Author     : admin
 --%>
-
+<%@page import = "Model.*" %>
+<%@page import = "DAO.*" %>
+<%@page import = "java.util.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -55,8 +57,12 @@
         <link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="FrontEnd/assets/css/color/color-1.css">
         <style>
-            
+
         </style>
+
+        <%
+            List<Membership> list = (List<Membership>) request.getAttribute("list");
+        %>
     </head>
     <body id="bg">
         <div class="page-wraper">
@@ -93,22 +99,24 @@
                             <div class="row">
                                 <div class="col-md-12 heading-bx text-center">
                                     <h2 class="title-head text-uppercase m-b0">Set a plan, start practicing and <br/> <span> unlock your potential</span></h2>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.</p>
+                                    <p>Flex your mental muscles! Join the Quiz Think Membership and get access to thousands of trivia questions to test your knowledge across every topic. Improve your quiz skills today!</p>
                                 </div>
                             </div>
+                            <% if(list!=null) {%>
+                            <% for (Membership m : list) {%>
                             <div class="pricingtable-row">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6 col-lg-6 m-b40">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-6 m-b40">
                                         <div class="pricingtable-wrapper">
                                             <div class="pricingtable-inner">
                                                 <div class="pricingtable-main"> 
                                                     <div class="pricingtable-price"> 
                                                         <span class="priceing-doller">$</span>
-                                                        <span class="pricingtable-bx">10</span>
+                                                        <span class="pricingtable-bx"><%=m.getPrice()%></span>
                                                         <span class="pricingtable-type">1 Time payment</span>
                                                     </div>
                                                     <div class="pricingtable-title">
-                                                        <h2>Basic</h2>
+                                                        <h2>Membership</h2>
                                                         <p>We are just getting started</p>
                                                     </div>
                                                 </div>
@@ -119,52 +127,23 @@
                                                     <li>Unlock New Features</li>
                                                     <li>30 days Listing</li>
                                                     <li>24/7 Support</li>
-                                                    <li>Select</li>
+                                                    <li>Practice your own style</li>
                                                 </ul>
                                                 <div class="pricingtable-footer"> 
-                                                    <c:if test="${rollid == 4}">
-                                                        <a href="#" class="btn radius-xl" id="get-it-now-button">Membership already included</a>
+                                                    <c:if test="${accRole.roleId == 2}">
+                                                        <p class="btn radius-xl ">Membership already included</p>
                                                     </c:if>
-                                                    <a href="#" class="btn radius-xl" id="get-it-now-button">Get It Now</a>                                                 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-12 col-md-6 col-lg-6 m-b40">
-                                        <div class="pricingtable-wrapper">
-                                            <div class="pricingtable-inner">
-                                                <div class="pricingtable-main"> 
-                                                    <div class="pricingtable-price"> 
-                                                        <span class="priceing-doller">$</span>
-                                                        <span class="pricingtable-bx">20</span>
-                                                        <span class="pricingtable-type">1 Time payment</span>
-                                                    </div>
-                                                    <div class="pricingtable-title">
-                                                        <h2>Advanced</h2>
-                                                        <p>Experience the best for quiz practicing</p>
-                                                    </div>
-                                                </div>
-                                                <ul class="pricingtable-features">
-                                                    <li>One Time Fee</li>
-                                                    <li>3 User</li>
-                                                    <li>Lifetime Availability</li>
-                                                    <li>More Contents</li>
-                                                    <li>30 days Listing</li>
-                                                    <li>24/7 Support</li>
-                                                    <li>Select</li>
-                                                </ul>
-                                                <div class="pricingtable-footer"> 
-                                                    <c:if test="${rollid == 5}">
-                                                        <a href="#" class="btn radius-xl" id="get-it-now-button">Membership already included</a>
-                                                    </c:if>
-                                                    <a href="#" class="btn radius-xl" id="get-it-now-button">Get It Now</a>                                                  
+                                                    <c:if test="${accRole.roleId != 2}">
+                                                        <a href="Checkout" class="btn radius-xl" id="getItNowBtn">Get It Now</a>    
+                                                    </c:if>   
+                                                    <a href="Checkout" class="btn radius-xl" id="getItNowBtn">Get It Now</a>                                                 
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <%}}%>
                         </div>
                     </div>
                     <!-- Our Services ==== -->
@@ -318,21 +297,7 @@
         <script src="FrontEnd/assets/js/contact.js"></script>
         <script src='FrontEnd/assets/vendors/switcher/switcher.js'></script>
         <script>
-            const getItNowButton = document.getElementById("get-it-now-button");
-            const tooltip = document.getElementById("tooltip-text");
 
-            // Check if the user has earned the membership (you'll need your own logic here)
-            const userHasMembership = true;
-
-            getItNowButton.addEventListener("mouseover", (){
-                if (userHasMembership) {
-                    tooltip.style.display = "block";
-                }
-            });
-
-            getItNowButton.addEventListener("mouseout", (){
-                tooltip.style.display = "none";
-            });
         </script>
     </body>
 

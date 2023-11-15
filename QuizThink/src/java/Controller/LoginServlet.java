@@ -85,4 +85,8 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("ListCustomerServlet").forward(request, response);
         }
     }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("Login.jsp").forward(request, response);
+    }
 }

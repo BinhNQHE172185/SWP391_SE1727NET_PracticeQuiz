@@ -1,5 +1,6 @@
 <%@page import = "Model.Account" %>
 <%@page import = "Model.Expert" %>
+<%@page import = "DAO.*" %>
 <%@page import = "java.util.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
@@ -55,6 +56,7 @@
     <%
         Account acc = (Account) session.getAttribute("currUser");
         Expert ex = (Expert) session.getAttribute("currExpert");
+        AccountDAO ad = new AccountDAO();
     %>
     <div class="top-bar">
         <div class="container">
@@ -67,15 +69,15 @@
                 </div>
                 <div class="topbar-right">
                     <ul>
-                            <% if(acc!=null){%>
+                        <% if(acc!=null){%>
                         <li><a href="#">Welcome <%=acc.getUsername()%></a></li>
                         <li><a href="Logout">Logout</a></li>
                             <%}else if(ex!=null){%>
                         <li><a href="#">Welcome <%=ex.getUsername()%></a></li>
                         <li><a href="Logout">Logout</a></li>
                             <%}else{%>
-                        <li><a href="Login.jsp">Login</a></li>
-                        <li><a href="Register.jsp">Register</a></li>
+                        <li><a href="Login">Login</a></li>
+                        <li><a href="RegisterUser">Register</a></li>
                             <%}%>
                     </ul>
                 </div>
@@ -99,7 +101,7 @@
                 <!-- Author Nav ==== -->
                 <div class="secondary-menu">
                     <div class="secondary-inner">
-                        
+
                         <% if(acc!=null){%>
                         <div class="dropdown">
                             <button class="dropdown-button"><%=acc.getUsername()%></button>
@@ -124,12 +126,12 @@
                             <li><a href="https://daihoc.fpt.edu.vn/" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
 
                             <!-- Search Button ==== -->
-<!--                            <li class="search-btn"><button id="quik-search-btn" type="button" class="btn-link"><i class="fa fa-search"></i></button></li>-->
+                            <!--                            <li class="search-btn"><button id="quik-search-btn" type="button" class="btn-link"><i class="fa fa-search"></i></button></li>-->
                         </ul>
                     </div>
                 </div>
                 <!-- Search Box ==== -->
-                
+
                 <!-- Navigation Menu ==== -->
                 <div class="menu-links navbar-collapse collapse justify-content-start" id="menuDropdown">
                     <div class="menu-logo">
@@ -146,7 +148,14 @@
                         <li><a href="about.jsp">About us </a>
 
                         </li>
-
+                        <% if(acc != null && ad.checkRole(acc.getAccountId()) == 1) { %>
+                        <!-- User is logged in and has role 1 (premium) -->
+                        <li><a href="MembershipPage">Upgrade Premium</a></li>
+                            <% } else if (acc == null && ex == null) { %>
+                        <!-- User is not logged in -->
+                        <li><a href="Login">Upgrade Premium</a></li>
+                        <!-- Add more logic or links as needed for non-logged-in users -->
+                        <% } %>
                     </ul>
 
                 </div>

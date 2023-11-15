@@ -36,7 +36,6 @@ public class QuestionDAO extends DBContext {
                 int expertId = resultSet.getInt("Expert_id");
                 String title = resultSet.getString("title");
                 String imageURL = resultSet.getString("imageURL");
-                int quizCount = resultSet.getInt("quiz_count");
                 String description = resultSet.getString("description");
                 float requirement = resultSet.getFloat("requirement");
                 Date createdDate = resultSet.getDate("createdDate");
@@ -44,7 +43,7 @@ public class QuestionDAO extends DBContext {
                 boolean status = resultSet.getBoolean("status");
                 Time duration = resultSet.getTime("duration");
 
-                question = new Question(questionId, subjectId, expertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+                question = new Question(questionId, subjectId, expertId, title, imageURL, description, requirement, createdDate, modifyDate, status, duration);
             }
             resultSet.close();
             statement.close();
@@ -66,10 +65,10 @@ public class QuestionDAO extends DBContext {
 
             while (resultSet.next()) {
                 int questionId = resultSet.getInt("Question_id");
+                subjectId = resultSet.getInt("Subject_id");
                 int expertId = resultSet.getInt("Expert_id");
                 String title = resultSet.getString("title");
                 String imageURL = resultSet.getString("imageURL");
-                int quizCount = resultSet.getInt("quiz_count");
                 String description = resultSet.getString("description");
                 float requirement = resultSet.getFloat("requirement");
                 Date createdDate = resultSet.getDate("createdDate");
@@ -77,7 +76,7 @@ public class QuestionDAO extends DBContext {
                 boolean status = resultSet.getBoolean("status");
                 Time duration = resultSet.getTime("duration");
 
-                Question question = new Question(questionId, subjectId, expertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+                Question question = new Question(questionId, subjectId, expertId, title, imageURL, description, requirement, createdDate, modifyDate, status, duration);
 
                 questions.add(question);
             }
@@ -103,10 +102,10 @@ public class QuestionDAO extends DBContext {
 
             while (resultSet.next()) {
                 int questionId = resultSet.getInt("Question_id");
+                subjectId = resultSet.getInt("Subject_id");
                 int expertId = resultSet.getInt("Expert_id");
                 String title = resultSet.getString("title");
                 String imageURL = resultSet.getString("imageURL");
-                int quizCount = resultSet.getInt("quiz_count");
                 String description = resultSet.getString("description");
                 float requirement = resultSet.getFloat("requirement");
                 Date createdDate = resultSet.getDate("createdDate");
@@ -114,7 +113,7 @@ public class QuestionDAO extends DBContext {
                 boolean status = resultSet.getBoolean("status");
                 Time duration = resultSet.getTime("duration");
 
-                Question question = new Question(questionId, subjectId, expertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+                Question question = new Question(questionId, subjectId, expertId, title, imageURL, description, requirement, createdDate, modifyDate, status, duration);
 
                 questions.add(question);
             }
@@ -141,9 +140,10 @@ public class QuestionDAO extends DBContext {
 
             while (resultSet.next()) {
                 int questionId = resultSet.getInt("Question_id");
+                subjectId = resultSet.getInt("Subject_id");
+                int expertId = resultSet.getInt("Expert_id");
                 String title = resultSet.getString("title");
                 String imageURL = resultSet.getString("imageURL");
-                int quizCount = resultSet.getInt("quiz_count");
                 String description = resultSet.getString("description");
                 float requirement = resultSet.getFloat("requirement");
                 Date createdDate = resultSet.getDate("createdDate");
@@ -151,7 +151,7 @@ public class QuestionDAO extends DBContext {
                 boolean status = resultSet.getBoolean("status");
                 Time duration = resultSet.getTime("duration");
 
-                Question question = new Question(questionId, subjectId, ExpertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+                Question question = new Question(questionId, subjectId, expertId, title, imageURL, description, requirement, createdDate, modifyDate, status, duration);
 
                 questions.add(question);
             }
@@ -177,10 +177,10 @@ public class QuestionDAO extends DBContext {
 
             while (resultSet.next()) {
                 int questionId = resultSet.getInt("Question_id");
+                subjectId = resultSet.getInt("Subject_id");
                 int expertId = resultSet.getInt("Expert_id");
                 String title = resultSet.getString("title");
                 String imageURL = resultSet.getString("imageURL");
-                int quizCount = resultSet.getInt("quiz_count");
                 String description = resultSet.getString("description");
                 float requirement = resultSet.getFloat("requirement");
                 Date createdDate = resultSet.getDate("createdDate");
@@ -188,7 +188,7 @@ public class QuestionDAO extends DBContext {
                 boolean status = resultSet.getBoolean("status");
                 Time duration = resultSet.getTime("duration");
 
-                Question question = new Question(questionId, subjectId, expertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+                Question question = new Question(questionId, subjectId, expertId, title, imageURL, description, requirement, createdDate, modifyDate, status, duration);
 
                 questions.add(question);
             }
@@ -214,10 +214,10 @@ public class QuestionDAO extends DBContext {
 
             while (resultSet.next()) {
                 int questionId = resultSet.getInt("Question_id");
+                subjectId = resultSet.getInt("Subject_id");
                 int expertId = resultSet.getInt("Expert_id");
                 String title = resultSet.getString("title");
                 String imageURL = resultSet.getString("imageURL");
-                int quizCount = resultSet.getInt("quiz_count");
                 String description = resultSet.getString("description");
                 float requirement = resultSet.getFloat("requirement");
                 Date createdDate = resultSet.getDate("createdDate");
@@ -225,7 +225,7 @@ public class QuestionDAO extends DBContext {
                 boolean status = resultSet.getBoolean("status");
                 Time duration = resultSet.getTime("duration");
 
-                Question question = new Question(questionId, subjectId, expertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+                Question question = new Question(questionId, subjectId, expertId, title, imageURL, description, requirement, createdDate, modifyDate, status, duration);
 
                 questions.add(question);
             }
@@ -252,9 +252,10 @@ public class QuestionDAO extends DBContext {
 
             while (resultSet.next()) {
                 int questionId = resultSet.getInt("Question_id");
+                subjectId = resultSet.getInt("Subject_id");
+                int expertId = resultSet.getInt("Expert_id");
                 String title = resultSet.getString("title");
                 String imageURL = resultSet.getString("imageURL");
-                int quizCount = resultSet.getInt("quiz_count");
                 String description = resultSet.getString("description");
                 float requirement = resultSet.getFloat("requirement");
                 Date createdDate = resultSet.getDate("createdDate");
@@ -262,7 +263,7 @@ public class QuestionDAO extends DBContext {
                 boolean status = resultSet.getBoolean("status");
                 Time duration = resultSet.getTime("duration");
 
-                Question question = new Question(questionId, subjectId, ExpertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+                Question question = new Question(questionId, subjectId, expertId, title, imageURL, description, requirement, createdDate, modifyDate, status, duration);
 
                 questions.add(question);
             }
@@ -275,23 +276,24 @@ public class QuestionDAO extends DBContext {
         return questions;
     }
 
-    public List<Question> getQuestionsBySubjectIdAndExpertIDDesc(int subjectId, int ExpertId, int offSet, int noOfRecords) {
+    public List<Question> getQuestionsBySubjectIdAndExpertIDDesc(int subjectId, int expertId, int offSet, int noOfRecords) {
         String sql = "SELECT * FROM Question WHERE Subject_id = ? AND status = 1 AND Expert_id = ? ORDER BY title DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         List<Question> questions = new ArrayList<>();
 
         try {
             PreparedStatement statement = getConnection().prepareStatement(sql);
             statement.setInt(1, subjectId);
-            statement.setInt(2, ExpertId);
+            statement.setInt(2, expertId);
             statement.setInt(3, offSet);
             statement.setInt(4, noOfRecords);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 int questionId = resultSet.getInt("Question_id");
+                subjectId = resultSet.getInt("Subject_id");
+                expertId = resultSet.getInt("Expert_id");
                 String title = resultSet.getString("title");
                 String imageURL = resultSet.getString("imageURL");
-                int quizCount = resultSet.getInt("quiz_count");
                 String description = resultSet.getString("description");
                 float requirement = resultSet.getFloat("requirement");
                 Date createdDate = resultSet.getDate("createdDate");
@@ -299,7 +301,7 @@ public class QuestionDAO extends DBContext {
                 boolean status = resultSet.getBoolean("status");
                 Time duration = resultSet.getTime("duration");
 
-                Question question = new Question(questionId, subjectId, ExpertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+                Question question = new Question(questionId, subjectId, expertId, title, imageURL, description, requirement, createdDate, modifyDate, status, duration);
 
                 questions.add(question);
             }
@@ -326,10 +328,10 @@ public class QuestionDAO extends DBContext {
 
             while (resultSet.next()) {
                 int questionId = resultSet.getInt("Question_id");
+                subjectId = resultSet.getInt("Subject_id");
                 int expertId = resultSet.getInt("Expert_id");
                 String title = resultSet.getString("title");
                 String imageURL = resultSet.getString("imageURL");
-                int quizCount = resultSet.getInt("quiz_count");
                 String description = resultSet.getString("description");
                 float requirement = resultSet.getFloat("requirement");
                 Date createdDate = resultSet.getDate("createdDate");
@@ -337,7 +339,7 @@ public class QuestionDAO extends DBContext {
                 boolean status = resultSet.getBoolean("status");
                 Time duration = resultSet.getTime("duration");
 
-                Question question = new Question(questionId, subjectId, expertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+                Question question = new Question(questionId, subjectId, expertId, title, imageURL, description, requirement, createdDate, modifyDate, status, duration);
 
                 questions.add(question);
             }
@@ -365,9 +367,10 @@ public class QuestionDAO extends DBContext {
 
             while (resultSet.next()) {
                 int questionId = resultSet.getInt("Question_id");
+                subjectId = resultSet.getInt("Subject_id");
+                expertId = resultSet.getInt("Expert_id");
                 String title = resultSet.getString("title");
                 String imageURL = resultSet.getString("imageURL");
-                int quizCount = resultSet.getInt("quiz_count");
                 String description = resultSet.getString("description");
                 float requirement = resultSet.getFloat("requirement");
                 Date createdDate = resultSet.getDate("createdDate");
@@ -375,7 +378,7 @@ public class QuestionDAO extends DBContext {
                 boolean status = resultSet.getBoolean("status");
                 Time duration = resultSet.getTime("duration");
 
-                Question question = new Question(questionId, subjectId, expertId, title, imageURL, quizCount, description, requirement, createdDate, modifyDate, status, duration);
+                Question question = new Question(questionId, subjectId, expertId, title, imageURL, description, requirement, createdDate, modifyDate, status, duration);
 
                 questions.add(question);
             }
@@ -573,6 +576,7 @@ public class QuestionDAO extends DBContext {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void updateQuestion(int QuestionId, String title, String image, String desc, float requirement, Time time) {
         LocalDateTime currentTime = LocalDateTime.now();
         Date creDate = Date.valueOf(currentTime.toLocalDate());
@@ -598,6 +602,7 @@ public class QuestionDAO extends DBContext {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void deleteQuestion(int QuestionId) {
         LocalDateTime currentTime = LocalDateTime.now();
         Date creDate = Date.valueOf(currentTime.toLocalDate());
@@ -610,32 +615,6 @@ public class QuestionDAO extends DBContext {
             ps.executeUpdate();
         } catch (Exception ex) {
             Logger.getLogger(QuestionDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static void main(String[] args) {
-        QuestionDAO questionDAO = new QuestionDAO();
-        int questionId = 37;
-
-        // Call the getQuestionById method
-        Question question = questionDAO.getQuestionById(questionId);
-
-        // Print the retrieved question information
-        if (question != null) {
-            System.out.println("Question ID: " + question.getQuestionId());
-            System.out.println("Subject ID: " + question.getSubjectId());
-            System.out.println("Expert ID: " + question.getExpertId());
-            System.out.println("Title: " + question.getTitle());
-            System.out.println("Image URL: " + question.getImageURL());
-            System.out.println("Quiz Count: " + question.getQuizCount());
-            System.out.println("Description: " + question.getDescription());
-            System.out.println("Requirement: " + question.getRequirement());
-            System.out.println("Created Date: " + question.getCreatedDate());
-            System.out.println("Modify Date: " + question.getModifyDate());
-            System.out.println("Status: " + question.isStatus());
-            System.out.println("Duration: " + question.getDuration());
-        } else {
-            System.out.println("Question not found for ID: " + questionId);
         }
     }
 }

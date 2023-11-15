@@ -59,7 +59,34 @@
         <link rel="stylesheet" type="text/css" href="admin/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
-
+        <style>
+            .user-avatar {
+                margin-bottom: 20px;
+            }
+            .avatar-image {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+            }
+            .username {
+                font-size: 24px;
+                margin-left: 20px;
+                font-weight: bold;
+                margin-top: 10px;
+                margin-bottom: 15px;
+                position: absolute;
+                left: 150px;
+                top: 100px;
+            }
+            .user-title {
+                font-size: 14px;
+                color: #777;
+                position: absolute;
+                left: 170px;
+                top: 140px;
+                margin-top: 5px;
+            }
+        </style>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -75,7 +102,7 @@
                 <!--logo start -->
                 <div class="ttr-logo-box">
                     <div>
-                        <a href="home.jsp" class="ttr-logo">
+                        <a href="home" class="ttr-logo">
                             <img class="ttr-logo-mobile" alt="" src="FrontEnd\assets\images\Logo1.png" width="30" height="30">
                             <img class="ttr-logo-desktop" alt="" src="FrontEnd\assets\images\Logo1.png" width="160" height="27">
                         </a>
@@ -86,7 +113,7 @@
                     <!-- header left menu start -->
                     <ul class="ttr-header-navigation">
                         <li>
-                            <a href="home.jsp" class="ttr-material-button ttr-submenu-toggle">HOME</a>
+                            <a href="home" class="ttr-material-button ttr-submenu-toggle">HOME</a>
                         </li>
                         <li>
                             <a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
@@ -108,7 +135,7 @@
                             <a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
                         </li>
                         <li>
-                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="#" width="32" height="32"></span></a>
+                            <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="${expert.getAvatar()}" width="32" height="32"></span></a>
                             <div class="ttr-header-submenu">
                                 <ul>
                                     <li><a href="ExpertProfile">My profile</a></li>
@@ -200,6 +227,11 @@
                                 <h4>Expert profile</h4>
                             </div>
                             <div class="widget-inner">
+                                <div class="user-avatar"> 
+                                    <img src="${expert.getAvatar()}" alt="avatar" class="avatar-image">
+                                    <span class="username">${expert.getUsername()}</span>
+                                    <div class="user-title">Expert</div>
+                                </div>
                                 <form class="edit-profile m-b30" action="ExpertUpdateProfile" method="GET">
                                     <div class="row">
                                         <div class="form-group col-6">
@@ -229,7 +261,7 @@
                                         </div>
                                         <div class="col-12">
                                             <button type="submit" class="btn">Update</button>
-                                            <button type="reset" class="btn-secondry" onclick="window.history.back()">Cancel</button>
+                                            <button type="reset" class="btn-secondry">Cancel</button>
                                         </div>
                                         <div class="col-12" style="color: red; margin-top: 5px; font-size: 120%;">
                                             ${status}
@@ -263,82 +295,82 @@
         <script src='admin/assets/vendors/calendar/moment.min.js'></script>
         <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
         <script>
-                                                $(document).ready(function () {
+            $(document).ready(function () {
 
-                                                    $('#calendar').fullCalendar({
-                                                        header: {
-                                                            left: 'prev,next today',
-                                                            center: 'title',
-                                                            right: 'month,agendaWeek,agendaDay,listWeek'
-                                                        },
-                                                        defaultDate: '2019-03-12',
-                                                        navLinks: true, // can click day/week names to navigate views
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay,listWeek'
+                    },
+                    defaultDate: '2019-03-12',
+                    navLinks: true, // can click day/week names to navigate views
 
-                                                        weekNumbers: true,
-                                                        weekNumbersWithinDays: true,
-                                                        weekNumberCalculation: 'ISO',
+                    weekNumbers: true,
+                    weekNumbersWithinDays: true,
+                    weekNumberCalculation: 'ISO',
 
-                                                        editable: true,
-                                                        eventLimit: true, // allow "more" link when too many events
-                                                        events: [
-                                                            {
-                                                                title: 'All Day Event',
-                                                                start: '2019-03-01'
-                                                            },
-                                                            {
-                                                                title: 'Long Event',
-                                                                start: '2019-03-07',
-                                                                end: '2019-03-10'
-                                                            },
-                                                            {
-                                                                id: 999,
-                                                                title: 'Repeating Event',
-                                                                start: '2019-03-09T16:00:00'
-                                                            },
-                                                            {
-                                                                id: 999,
-                                                                title: 'Repeating Event',
-                                                                start: '2019-03-16T16:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Conference',
-                                                                start: '2019-03-11',
-                                                                end: '2019-03-13'
-                                                            },
-                                                            {
-                                                                title: 'Meeting',
-                                                                start: '2019-03-12T10:30:00',
-                                                                end: '2019-03-12T12:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Lunch',
-                                                                start: '2019-03-12T12:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Meeting',
-                                                                start: '2019-03-12T14:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Happy Hour',
-                                                                start: '2019-03-12T17:30:00'
-                                                            },
-                                                            {
-                                                                title: 'Dinner',
-                                                                start: '2019-03-12T20:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Birthday Party',
-                                                                start: '2019-03-13T07:00:00'
-                                                            },
-                                                            {
-                                                                title: 'Click for Google',
-                                                                url: 'http://google.com/',
-                                                                start: '2019-03-28'
-                                                            }
-                                                        ]
-                                                    });
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: [
+                        {
+                            title: 'All Day Event',
+                            start: '2019-03-01'
+                        },
+                        {
+                            title: 'Long Event',
+                            start: '2019-03-07',
+                            end: '2019-03-10'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2019-03-09T16:00:00'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2019-03-16T16:00:00'
+                        },
+                        {
+                            title: 'Conference',
+                            start: '2019-03-11',
+                            end: '2019-03-13'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2019-03-12T10:30:00',
+                            end: '2019-03-12T12:30:00'
+                        },
+                        {
+                            title: 'Lunch',
+                            start: '2019-03-12T12:00:00'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2019-03-12T14:30:00'
+                        },
+                        {
+                            title: 'Happy Hour',
+                            start: '2019-03-12T17:30:00'
+                        },
+                        {
+                            title: 'Dinner',
+                            start: '2019-03-12T20:00:00'
+                        },
+                        {
+                            title: 'Birthday Party',
+                            start: '2019-03-13T07:00:00'
+                        },
+                        {
+                            title: 'Click for Google',
+                            url: 'http://google.com/',
+                            start: '2019-03-28'
+                        }
+                    ]
+                });
 
-                                                });
+            });
 
         </script>
     </body>
