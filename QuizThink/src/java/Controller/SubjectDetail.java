@@ -6,8 +6,13 @@ package Controller;
 
 import DAO.ExpertDAO;
 import DAO.SubjectDAO;
+import DAO.SubjectDimensionDAO;
+import DAO.SubjectStatusDAO;
+import Model.Account;
 import Model.Expert;
 import Model.Subject;
+import Model.SubjectDimension;
+import Model.SubjectStatus;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +20,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -33,25 +39,32 @@ public class SubjectDetail extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
-    String subjectIdString = request.getParameter("pid");
-    int subjectId = Integer.parseInt(subjectIdString);
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        Account currUser = (Account) session.getAttribute("currUser");
+        String subjectIdString = request.getParameter("pid");
+        int subjectId = Integer.parseInt(subjectIdString);
 
-    SubjectDAO subjectDAO = new SubjectDAO();
-    ExpertDAO expertDAO = new ExpertDAO();
+        SubjectDAO subjectDAO = new SubjectDAO();
+        ExpertDAO expertDAO = new ExpertDAO();
+        SubjectDimensionDAO subjectDimensionDAO = new SubjectDimensionDAO();
 
-    
-    Subject subject = subjectDAO.getSubjectById(subjectId);
-    request.setAttribute("subjectdetail", subject);
+        Subject subject = subjectDAO.getSubjectById(subjectId);
+        request.setAttribute("subjectdetail", subject);
 
-    
-    Expert expert = expertDAO.getExpertBySubjectID(subjectId);
-    request.setAttribute("expert", expert);
+        Expert expert = expertDAO.getExpertBySubjectID(subjectId);
+        request.setAttribute("expert", expert);
 
-    request.getRequestDispatcher("SubjectDetail.jsp").forward(request, response);
-}
-
+        SubjectDimension ss = subjectDimensionDAO.getSubjectDimensionBySubject(subjectId);
+        request.setAttribute("ss", ss);
+        
+        SubjectStatusDAO dao = new SubjectStatusDAO();
+        SubjectStatus status = dao.getSubjectStatus(currUser.getAccountId(), subjectId);
+        request.setAttribute("status", status);
+        
+        request.getRequestDispatcher("SubjectDetail.jsp").forward(request, response);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
