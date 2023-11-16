@@ -6,6 +6,7 @@ package Controller;
 
 import DAO.SubjectDAO;
 import Model.Account;
+import Model.Expert;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -34,11 +35,11 @@ public class ExpertDeleteSubjectServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        HttpSession session = request.getSession();
-//        Account currUser = (Account) session.getAttribute("currUser");
+        HttpSession session = request.getSession();
+        Expert currUser = (Expert) session.getAttribute("currExpert");
         int idSubject = Integer.valueOf(request.getParameter("id"));
         SubjectDAO dao = new SubjectDAO();
-        dao.deleteExpertSubject(37, idSubject);
+        dao.deleteExpertSubject(currUser.getExpertId(), idSubject);
         response.sendRedirect("ExpertSubjectList");
     }
 
