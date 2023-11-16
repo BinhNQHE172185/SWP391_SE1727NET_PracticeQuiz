@@ -76,6 +76,8 @@
                                 <div class="widget-inner">
                                     <!-- HAVE EXPERT -->
                                 <c:if test="${not empty expert.expertId}">
+                                    <c:if test="${expert.status}"><p style="color: green">Account is Active</p></c:if>
+                                    <c:if test="${!expert.status}"><p style="color: red">Account is Banned</p></c:if>
                                     <form class="edit-profile m-b30" id="approvalForm" action="edituser" method="POST">
                                         <div class="">
                                             <div class="form-group row">
@@ -162,6 +164,8 @@
                                 <!-- HAVE MARKETER -->
 
                                 <c:if test="${not empty marketer.marketerID}">
+                                    <c:if test="${marketer.status}"><p style="color: green">Account is Active</p></c:if>
+                                    <c:if test="${!marketer.status}"><p style="color: red">Account is Banned</p></c:if>
                                     <form class="edit-profile m-b30" id="approvalForm" action="edituser" method="POST">
                                         <div class="">
                                             <div class="form-group row">
@@ -247,7 +251,9 @@
                                 </c:if>
 
                                 <!-- HAVE ACCOUNT -->
-                                <c:if test="${not empty account.accountId}"> 
+                                <c:if test="${not empty account.accountId}">
+                                    <c:if test="${account.status}"><p style="color: green">Account is Active</p></c:if>
+                                    <c:if test="${!account.status}"><p style="color: red">Account is Banned</p></c:if>
                                     <form class="edit-profile m-b30" id="approvalForm" action="edituser" method="POST" onsubmit="return validateForm()">
                                         <div class="">
                                             <div class="form-group row">
