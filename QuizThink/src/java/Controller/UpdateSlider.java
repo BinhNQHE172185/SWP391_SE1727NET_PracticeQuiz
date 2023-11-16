@@ -34,15 +34,20 @@ public class UpdateSlider extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String sliderId = request.getParameter("sliderId");
-        int sliderid = Integer.valueOf(sliderId);
+        if(sliderId!=null && !"".equals(sliderId)){
+            int sliderid = Integer.parseInt(sliderId);
         String title = request.getParameter("title");
         String name = request.getParameter("name");
         String imageURL = request.getParameter("imageURL");
         String description = request.getParameter("description");
+       
         SliderDAO sliderDAO = new SliderDAO();
-        sliderDAO.updateSlider(title, name, imageURL, description, sliderid);
+        String result= sliderDAO.updateSlider(title, name, imageURL, description, sliderid);
+        request.setAttribute("result", result);
           Slider slider = sliderDAO.getSliderById(sliderid);
         request.setAttribute("slider", slider);
+        
+        }
         request.getRequestDispatcher("EditSlider.jsp").include(request, response);
         
     }
