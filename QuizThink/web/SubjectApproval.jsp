@@ -103,7 +103,6 @@
                                                     <p>${o.description}</p>
                                                 </div>
                                                 <div class="col-md-12 row">
-                                                    <button  onclick="window.open('https://Google.com', '_blank')" type="button" class="btn gray outline" style="margin-right: 10px;">Preview&EditSubject</button>
                                                     <form action="approve" method="POST">
                                                         <input type="hidden" name="SubjectID" value="${o.subjectId}" >
                                                         <input type="hidden" name="State" value="1">

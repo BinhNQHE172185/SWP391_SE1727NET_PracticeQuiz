@@ -84,7 +84,7 @@
                         <div class="container clearfix">
                             <!-- Header Logo ==== -->
                             <div class="menu-logo">
-                                <a href="home.jsp"><img src="FrontEnd/assets/images/Logo1-Purple.png" alt=""></a>
+                                <a href="home"><img src="FrontEnd/assets/images/Logo1-Purple.png" alt=""></a>
                             </div>
                             <!-- Mobile Nav Button ==== -->
                             <button class="navbar-toggler collapsed menuicon justify-content-end"

@@ -176,7 +176,7 @@
                     </div>
                     <!-- Your Profile Views Chart END-->
                 </div>
-                <Button class="submit-btn" onclick="location.href='/QuizThink/home'">Back to question list</button>
+                <Button class="submit-btn" onclick="window.history.back()">Back to question list</button>
             </div>
             <!-- contact area END -->
 

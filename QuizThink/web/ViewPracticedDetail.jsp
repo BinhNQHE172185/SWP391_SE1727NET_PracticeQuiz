@@ -207,7 +207,7 @@
                             </div>                            
                         </c:forEach>
                     </div>
-                   <button class="submit-btn" onclick="window.history.back()">Back to list practiced</button>
+                   <button class="submit-btn" onclick="location.href='/QuizThink/YourSubject'">Back to list practiced</button>
                 </div>
                 <!-- contact area END -->
             </div>
