@@ -230,7 +230,7 @@
         </div>
         <!-- Left sidebar menu end -->
     <main class="ttr-wrapper">
-        <form action="editquiz" method="POST">
+        <form onsubmit="return validateForm()" action="editquiz" method="POST">
             
             <div class="container">
         <!-- Question and Answers -->
@@ -272,7 +272,7 @@
                     <div class="question-card form-check input-group mb-3">
                         <input class="form-check-input answercheckbox" type="checkbox" name="checkbox" value="correct" 
                                onchange="updateCheckbox(this)" ${o.isCorrect ? 'checked' : ''}>
-                        <input class="form-check-input answerradio" type="radio" name="checkbox" value="incorrect" onchange="updateCheckbox(this)" ${o.isCorrect ? 'checked' : ''}>
+                        <input class="form-check-input answerradio" type="radio" name="checkbox" value="incorrect" onchange="updateRadio(this)" ${o.isCorrect ? 'checked' : ''}>
                         
                         <input type="hidden" name="isCorrect" value="${o.isCorrect ? 'correct' : 'incorrect'}">
                         <input type="hidden" name="exist" value="${o.answerId}">
@@ -303,7 +303,26 @@
     </main>
     <div class="ttr-overlay"></div>
 </body>
+<script>
+    function updateRadio(radio) {
+    var allRadioInputs = document.querySelectorAll('.answerradio');
+    var allHiddenInputs = document.querySelectorAll('input[name="isCorrect"]');
 
+    // Loop through all radio inputs
+    for (var i = 0; i < allRadioInputs.length; i++) {
+        var currentRadio = allRadioInputs[i];
+        var currentHiddenInput = allHiddenInputs[i];
+
+        // If the current radio input is checked
+        if (currentRadio === radio && currentRadio.checked) {
+            currentHiddenInput.value = "correct";
+        } else {
+            currentHiddenInput.value = "incorrect";
+        }
+    }
+}
+        
+ </script>
 <script>
         function updateCheckboxes() {
             var quizType = document.querySelector('input[name="quizType"]:checked').value;
@@ -319,6 +338,7 @@
             }
         }
         updateCheckboxes();
+        
  </script>
 <script>
         function validateForm() {
@@ -346,11 +366,24 @@
                     break;
                 }
             }
+            var radioInputs = document.querySelectorAll('.answerradio');
+            var atLeastOneSelectedR = false;
+            for (var i = 0; i < radioInputs.length; i++) {
+                if (checkboxInputs[i].checked) {
+                    atLeastOneSelectedR = true;
+                    break;
+                }
+            }
 
             if (!atLeastOneSelected) {
                 alert('Please select at least one correct answer');
                 return false;
             }
+            if (!atLeastOneSelectedR) {
+                alert('Please select correct answer');
+                return false;
+            }
+
 
             return true;
         }

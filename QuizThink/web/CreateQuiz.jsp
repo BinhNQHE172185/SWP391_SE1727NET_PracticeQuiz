@@ -372,9 +372,21 @@
                     break;
                 }
             }
+            var radioInputs = document.querySelectorAll('.answerradio');
+            var atLeastOneSelectedR = false;
+            for (var i = 0; i < radioInputs.length; i++) {
+                if (checkboxInputs[i].checked) {
+                    atLeastOneSelectedR = true;
+                    break;
+                }
+            }
 
             if (!atLeastOneSelected) {
                 alert('Please select at least one correct answer');
+                return false;
+            }
+            if (!atLeastOneSelectedR) {
+                alert('Please select correct answer');
                 return false;
             }
 
