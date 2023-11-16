@@ -86,7 +86,7 @@
                         </form>
                     </td>
                     <td>
-                            <label for="category">Choose a Role</label>
+                            <label for="category">Role</label>
                             <select id="category" name="role" onchange="redirectToURL(this)">
                                 <option value="">All</option>
                                 <c:forEach items="${listRole}" var="o">
@@ -95,7 +95,7 @@
                             </select>   
                     </td>
                     <td>
-                            <label for="typeAccount">Choose a Role</label>
+                            <label for="typeAccount">Type of account</label>
                             <select id="typeAccount" name="typeAccount" onchange="handleTypeChange()">
                                 <option value="0">Customer</option>
                                 <option value="1">Marketer</option>
@@ -129,6 +129,7 @@
                             <th>Gender</th>
                             <th>DOB</th>
                             <th>Create Date</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody id="userdata">
@@ -142,6 +143,7 @@
                                 <td>${o.gender}</td>
                                 <td>${o.dob}</td>
                                 <td>${o.createdDate}</td>
+                                <td>${o.status}</td>
                             </tr>
                         </c:forEach>
 
