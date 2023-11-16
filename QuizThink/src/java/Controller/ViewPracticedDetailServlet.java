@@ -60,7 +60,6 @@ public class ViewPracticedDetailServlet extends HttpServlet {
         }
 
         String selected = rs.getSelectedChoice();
-        selected = selected.substring(1, selected.length() - 1);
         try {
             String[] selectedChoices = selected.split(",");
             List<Integer> selectedAnswers = new ArrayList<>();

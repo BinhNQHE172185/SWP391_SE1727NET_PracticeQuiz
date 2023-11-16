@@ -173,7 +173,7 @@
                         </tr>
                         <tr>
                             <td style="font-weight: bold;">Right Answer:</td> 
-                            <td>${rs.quizCount}/${listQuiz.size()}</td>
+                            <td>${(o.mark*o.quizCount)/10}/${rs.quizCount}</td>
                         </tr>
                         <tr>
                             <td style="font-weight: bold;">Mark:</td>
