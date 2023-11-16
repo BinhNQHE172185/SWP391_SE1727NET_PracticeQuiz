@@ -279,7 +279,7 @@
     </style>
     <script>
         function back() {
-            window.location.href = "home";
+            window.location.href = "ManageSlider";
         }
         function doDelete(id)
         {
@@ -301,7 +301,7 @@
             </div>
             <div class="modal-body">
                 <form action="updateslider" method="post">
-                    
+
                     <div class="form-group">
                         <label>Title</label>
                         <input value="${slider.title}" name="title" type="text" class="form-control" required>
@@ -318,10 +318,11 @@
                         <label>Description</label>
                         <textarea name="description" class="form-control" required>${slider.description}</textarea>
                     </div>
-
+                    <input value="${slider.sliderId}" name="sliderId" type="hidden">
                     <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" onclick="back()">
                         <input type="submit" class="btn btn-success" value="Confirm">
+                        ${result}
                     </div>
                 </form>
             </div>
