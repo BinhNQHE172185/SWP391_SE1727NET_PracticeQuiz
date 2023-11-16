@@ -45,14 +45,12 @@ public class SubjectDetail extends HttpServlet {
         Account currUser = (Account) session.getAttribute("currUser");
         String subjectIdString = request.getParameter("pid");
         int subjectId = Integer.parseInt(subjectIdString);
-
         SubjectDAO subjectDAO = new SubjectDAO();
         ExpertDAO expertDAO = new ExpertDAO();
         SubjectDimensionDAO subjectDimensionDAO = new SubjectDimensionDAO();
-
+           
         Subject subject = subjectDAO.getSubjectById(subjectId);
         request.setAttribute("subjectdetail", subject);
-
         Expert expert = expertDAO.getExpertBySubjectID(subjectId);
         request.setAttribute("expert", expert);
 
@@ -61,7 +59,8 @@ public class SubjectDetail extends HttpServlet {
         
         SubjectStatusDAO dao = new SubjectStatusDAO();
         if(currUser!=null){
-        SubjectStatus status = dao.getSubjectStatus(currUser.getAccountId(), subjectId);
+        SubjectStatus status = dao.getSubjectStatus(subjectId,currUser.getAccountId() );
+            
         request.setAttribute("status", status);
         }
         request.getRequestDispatcher("SubjectDetail.jsp").forward(request, response);

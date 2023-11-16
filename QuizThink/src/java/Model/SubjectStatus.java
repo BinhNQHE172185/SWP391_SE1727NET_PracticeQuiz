@@ -103,6 +103,11 @@ public class SubjectStatus {
     public void setPassDate(Date passDate) {
         this.passDate = passDate;
     }
+
+    @Override
+    public String toString() {
+        return "SubjectStatus{" + "subjectStatusId=" + subjectStatusId + ", subjectId=" + subjectId + ", accountId=" + accountId + ", status=" + status + ", createdDate=" + createdDate + ", modifyDate=" + modifyDate + ", passDate=" + passDate + '}';
+    }
     
     
 }
