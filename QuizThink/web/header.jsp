@@ -118,7 +118,7 @@
                             <button class="dropdown-button"><%=ex.getUsername()%></button>
                             <div class="dropdown-content">
                                 <a href="ExpertProfile">My profile</a>
-                                <a href="YourSubject">My courses</a>
+                                <a href="ExpertSubjectList">My courses</a>
 
                             </div>
                         </div>
