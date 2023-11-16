@@ -153,6 +153,15 @@ public class EditUser extends HttpServlet {
             String name = request.getParameter("fullname");
             String selfIntroduction = request.getParameter("self-introduction");
 
+            String ban = request.getParameter("Ban");
+                String unban = request.getParameter("Unban");
+                if (ban.equals("true")) {
+                    marketDAO.BanAccount(marketerID);
+                }
+                if (unban.equals("true")) {
+                    marketDAO.UnbanAccount(marketerID);
+                }
+                
             if (!DAO.checkPass(password)) {
                 request.setAttribute("notice", passwordMessage);
             } else if (!DAO.checkUsername(username)) {
@@ -163,14 +172,7 @@ public class EditUser extends HttpServlet {
                 //
                 marketDAO.editUser(marketerID, username, password, email, avatar, name, selfIntroduction);
                 // Ban Unban 
-                String ban = request.getParameter("Ban");
-                String unban = request.getParameter("Unban");
-                if (ban.equals("true")) {
-                    marketDAO.BanAccount(marketerID);
-                }
-                if (unban.equals("true")) {
-                    marketDAO.UnbanAccount(marketerID);
-                }
+                
                 request.setAttribute("notice", notice);
             }
 
@@ -201,6 +203,15 @@ public class EditUser extends HttpServlet {
             String name = request.getParameter("fullname");
             String selfIntroduction = request.getParameter("self-introduction");
 
+            String ban = request.getParameter("Ban");
+            String unban = request.getParameter("Unban");
+            if (ban.equals("true")) {
+                expDAO.BanAccount(expertID);
+            }
+            if (unban.equals("true")) {
+                expDAO.UnbanAccount(expertID);
+            }
+            
             if (!DAO.checkPass(password)) {
                 request.setAttribute("notice", passwordMessage);
             } else if (!DAO.checkUsername(username)) {
@@ -211,14 +222,7 @@ public class EditUser extends HttpServlet {
 
                 expDAO.editUser(expertID, username, password, email, avatar, name, selfIntroduction);
                 // Ban Unban 
-                String ban = request.getParameter("Ban");
-                String unban = request.getParameter("Unban");
-                if (ban.equals("true")) {
-                    expDAO.BanAccount(expertID);
-                }
-                if (unban.equals("true")) {
-                    expDAO.UnbanAccount(expertID);
-                }
+                
                 request.setAttribute("notice", notice);
             }
             Expert expert = expDAO.getExpertByID(Integer.parseInt(expID));
@@ -248,16 +252,7 @@ public class EditUser extends HttpServlet {
             String DOB = request.getParameter("DOB");
             String phonenumber = request.getParameter("phonenumber");
 
-            
-
-            if (!DAO.checkPass(password)) {
-                request.setAttribute("notice", passwordMessage);
-            } else if (!DAO.checkUsername(username)) {
-                request.setAttribute("notice", usernameMessage2);
-            } else if (!DAO.UsernameExist(username)) {
-                request.setAttribute("notice", usernameMessage);
-            } else {
-                // Ban Unban 
+            // Ban Unban 
                 String ban = request.getParameter("Ban");
                 String unban = request.getParameter("Unban");
                 if (ban.equals("true")) {
@@ -266,6 +261,15 @@ public class EditUser extends HttpServlet {
                 if (unban.equals("true")) {
                     DAO.UnbanAccount(accountID);
                 }
+
+            if (!DAO.checkPass(password)) {
+                request.setAttribute("notice", passwordMessage);
+            } else if (!DAO.checkUsername(username)) {
+                request.setAttribute("notice", usernameMessage2);
+            } else if (!DAO.UsernameExist(username)) {
+                request.setAttribute("notice", usernameMessage);
+            } else {
+                
                 DAO.editUser(accountID, username, password, email, status, gender, avatar, fullname, DOB);
                 request.setAttribute("notice", notice);
             }
