@@ -3554,7 +3554,7 @@ li.true label.answer-container {
     color: #fff;
     padding: 5px 10px;
     border-radius: 5px;
-    top: 100%; /* Position the tooltip below the button */
+    /*top: 100%;  Position the tooltip below the button */
     left: 50%;
     transform: translateX(-50%);
 }
