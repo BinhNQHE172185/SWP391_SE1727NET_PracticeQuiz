@@ -68,7 +68,7 @@
                 <div class="breadcrumb-row">
                     <div class="container">
                         <ul class="list-inline">
-                            <li><a href="home.jsp">Home</a></li>
+                            <li><a href="home">Home</a></li>
                             <li>About Us </li>
                         </ul>
                     </div>
