@@ -230,7 +230,7 @@
         </div>
         <!-- Left sidebar menu end -->
     <main class="ttr-wrapper">
-        <form action="editquiz" method="POST">
+        <form onsubmit="return validateForm()" action="editquiz" method="POST">
             
             <div class="container">
         <!-- Question and Answers -->
@@ -366,11 +366,24 @@
                     break;
                 }
             }
+            var radioInputs = document.querySelectorAll('.answerradio');
+            var atLeastOneSelectedR = false;
+            for (var i = 0; i < radioInputs.length; i++) {
+                if (checkboxInputs[i].checked) {
+                    atLeastOneSelectedR = true;
+                    break;
+                }
+            }
 
             if (!atLeastOneSelected) {
                 alert('Please select at least one correct answer');
                 return false;
             }
+            if (!atLeastOneSelectedR) {
+                alert('Please select correct answer');
+                return false;
+            }
+
 
             return true;
         }
