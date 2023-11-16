@@ -211,7 +211,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-6">
                                     <div class="service-bx">
                                         <div class="action-box">
-                                            <img src="FrontEnd/assets/images/our-services/pic1.jpg" alt="">
+                                            <img src="FrontEnd/assets/images/background/fpt1.png" alt="">
                                         </div>
                                         <div class="info-bx text-center">
                                             <div class="feature-box-sm radius bg-white">
@@ -225,7 +225,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-6">
                                     <div class="service-bx">
                                         <div class="action-box">
-                                            <img src="FrontEnd/assets/images/our-services/pic2.jpg" alt="">
+                                            <img src="FrontEnd/assets/images/background/fpt1.png" alt="">
                                         </div>
                                         <div class="info-bx text-center">
                                             <div class="feature-box-sm radius bg-white">
@@ -239,7 +239,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="service-bx m-b0">
                                         <div class="action-box">
-                                            <img src="FrontEnd/assets/images/our-services/pic3.jpg" alt="">
+                                            <img src="FrontEnd/assets/images/background/fpt1.png" alt="">
                                         </div>
                                         <div class="info-bx text-center">
                                             <div class="feature-box-sm radius bg-white">
