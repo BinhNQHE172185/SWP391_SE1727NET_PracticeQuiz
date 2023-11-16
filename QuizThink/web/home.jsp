@@ -273,13 +273,12 @@
                                     <c:forEach items="${recentSubjects}" var="s">
                                         <div class="item">
                                             <div class="cours-bx">
-                                                <div class="action-box">
-                                                    <img src="${s.imageURL}" alt="">
+                                                <div class="action-box question-image">
+                                                    <img src="${s.imageURL}" alt="" style = "width: 100%;height: 240px;object-fit: cover;">
                                                     <a href="subjectdetail?pid=${s.subjectId}" class="btn">Read More</a>
                                                 </div>
                                                 <div class="info-bx text-center">
                                                     <h5><a href="#">${s.title }</a></h5>
-                                                    <span>Programming</span>
                                                 </div>
 
                                             </div>
@@ -355,13 +354,12 @@
                                     <c:forEach items="${recentSubjects}" var="subject">
                                         <div class="item">
                                             <div class="cours-bx">
-                                                <div class="action-box">
-                                                    <img src="${subject.imageURL}" alt="${subject.title}">
+                                                <div class="action-box question-image">
+                                                    <img src="${subject.imageURL}" alt="${subject.title}" style = "width: 100%;height: 240px;object-fit: cover;">
                                                     <a href="#" class="btn">Read More</a>
                                                 </div>
                                                 <div class="info-bx text-center">
                                                     <h5><a href="#">${subject.title}</a></h5>
-                                                    <span>${subject.description}</span>
                                                 </div>
                                             </div>
                                         </div>
