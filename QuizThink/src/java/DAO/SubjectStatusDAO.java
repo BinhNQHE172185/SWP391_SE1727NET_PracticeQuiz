@@ -161,7 +161,7 @@ public class SubjectStatusDAO extends DBContext {
 
     public static void main(String[] arg) {
         SubjectStatusDAO stdao = new SubjectStatusDAO();
-        SubjectStatus check = stdao.getSubjectStatus(1, 1);
-        System.out.println(check != null);
+        SubjectStatus check = stdao.getSubjectStatus(2, 1);
+        System.out.println(check);
     }
 }
