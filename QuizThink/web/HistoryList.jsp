@@ -159,7 +159,7 @@
                                                 <p>${o.takenDuration}</p>
                                             </div>
                                             <div class="col-lg-2 text-center">
-                                                <p>20/20</p>
+                                                <p>${(o.mark*o.quizCount)/10}/${o.quizCount}</p>
                                             </div>
                                             <div class="col-lg-2 text-center">
                                                 <p>${o.mark}/10</p>

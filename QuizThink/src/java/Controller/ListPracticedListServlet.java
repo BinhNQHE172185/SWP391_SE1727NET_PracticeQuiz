@@ -40,7 +40,7 @@ public class ListPracticedListServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             Account currUser = (Account) session.getAttribute("currUser");
-//            int questionId = Integer.parseInt(request.getParameter("questionId"));
+            int questionId = Integer.parseInt(request.getParameter("questionId"));
 
            // int questionId = 1;//default
             /*
@@ -55,7 +55,7 @@ public class ListPracticedListServlet extends HttpServlet {
             }
              */
             ResultDAO dao = new ResultDAO();
-            List<Result> listResult = dao.getResultByAccountID(1, 1);
+            List<Result> listResult = dao.getResultByAccountID(questionId, currUser.getAccountId());
             request.setAttribute("listResult", listResult);
             request.getRequestDispatcher("HistoryList.jsp").forward(request, response);
         }

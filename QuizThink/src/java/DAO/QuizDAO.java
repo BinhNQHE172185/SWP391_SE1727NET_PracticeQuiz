@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -50,7 +52,21 @@ public class QuizDAO extends DBContext {
         }
         return quizzes;
     }
+public int countQuiz() {
+        int size = 0;
+        String sql = "Select COUNT (*) as c from  Quiz";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
 
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                size = rs.getInt("c");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return size;
+    }
     public List<Quiz> getQuizzesByQuestionId(int questionId, int offSet, int noOfRecords) {
         String sql = "SELECT * FROM Quiz WHERE Question_id = ? ORDER BY Quiz_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         List<Quiz> quizzes = new ArrayList<>();

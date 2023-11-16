@@ -34,10 +34,13 @@ public class EditSlider extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String sliderId = request.getParameter("pid");
-        int id = Integer.valueOf(sliderId);
-        SliderDAO sliderdao= new SliderDAO();
-        Slider slider = sliderdao.getSliderById(id);
-        request.setAttribute("slider", slider);
+
+        if (sliderId != null && !"".equals(sliderId)) {
+            int id = Integer.parseInt(sliderId);
+            SliderDAO sliderdao = new SliderDAO();
+            Slider slider = sliderdao.getSliderById(id);
+            request.setAttribute("slider", slider);
+        }
         request.getRequestDispatcher("EditSlider.jsp").forward(request, response);
     }
 

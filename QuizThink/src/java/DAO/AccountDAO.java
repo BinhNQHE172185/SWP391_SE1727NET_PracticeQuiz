@@ -67,6 +67,22 @@ public class AccountDAO extends DBContext {
         return account;
     }
 
+    public int countMember() {
+        int size = 0;
+        String sql = "Select COUNT (*) as c from  Account";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                size = rs.getInt("c");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return size;
+    }
+
     public int checkRole(int accountId) {
         int role = 0;
         String sql = "Select role_id from AccountRole where Account_id = ?";
@@ -369,7 +385,7 @@ public class AccountDAO extends DBContext {
         Date enroll;
         boolean status;
         String query = "select * from SubjectStatus s, Account a \n"
-                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1";
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -400,7 +416,7 @@ public class AccountDAO extends DBContext {
         Date enroll;
         boolean status;
         String query = "select * from SubjectStatus s, Account a \n"
-                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1 ORDER BY a.fullname asc";
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 ORDER BY a.fullname asc";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -431,7 +447,7 @@ public class AccountDAO extends DBContext {
         Date enroll;
         boolean status;
         String query = "select * from SubjectStatus s, Account a \n"
-                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 and s.status = 1 ORDER BY a.fullname desc";
+                + "where s.Subject_id = ? and s.Account_id = a.Account_id and a.status = 1 ORDER BY a.fullname desc";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -815,7 +831,7 @@ public class AccountDAO extends DBContext {
         return customerList;
     }
 
-    public boolean addAccount(
+    public int addAccount(
             String username,
             String password,
             String email,
@@ -828,8 +844,8 @@ public class AccountDAO extends DBContext {
     ) {
         String sql = "INSERT INTO Account (username, password, email, fullname, DOB, gender, [self-introduction], avatar, createdDate, modifyDate, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            Connection conn = new DBContext().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, username);
             ps.setString(2, password);
             ps.setString(3, email);
@@ -844,14 +860,19 @@ public class AccountDAO extends DBContext {
             ps.setDate(10, modifyDate);
             ps.setBoolean(11, status);
             int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                ResultSet generatedKeys = ps.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                }
+            }
             ps.close();
             conn.close();
-            return rowsAffected > 0;
         } catch (Exception e) {
             // Handle or log the exception
             e.printStackTrace();
-            return false;
         }
+        return 0;
     }
 
     public static void main(String[] args) {

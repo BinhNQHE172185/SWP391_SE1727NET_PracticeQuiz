@@ -74,7 +74,7 @@
                 <div class="breadcrumb-row">
                     <div class="container">
                         <ul class="list-inline">
-                            <li><a href="home.jsp">Home</a></li>
+                            <li><a href="home">Home</a></li>
                             <li>Our Courses</li>
                         </ul>
                     </div>
@@ -105,7 +105,7 @@
                                                 <div> no Category</div>
                                             </c:if>
                                             <c:forEach items= "${listDimension}" var="o" >
-                                                <li class="active"><a href="#">${o.title}</a></li>
+                                                <li class="active"><a href="SubjectList?subjectDimensionId=${o.subjectDimensionId}">${o.title}</a></li>
                                                 </c:forEach>
                                         </ul>
 
@@ -173,7 +173,7 @@
                                                     <%-- For displaying Previous link except for the 1st page --%>
                                                     <% if (currentPage != 1) { %>
                                                     <li class="previous">
-                                                        <a href="SubjectList?page=<%= currentPage - 1 %>&noOfPages=<%= noOfPages %>">
+                                                        <a href="SubjectList?subjectDimensionId=${subjectDimensionId}&page=<%= currentPage - 1 %>&noOfPages=<%= noOfPages %>">
                                                             <i class="ti-arrow-left"></i> Prev
                                                         </a>
                                                     </li>
@@ -185,7 +185,7 @@
                                                     <li class="active"><a><%= i %></a></li>
                                                             <% } else { %>
                                                     <li>
-                                                        <a href="SubjectList?page=<%= i %>&noOfPages=<%= noOfPages %> %>">
+                                                        <a href="SubjectList?subjectDimensionId=${subjectDimensionId}&page=<%= i %>&noOfPages=<%= noOfPages %> %>">
                                                             <%= i %>
                                                         </a>
                                                     </li>
@@ -195,7 +195,7 @@
                                                     <%-- For displaying Next link --%>
                                                     <% if (currentPage < noOfPages) { %>
                                                     <li class="next">
-                                                        <a href="SubjectList?page=<%= currentPage + 1 %>&noOfPages=<%= noOfPages %>%>">
+                                                        <a href="SubjectList?subjectDimensionId=${subjectDimensionId}&page=<%= currentPage + 1 %>&noOfPages=<%= noOfPages %>%>">
                                                             Next <i class="ti-arrow-right"></i>
                                                         </a>
                                                     </li>

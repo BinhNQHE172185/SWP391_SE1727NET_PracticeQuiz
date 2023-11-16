@@ -128,7 +128,7 @@ public class SliderDAO extends DBContext {
         }
     }
 
-    public void updateSlider(String title, String name, String imageURL, String description, int sliderId) {
+    public String updateSlider(String title, String name, String imageURL, String description, int sliderId) {
         String sql = "UPDATE Slider\n"
                 + "SET\n"
                 + "    [Title] = ?,\n"
@@ -151,7 +151,9 @@ public class SliderDAO extends DBContext {
         } catch (Exception ex) {
             System.err.println("An error occurred while adding a slider: " + ex.getMessage());
             ex.printStackTrace();
+            return ex.toString();
         }
+        return "Successful";
     }
 
     public static void main(String[] args) {

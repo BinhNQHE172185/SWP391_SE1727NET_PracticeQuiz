@@ -68,7 +68,7 @@ public class EditUser extends HttpServlet {
         if (a != null) {
 
             int acc = Integer.parseInt(a);
-            int acc_role = roleDAO.getRoleByAccountID(a);
+            int acc_role = roleDAO.getRoleByAccountID(Integer.parseInt(a));
             Account account = accDAO.getAccountByID(acc);
 
             String existEmail = account.getEmail();
@@ -274,7 +274,7 @@ public class EditUser extends HttpServlet {
                 request.setAttribute("notice", notice);
             }
             Account account = DAO.getAccountByID(Integer.parseInt(accID));
-            int acc_role = roleDAO.getRoleByAccountID(accID);
+            int acc_role = roleDAO.getRoleByAccountID(Integer.parseInt(accID));
 
             existEmail = account.getEmail();
             existUsername = account.getUsername();

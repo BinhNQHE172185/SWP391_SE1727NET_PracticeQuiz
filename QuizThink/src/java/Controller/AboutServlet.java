@@ -4,15 +4,10 @@
  */
 package Controller;
 
+import DAO.AccountDAO;
 import DAO.ExpertDAO;
+import DAO.QuizDAO;
 import DAO.SubjectDAO;
-import DAO.SubjectDimensionDAO;
-import DAO.SubjectStatusDAO;
-import Model.Account;
-import Model.Expert;
-import Model.Subject;
-import Model.SubjectDimension;
-import Model.SubjectStatus;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,14 +15,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author minhk
  */
-@WebServlet(name = "SubjectDetail", urlPatterns = {"/subjectdetail"})
-public class SubjectDetail extends HttpServlet {
+@WebServlet(name = "AboutServlet", urlPatterns = {"/Aboutus"})
+public class AboutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,29 +35,23 @@ public class SubjectDetail extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        Account currUser = (Account) session.getAttribute("currUser");
-        String subjectIdString = request.getParameter("pid");
-        int subjectId = Integer.parseInt(subjectIdString);
-        SubjectDAO subjectDAO = new SubjectDAO();
-        ExpertDAO expertDAO = new ExpertDAO();
-        SubjectDimensionDAO subjectDimensionDAO = new SubjectDimensionDAO();
-           
-        Subject subject = subjectDAO.getSubjectById(subjectId);
-        request.setAttribute("subjectdetail", subject);
-        Expert expert = expertDAO.getExpertBySubjectID(subjectId);
-        request.setAttribute("expert", expert);
-
-        SubjectDimension ss = subjectDimensionDAO.getSubjectDimensionBySubject(subjectId);
-        request.setAttribute("ss", ss);
         
-        SubjectStatusDAO dao = new SubjectStatusDAO();
-        if(currUser!=null){
-        SubjectStatus status = dao.getSubjectStatus(subjectId,currUser.getAccountId() );
-            
-        request.setAttribute("status", status);
-        }
-        request.getRequestDispatcher("SubjectDetail.jsp").forward(request, response);
+        AccountDAO accountDAO = new AccountDAO();
+        int account = accountDAO.countMember();
+        request.setAttribute("countM", account);
+        
+        ExpertDAO expertDAO=new ExpertDAO();
+        int expert=expertDAO.countExpert();
+        request.setAttribute("countE",expert);
+        
+        QuizDAO quizDAO=new QuizDAO();
+        int quiz=quizDAO.countQuiz();
+        request.setAttribute("countQ",quiz);
+        
+        SubjectDAO subjectDAO=new SubjectDAO();
+        int subject=subjectDAO.countSubject();
+        request.setAttribute("countS",subject);
+        request.getRequestDispatcher("about.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

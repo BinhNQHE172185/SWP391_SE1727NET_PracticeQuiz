@@ -7,6 +7,7 @@ package Controller;
 import DAO.SubjectDimensionDAO;
 import Model.SubjectDimension;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,12 +19,12 @@ public class GetParentSubjectDimensionTitle {
         SubjectDimensionDAO subjectDimensionDAO = new SubjectDimensionDAO();
         List<SubjectDimension> parentSubjectDimensions = new ArrayList<>();
 
-        SubjectDimension subjectDimension = subjectDimensionDAO.getSubjectDimensionByID(subjectId);
+        SubjectDimension subjectDimension = subjectDimensionDAO.getSubjectDimensionBySubject(subjectId);
         while (subjectDimension != null) {
             parentSubjectDimensions.add(subjectDimension);
             subjectDimension = subjectDimensionDAO.getParentSubjectDimension(subjectDimension.getParentSDId());
         }
-
+        Collections.reverse(parentSubjectDimensions);
         return parentSubjectDimensions;
     }
 }

@@ -10,6 +10,7 @@ import DAO.QuestionDAO;
 import DAO.QuestionStatusDAO;
 import DAO.QuizDAO;
 import DAO.ResultDAO;
+import DAO.RoleDAO;
 import DAO.SubjectDAO;
 import Model.Account;
 import Model.Answer;
@@ -59,14 +60,20 @@ public class QuestionDetailServlet extends HttpServlet {
             AnswerDAO answerDAO = new AnswerDAO();
             QuestionStatusDAO questionStatusDAO = new QuestionStatusDAO();
             ExpertDAO expertDAO = new ExpertDAO();
+            RoleDAO roleDAO = new RoleDAO();
 
             Question question = questionDAO.getQuestionById(questionId);
             Subject subject = subjectDAO.getSubjectById(question.getSubjectId());
-            
-            if (currUser != null){
-            updateQuestionStatus(question, currUser);
+
+            if (currUser != null) {
+                updateQuestionStatus(question, currUser);
+                int role_id = roleDAO.getRoleByAccountID(currUser.getAccountId());
+                if (role_id == 2 || role_id == 3){
+                    request.setAttribute("accountStatus", true);
+                }
+                else request.setAttribute("accountStatus", false);
             }
-            
+
             QuestionStatus questionStatus = questionStatusDAO.getQuestionStatusByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
 
             int page = 1; // target page
@@ -90,7 +97,9 @@ public class QuestionDetailServlet extends HttpServlet {
 
             GetParentSubjectDimensionTitle getParentSubjectDimensionTitle = new GetParentSubjectDimensionTitle();
             List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subject.getSubjectId());
-            
+
+            List<Subject> recentSubjects = subjectDAO.getRecentSubject();
+            request.setAttribute("recentSubjects", recentSubjects);
             request.setAttribute("expert", expert.getName());
             request.setAttribute("parentSubjectDimensions", parentSubjectDimensions);
             request.setAttribute("subject", subject);

@@ -8,6 +8,7 @@ import DAO.QuestionDAO;
 import DAO.SubjectDAO;
 import Model.Question;
 import Model.Subject;
+import Model.SubjectDimension;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -45,8 +46,11 @@ public class QuestionSearchServlet extends HttpServlet {
             String searchQuery = "";
             SubjectDAO subjectDAO = new SubjectDAO();
             QuestionDAO questionDAO = new QuestionDAO();
-            
+
             int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+            
+            GetParentSubjectDimensionTitle getParentSubjectDimensionTitle = new GetParentSubjectDimensionTitle();
+            List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subjectId);
 
             Subject subject = subjectDAO.getSubjectById(subjectId);
             if (request.getParameter("page") != null) {//restive current page if possible
@@ -59,11 +63,15 @@ public class QuestionSearchServlet extends HttpServlet {
             noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
 
             List<Question> questions = questionDAO.searchQuestionsBySubjectId(subjectId, searchQuery, (page - 1) * recordsPerPage, recordsPerPage);
+
+            List<Subject> recentSubjects = subjectDAO.getRecentSubject();
+            request.setAttribute("recentSubjects", recentSubjects);
+            request.setAttribute("parentSubjectDimensions", parentSubjectDimensions);
             request.setAttribute("subject", subject);
             request.setAttribute("questions", questions);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
-            request.setAttribute("searchQuery",searchQuery);
+            request.setAttribute("searchQuery", searchQuery);
             request.getRequestDispatcher("QuestionSearch.jsp").forward(request, response);
         }
     }

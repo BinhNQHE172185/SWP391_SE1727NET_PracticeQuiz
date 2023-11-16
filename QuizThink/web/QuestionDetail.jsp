@@ -3,7 +3,7 @@
     Created on : Sep 20, 2023, 2:49:12 PM
     Author     : kimdi
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Model.Account" %>
 <%@ page import="Model.Answer" %>
@@ -11,6 +11,7 @@
 <%@ page import="Model.Question" %>
 <%@ page import="Model.QuestionStatus" %>
 <%@ page import="Model.Subject" %>
+<%@ page import="Model.SubjectDimension" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 
@@ -76,6 +77,8 @@
                 QuestionStatus questionStatus = (QuestionStatus)request.getAttribute("questionStatus");
                 int quizCount = (int) request.getAttribute("quizCount");
                 String author = (String) request.getAttribute("expert");
+                Account acc = (Account) session.getAttribute("currUser");
+                boolean accountStatus = (boolean) request.getAttribute("accountStatus");
             %>
             <div class="page-content bg-white">
                 <!-- inner page banner -->
@@ -90,11 +93,19 @@
                 <div class="breadcrumb-row">
                     <div class="container">
                         <ul class="list-inline">
-                            <li><a href="#">Home</a></li>
-                            <li>Science</li>
-                            <li>Computer science</li>
-                            <li>Software Engineering</li>
-                            <li><%= subject.getTitle() %></li>
+                            <li><a href="home">Home</a></li>
+                                <%
+                                List<SubjectDimension> parentSubjectDimensions = (List<SubjectDimension>) request.getAttribute("parentSubjectDimensions");
+                                if (parentSubjectDimensions != null) {
+                                    for (SubjectDimension subjectDimension : parentSubjectDimensions) {
+                                %>
+                            <li><a href="SubjectList?subjectDimensionId=<%= subjectDimension.getSubjectDimensionId() %>"><%= subjectDimension.getTitle() %></a></li>
+                                <%
+                            }
+                        }
+                                %>
+                            <li><a href="subjectdetail?pid=<%= subject.getSubjectId() %>"><%= subject.getTitle() %></a></li>
+                            <li><a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>"><%= question.getTitle() %></a></li>
                         </ul>
                     </div>
                 </div>
@@ -121,47 +132,42 @@
                                         <a href="#"><img src="FrontEnd/assets/images/adv/adv.jpg" alt=""/></a>
                                     </div>
                                     <div class="widget recent-posts-entry widget-courses">
-                                        <h5 class="widget-title style-1">Recent Subject</h5>
-                                        <div class="widget-post-bx">
-                                            <div class="widget-post clearfix">
-                                                <div class="ttr-post-media"> <img src="FrontEnd/assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
-                                                <div class="ttr-post-info">
-                                                    <div class="ttr-post-header">
-                                                        <h6 class="post-title"><a href="#">Introduction EduChamp</a></h6>
-                                                    </div>
-                                                    <div class="ttr-post-meta">
-                                                        <ul>
-                                                            <li class="review">03 Questions</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="widget-post clearfix">
-                                                <div class="ttr-post-media"> <img src="FrontEnd/assets/images/blog/recent-blog/pic3.jpg" width="200" height="160" alt=""> </div>
-                                                <div class="ttr-post-info">
-                                                    <div class="ttr-post-header">
-                                                        <h6 class="post-title"><a href="#">English For Tommorow</a></h6>
-                                                    </div>
-                                                    <div class="ttr-post-meta">
-                                                        <ul>
-                                                            <li class="review">07 Questions</li>
-                                                        </ul>
+                                        <h5 class="widget-title style-1">Recent Courses</h5>
+                                        <c:forEach items="${recentSubjects}" var="r" varStatus="loopStatus">
+                                            <c:if test="${loopStatus.index < 3}">
+                                                <div class="widget-post-bx">
+                                                    <div class="widget-post clearfix">
+                                                        <div class="ttr-post-media"> <img src="${r.imageURL}" width="200" height="143" alt=""> </div>
+                                                        <div class="ttr-post-info">
+                                                            <div class="ttr-post-header">
+                                                                <h6 class="post-title"><a href="subjectdetail?pid=${r.subjectId}">${r.title}</a></h6>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </c:if>
+                                        </c:forEach>
+
                                     </div>
+
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-sm-12">
                                     <!-- Breadcrumb row -->
                                     <div class="breadcrumb-row">
                                         <div class="container">
                                             <ul class="list-inline">
-                                                <li><a href="#">Home</a></li>
-                                                <li>Science</li>
-                                                <li>Computer science</li>
-                                                <li>Software Engineering</li>
-                                                <li><%= subject.getTitle() %></li>
+                                                <li><a href="home">Home</a></li>
+                                                    <%
+                                                    if (parentSubjectDimensions != null) {
+                                                        for (SubjectDimension subjectDimension : parentSubjectDimensions) {
+                                                    %>
+                                                <li><a href="SubjectList?subjectDimensionId=<%= subjectDimension.getSubjectDimensionId() %>"><%= subjectDimension.getTitle() %></a></li>
+                                                    <%
+                                                }
+                                            }
+                                                    %>
+                                                <li><a href="subjectdetail?pid=<%= subject.getSubjectId() %>"><%= subject.getTitle() %></a></li>
+                                                <li><a href="QuestionDetailServlet?questionId=<%= question.getQuestionId() %>"><%= question.getTitle() %></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -177,7 +183,6 @@
                                                     <img src="<%= question.getImageURL() %>" alt="" />
                                                 </div>
                                                 <div class="col-md-6 col-lg-6 col-sm-12 info-bx text-left d-flex align-items-center flex-column question-navigation">
-                                                    <button class="submit-btn detail"><h4>Learn quiz</h4></button>
                                                     <button class="submit-btn detail" onclick="showExamPopup()"><h4>New exam</h4></button>
                                                     <form action="ListPracticedList" method="post">
                                                         <input type="hidden" name="questionId" value="<%= question.getQuestionId() %>">
@@ -195,15 +200,23 @@
                                                         <h5>Higher than <%= question.getRequirement() %>% to pass</h5>
 
                                                         <!-- Add exam information here -->
+                                                        <% if(accountStatus){ %>
                                                         <form class = "text-center m-t20" action="QuizHandleServlet" method="POST">
                                                             <input type="hidden" name="questionId" value="<%= question.getQuestionId() %>">
                                                             <button type="submit" class="submit-btn detail">Start Exam</button>
                                                         </form>
+                                                        <% } 
+                                                        else{
+                                                        %>
+                                                        <div class = "text-center m-t20">
+                                                            <a class="text-center m-t20" href="MembershipPage">Upgrade Premium to do exam</a>
+                                                        </div>
+                                                        <%}%>
                                                     </div>
                                                 </div>
                                                 <!-- The Exam Popup END-->
                                                 <div class="info-bx text-left detail">
-                                                    <h5><%= question.getTitle() %><%= question.getQuestionId() %></h5>
+                                                    <h5><%= question.getTitle() %></h5>
                                                     <br>
                                                     <%
                                                     if (author != null) {

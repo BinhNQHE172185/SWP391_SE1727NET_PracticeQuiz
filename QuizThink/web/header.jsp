@@ -118,7 +118,7 @@
                             <button class="dropdown-button"><%=ex.getUsername()%></button>
                             <div class="dropdown-content">
                                 <a href="ExpertProfile">My profile</a>
-                                <a href="YourSubject">My courses</a>
+                                <a href="ExpertSubjectList ">My courses</a>
 
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                         <li class="add-mega-menu"><a href="SubjectList">Our Courses</a>
 
                         </li>
-                        <li><a href="about.jsp">About us </a>
+                        <li><a href="Aboutus">About us </a>
 
                         </li>
                         <% if(acc != null && ad.checkRole(acc.getAccountId()) == 1) { %>

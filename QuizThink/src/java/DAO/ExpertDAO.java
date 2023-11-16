@@ -73,6 +73,22 @@ public class ExpertDAO extends DBContext {
         return ex;
     }
 
+    public int countExpert() {
+        int size = 0;
+        String sql = "Select COUNT (*) as c from  Expert";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                size = rs.getInt("c");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return size;
+    }
+
     public Expert checkMail(String email) {
         Expert ex = null;
         int expertId;

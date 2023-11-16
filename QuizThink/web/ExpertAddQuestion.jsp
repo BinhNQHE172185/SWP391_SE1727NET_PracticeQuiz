@@ -234,7 +234,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
-                                            <label class="col-form-label">Course description</label>
+                                            <label class="col-form-label">Question description</label>
                                             <div>
                                                 <textarea class="form-control" name="desc"> </textarea>
                                             </div>

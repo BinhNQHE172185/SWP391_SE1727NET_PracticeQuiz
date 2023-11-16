@@ -293,7 +293,6 @@
                                                         <th>Gender</th>
                                                         <th>Date of Birth</th>
                                                         <th>Erolled Date</th>
-                                                        <th>History</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -306,7 +305,6 @@
                                                         <td><%= acc.getGender() %></td>
                                                         <td><%= acc.getDob() %></td>
                                                         <td><%= acc.getCreatedDate() %></td>
-                                                        <td><a href="ExpertStudentHistory?AccountId=<%=acc.getAccountId()%>">View</a></td>
                                                         <td><a href="ExpertRemoveStudent?accountId=<%=acc.getAccountId()%>">Remove</a></td>
                                                     </tr>
                                                     <% } %>

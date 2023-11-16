@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -104,6 +106,22 @@ public class SubjectDAO extends DBContext {
             e.printStackTrace();
         }
         return listSubject;
+    }
+
+    public int countSubject() {
+        int size = 0;
+        String sql = "Select COUNT (*) as c from  Subject";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                size = rs.getInt("c");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return size;
     }
 
     public Subject getSubjectById(int subjectId) {
@@ -335,6 +353,39 @@ public class SubjectDAO extends DBContext {
         return listSubject;
     }
 
+    public List<Subject> getSubjectsBySubjectDimensionId(int subjectDimensionId, int offSet, int noOfRecords) {
+        List<Subject> listSubject = new ArrayList<>();
+        try {
+            // Use a SQL query with OFFSET and FETCH NEXT clauses to implement pagination
+            String query = "SELECT * FROM Subject WHERE SubjectDimension_id = ? ORDER BY Subject_id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setInt(1, subjectDimensionId);
+            ps.setInt(2, offSet);
+            ps.setInt(3, noOfRecords);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int subjectId = rs.getInt("Subject_id");
+                int expertId = rs.getInt("Expert_id");
+                String title = rs.getString("title");
+                String imageURL = rs.getString("imageURL");
+                float requirement = rs.getFloat("requirement");
+                String description = rs.getString("description");
+                Date createdDate = rs.getDate("createdDate");
+                Date modifyDate = rs.getDate("modifyDate");
+                boolean status = rs.getBoolean("status");
+
+                listSubject.add(new Subject(subjectId, expertId, subjectDimensionId, title, imageURL, requirement, description, createdDate, modifyDate, status));
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            System.err.println("An error occurred while executing the query: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return listSubject;
+    }
+
     public List<Subject> searchSubjects(String keyword, int offSet, int noOfRecords) {
         List<Subject> searchResults = new ArrayList<>();
         try {
@@ -390,6 +441,28 @@ public class SubjectDAO extends DBContext {
 
         return count;
     }
+    public int getNumberOfRecordsBySubjectDimensionId(int subjectDimensionId) {
+    String sql = "SELECT COUNT(*) AS count FROM Subject WHERE SubjectDimension_id = ?";
+    int count = 0;
+
+    try {
+        PreparedStatement statement = getConnection().prepareStatement(sql);
+        statement.setInt(1, subjectDimensionId);
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            count = resultSet.getInt("count");
+        }
+
+        resultSet.close();
+        statement.close();
+    } catch (Exception ex) {
+        System.err.println("An error occurred while executing the query: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+
+    return count;
+}
 
     public void addExpertSubject(int expertID, int subjectDimensionID, String title, String imageURL, String description, Date createdDate, Date modifyDate) {
         try {

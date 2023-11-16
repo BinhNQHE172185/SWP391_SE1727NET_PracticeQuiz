@@ -173,7 +173,7 @@
                         </tr>
                         <tr>
                             <td style="font-weight: bold;">Right Answer:</td> 
-                            <td>${rs.quizCount}/${listQuiz.size()}</td>
+                            <td>${(o.mark*o.quizCount)/10}/${rs.quizCount}</td>
                         </tr>
                         <tr>
                             <td style="font-weight: bold;">Mark:</td>
@@ -207,7 +207,7 @@
                             </div>                            
                         </c:forEach>
                     </div>
-                   <button class="submit-btn" onclick="window.history.back()">Back to list practiced</button>
+                   <button class="submit-btn" onclick="location.href='/QuizThink/YourSubject'">Back to list practiced</button>
                 </div>
                 <!-- contact area END -->
             </div>
