@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+//delete thí
 public abstract class BaseDAO<T> {
     protected Connection connection;
     

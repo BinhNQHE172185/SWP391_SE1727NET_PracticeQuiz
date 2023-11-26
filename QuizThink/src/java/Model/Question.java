@@ -3,51 +3,44 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Model;
+
+import java.sql.Time;
 import java.util.Date;
 
 /**
  *
  * @author kimdi
  */
-
 public class Question {
+
     private int questionId;
     private int subjectId;
-    private int accountId;
+    private int expertId;
     private String title;
     private String imageURL;
-    private int level;
-    private float duration;
-    private Date startTime;
-    private Date endTime;
-    private int status;
-    private int rate;
-    private int hasJoin;
+    private String description;
+    private float requirement;
     private Date createdDate;
     private Date modifyDate;
-    private String description;
+    private boolean status;
+    private Time duration;
 
     public Question() {
     }
 
-    public Question(int questionId, int subjectId, int accountId, String title, String imageURL, int level, float duration, Date startTime, Date endTime, int status, int rate, int hasJoin, Date createdDate, Date modifyDate, String description) {
+    public Question(int questionId, int subjectId, int expertId, String title, String imageURL, String description, float requirement, Date createdDate, Date modifyDate, boolean status, Time duration) {
         this.questionId = questionId;
         this.subjectId = subjectId;
-        this.accountId = accountId;
+        this.expertId = expertId;
         this.title = title;
         this.imageURL = imageURL;
-        this.level = level;
-        this.duration = duration;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.status = status;
-        this.rate = rate;
-        this.hasJoin = hasJoin;
+        this.description = description;
+        this.requirement = requirement;
         this.createdDate = createdDate;
         this.modifyDate = modifyDate;
-        this.description = description;
+        this.status = status;
+        this.duration = duration;
     }
-    
 
     public int getQuestionId() {
         return questionId;
@@ -65,12 +58,12 @@ public class Question {
         this.subjectId = subjectId;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getExpertId() {
+        return expertId;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setExpertId(int expertId) {
+        this.expertId = expertId;
     }
 
     public String getTitle() {
@@ -89,60 +82,20 @@ public class Question {
         this.imageURL = imageURL;
     }
 
-    public int getLevel() {
-        return level;
+    public String getDescription() {
+        return description;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public float getDuration() {
-        return duration;
+    public float getRequirement() {
+        return requirement;
     }
 
-    public void setDuration(float duration) {
-        this.duration = duration;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getRate() {
-        return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
-    }
-
-    public int getHasJoin() {
-        return hasJoin;
-    }
-
-    public void setHasJoin(int hasJoin) {
-        this.hasJoin = hasJoin;
+    public void setRequirement(float requirement) {
+        this.requirement = requirement;
     }
 
     public Date getCreatedDate() {
@@ -161,11 +114,20 @@ public class Question {
         this.modifyDate = modifyDate;
     }
 
-    public String getDescription() {
-        return description;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
+
+    public Time getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Time duration) {
+        this.duration = duration;
+    }
+
 }

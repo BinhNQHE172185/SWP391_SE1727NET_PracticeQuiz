@@ -9,6 +9,7 @@ package Model;
  * @author kimdi
  */
 public class Answer {
+
     private int answerId;
     private int quizId;
     private boolean isCorrect;
@@ -23,7 +24,6 @@ public class Answer {
         this.isCorrect = isCorrect;
         this.content = content;
     }
-    
 
     public int getAnswerId() {
         return answerId;
@@ -44,11 +44,20 @@ public class Answer {
     public boolean isCorrect() {
         return isCorrect;
     }
-
+    
     public void setCorrect(boolean correct) {
         isCorrect = correct;
     }
 
+    public boolean isIsCorrect() {
+        return isCorrect;
+    }
+
+    public void setIsCorrect(boolean isCorrect) {
+        this.isCorrect = isCorrect;
+    }
+
+    
     public String getContent() {
         return content;
     }
@@ -56,4 +65,5 @@ public class Answer {
     public void setContent(String content) {
         this.content = content;
     }
+
 }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <welcome-file-list>
-        <welcome-file>QuestionListServlet</welcome-file>
+
+        <welcome-file>home.jsp</welcome-file>
+
     </welcome-file-list>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
@@ -11,6 +13,18 @@
         <servlet-name>QuestionListServlet</servlet-name>
         <servlet-class>Controller.QuestionListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>QuestionDetailServlet</servlet-name>
+        <servlet-class>Controller.QuestionDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>QuizHandleServlet</servlet-name>
+        <servlet-class>Controller.QuizHandleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>QuizSubmitServlet</servlet-name>
+        <servlet-class>Controller.QuizSubmitServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -18,6 +32,18 @@
     <servlet-mapping>
         <servlet-name>QuestionListServlet</servlet-name>
         <url-pattern>/QuestionListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuestionDetailServlet</servlet-name>
+        <url-pattern>/QuestionDetailServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuizHandleServlet</servlet-name>
+        <url-pattern>/QuizHandleServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuizSubmitServlet</servlet-name>
+        <url-pattern>/QuizSubmitServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

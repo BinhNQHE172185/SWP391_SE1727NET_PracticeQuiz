@@ -5,14 +5,22 @@
 package Controller;
 
 import DAO.QuestionDAO;
+import DAO.QuestionStatusDAO;
+import DAO.ResultDAO;
+import DAO.SubjectDAO;
+import Model.Account;
 import Model.Question;
+import Model.QuestionStatus;
+import Model.Result;
+import Model.Subject;
+import Model.SubjectDimension;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -35,13 +43,74 @@ public class QuestionListServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            //int subjectId = Integer.parseInt(request.getParameter("subjectId"));
-            int subjectId = 818;
+
+            HttpSession session = request.getSession();
+            Account currUser = (Account) session.getAttribute("currUser");
+
+            int page = 1;//target page
+            int noOfPages = 1;//default no of page
+            int recordsPerPage = 6;
+            SubjectDAO subjectDAO = new SubjectDAO();
             QuestionDAO questionDAO = new QuestionDAO();
-            List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId);
-            
+            QuestionStatusDAO questionStatusDAO = new QuestionStatusDAO();
+
+            //int subjectId = 1;
+            int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+
+            Subject subject = subjectDAO.getSubjectById(subjectId);
+
+            GetParentSubjectDimensionTitle getParentSubjectDimensionTitle = new GetParentSubjectDimensionTitle();
+            List<SubjectDimension> parentSubjectDimensions = getParentSubjectDimensionTitle.getParentSubjectDimensionTitle(subjectId);
+
+            if (session.getAttribute("questionStatusUpdated") == null && currUser != null) {//run once every session or when manually cleared
+                updateQuestionStatusInSubject(subject, currUser);
+                session.setAttribute("questionStatusUpdated", true);//run once
+            }
+
+            if (request.getParameter("page") != null) {//restive current page if possible
+                page = Integer.parseInt(request.getParameter("page"));
+            }
+            int noOfRecords = questionDAO.getNumberOfRecordsBySubjectId(subjectId);
+            noOfPages = (int) Math.ceil((double) noOfRecords / recordsPerPage);
+
+            List<Question> questions = questionDAO.getQuestionsBySubjectId(subjectId, (page - 1) * recordsPerPage, recordsPerPage);
+            for (Question question : questions) {
+                boolean status = false;
+                if (currUser != null) {
+                    QuestionStatus questionStatus = questionStatusDAO.getQuestionStatusByQuestionIdAndAccountId(question.getQuestionId(), currUser.getAccountId());
+                     status = (questionStatus != null && questionStatus.isStatus());
+                }
+                request.setAttribute("questionStatus" + question.getQuestionId(), status);
+
+            }
+            List<Subject> recentSubjects = subjectDAO.getRecentSubject();
+            request.setAttribute("recentSubjects", recentSubjects);
+            request.setAttribute("parentSubjectDimensions", parentSubjectDimensions);
+            request.setAttribute("subject", subject);
             request.setAttribute("questions", questions);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
             request.getRequestDispatcher("QuestionList.jsp").forward(request, response);
+        }
+    }
+
+    protected void updateQuestionStatusInSubject(Subject subject, Account currUser) {
+        QuestionDAO questionDAO = new QuestionDAO();
+        QuestionStatusDAO questionStatusDAO = new QuestionStatusDAO();
+        ResultDAO resultDAO = new ResultDAO();
+        List<QuestionStatus> questionStatuses = questionStatusDAO.getQuestionStatusListBySubjectIdAndUserId(subject.getSubjectId(), currUser.getAccountId());
+        if (!questionStatuses.isEmpty()) {
+            for (QuestionStatus questionStatus : questionStatuses) {
+                if (!questionStatus.isStatus()) {
+                    Question question = questionDAO.getQuestionById(questionStatus.getQuestionId());
+                    Result result = resultDAO.getHighestMarkResultByQuestionIdAndAccountId(questionStatus.getQuestionId(), currUser.getAccountId());
+                    if (result != null) {
+                        if ((result.getMark() * 10) >= question.getRequirement()) {
+                            questionStatusDAO.updateQuestionStatusToTrue(questionStatus.getQuestionStatusId());
+                        }
+                    }
+                }
+            }
         }
     }
 

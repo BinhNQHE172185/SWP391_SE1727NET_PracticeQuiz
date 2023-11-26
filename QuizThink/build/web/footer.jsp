@@ -7,7 +7,7 @@
                         <div class="container">
                             <div class="d-flex align-items-stretch">
                                 <div class="pt-logo mr-auto">
-                                    <a href="home.jsp"><img src="assets/images/logo-white-2.png" alt=""/></a>
+                                    <a href="home.jsp"><img src="FrontEnd/assets/images/Logo1.png" alt=""/></a>
                                 </div>
                                 <div class="pt-social-link">
                                     <ul class="list-inline m-a0">

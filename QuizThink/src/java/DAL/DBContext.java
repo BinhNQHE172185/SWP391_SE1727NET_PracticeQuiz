@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package DAL;
 
@@ -9,10 +9,9 @@ import java.sql.DriverManager;
 
 /**
  *
- * @author LEMONLORD
+ * @author QUYBINH
  */
 public class DBContext {
-
     public Connection getConnection() throws Exception {
         String url = "jdbc:sqlserver:// " + serverName + ":" + portNumber + ";databaseName=" + dbName;
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -23,5 +22,4 @@ public class DBContext {
     private final String portNumber = "1433";
     private final String userID = "sa";
     private final String password = "admin";
-
 }

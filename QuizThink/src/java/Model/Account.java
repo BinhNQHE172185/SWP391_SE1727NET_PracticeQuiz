@@ -11,54 +11,55 @@ import java.sql.Date;
  * @author LEMONLORD
  */
 public class Account {
-    private int account_id;
+
+    private int accountId;
     private String username;
     private String password;
     private String email;
-    private String status;
-    private String gender;
-    private String avatar;
     private String fullname;
-    private Date DOB;
-    private String address;
-    private String phonenumber;
+    private Date dob;
+    private String gender;
+    private String selfIntroduction;
+    private String avatar;
     private Date createdDate;
     private Date modifyDate;
     private String passwordToken;
-    private int role_id;
+    private boolean status;
 
-    public Account() {
-    }
-
-    public Account(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }   
-
-    public Account(int account_id, String username, String password, String email, String status, String gender, String avatar, String fullname, Date DOB, String address, String phonenumber, Date createDate, Date modifyDate, String passwordToken, Role role) {
-        this.account_id = account_id;
+    public Account(int accountId, String username, String password, String email, String fullname, Date dob, String gender, String selfIntroduction, String avatar, Date createdDate, Date modifyDate, String passwordToken, boolean status) {
+        this.accountId = accountId;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.status = status;
-        this.gender = gender;
-        this.avatar = avatar;
         this.fullname = fullname;
-        this.DOB = DOB;
-        this.address = address;
-        this.phonenumber = phonenumber;
-        this.createdDate = createDate;
+        this.dob = dob;
+        this.gender = gender;
+        this.selfIntroduction = selfIntroduction;
+        this.avatar = avatar;
+        this.createdDate = createdDate;
         this.modifyDate = modifyDate;
         this.passwordToken = passwordToken;
-        this.role_id = role_id;
+        this.status = status;
     }
 
-    public int getAccount_id() {
-        return account_id;
+    public Account(int accountId, String email, String fullname, Date dob, String gender, Date createDate) {
+        this.accountId = accountId;
+        this.email = email;
+        this.fullname = fullname;
+        this.dob = dob;
+        this.gender = gender;
+        this.createdDate = createDate;
+    }
+    
+    public Account() {
     }
 
-    public void setAccount_id(int account_id) {
-        this.account_id = account_id;
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     public String getUsername() {
@@ -85,12 +86,20 @@ public class Account {
         this.email = email;
     }
 
-    public String getStatus() {
-        return status;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 
     public String getGender() {
@@ -101,6 +110,14 @@ public class Account {
         this.gender = gender;
     }
 
+    public String getSelfIntroduction() {
+        return selfIntroduction;
+    }
+
+    public void setSelfIntroduction(String selfIntroduction) {
+        this.selfIntroduction = selfIntroduction;
+    }
+
     public String getAvatar() {
         return avatar;
     }
@@ -109,43 +126,12 @@ public class Account {
         this.avatar = avatar;
     }
 
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public Date getDOB() {
-        return DOB;
-    }
-
-    public void setDOB(Date DOB) {
-        this.DOB = DOB;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhonenumber() {
-        return phonenumber;
-    }
-
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
-    }
     public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createDate) {
-        this.createdDate = createDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Date getModifyDate() {
@@ -163,16 +149,18 @@ public class Account {
     public void setPasswordToken(String passwordToken) {
         this.passwordToken = passwordToken;
     }
-
-    public int getRole_id() {
-        return role_id;
+    
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setRole_id(int role_id) {
-        this.role_id = role_id;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "Account{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", email=" + email + ", fullname=" + fullname + ", dob=" + dob + ", gender=" + gender + ", status=" + status + '}';
+    }
+      
 }
-

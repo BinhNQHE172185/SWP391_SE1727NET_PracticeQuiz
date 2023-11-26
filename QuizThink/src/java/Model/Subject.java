@@ -4,24 +4,39 @@
  */
 package Model;
 
+/**
+ *
+ * @author kimdi
+ */
+import java.sql.Time;
+import java.util.Date;
 
+public class Subject {
+    private int subjectId;
+    private int expertId;
+    private int subjectDimensionId;
+    private String title;
+    private String imageURL;
+    private float requirement;
+    private String description;
+    private Date createdDate;
+    private Date modifyDate;
+    private boolean status;
 
     public Subject() {
     }
 
-
-    public Subject(int subjectId, int expertId, int subjectDimensionId, int accountId, int level, String imageURL, String description, float duration, Date startTime, Date endTime, int hasRegistered) {
+    public Subject(int subjectId, int expertId, int subjectDimensionId, String title, String imageURL, float requirement, String description, Date createdDate, Date modifyDate, boolean status) {
         this.subjectId = subjectId;
         this.expertId = expertId;
         this.subjectDimensionId = subjectDimensionId;
-        this.accountId = accountId;
-        this.level = level;
+        this.title = title;
         this.imageURL = imageURL;
+        this.requirement = requirement;
         this.description = description;
-        this.duration = duration;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.hasRegistered = hasRegistered;
+        this.createdDate = createdDate;
+        this.modifyDate = modifyDate;
+        this.status = status;
     }
 
     public int getSubjectId() {
@@ -48,20 +63,12 @@ package Model;
         this.subjectDimensionId = subjectDimensionId;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getImageURL() {
@@ -70,6 +77,15 @@ package Model;
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+
+    public float getRequirement() {
+        return requirement;
+    }
+
+    public void setRequirement(float requirement) {
+        this.requirement = requirement;
     }
 
     public String getDescription() {
@@ -81,36 +97,27 @@ package Model;
 
     }
 
-    public float getDuration() {
-        return duration;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDuration(float duration) {
-        this.duration = duration;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getModifyDate() {
+        return modifyDate;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
-
-    public int getHasRegistered() {
-        return hasRegistered;
-    }
-
-    public void setHasRegistered(int hasRegistered) {
-        this.hasRegistered = hasRegistered;
-    }
-
 }

@@ -22,8 +22,8 @@
 	<meta name="format-detection" content="telephone=no">
 	
 	<!-- FAVICONS ICON ============================================= -->
-	<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
-	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+	<link rel="icon" href="FrontEnd/assets/images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" type="image/x-icon" href="FrontEnd/assets/images/favicon.png" />
 	
 	<!-- PAGE TITLE HERE ============================================= -->
 	<title>QUIZ THINK-Online quiz practice web </title>
@@ -32,22 +32,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<!--[if lt IE 9]>
-	<script src="assets/js/html5shiv.min.js"></script>
-	<script src="assets/js/respond.min.js"></script>
+	<script src="FrontEnd/assets/js/html5shiv.min.js"></script>
+	<script src="FrontEnd/assets/js/respond.min.js"></script>
 	<![endif]-->
 	
 	<!-- All PLUGINS CSS ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/assets.css">
+	<link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/assets.css">
 	
 	<!-- TYPOGRAPHY ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/typography.css">
+	<link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/typography.css">
 	
 	<!-- SHORTCODES ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/shortcodes/shortcodes.css">
+	<link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/shortcodes/shortcodes.css">
 	
 	<!-- STYLESHEETS ============================================= -->
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+	<link rel="stylesheet" type="text/css" href="FrontEnd/assets/css/style.css">
+	<link class="skin" rel="stylesheet" type="text/css" href="FrontEnd/assets/css/color/color-1.css">
 	
 </head>
 <body id="bg">
@@ -58,7 +58,7 @@
     <!-- Inner Content Box ==== -->
     <div class="page-content">
         <!-- Page Heading Box ==== -->
-        <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
+        <div class="page-banner ovbl-dark" style="background-image:url(FrontEnd/assets/images/banner/banner2.jpg);">
             <div class="container">
                 <div class="page-banner-entry">
                     <h1 class="text-white">About Us </h1>
@@ -83,7 +83,7 @@
 						<div class="col-lg-3 col-md-6 col-sm-6 m-b30">
 							<div class="feature-container">
 								<div class="feature-md text-white m-b20">
-									<a href="#" class="icon-cell"><img src="assets/images/icon/icon1.png" alt=""/></a> 
+									<a href="#" class="icon-cell"><img src="FrontEnd/assets/images/icon/icon1.png" alt=""/></a> 
 								</div>
 								<div class="icon-content">
 									<h5 class="ttr-tilte">Our Philosophy</h5>
@@ -94,7 +94,7 @@
 						<div class="col-lg-3 col-md-6 col-sm-6 m-b30">
 							<div class="feature-container">
 								<div class="feature-md text-white m-b20">
-									<a href="#" class="icon-cell"><img src="assets/images/icon/icon2.png" alt=""/></a> 
+									<a href="#" class="icon-cell"><img src="FrontEnd/assets/images/icon/icon2.png" alt=""/></a> 
 								</div>
 								<div class="icon-content">
 									<h5 class="ttr-tilte">Kingster's Principle</h5>
@@ -105,7 +105,7 @@
 						<div class="col-lg-3 col-md-6 col-sm-6 m-b30">
 							<div class="feature-container">
 								<div class="feature-md text-white m-b20">
-									<a href="#" class="icon-cell"><img src="assets/images/icon/icon3.png" alt=""/></a> 
+									<a href="#" class="icon-cell"><img src="FrontEnd/assets/images/icon/icon3.png" alt=""/></a> 
 								</div>
 								<div class="icon-content">
 									<h5 class="ttr-tilte">Key Of Success</h5>
@@ -116,7 +116,7 @@
 						<div class="col-lg-3 col-md-6 col-sm-6 m-b30">
 							<div class="feature-container">
 								<div class="feature-md text-white m-b20">
-									<a href="#" class="icon-cell"><img src="assets/images/icon/icon4.png" alt=""/></a> 
+									<a href="#" class="icon-cell"><img src="FrontEnd/assets/images/icon/icon4.png" alt=""/></a> 
 								</div>
 								<div class="icon-content">
 									<h5 class="ttr-tilte">Our Philosophy</h5>
@@ -140,7 +140,7 @@
 						</div>
 						<div class="col-lg-7 col-md-12 heading-bx p-lr">
 							<div class="video-bx">
-								<img src="assets/images/about/pic1.jpg" alt=""/>
+								<img src="FrontEnd/assets/images/about/pic1.jpg" alt=""/>
 								<a href="https://www.youtube.com/watch?v=x_sJzVe9P_8" class="popup-youtube video"><i class="fa fa-play"></i></a>
 							</div>
 						</div>
@@ -191,7 +191,7 @@
             </div>
 			<!-- Our Status END ==== -->
 			<!-- About Content ==== -->
-			<div class="section-area section-sp2 bg-fix ovbl-dark join-bx text-center" style="background-image:url(assets/images/background/fpt1.png);">
+			<div class="section-area section-sp2 bg-fix ovbl-dark join-bx text-center" style="background-image:url(FrontEnd/assets/images/background/fpt1.png);">
                 <div class="container">
 					<div class="row">
 						<div class="col-md-12">
@@ -208,7 +208,7 @@ Are you ready to take your learning to the next level? Register today and embark
 			</div>
 			<!-- About Content END ==== -->
 			<!-- Testimonials ==== -->
-			<div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/fpt1.png);">
+			<div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(FrontEnd/assets/images/background/fpt1.png);">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 text-white heading-bx left">
@@ -220,7 +220,7 @@ Are you ready to take your learning to the next level? Register today and embark
                                 <div class="item">
                                     <div class="testimonial-bx">
                                         <div class="testimonial-thumb">
-                                            <img src="assets/images/testimonials/pic1.jpg" alt="">
+                                            <img src="FrontEnd/assets/images/testimonials/pic1.jpg" alt="">
                                         </div>
                                         <div class="testimonial-info">
                                             <h5 class="name">Bui Ngoc Dung</h5>
@@ -234,7 +234,7 @@ Are you ready to take your learning to the next level? Register today and embark
                                 <div class="item">
                                     <div class="testimonial-bx">
                                         <div class="testimonial-thumb">
-                                            <img src="assets/images/testimonials/pic2.jpg" alt="">
+                                            <img src="FrontEnd/assets/images/testimonials/pic2.jpg" alt="">
                                         </div>
                                         <div class="testimonial-info">
                                             <h5 class="name">Truong Tuan Anh</h5>
@@ -259,21 +259,21 @@ Are you ready to take your learning to the next level? Register today and embark
     <button class="back-to-top fa fa-chevron-up"></button>
 </div>
 <!-- External JavaScripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/vendors/bootstrap/js/popper.min.js"></script>
-<script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-<script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-<script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
-<script src="assets/vendors/counter/waypoints-min.js"></script>
-<script src="assets/vendors/counter/counterup.min.js"></script>
-<script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
-<script src="assets/vendors/masonry/masonry.js"></script>
-<script src="assets/vendors/masonry/filter.js"></script>
-<script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
-<script src="assets/js/functions.js"></script>
-<script src="assets/js/contact.js"></script>
-<script src='assets/vendors/switcher/switcher.js'></script>
+<script src="FrontEnd/assets/js/jquery.min.js"></script>
+<script src="FrontEnd/assets/vendors/bootstrap/js/popper.min.js"></script>
+<script src="FrontEnd/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+<script src="FrontEnd/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="FrontEnd/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="FrontEnd/assets/vendors/magnific-popup/magnific-popup.js"></script>
+<script src="FrontEnd/assets/vendors/counter/waypoints-min.js"></script>
+<script src="FrontEnd/assets/vendors/counter/counterup.min.js"></script>
+<script src="FrontEnd/assets/vendors/imagesloaded/imagesloaded.js"></script>
+<script src="FrontEnd/assets/vendors/masonry/masonry.js"></script>
+<script src="FrontEnd/assets/vendors/masonry/filter.js"></script>
+<script src="FrontEnd/assets/vendors/owl-carousel/owl.carousel.js"></script>
+<script src="FrontEnd/assets/js/functions.js"></script>
+<script src="FrontEnd/assets/js/contact.js"></script>
+<script src='FrontEnd/assets/vendors/switcher/switcher.js'></script>
 </body>
 
 

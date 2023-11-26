@@ -13,29 +13,20 @@ import java.util.Date;
 
 public class SubjectDimension {
     private int subjectDimensionId;
-    private int parentSdId;
-    private int level;
+    private Integer parentSDId;
+    private String title;
     private String imageURL;
     private String description;
-    private float duration;
-    private Date startTime;
-    private Date endTime;
-    private int hasRegistered;
 
     public SubjectDimension() {
     }
 
-
-    public SubjectDimension(int subjectDimensionId, int parentSdId, int level, String imageURL, String description, float duration, Date startTime, Date endTime, int hasRegistered) {
+    public SubjectDimension(int subjectDimensionId, Integer parentSDId, String title, String imageURL, String description) {
         this.subjectDimensionId = subjectDimensionId;
-        this.parentSdId = parentSdId;
-        this.level = level;
+        this.parentSDId = parentSDId;
+        this.title = title;
         this.imageURL = imageURL;
         this.description = description;
-        this.duration = duration;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.hasRegistered = hasRegistered;
     }
 
     public int getSubjectDimensionId() {
@@ -46,20 +37,20 @@ public class SubjectDimension {
         this.subjectDimensionId = subjectDimensionId;
     }
 
-    public int getParentSdId() {
-        return parentSdId;
+    public Integer getParentSDId() {
+        return parentSDId;
     }
 
-    public void setParentSdId(int parentSdId) {
-        this.parentSdId = parentSdId;
+    public void setParentSDId(Integer parentSDId) {
+        this.parentSDId = parentSDId;
     }
 
-    public int getLevel() {
-        return level;
+    public String getTitle() {
+        return title;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getImageURL() {
@@ -70,28 +61,12 @@ public class SubjectDimension {
         this.imageURL = imageURL;
     }
 
-    public float getDuration() {
-        return duration;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDuration(float duration) {
-        this.duration = duration;
+    public void setDescription(String description) {
+        this.description = description;
     }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
+    
 }
